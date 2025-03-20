@@ -27,6 +27,7 @@ export async function getSolarSystemElements() {
 } */
 
 async function fetchSolarElement (id: string ) {
+	// console.log('Fetch Solar Element', id);
 
 	const url = `${HASURA_URL}/orbit-viewer/fetch/${id}`;		
 
@@ -37,7 +38,8 @@ async function fetchSolarElement (id: string ) {
 	})
 
 	let res = await response.json();
-	res = res.mpcorb[0];
+	// console.log(res);
+	res = res.mpcorb.length ? res.mpcorb[0] : {};
 	res.id = id;
 
 	return res;

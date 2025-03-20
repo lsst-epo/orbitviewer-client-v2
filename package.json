@@ -9,8 +9,8 @@
 	"type": "module",
 	"scripts": {
 		"glsl": "node scripts/build/glsl",
-		"dev": "eleventy --serve --watch",
-		"build": "node scripts/build/build.js && cross-env ELEVENTY_ENV=production eleventy"
+		"dev": "yarn glsl && eleventy --serve --watch",
+		"build": "yarn glsl && node scripts/build/build.js && cross-env ELEVENTY_ENV=production eleventy"
 	},
 	"dependencies": {
 		"@fils/ani": "^0.0.6",
@@ -20,6 +20,7 @@
 		"@fils/ui": "^0.1.4",
 		"@fils/ui-icons": "^0.0.17",
 		"@fils/utils": "^0.1.1",
+		"gsap": "^3.12.7",
 		"three": "^0.174.0"
 	},
 	"devDependencies": {
