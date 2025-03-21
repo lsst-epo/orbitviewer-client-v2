@@ -7,7 +7,7 @@
  */
 
 // import { RTUtils } from "@fils/gfx";
-import { BufferAttribute, BufferGeometry, Color, InstancedMesh, PerspectiveCamera, Points, ShaderMaterial, WebGLRenderer } from "three";
+import { BufferAttribute, BufferGeometry, Color, InstancedBufferAttribute, InstancedMesh, PerspectiveCamera, Points, ShaderMaterial, SphereGeometry, WebGLRenderer } from "three";
 import { GPU_SIM_SIZES, VISUAL_SETTINGS } from "../../core/Globals";
 import { OrbitElements } from "../../core/solar/SolarSystem";
 import { GPUSim, SimQuality } from "./GPUSim";
@@ -37,6 +37,28 @@ const MAT = new ShaderMaterial({
     // blending: NormalBlending
 });
 
+import fragmentShader from '../../../glsl/sim/particles_instanced.frag';
+import vertexShader from '../../../glsl/sim/particles_instanced.vert';
+
+const MAT2 = new ShaderMaterial({
+    vertexShader,
+    fragmentShader,
+    transparent: true,
+    // vertexColors: true,
+    uniforms: {
+        computedPosition: {
+            value: null
+        },
+        opacity: {
+            value: 1
+        }
+    }
+});
+
+const I_GEO = new SphereGeometry(1, 8, 8);
+
+export type RenderMode = "instanced" | "points";
+
 export class SolarParticles {
     private _data:Array<OrbitElements> = [];
     mesh:InstancedMesh;
@@ -45,14 +67,18 @@ export class SolarParticles {
     sim:GPUSim;
     quality:SimQuality;
 
+    private mode:RenderMode = "instanced";
+
     constructor(){}
 
     init(renderer:WebGLRenderer){
         this.sim = new GPUSim(renderer);
         this.quality = this.sim.qualitySettings;
         MAT.uniforms.computedPosition.value = this.sim.texture;
+        MAT2.uniforms.computedPosition.value = this.sim.texture;
 
         this.points = new Points(this.createPointsGeo(), MAT);
+        this.createInstancedMesh();
 
         /* this.maps = new WebGLMultipleRenderTargets(512, 512, 3);
         this.maps.texture[0].name = 'normal';
@@ -60,6 +86,8 @@ export class SolarParticles {
         this.maps.texture[2].name = 'diffuse';
         RTUtils.renderToRT(this.maps, renderer, COMP_SP_NORMAL);
         renderer.setRenderTarget(null); */
+
+        this.updateVisibility();
     }
 
     private createPointsGeo():BufferGeometry {
@@ -118,6 +146,52 @@ export class SolarParticles {
         return geo;
     }
 
+    private createInstancedMesh() {
+        const count = VISUAL_SETTINGS[VISUAL_SETTINGS.current];
+
+        this.mesh = new InstancedMesh(I_GEO, MAT2, count);
+
+        const col = new Color(0xffffff);
+
+        for(let i=0; i<count; i++) {
+            this.mesh.setColorAt(i, col);
+        }
+
+        const siz = GPU_SIM_SIZES[VISUAL_SETTINGS.current];
+        const w = siz.width;
+        const h = siz.height;
+
+        const simUV = [];
+
+        for(let i=0; i<w; i++){
+            for(let j=0; j<h; j++){
+                simUV.push(i/(w-1), j/(h-1));
+            }
+        }
+
+        this.mesh.geometry.setAttribute(
+            'simUV',
+            new InstancedBufferAttribute(
+                new Float32Array(simUV),
+                2
+            )
+        );
+    }
+
+    updateVisibility() {
+        this.points.visible = this.mode === "points";
+        this.mesh.visible = this.mode === "instanced";
+    }
+
+    set renderMode(value:RenderMode) {
+        this.mode = value;
+        this.updateVisibility();
+    }
+
+    get renderMode():RenderMode {
+        return this.mode;
+    }
+
     /**
      * Updates the associated data
      */
@@ -127,11 +201,16 @@ export class SolarParticles {
             this.quality = VISUAL_SETTINGS.current as SimQuality;
             this.points.geometry.dispose();
             this.points.geometry = this.createPointsGeo();
+            this.mesh.geometry.dispose();
+            this.mesh.dispose();
+            this.createInstancedMesh();
         }
         this._data = value;
         const count = Math.min(MAX, this._data.length);
 
         this.sim.data = value;
+
+        this.updateVisibility();
 
         // To-Do: Bring Category Color 
         /* const color = this.points.geometry.attributes.color;
@@ -154,9 +233,8 @@ export class SolarParticles {
      * Sets state of particles (opacity)
      */
     set highlighted(value:boolean) {
-        const u = MAT.uniforms;
-        gsap.killTweensOf(u.opacity);
-        gsap.to(u.opacity, {value: value ? 1 : .2, duration: 2});
+        const u = this.mode === "instanced" ? MAT2.uniforms : MAT.uniforms;
+        gsap.to(u.opacity, {value: value ? 1 : .2, duration: 2, overwrite: true});
     }
 
     /**

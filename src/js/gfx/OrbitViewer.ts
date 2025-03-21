@@ -14,7 +14,7 @@ export class OrbitViewer extends ThreeLayer {
         super(_gl);
         const w = this.gl.rect.width;
         const h = this.gl.rect.height;
-        this.camera = new PerspectiveCamera(35, w/h, .1, 10000);
+        this.camera = new PerspectiveCamera(35, w/h, .1, 20000);
         this.scene.add(this.camera);
         this.params.camera = this.camera;
 
@@ -25,6 +25,7 @@ export class OrbitViewer extends ThreeLayer {
         this.particles.init(_gl.renderer);
 
         this.scene.add(this.particles.points);
+        this.scene.add(this.particles.mesh);
     }
 
     setSize(width: number, height: number): void {
@@ -33,7 +34,9 @@ export class OrbitViewer extends ThreeLayer {
     }
 
     setData(data:OrbitElements[]) {
+        this.scene.remove(this.particles.mesh);
         this.particles.data = data;
+        this.scene.add(this.particles.mesh);
     }
 
     /**

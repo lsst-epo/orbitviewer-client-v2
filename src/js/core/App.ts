@@ -159,6 +159,26 @@ export class App {
 			step: 1
 		});
 
+		g2.addButton('Reset', () => {
+			CLOCK_SETTINGS.speed = 0;
+			g2.refresh();
+		})
+
+		const g3 = gui.addGroup({
+			title: '🖥️ Display Options'
+		})
+
+		g3.add(this.terminal, 'visible', {
+			title: 'Show Terminal'
+		});
+
+		g3.add(this.viewer.particles, 'renderMode', {
+			options: {
+				'instanced mesh': "instanced",
+				'points': "points"
+			}
+		});
+
 		this.terminal.log('<span class="green">Ready.</span> Use the GUI to test queries.');
 	}
 
