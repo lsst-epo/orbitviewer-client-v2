@@ -7,6 +7,7 @@ out float alive;
 out vec3 vColor;
 out float depth;
 out vec3 vNormal;
+out vec3 vViewDirection;
 out vec3 vPosition;
 
 mat4 scale(vec3 s) {
@@ -28,7 +29,7 @@ void main () {
     vColor = instanceColor;
     // vColor = vec3(1.);
 
-    vNormal = mat3(modelViewMatrix) * normal;
+    vNormal = normalize(mat3(modelMatrix) * normal);
 
     // vec3 pos = cP.rgb;
 
@@ -54,6 +55,9 @@ void main () {
 
     vec3 pos = position;
     vec4 transformed = translationMatrix * scaleMatrix * vec4(pos, 1.0);
+
+    // Calculate view direction (from position to camera)
+    vViewDirection = normalize(cameraPosition - transformed.xyz);
 
     depth = smoothstep(
         2000.0,

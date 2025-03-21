@@ -25,16 +25,9 @@ void main () {
     if(d < .001) discard;
 
     vec3 color = vColor;
-
-    color = vColor;
-
-    /* vec3 lightPosition = vec3(-1000.0, 1000.0, 0.);
-    vec3 lightDir = normalize(lightPosition - vPosition);
-    float diff = max(dot(vNormal, lightDir), 0.0);
-    vec3 diffuse = diff * color;
-
-    color = diffuse; */
     
+    // color = vNormal;
+
     gl_FragColor = vec4(color, d);
     // gGlow = vec4(color * .5, d);
 }
