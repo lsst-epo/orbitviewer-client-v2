@@ -25,7 +25,10 @@ export class App {
 	constructor() {
 		initShaders();
 
-		this.gl = new ThreeDOMLayer(document.querySelector('.view'));
+		this.gl = new ThreeDOMLayer(document.querySelector('.view'), {
+			antialias: true,
+			alpha: true
+		});
 		this.gl.renderer.setClearColor(0x000000, 1);
 		this.viewer = new OrbitViewer(this.gl);
 		
