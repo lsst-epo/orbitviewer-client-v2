@@ -2,7 +2,7 @@ import { ThreeDOMLayer } from "@fils/gl-dom";
 import { OrbitViewer } from "../gfx/OrbitViewer";
 import { Timer } from "@fils/ani";
 import { UI } from "@fils/ui";
-import { CLOCK_SETTINGS, VISUAL_SETTINGS } from "./Globals";
+import { CLOCK_SETTINGS, GPU_SIM_SIZES, VISUAL_SETTINGS } from "./Globals";
 import { fetchSolarElements, getSolarSystemElements } from "./data/QueryManager";
 import { downloadJSON, getSolarStaticData, SolarItems } from "./Utils";
 import { Terminal } from "../debug/Terminal";
@@ -12,6 +12,7 @@ import { Clock } from "three";
 import { getSimData } from "./solar/SolarData";
 
 import Stats from "three/examples/jsm/libs/stats.module.js";
+import { getRandomElementsArray } from "./solar/SolarUtils";
 
 export const solarClock = new SolarClock(new Clock());
 
@@ -68,7 +69,8 @@ export class App {
 		});
 
 		const q = gui.addGroup({
-			title: '⚡️ Live Data Queries'
+			title: '⚡️ Live Data Queries',
+			folded: true
 		});
 		q.add(VISUAL_SETTINGS, 'current', {
 			title: 'resolution',
@@ -149,6 +151,34 @@ export class App {
 					logItems(values.length, (Date.now() - t) / 1000);
 				});
 			}
+		});
+
+		const g1 = gui.addGroup({
+			title: '📈 Performance Profiler'
+		});
+
+		g1.add(VISUAL_SETTINGS, 'current', {
+			title: 'resolution',
+			options: {
+				'low': 'low',
+				'medium': 'medium',
+				'high': 'high',
+				'ultra': 'ultra',
+				'ultra2': 'ultra2',
+				'ultra3': 'ultra3'
+			}
+		});
+
+		g1.addButton('Run Test', () => {
+			const v = VISUAL_SETTINGS.current;
+			const g = GPU_SIM_SIZES[v];
+			const len = g.width * g.height;
+			this.terminal.log(`Generating <span class="blue">${len.toLocaleString()}</span> test items...`);
+			window.setTimeout(() => {
+				const data = getRandomElementsArray(len);
+				this.viewer.setData(getSimData(data));
+				this.terminal.log(`<span class="green">Done!</span> ✨`);
+			}, 100);
 		});
 
 		const g2 = gui.addGroup({

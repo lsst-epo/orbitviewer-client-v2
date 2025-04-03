@@ -46,6 +46,14 @@ export const GPU_SIM_SIZES = {
 	ultra: {
 		width: 512,
 		height: 512
+	},
+	ultra2: {
+		width: 1024,
+		height: 512
+	},
+	ultra3: {
+		width: 1024,
+		height: 1024
 	}
 }
 
@@ -58,5 +66,7 @@ export const VISUAL_SETTINGS = {
 	low: getParticleCount(GPU_SIM_SIZES.low),
 	medium: getParticleCount(GPU_SIM_SIZES.medium),
 	high: getParticleCount(GPU_SIM_SIZES.high),
-	ultra: getParticleCount(GPU_SIM_SIZES.ultra)
+	ultra: getParticleCount(GPU_SIM_SIZES.ultra),
+	ultra2: getParticleCount(GPU_SIM_SIZES.ultra2),
+	ultra3: getParticleCount(GPU_SIM_SIZES.ultra3)
 }

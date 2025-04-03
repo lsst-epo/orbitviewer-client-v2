@@ -18,7 +18,8 @@ export class OrbitViewer extends ThreeLayer {
         this.scene.add(this.camera);
         this.params.camera = this.camera;
 
-        this.camera.position.z = 1000;
+        this.camera.position.y = 500;
+        this.camera.position.z = 3000;
         this.controls = new OrbitControls(this.camera, _gl.dom);
 
         this.particles = new SolarParticles();

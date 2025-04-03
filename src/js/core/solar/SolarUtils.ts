@@ -7,6 +7,7 @@ import { getCategory } from "../data/Categories";
 import { PlanetDataMap, PLANET_SCALE } from "./Planet";
 import { calculateOrbit, EPOCH, getMeanAnomaly, OrbitElements, OrbitType } from "./SolarSystem";
 import { MJD2JD, SolarTimeManager } from "./SolarTime";
+import { Random } from "@fils/math";
 
 const tmp1 = new Vector3();
 const tmp2 = new Vector3();
@@ -34,6 +35,39 @@ export type OrbitDataElements = {
     is_comet:boolean;
     is_centaur:boolean;
     is_asteroid:boolean;
+}
+
+export function getRandomElementsArray(len:number):OrbitDataElements[] {
+    const arr = [];
+
+    for(let i=0; i<len; i++) {
+        const type = Random.randi(0, 6);
+        const el:OrbitDataElements = {
+            id: `rnd${i}`,
+            fulldesignation: `rnd${i}`,
+            node: Random.randf(0, 360),
+            a: Random.randf(1, 10),
+            e: Random.randf(0, 1),
+            epoch: 54800,
+            incl: Random.randf(0, 180),
+            is_asteroid: type === 0,
+            is_centaur: type === 1,
+            is_comet: type === 2,
+            is_iso: type === 3,
+            is_neo: type === 4,
+            is_tno: type === 5,
+            mpch: null,
+            peri: Random.randf(0, 360),
+            q: Random.randf(1.5, 2.5),
+            tperi: Random.randf(51000, 52000),
+            n: Random.randf(0.2, 0.3), 
+            M: Random.randf(0, 360)
+        }
+
+        arr.push(el);
+    }
+
+    return arr;
 }
 
 export function getOrbitType(el:OrbitDataElements): OrbitType {

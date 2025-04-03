@@ -55,7 +55,7 @@ const MAT2 = new ShaderMaterial({
     }
 });
 
-const I_GEO = new SphereGeometry(1, 8, 8);
+const I_GEO = new SphereGeometry(1, 4, 4);
 
 export type RenderMode = "instanced" | "points";
 
