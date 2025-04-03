@@ -1,15 +1,15 @@
-import { ThreeDOMLayer } from "@fils/gl-dom";
-import { OrbitViewer } from "../gfx/OrbitViewer";
 import { Timer } from "@fils/ani";
+import { ThreeDOMLayer } from "@fils/gl-dom";
 import { UI } from "@fils/ui";
-import { CLOCK_SETTINGS, GPU_SIM_SIZES, VISUAL_SETTINGS } from "./Globals";
-import { fetchSolarElements, getSolarSystemElements } from "./data/QueryManager";
-import { downloadJSON, getSolarStaticData, SolarItems } from "./Utils";
-import { Terminal } from "../debug/Terminal";
-import { initShaders } from "../gfx/Shaders";
-import { SolarClock } from "./solar/SolarClock";
 import { Clock } from "three";
+import { Terminal } from "../debug/Terminal";
+import { OrbitViewer } from "../gfx/OrbitViewer";
+import { initShaders } from "../gfx/Shaders";
+import { fetchSolarElements, getSolarSystemElements } from "./data/QueryManager";
+import { CLOCK_SETTINGS, GPU_SIM_SIZES, VISUAL_SETTINGS } from "./Globals";
+import { SolarClock } from "./solar/SolarClock";
 import { getSimData } from "./solar/SolarData";
+import { getSolarStaticData, SolarItems } from "./Utils";
 
 import Stats from "three/examples/jsm/libs/stats.module.js";
 import { getRandomElementsArray } from "./solar/SolarUtils";
@@ -23,6 +23,10 @@ export class App {
 
 	terminal:Terminal;
 
+	protected testRunning:boolean = false;
+	protected deltas:number[] = [];
+	protected testStarted:number = 0;
+
 	constructor() {
 		initShaders();
 
@@ -32,6 +36,8 @@ export class App {
 		});
 		this.gl.renderer.setClearColor(0x000000, 1);
 		this.viewer = new OrbitViewer(this.gl);
+
+		// this.profiler = new PerformanceProfiler(this.viewer);
 		
 		this.terminal = new Terminal(document.querySelector('.terminal'));
 		
@@ -47,8 +53,8 @@ export class App {
 		stats.dom.style.bottom = '0';
 
 		const animate = () => {
-			stats.begin();
 			requestAnimationFrame(animate);
+			stats.begin();
 			this.update();
 			stats.end();
 		}
@@ -169,15 +175,25 @@ export class App {
 			}
 		});
 
+		let tid = null;
+
 		g1.addButton('Run Test', () => {
+			if(this.testRunning) return;
+			clearInterval(tid);
 			const v = VISUAL_SETTINGS.current;
 			const g = GPU_SIM_SIZES[v];
 			const len = g.width * g.height;
 			this.terminal.log(`Generating <span class="blue">${len.toLocaleString()}</span> test items...`);
-			window.setTimeout(() => {
+			tid = window.setTimeout(() => {
 				const data = getRandomElementsArray(len);
 				this.viewer.setData(getSimData(data));
-				this.terminal.log(`<span class="green">Done!</span> ✨`);
+				this.viewer.controls.enabled = false;
+				tid = window.setTimeout(() => {
+					this.deltas = [];
+					this.testStarted = performance.now();
+					this.testRunning = true;
+					this.terminal.log(`Testing...`);
+				}, 1000);
 			}, 100);
 		});
 
@@ -225,9 +241,24 @@ export class App {
 
 		if(this.clockChanged()) solarClock.secsPerHour = CLOCK_SETTINGS.speed;
 		const d = solarClock.update();
-		// console.log(d);
 
 		this.viewer.update(t, d);
 		this.viewer.render();
+
+		if(this.testRunning) {
+			this.deltas.push(this.clock.currentDelta);
+			if(performance.now() - this.testStarted >= 5000) {
+				let dt = 0;
+				// console.log(this.deltas);
+				for(const d of this.deltas) {
+					dt += d / this.deltas.length;
+				}
+				// dt *= 1000;
+				this.terminal.log(`Ended test with an average <span class="blue">${dt*1000}ms</span> & <span class="blue">${1/dt}fps</span>.`);
+				this.terminal.log(`<span class="green">Done!</span> ✨`);
+				this.testRunning = false;
+				this.viewer.controls.enabled = true;
+			}
+		}
 	}
 }

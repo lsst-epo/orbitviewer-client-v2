@@ -1,5 +1,5 @@
 import { ThreeDOMLayer, ThreeLayer } from "@fils/gl-dom";
-import { PerspectiveCamera } from "three";
+import { PerspectiveCamera, WebGLRenderTarget } from "three";
 import { SolarParticles } from "./solar/SolarParticles";
 import { OrbitElements } from "../core/solar/SolarSystem";
 
@@ -27,6 +27,10 @@ export class OrbitViewer extends ThreeLayer {
 
         this.scene.add(this.particles.points);
         this.scene.add(this.particles.mesh);
+    }
+
+    setTarget(target:WebGLRenderTarget)  {
+        this.params.target = target;
     }
 
     setSize(width: number, height: number): void {
