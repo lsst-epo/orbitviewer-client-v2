@@ -1,5 +1,5 @@
 import { ThreeDOMLayer, ThreeLayer } from "@fils/gl-dom";
-import { AmbientLight, PerspectiveCamera, PointLight, PointLightHelper, WebGLRenderTarget } from "three";
+import { AmbientLight, Fog, PerspectiveCamera, PointLight, PointLightHelper, WebGLRenderTarget } from "three";
 import { SolarParticles } from "./solar/SolarParticles";
 import { OrbitElements } from "../core/solar/SolarSystem";
 
@@ -64,6 +64,21 @@ export class OrbitViewer extends ThreeLayer {
 
         this.ambientLight = new AmbientLight(0xffffff, 0.15);
         this.scene.add(this.ambientLight);
+
+		const fog = new Fog(0x000000, 5000, 25000);
+		this.scene.fog = fog;
+    }
+
+    hidePaths() {
+    	for (const item of this.solarElements) {
+			item.orbitPath.ellipse.visible = false;
+     	}
+    }
+
+    showPaths() {
+    	for (const item of this.solarElements) {
+			item.orbitPath.ellipse.visible = true;
+     	}
     }
 
     createPlanets(d:Array<OrbitDataElements>) {
@@ -84,7 +99,7 @@ export class OrbitViewer extends ThreeLayer {
 
 			this.solarElements.push(planet);
             this.scene.add(planet);
-            // this.scene.add(planet.orbitPath.ellipse);
+            this.scene.add(planet.orbitPath.ellipse);
 
             // this.scene.add(planet.sunLine);
 		}

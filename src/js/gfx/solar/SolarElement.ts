@@ -4,6 +4,7 @@ import { Box3, BufferAttribute, BufferGeometry, ColorRepresentation, Line, LineB
 // import { EllipticalPath } from "./EllipticalPath";
 // import { PlanetOptions, PLANET_GEO } from "./Planet";
 import { calculateOrbitByType, OrbitElements, OrbitType } from "../../core/solar/SolarSystem";
+import { EllipticalPath } from "./EllipticalPath";
 
 export interface CameraLock {
 	min: number;
@@ -43,7 +44,7 @@ export class SolarElement extends Object3D implements InteractiveObject {
     parent:Object3D = new Object3D();
     // mesh:Mesh;
     data:OrbitElements;
-    // orbitPath:EllipticalPath;
+    orbitPath:EllipticalPath;
     private _selected:boolean = false;
     // material:MeshPhongMaterial;
     target:Object3D;
@@ -83,7 +84,7 @@ export class SolarElement extends Object3D implements InteractiveObject {
         lineGeo.setAttribute('position', new BufferAttribute(pos, 3));
         this.sunLine = new Line(lineGeo, L_DUMMY);
 
-        // this.orbitPath = new EllipticalPath(_data, scl*.8);
+        this.orbitPath = new EllipticalPath(_data, scl*.8);
 
 
         // this.mesh = new Mesh(PLANET_GEO, this.initMaterial(opts));

@@ -267,8 +267,14 @@ export class App {
 		})
 
 		const planetView = {
-			selected: 'none'
+			selected: 'none',
+			paths: true
 		}
+
+		g3.add(planetView, 'paths').on('change', () => {
+			if (planetView.paths) this.viewer.showPaths();
+			else this.viewer.hidePaths();
+		});
 
 		const plOpts = {
 			'none': 'none',
