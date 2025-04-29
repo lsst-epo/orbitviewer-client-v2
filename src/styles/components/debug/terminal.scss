@@ -24,7 +24,8 @@ section.terminal {
     scroll-behavior: smooth;
     scrollbar-color: #111 transparent;
 
-    pointer-events: none;
+    /* pointer-events: none; */
+    user-select: none;
 
     .content {
         width: 100%;

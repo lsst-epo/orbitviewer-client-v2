@@ -1,6 +1,6 @@
 /**
  * Solar Particles
- * 
+ *
  * This class creates a fixed buffer of instanced quads.
  * This buffer will be feed by orbit elements data and
  * visualize accordingly
@@ -150,8 +150,9 @@ export class SolarParticles {
         const count = VISUAL_SETTINGS[VISUAL_SETTINGS.current];
 
         this.mesh = new InstancedMesh(I_GEO, MAT2, count);
+		this.mesh.frustumCulled = false;
 
-        const col = new Color(0xffffff);
+        const col = new Color(0x999999);
 
         for(let i=0; i<count; i++) {
             this.mesh.setColorAt(i, col);
@@ -212,7 +213,7 @@ export class SolarParticles {
 
         this.updateVisibility();
 
-        // To-Do: Bring Category Color 
+        // To-Do: Bring Category Color
         /* const color = this.points.geometry.attributes.color;
         const arr = color.array as Float32Array;
 
@@ -238,7 +239,7 @@ export class SolarParticles {
     }
 
     /**
-     * 
+     *
      * @param d - MJD of the simulation
      * @param camera - Camera rendering the simulation
      */
@@ -246,4 +247,3 @@ export class SolarParticles {
         this.sim.render(d);
     }
 }
-

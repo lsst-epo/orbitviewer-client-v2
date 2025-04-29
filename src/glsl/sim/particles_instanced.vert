@@ -56,8 +56,8 @@ void main () {
     vec4 transformed = translationMatrix * scaleMatrix * vec4(pos, 1.0);
 
     depth = smoothstep(
-        2000.0,
-        10000.0,
+        5000.0,
+        25000.0,
         distance(cameraPosition, transformed.xyz)
     );
 

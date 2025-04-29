@@ -20,14 +20,17 @@ export const categoriesSort:Array<SolarCategory> = [
 
 export const getCategory = (item: OrbitDataElements):SolarCategory => {
 	const avail_categories:Array<SolarCategory> = [];
+	const type = item.object_type;
 
-	if(item.is_tno) avail_categories.push('trans-neptunian-objects');
-	if(item.is_neo) avail_categories.push('near-earth-objects');
-	if(item.is_iso) avail_categories.push('interstellar-objects');
-	if(item.is_comet) avail_categories.push('comets');
-	if(item.is_centaur) avail_categories.push('centaurs');
-	if(item.is_asteroid) avail_categories.push('asteroids');
-	
+	if (!type) return;
+
+	if(type.indexOf(3) > -1) avail_categories.push('trans-neptunian-objects');
+	if(type.indexOf(2) > -1) avail_categories.push('near-earth-objects');
+	if(type.indexOf(6) > -1) avail_categories.push('interstellar-objects');
+	if(type.indexOf(5) > -1) avail_categories.push('comets');
+	if(type.indexOf(4) > -1) avail_categories.push('centaurs');
+	if(type.indexOf(1) > -1) avail_categories.push('asteroids');
+
 	let k = 100;
 	for (const id of avail_categories) {
 		const p = categoriesSort.indexOf(id);
@@ -92,7 +95,7 @@ export const CategoryColorMap:Record<SolarCategory,Color> = {
 // Filters fetch
 /* export async function getA() {
 
-	const url = `${HASURA_URL}/a`;	
+	const url = `${HASURA_URL}/a`;
 
 	const response = await fetch(url, {
 		headers: {
@@ -105,8 +108,8 @@ export const CategoryColorMap:Record<SolarCategory,Color> = {
 export async function getMinMaxAByCategory () {
 
 	console.log('Loading "A"...');
-	
-	const data = await getA();	
+
+	const data = await getA();
 
 	const find = (type, range) => {
 		const d = data.classification_ranges.find(x => {
@@ -114,7 +117,7 @@ export async function getMinMaxAByCategory () {
 		})
 		return d.observed_value;
 	}
-	
+
 	CategoriesMinMaxA['asteroids'].min = find('asteroid', 'min');
 	CategoriesMinMaxA['asteroids'].max = find('asteroid', 'max');
 
@@ -137,16 +140,16 @@ export async function getMinMaxAByCategory () {
 		min = min < item.min ? min : item.min;
 		max = max > item.max ? max : item.max;
 	}
-	
+
 	CategoriesMinMaxA['total'].min = min;
-	CategoriesMinMaxA['total'].max = max;	
+	CategoriesMinMaxA['total'].max = max;
 
 	distance.min = min;
 	distance.max = max;
-	
+
 	distance.search.min = min;
 	distance.search.max = max;
-	
+
 }
 
 export const getMinMaxPlanetsA = (d:Array<OrbitDataElements>) => {

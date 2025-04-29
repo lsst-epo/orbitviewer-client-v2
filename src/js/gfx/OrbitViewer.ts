@@ -1,33 +1,148 @@
 import { ThreeDOMLayer, ThreeLayer } from "@fils/gl-dom";
-import { PerspectiveCamera, WebGLRenderTarget } from "three";
+import { AmbientLight, PerspectiveCamera, PointLight, PointLightHelper, WebGLRenderTarget } from "three";
 import { SolarParticles } from "./solar/SolarParticles";
 import { OrbitElements } from "../core/solar/SolarSystem";
 
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import { mapOrbitElements, OrbitDataElements } from "../core/solar/SolarUtils";
+import { JD2MJD } from "../core/solar/SolarTime";
+import { Planet } from "./solar/Planet";
+import { PlanetId } from "../core/solar/Planet";
+import { SolarElement } from "./solar/SolarElement";
+import gsap from "gsap";
+
+export interface FollowTarget {
+	target: SolarElement;
+	alpha: number;
+}
 
 export class OrbitViewer extends ThreeLayer {
     camera:PerspectiveCamera;
     particles:SolarParticles;
     controls:OrbitControls;
 
+	ambientLight: AmbientLight;
+	sunLight: PointLight;
+	sunLightHelper: PointLightHelper;
+
+	solarElements:Array<SolarElement> = []
+
+	cameraTarget: FollowTarget = {
+		target: null,
+		alpha: .016
+	};
+
     constructor(_gl:ThreeDOMLayer) {
         super(_gl);
         const w = this.gl.rect.width;
         const h = this.gl.rect.height;
-        this.camera = new PerspectiveCamera(35, w/h, .1, 20000);
+        this.camera = new PerspectiveCamera(35, w/h, .01, 100000);
         this.scene.add(this.camera);
         this.params.camera = this.camera;
 
-        this.camera.position.y = 500;
-        this.camera.position.z = 3000;
+        this.camera.position.y = 5000;
+        this.camera.position.z = 10000;
         this.controls = new OrbitControls(this.camera, _gl.dom);
+		this.controls.enableDamping = true;
+		this.controls.dampingFactor = .096;
+		// console.log(this.controls.minDistance, this.controls.maxDistance)
+		// this.controls.autoRotate = true;
+		// this.controls.autoRotateSpeed = .25;
 
         this.particles = new SolarParticles();
         this.particles.init(_gl.renderer);
 
         this.scene.add(this.particles.points);
         this.scene.add(this.particles.mesh);
+		// this.particles.mesh.visible = false;
+
+        this.sunLight = new PointLight(0xffffff, 1, 0, 0);
+        this.scene.add(this.sunLight);
+        this.sunLightHelper = new PointLightHelper(this.sunLight, 100);
+        // this.sunLightHelper.visible = false;
+        // this.scene.add(this.sunLightHelper);
+
+        this.ambientLight = new AmbientLight(0xffffff, 0.15);
+        this.scene.add(this.ambientLight);
     }
+
+    createPlanets(d:Array<OrbitDataElements>) {
+
+        // Overwrite name so we can create fake items
+		for(const el of d) {
+
+            el.tperi = JD2MJD(el.tperi);
+
+			const mel = mapOrbitElements(el);
+            mel.category = 'planets-moons';
+
+			const planet = new Planet(el.id as PlanetId, mel);
+
+            // linkSolarElementToPopup(planet, el);
+            // Remove planets form solar items
+            // solarItems = solarItems.filter(e => e.elementID !== el.id)
+
+			this.solarElements.push(planet);
+            this.scene.add(planet);
+            // this.scene.add(planet.orbitPath.ellipse);
+
+            // this.scene.add(planet.sunLine);
+		}
+
+		// this.followTarget(this.solarElements[7]);
+	}
+
+	followPlanet(id:PlanetId) {
+		for(const item of this.solarElements) {
+			if(id === item.name) {
+				return this.followTarget(item);
+			}
+		}
+	}
+
+	followTarget(target:SolarElement) {
+		gsap.killTweensOf(this.cameraTarget);
+		this.cameraTarget.alpha = .036;
+		gsap.to(this.cameraTarget, {
+			alpha: 1,
+			delay: 2,
+			duration: 5,
+			ease: 'expo.inOut'
+		})
+		this.cameraTarget.target = target;
+		this.controls.enablePan = false;
+		this.controls.autoRotate = true;
+		this.controls.autoRotateSpeed = .05;
+		this.controls.minDistance = target.lockedDistance.min;
+		this.controls.maxDistance = target.lockedDistance.max;
+
+		console.log(`Follow: ${target.data.id}`);
+	}
+
+	releaseCameraTarget() {
+		if (!this.cameraTarget.target) return;
+		this.cameraTarget.target = null;
+		this.controls.autoRotate = false;
+		this.controls.minDistance = 0;
+		this.controls.maxDistance = Infinity;
+		gsap.to(this.controls.target, {
+			x: 0,
+			y: 0,
+			z: 0,
+			overwrite: true,
+			duration: 3,
+			ease: 'expo.inOut'
+		});
+
+		gsap.to(this.camera.position, {
+			overwrite: true,
+			z: 10000,
+			y: 5000,
+			x: 0,
+			duration: 3,
+			ease: 'expo.inOut'
+		})
+	}
 
     setTarget(target:WebGLRenderTarget)  {
         this.params.target = target;
@@ -50,6 +165,14 @@ export class OrbitViewer extends ThreeLayer {
      * @param d current simulation MJD
      */
     update(time:number, d:number) {
+   		for (let i = 0, len = this.solarElements.length; i < len; i++) {
+			this.solarElements[i].update(d);
+		}
+
+    	if(this.cameraTarget.target) {
+			this.controls.target.lerp(this.cameraTarget.target.position, this.cameraTarget.alpha);
+     	}
+
         this.controls.update();
         this.particles.update(d, this.camera);
     }

@@ -13,6 +13,9 @@ import { getSolarStaticData, SolarItems } from "./Utils";
 
 import Stats from "three/examples/jsm/libs/stats.module.js";
 import { getRandomElementsArray } from "./solar/SolarUtils";
+import { LoadManager } from "./data/LoadManager";
+import { SearchEngine } from "./data/SearchEngine";
+import { PlanetId } from "../gfx/solar/Planet";
 
 export const solarClock = new SolarClock(new Clock());
 
@@ -38,9 +41,10 @@ export class App {
 		this.viewer = new OrbitViewer(this.gl);
 
 		// this.profiler = new PerformanceProfiler(this.viewer);
-		
+
 		this.terminal = new Terminal(document.querySelector('.terminal'));
-		
+		this.terminal.visible = false;
+
 		this.start();
 
 		console.log('%cSite by Fil Studio', "color:white;font-family:system-ui;font-size:1rem;font-weight:bold");
@@ -65,7 +69,26 @@ export class App {
 
 		solarClock.start();
 
-		this.addGUI();
+		// this.addGUI();
+        this.terminal.log(`Loading core data...`);
+        const t = Date.now();
+        LoadManager.loadCore(() => {
+            LoadManager.loadSample(VISUAL_SETTINGS.current, json => {
+                this.logItems(json.length, (Date.now() - t) / 1000);
+                // console.log(json);
+                const data = getSimData(json);
+                this.viewer.setData(data);
+				this.viewer.createPlanets(LoadManager.data.planets);
+                this.addGUI();
+                console.log(LoadManager.data);
+            });
+            // this.addGUI();
+        })
+	}
+
+	logItems (nItems:number, time:number) {
+		const clss = time < 5 ? 'green' : 'red';
+		this.terminal.log(`Fectched ${nItems} items. Elapsed time: <span class="${clss}">${time} seconds</span>.`);
 	}
 
 	addGUI() {
@@ -76,7 +99,7 @@ export class App {
 
 		const q = gui.addGroup({
 			title: '⚡️ Live Data Queries',
-			folded: true
+			// folded: true
 		});
 		q.add(VISUAL_SETTINGS, 'current', {
 			title: 'resolution',
@@ -84,39 +107,39 @@ export class App {
 				'low': 'low',
 				'medium': 'medium',
 				'high': 'high',
-				'ultra': 'ultra'
+				'ultra': 'ultra',
+				'ultra2': 'ultra2'
 			}
 		});
 
 		const logItems = (nItems:number, time:number) => {
-			const clss = time < 5 ? 'green' : 'red';
-			this.terminal.log(`Fectched ${nItems} items. Elapsed time: <span class="${clss}">${time} seconds</span>.`);
+            this.logItems(nItems, time);
 		}
 
 		const setData = (json) => {
-			const data = getSimData(json.mpcorb);
+			const data = getSimData(json);
 			this.viewer.setData(data);
 		}
 
-		q.addButton('Fetch Hasura', () => {
-			const t = Date.now();
-			this.terminal.log(`Fetching data for <span class="blue">${VISUAL_SETTINGS.current}</span>...`);
-			getSolarSystemElements().then((json) => {
-				logItems(json.mpcorb.length, (Date.now() - t) / 1000);
-				console.log(json);
-				setData(json);
-				// downloadJSON(json, `data-${VISUAL_SETTINGS.current}.json`, true);
-			});
-		});
+		// q.addButton('Fetch Hasura', () => {
+		// 	const t = Date.now();
+		// 	this.terminal.log(`Fetching data for <span class="blue">${VISUAL_SETTINGS.current}</span>...`);
+		// 	getSolarSystemElements().then((json) => {
+		// 		logItems(json.length, (Date.now() - t) / 1000);
+		// 		// console.log(json);
+		// 		setData(json);
+		// 		// downloadJSON(json, `data-${VISUAL_SETTINGS.current}.json`, true);
+		// 	});
+		// });
 		q.addButton('Fetch Static', () => {
 			const t = Date.now();
 			this.terminal.log(`Fetching static data for <span class="blue">${VISUAL_SETTINGS.current}</span>...`);
-			getSolarStaticData(VISUAL_SETTINGS.current).then((json) => {
-				logItems(json.mpcorb.length, (Date.now() - t) / 1000);
-				console.log(json);
-				setData(json);
-				// downloadJSON(json, `data-${VISUAL_SETTINGS.current}.json`, true);
-			});
+            LoadManager.loadSample(VISUAL_SETTINGS.current, (json) => {
+                logItems(json.length, (Date.now() - t) / 1000);
+                console.log(LoadManager.data);
+                setData(json);
+                // downloadJSON(json, `data-${VISUAL_SETTINGS.current}.json`, true);
+            });
 		});
 
 		const solarIds = {
@@ -141,14 +164,14 @@ export class App {
 
 		q.add(solarIds, 'current', {
 			title: 'Solar Items',
-			options 
+			options
 		});
 		q.addButton('Fetch Solar Item(s)', () => {
 			const t = Date.now();
 			this.terminal.log(`Fetching <span class="blue">${solarIds.current}</span> Solar Items...`);
 			if(solarIds.current === 'all') {
 				fetchSolarElements(SolarItems).then( values => {
-					console.log(values);
+					console.log(JSON.stringify(values));
 					logItems(values.length, (Date.now() - t) / 1000);
 				});
 			} else {
@@ -160,7 +183,8 @@ export class App {
 		});
 
 		const g1 = gui.addGroup({
-			title: '📈 Performance Profiler'
+			title: '📈 Performance Profiler',
+			folded: true
 		});
 
 		g1.add(VISUAL_SETTINGS, 'current', {
@@ -213,25 +237,73 @@ export class App {
 			g2.refresh();
 		})
 
-		const g3 = gui.addGroup({
-			title: '🖥️ Display Options'
+		const query = {
+			prompt: ""
+		}
+
+		const s = gui.addGroup({
+			title: '🔎 Search',
+			folded: true
 		})
+		s.add(query, "prompt");
+		s.addButton('Search', () => {
+            if (query.prompt.length < 3) return alert("Write minimum 3 characters");
+            this.terminal.log(`Searching for <span class="green">${query.prompt}</span>...`)
+            const t = performance.now();
+            const items = SearchEngine.search(query.prompt);
+            const dt = (performance.now() - t) * .001;
+            logItems(items.length, dt);
+            const res = [];
+            for(const i of items) {
+                res.push(i.fulldesignation);
+            }
+            this.terminal.log(`Found: <span class="green">${res.join(',')}</span>...`)
+            console.log(items);
+		})
+
+		const g3 = gui.addGroup({
+			title: '🖥️ Display Options',
+			// folded: true
+		})
+
+		const planetView = {
+			selected: 'none'
+		}
+
+		const plOpts = {
+			'none': 'none',
+			'mercury': 'mercury',
+    		'venus': 'venus',
+      		'earth': 'earth',
+      		'mars': 'mars',
+      		'jupiter': 'jupiter',
+      		'saturn': 'saturn',
+      		'uranus': 'uranus',
+      		'neptune': 'neptune'
+		};
+
+		g3.add(planetView, 'selected', {
+			options: plOpts,
+		}).on('change', () => {
+			if (planetView.selected === 'none') this.viewer.releaseCameraTarget();
+			else this.viewer.followPlanet(planetView.selected as PlanetId);
+		});
 
 		g3.add(this.terminal, 'visible', {
 			title: 'Show Terminal'
 		});
 
-		g3.add(this.viewer.particles, 'renderMode', {
-			options: {
-				'instanced mesh': "instanced",
-				'points': "points"
-			}
-		});
+		// g3.add(this.viewer.particles, 'renderMode', {
+		// 	options: {
+		// 		'instanced mesh': "instanced",
+		// 		'points': "points"
+		// 	}
+		// });
 
 		this.terminal.log('<span class="green">Ready.</span> Use the GUI to test queries.');
 	}
 
-	clockChanged():boolean {                
+	clockChanged():boolean {
         return (CLOCK_SETTINGS.speed !== solarClock.secsPerHour);
     }
 

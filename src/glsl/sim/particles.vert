@@ -17,7 +17,7 @@ void main () {
 
     depth = smoothstep(
         2000.0,
-        10000.0,
+        50000.0,
         distance(cameraPosition,pos)
     );
 

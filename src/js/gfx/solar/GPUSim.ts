@@ -7,6 +7,7 @@ export type SimQuality = 'low'|'medium'|'high'|'ultra';
 
 import sim_f from '../../../glsl/sim/gpu_sim.frag';
 import sim_v from '../../../glsl/sim/gpu_sim.vert';
+import { PLANET_SCALE } from "../../core/solar/Planet";
 
 const SIM_MAT = new ShaderMaterial({
     vertexShader: sim_v,
@@ -103,37 +104,37 @@ export class GPUSim {
         );
 
         geo.setAttribute(
-            'alive', 
+            'alive',
             new BufferAttribute(alive, 1)
         );
 
         geo.setAttribute(
-            'N', 
+            'N',
             new BufferAttribute(N, 1)
         );
 
         geo.setAttribute(
-            'a', 
+            'a',
             new BufferAttribute(a, 1)
         );
 
         geo.setAttribute(
-            'e', 
+            'e',
             new BufferAttribute(e, 1)
         );
 
         geo.setAttribute(
-            'i', 
+            'i',
             new BufferAttribute(i, 1)
         );
 
         geo.setAttribute(
-            'w', 
+            'w',
             new BufferAttribute(w, 1)
         );
 
         geo.setAttribute(
-            'M', 
+            'M',
             new BufferAttribute(M, 1)
         );
 
@@ -158,7 +159,7 @@ export class GPUSim {
         );
 
         geo.setAttribute(
-            'type', 
+            'type',
             new BufferAttribute(type, 1)
         );
 
@@ -198,9 +199,9 @@ export class GPUSim {
         const arr = alive.array as Float32Array;
 
         if(IS_DEV_MODE) console.log('Total Items:',this.totalItems, 'Value Lenght:', value.length);
-        
+
         for(let i=0; i<Math.min(this.totalItems, value.length); i++) {
-            arr[i] = 1;            
+            arr[i] = 1;
         }
 
         for(let i=value.length; i<this.totalItems; i++) {

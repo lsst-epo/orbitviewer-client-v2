@@ -137,3 +137,5 @@ $RECYCLE.BIN/
 bundle
 public
 .env
+src/assets/data/ultra.json
+src/assets/data/ultra2.json

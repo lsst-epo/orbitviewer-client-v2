@@ -5,9 +5,10 @@
  * from data files or database
  */
 
+import { CameraLock } from "../../gfx/solar/SolarElement";
 import { OrbitElements } from "./SolarSystem";
 
-export const PLANET_SCALE = 100;
+export const PLANET_SCALE = 1000;
 
 export type PlanetId = 'mercury'|'venus'|'earth'|'mars'|'jupiter'|'saturn'|'uranus'|'neptune';
 
@@ -20,6 +21,41 @@ export const PlanetRadiusMap:Record<PlanetId,number> = {
     'saturn': 58232,
     'uranus': 25360,
     'neptune': 24620
+}
+
+export const PlanetCameraLock:Record<PlanetId,CameraLock> = {
+	mercury: {
+		min: 5,
+		max: 10
+	},
+	venus: {
+		min: 10,
+		max: 25
+	},
+	earth: {
+		min: 15,
+		max: 30
+	},
+	mars: {
+		min: 8,
+		max: 12
+	},
+	jupiter: {
+		min: 140,
+		max: 230
+	},
+	saturn: {
+		min: 120,
+		max: 300
+	},
+	uranus: {
+		min: 80,
+		max: 200
+	},
+	neptune: {
+		min: 60,
+		max: 150
+	},
 }
 
 export type PlanetRotationData = {

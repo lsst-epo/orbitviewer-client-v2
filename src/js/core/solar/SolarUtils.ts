@@ -13,28 +13,23 @@ const tmp1 = new Vector3();
 const tmp2 = new Vector3();
 
 export type OrbitDataElements = {
-    id:string;
+    id?:string;
     fulldesignation:string;
     node:number;
     a:number;
     e:number;
-    Name?:string;
-    G?:number;
+    // Name?:string;
+    // G?:number;
     incl:number;
-    H?:number;
-    q?:number;
+    // H?:number;
+    q:number;
     M:number;
-    mpch:number;
+    // mpch:number;
     epoch:number;
     n:number;
     tperi?:number;
     peri:number;
-    is_tno:boolean;
-    is_neo:boolean;
-    is_iso:boolean;
-    is_comet:boolean;
-    is_centaur:boolean;
-    is_asteroid:boolean;
+	object_type: number[];
 }
 
 export function getRandomElementsArray(len:number):OrbitDataElements[] {
@@ -43,24 +38,19 @@ export function getRandomElementsArray(len:number):OrbitDataElements[] {
     for(let i=0; i<len; i++) {
         const type = Random.randi(0, 6);
         const el:OrbitDataElements = {
-            id: `rnd${i}`,
+            // id: `rnd${i}`,
             fulldesignation: `rnd${i}`,
             node: Random.randf(0, 360),
             a: Random.randf(1, 10),
             e: Random.randf(0, 1),
             epoch: 54800,
             incl: Random.randf(0, 180),
-            is_asteroid: type === 0,
-            is_centaur: type === 1,
-            is_comet: type === 2,
-            is_iso: type === 3,
-            is_neo: type === 4,
-            is_tno: type === 5,
-            mpch: null,
+            object_type: [type],
+            // mpch: null,
             peri: Random.randf(0, 360),
             q: Random.randf(1.5, 2.5),
             tperi: Random.randf(51000, 52000),
-            n: Random.randf(0.2, 0.3), 
+            n: Random.randf(0.2, 0.3),
             M: Random.randf(0, 360)
         }
 
@@ -84,15 +74,15 @@ export function getOrbitType(el:OrbitDataElements): OrbitType {
 
 export function mapOrbitElements(dEl:OrbitDataElements):OrbitElements {
     const el = {
-        id: dEl.id,
+        id: dEl.fulldesignation,
         fulldesignation: dEl.fulldesignation,
         N: dEl.node,
         a: dEl.a,
         e: dEl.e,
-        name: dEl.Name,
-        G: dEl.G,
+        // name: dEl.Name,
+        // G: dEl.G,
         i: dEl.incl,
-        H: dEl.H,
+        // H: dEl.H,
         w: dEl.peri,
         M: dEl.M,
         n: dEl.n,
@@ -101,7 +91,7 @@ export function mapOrbitElements(dEl:OrbitDataElements):OrbitElements {
         epoch: dEl.epoch != undefined ? dEl.epoch : EPOCH,
         type: getOrbitType(dEl),
         category: getCategory(dEl)
-    }    
+    }
     return el;
 }
 
@@ -162,10 +152,10 @@ export function getDistanceFromEarthNow(data:OrbitDataElements): number {
     calculateOrbit(mel, mjd, tmp1);
 
     const earthData = PlanetDataMap.earth;
-    
+
     if(!earthData) return 0;
-    
-    calculateOrbit(earthData, mjd, tmp2);    
-    
+
+    calculateOrbit(earthData, mjd, tmp2);
+
     return tmp2.distanceTo(tmp1) / PLANET_SCALE;
 }

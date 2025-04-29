@@ -2,7 +2,7 @@ const float E_CONVERGENCE_THRESHOLD = radians(.001);
 const float K = 0.01720209895;
 #define MAX_E_ITERATIONS 100
 
-#define PLANET_SCALE 100.0
+#define PLANET_SCALE 1000.0
 
 struct OrbitElements {
     float N;
@@ -74,7 +74,7 @@ vec3 parabolicCalc(OrbitElements el, float d) {
     float q = el.q;
 
     float H = (d-dT) * (K/sqrt(2.0)) / sqrt(q*q*q);
-    
+
     float h = 1.5 * H;
     float g = sqrt( 1.0 + h*h );
     float s = cbrt( g + h ) - cbrt( g - h );
@@ -131,7 +131,7 @@ vec3 hyperbolicCalc(OrbitElements el, float d) {
         if(iterations >= MAX_E_ITERATIONS) break;
     }
     float F = F1;
-    
+
 
     float v = 2.0 * atan( sqrt((e+1.0)/(e-1.0)) ) * tanh(F/2.0);
     float r = a * ( 1.0 - e*e ) / ( 1.0 + e * cos(v) );

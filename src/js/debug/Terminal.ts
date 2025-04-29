@@ -17,6 +17,12 @@ export class Terminal {
         this.dom.scrollTop = rect.height;
     }
 
+    clear() {
+        this.content.innerHTML = "";
+        const rect = this.content.getBoundingClientRect();
+        this.dom.scrollTop = rect.height;
+    }
+
     set visible(value:boolean) {
         if(!value) this.dom.classList.add('disabled');
         else this.dom.classList.remove('disabled');

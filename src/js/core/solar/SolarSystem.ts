@@ -34,9 +34,9 @@ export type OrbitElements = {
     w:number;
     M:number;
     n:number;
-    q?:number;
+    q:number;
     Tp?:number;
-    epoch?:number;
+    epoch:number;
     type:OrbitType;
     category:SolarCategory;
 }
@@ -196,7 +196,7 @@ export function parabolicCalc(el:OrbitElements, d:number, target:Vector3= new Ve
     const q = el.q;
 
     const H = (d-dT) * (K/Math.sqrt(2)) / Math.sqrt(q*q*q);
-    
+
     const h = 1.5 * H;
     const g = Math.sqrt( 1.0 + h*h );
     const s = Math.cbrt( g + h ) - Math.cbrt( g - h );
@@ -253,7 +253,7 @@ export function hyperbolicCalc(el:OrbitElements, d:number, target:Vector3) {
         F1 = ( M + e * ( F0 * Math.cosh(F0) - Math.sinh(F0) ) ) / ( e * Math.cosh(F0) - 1 );
     }
     const F = F1;
-    
+
 
     const v = 2 * Math.atan( Math.sqrt((e+1)/(e-1)) ) * Math.tanh(F/2);
     const r = a * ( 1 - e*e ) / ( 1 + e * Math.cos(v) );
