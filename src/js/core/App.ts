@@ -16,6 +16,7 @@ import { getRandomElementsArray } from "./solar/SolarUtils";
 import { LoadManager } from "./data/LoadManager";
 import { SearchEngine } from "./data/SearchEngine";
 import { PlanetId } from "../gfx/solar/Planet";
+import { getAbout, getCategories, getCustomizedOrbits, getGlobals, getGuidedExperiences, getGuidedExperiencesTours, getLanding, getOrbitViewer, getSolarItemsInfo } from "./data/CraftManager";
 
 export const solarClock = new SolarClock(new Clock());
 
@@ -43,7 +44,7 @@ export class App {
 		// this.profiler = new PerformanceProfiler(this.viewer);
 
 		this.terminal = new Terminal(document.querySelector('.terminal'));
-		this.terminal.visible = false;
+		// this.terminal.visible = false;
 
 		this.start();
 
@@ -99,7 +100,7 @@ export class App {
 
 		const q = gui.addGroup({
 			title: '⚡️ Live Data Queries',
-			// folded: true
+			folded: true
 		});
 		q.add(VISUAL_SETTINGS, 'current', {
 			title: 'resolution',
@@ -113,7 +114,7 @@ export class App {
 		});
 
 		const logItems = (nItems:number, time:number) => {
-            this.logItems(nItems, time);
+      this.logItems(nItems, time);
 		}
 
 		const setData = (json) => {
@@ -181,6 +182,122 @@ export class App {
 				});
 			}
 		});
+
+		const cms = gui.addGroup({
+			title: '☁️ Craft CMS Queries'
+		});
+
+		cms.addButton('Fetch Categories', () => {
+			const t = Date.now();
+			this.terminal.log(`Fetching categories...`);
+			getCategories().then(cnt => {
+				//@ts-ignore
+				console.log(cnt.data);
+				//@ts-ignore
+				logItems(cnt.data.categories.length, (Date.now() - t) / 1000);
+			}).catch(e => {
+				console.warn('Error');
+				console.log(e);
+			});
+		});
+
+		cms.addButton('Fetch About', () => {
+			const t = Date.now();
+			this.terminal.log(`Fetching about...`);
+			getAbout().then(cnt => {
+				//@ts-ignore
+				console.log(cnt.data);
+				//@ts-ignore
+				logItems(cnt.data.entries.length, (Date.now() - t) / 1000);
+			}).catch(e => {
+				console.warn('Error');
+				console.log(e);
+			});
+		})
+
+		cms.addButton('Fetch Globals', () => {
+			const t = Date.now();
+			this.terminal.log(`Fetching globals...`);
+			getGlobals().then(cnt => {
+				//@ts-ignore
+				console.log(cnt.data);
+				//@ts-ignore
+				logItems(cnt.data.globalSets.length, (Date.now() - t) / 1000);
+			}).catch(e => {
+				console.warn('Error');
+				console.log(e);
+			});
+		})
+
+		cms.addButton('Fetch Customized Orbits', () => {
+			const t = Date.now();
+			this.terminal.log(`Fetching customized orbits...`);
+			getCustomizedOrbits().then(cnt => {
+				//@ts-ignore
+				console.log(cnt.data);
+				//@ts-ignore
+				logItems(cnt.data.entries.length, (Date.now() - t) / 1000);
+			}).catch(e => {
+				console.warn('Error');
+				console.log(e);
+			});
+		})
+
+		cms.addButton('Fetch Guided experiences', () => {
+			const t = Date.now();
+			this.terminal.log(`Fetching guided experiences...`);
+			getGuidedExperiences().then(cnt => {
+				//@ts-ignore
+				console.log(cnt.data);
+				//@ts-ignore
+				logItems(cnt.data.entries.length, (Date.now() - t) / 1000);
+			}).catch(e => {
+				console.warn('Error');
+				console.log(e);
+			});
+		})
+
+		cms.addButton('Fetch Guided Tours', () => {
+			const t = Date.now();
+			this.terminal.log(`Fetching guided tours...`);
+			getGuidedExperiencesTours().then(cnt => {
+				//@ts-ignore
+				console.log(cnt.data);
+				//@ts-ignore
+				logItems(cnt.data.entries.length, (Date.now() - t) / 1000);
+			}).catch(e => {
+				console.warn('Error');
+				console.log(e);
+			});
+		})
+
+		cms.addButton('Fetch Landing', () => {
+			const t = Date.now();
+			this.terminal.log(`Fetching Landing...`);
+			getLanding().then(cnt => {
+				//@ts-ignore
+				console.log(cnt.data);
+				//@ts-ignore
+				logItems(cnt.data.entries.length, (Date.now() - t) / 1000);
+			}).catch(e => {
+				console.warn('Error');
+				console.log(e);
+			});
+		})
+
+		cms.addButton('Fetch Solar Items Info', () => {
+			const t = Date.now();
+			this.terminal.log(`Fetching Solar Items Info...`);
+			getSolarItemsInfo().then(cnt => {
+				//@ts-ignore
+				console.log(cnt.data);
+				//@ts-ignore
+				logItems(cnt.data.entries.length, (Date.now() - t) / 1000);
+			}).catch(e => {
+				console.warn('Error');
+				console.log(e);
+			});
+		})
 
 		const g1 = gui.addGroup({
 			title: '📈 Performance Profiler',

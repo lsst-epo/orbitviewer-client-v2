@@ -27,11 +27,11 @@ export function downloadJSON(data, filename, minify = false) {
 }
 
 // export const STATIC_URL = "https://clients.fil.studio/rubin/tests/data/001/assets/data/";
-export const STATIC_URL = "./assets/data/";
-// export const STATIC_URL = "https://storage.googleapis.com/orbitviewer-data/";
+// export const STATIC_URL = "./assets/data/";
+export const STATIC_URL = "https://storage.googleapis.com/orbitviewer-data/";
 
 export async function getSolarStaticData(weight:string) {
-    const url = `${STATIC_URL}${weight}.json`;
+    const url = `${STATIC_URL}mpcorbs-${weight}.json`;
     const response = await fetch(url);
     return await response.json();
 }
