@@ -3,23 +3,14 @@
 @use './partials/variables';
 @use './partials/fonts';
 
-// Components
+// Debug
 @use './components/debug/terminal';
 
-body {
-    background-color: black;
-}
+// Components
+@use './components/layout';
+@use './components/body';
+@use './components/canvas';
+@use './components/toolbar';
 
-.view {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100vw;
-    height: 100vh;
-    width: 100dvw;
-    height: 100dvh;
-}
 
-h1 {
-    font-size: 48px;
-}
+

@@ -1,11 +1,43 @@
+{% from "../partials/icons.njk" import initSpriteSheet %}
+{% from "../partials/icons.njk" import icon %}
+
 <!DOCTYPE html>
 <html lang="en">
 	{% include 'head.njk' %}
 
 	<body>
+        {{ initSpriteSheet() }}
         <div class="view"></div>
 
         {{ content | safe }}
+
+        <div class="toolbar">
+            <div class="toolbar-head">
+                <img src="/assets/images/nsf-doe-rubin-observatory-orbitviewer.png" class="logo" alt="">
+            </div>
+            <div class="toolbar-body">
+                <ul class="toolbar-list">
+                    <li class="toolbar-item">
+                        <a href="" class="toolbar-link">
+                            {{ icon('orbit') }}
+                            <span>Objects</span>
+                        </a>
+                    </li>
+                    <li class="toolbar-item">
+                        <a href="" class="toolbar-link">
+                            {{ icon('filters') }}
+                            <span>Filters</span>
+                        </a>
+                    </li>
+                    <li class="toolbar-item">
+                        <a href="" class="toolbar-link">
+                            {{ icon('search') }}
+                            <span>Search</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
 
         <script defer type="module">
             const src = "./bundle/main.js";

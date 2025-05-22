@@ -1,0 +1,48 @@
+@use "sass:map";
+
+@mixin frozen_glass {
+    background: 
+        linear-gradient(180deg, rgba(255,255,255,.08) 0%, rgba(255,255,255,.11) 100%),
+        linear-gradient(180deg, rgba(0,0,0,.2) 0%, rgba(0,0,0,.2) 100%);
+    backdrop-filter: blur(100px);
+}
+
+@mixin reset_list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+@mixin gradient_border {
+    padding: 1px;
+    
+    &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        padding: 1px;
+        background: linear-gradient(180deg, rgba(255,255,255,.18) 0%, rgba(255,255,255,.1) 53%);
+        border-radius: inherit;
+        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        mask-composite: xor;
+        -webkit-mask-composite: xor;
+        pointer-events: none;
+    }
+}
+
+$breakpoints: (
+  "small": 480px,
+  "medium": 768px,
+  "large": 1024px,
+  "xlarge": 1200px
+);
+
+@mixin media($breakpoint) {
+  @if map.has-key($breakpoints, $breakpoint) {
+    @media (min-width: map.get($breakpoints, $breakpoint)) {
+      @content;
+    }
+  } @else {
+    @warn "No breakpoint found for '#{$breakpoint}'";
+  }
+}

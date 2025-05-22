@@ -1,3 +1,3 @@
 const { App } = require("./core/App");
 
-const _App = new App();
+// const _App = new App();

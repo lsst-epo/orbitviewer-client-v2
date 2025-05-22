@@ -1,0 +1,80 @@
+@use '../partials/mixins' as *;
+
+.toolbar {
+    position: absolute;
+    right: var(--site-margin-small);
+    bottom: var(--site-margin-small);
+    left: var(--site-margin-small);
+    z-index: var(--z-toolbar);
+    border-radius: var(--corner-large);
+
+    @include frozen_glass;
+    @include gradient_border;
+
+    @include media(medium) {
+        top: var(--site-margin-small);
+        right: auto;
+        bottom: auto;
+        left: var(--site-margin-small);
+        width: 104px;
+    }
+
+    &-head {
+        display: none;
+
+        @include media(medium) {
+            display: block;
+            padding: 12px;
+        }
+
+        .logo {
+            width: 100%;
+        }
+    }
+
+    &-body {
+
+    }
+
+        &-list {
+            @include reset_list;
+            display: flex;
+
+            @include media(medium) {
+                flex-direction: column;
+            }
+        }
+
+            &-item {
+                flex: auto;
+                padding: 4px;
+            }
+
+                &-link {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 6px;
+                    padding: 8px;
+                    border-radius: var(--corner-medium);
+                    color: var(--color-button-text);
+                    transition: all .3s var(--easing-default);
+                    cursor: pointer;
+                
+                    &:hover {
+                        background: var(--color-button-bg-hover);
+                        color: var(--color-button-text-hover);
+                    }
+
+                    .icon {
+                        width: 24px;
+                        height: 24px;
+                        fill: currentColor;
+                    }
+
+                    span {
+                        font-size: 14px;
+                        line-height: 1em;
+                    }
+                }
+}
