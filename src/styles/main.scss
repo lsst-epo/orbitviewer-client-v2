@@ -7,10 +7,13 @@
 @use './components/debug/terminal';
 
 // Components
+@use './components/button';
+@use './components/buttonicon';
 @use './components/layout';
 @use './components/body';
 @use './components/canvas';
 @use './components/toolbar';
+@use './components/navigation';
 
 
 

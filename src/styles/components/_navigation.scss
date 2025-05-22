@@ -1,0 +1,11 @@
+.navigation {
+    position: absolute;
+    top: var(--site-margin-large);
+    right: var(--site-margin-large);
+    z-index: var(--z-menu);
+
+    &-buttons {
+        display: flex;
+        gap: 8px;
+    }
+}
