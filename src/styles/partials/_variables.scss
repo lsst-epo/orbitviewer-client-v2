@@ -39,13 +39,20 @@
     --color-interstellar: #b1f2ef;
 
     // Layers
-    --z-menu: 3;
-    --z-toolbar: 2;
+    --z-menu: 4;
+    --z-timemachine: 3;
+    --z-toolbar: 3;
+    --z-map_controls: 2;
     --z-canvas: 1;
 
     // Margins
     --site-margin-small: 12px;
     --site-margin-large: 16px;
+
+    // Sizing
+    --timemachine-height: 113px;
+    --toolbar-height: 64px;
+    --toolbar-width: 104px;
 
     // Styles
     --corner-medium: 5px;

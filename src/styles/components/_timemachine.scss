@@ -1,0 +1,23 @@
+@use '../partials/mixins' as *;
+
+.timemachine {
+    --timemachine-gap: 12px;
+    
+    position: absolute;
+    right: var(--site-margin-large);
+    bottom: calc(var(--toolbar-height) + var(--site-margin-large) + var(--timemachine-gap));
+    left: var(--site-margin-large);
+    min-height: var(--timemachine-height);
+    border-radius: var(--corner-large);
+
+    @include arealabel;
+
+    @include frozen_glass;
+    @include gradient_border;
+
+    @include media(medium) {
+        max-width: 384px;
+        margin: auto;
+        bottom: var(--site-margin-large);
+    }
+}

@@ -2,9 +2,10 @@
 
 .toolbar {
     position: absolute;
-    right: var(--site-margin-small);
-    bottom: var(--site-margin-small);
-    left: var(--site-margin-small);
+    right: var(--site-margin-large);
+    bottom: var(--site-margin-large);
+    left: var(--site-margin-large);
+    height: var(--toolbar-max_height);
     z-index: var(--z-toolbar);
     border-radius: var(--corner-large);
 
@@ -16,7 +17,8 @@
         right: auto;
         bottom: auto;
         left: var(--site-margin-small);
-        width: 104px;
+        width: var(--toolbar-width);
+        height: auto;
     }
 
     &-head {

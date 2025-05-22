@@ -2,8 +2,8 @@
 
 @mixin frozen_glass {
     background: 
-        linear-gradient(180deg, rgba(255,255,255,.08) 0%, rgba(255,255,255,.11) 100%),
-        linear-gradient(180deg, rgba(0,0,0,.2) 0%, rgba(0,0,0,.2) 100%);
+        linear-gradient(180deg, rgba(255,255,255,.11) 0%, rgba(255,255,255,.08) 100%),
+        linear-gradient(180deg, rgba(0,0,0,.7) 0%, rgba(0,0,0,.7) 100%);
     backdrop-filter: blur(100px);
 }
 
@@ -11,6 +11,15 @@
     list-style: none;
     margin: 0;
     padding: 0;
+}
+
+@mixin arealabel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: grey;
+    text-transform: uppercase;
+    letter-spacing: .1em;
 }
 
 @mixin gradient_border {
