@@ -27,6 +27,7 @@
     --color-bg: var(--color-black);
     --color-text: var(--color-white);
 
+    --color-backdrop: rgba(var(--color-black-rgb), .5);
     --color-button-text: var(--color-turquoise-100);
     --color-button-text-hover: var(--color-turquoise-300);
     --color-button-bg-hover: var(--color-turquoise-800);
@@ -40,6 +41,7 @@
     --color-interstellar: #b1f2ef;
 
     // Layers
+    --z-filters: 6;
     --z-menu: 5;
     --z-detail: 4;    
     --z-timemachine: 3;

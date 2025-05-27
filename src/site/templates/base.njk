@@ -11,10 +11,12 @@
 
         {{ content | safe }}
 
-        {% include 'toolbar.njk' %}
         {% include 'navigation.njk' %}
+        {% include 'toolbar.njk' %}        
         {% include 'timemachine.njk' %}
         {% include 'mapcontrols.njk' %}
+        
+        {% include 'filters.njk' %}
         {% include 'object_detail.njk' %}
 
         <script defer type="module">

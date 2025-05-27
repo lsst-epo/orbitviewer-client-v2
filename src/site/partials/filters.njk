@@ -1,0 +1,23 @@
+{% from '../components/buttonicon.njk' import ButtonIcon %}
+{% from '../components/button.njk' import Button %}
+
+<section class="filters" aria-hidden="true">
+    <header class="filters-head">
+        {{ ButtonIcon('button_icon secondary medium', 'close') }}
+    </header>
+    <div class="filters-body">
+        <div class="filters_card">
+            <div class="filters_card-content">
+                <div class="filters_card-head">
+                    <h3 class="title">Filters</h3>
+                    {{ Button('Reset', 'button secondary small') }}
+                </div>
+                <div class="filters_card-body">
+                    <div class="filters_card-field">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

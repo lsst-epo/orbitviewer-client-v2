@@ -1,0 +1,65 @@
+@use '../partials/mixins' as *;
+
+.filters {
+    position: absolute;
+    inset: 0;
+    z-index: var(--z-filters);
+    display: flex;
+    flex-direction: column;
+    background: var(--color-backdrop);
+    backdrop-filter: blur(8px);
+
+    @include media(medium) {
+        inset: initial;
+        top: 170px;
+        left: 140px;
+        width: 384px;
+        background: initial;
+        backdrop-filter: initial;
+    }
+
+    &[aria-hidden=true] {
+        display: none;
+    }
+
+    &-head {
+        flex: 0 0 auto;
+        display: flex;
+        justify-content: flex-end;
+        padding: var(--site-margin-small);
+
+        @include media(medium) {
+            display: none;
+        }
+    }
+
+    &-body {
+        flex: auto;
+    }
+
+        &_card {
+            border-radius: var(--corner-large);
+
+            @include media(medium) {
+                @include frozen_glass;
+                @include gradient_border;
+            }
+
+            &-content {
+                padding: 16px;
+            }
+
+                &-head {
+                    display: flex;
+                    justify-content: space-between;
+                }
+
+                &-body {
+
+                }
+
+                    &-field {
+
+                    }
+        }
+}
