@@ -1,3 +1,31 @@
+.button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--corner-medium);
+    color: var(--color-turquoise-100);
+
+    &.primary {
+        background: var(--color-turquoise-600);
+    }
+
+    &.secondary {
+        
+    }
+
+    &.ghost {
+
+    }
+
+    &.small {
+
+    }
+
+    &.medium {
+
+    }
+}
+
 .button_share {
     --height: 48px;
     

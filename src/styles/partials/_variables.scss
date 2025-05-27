@@ -3,6 +3,7 @@
 :root {
     // Color Primitives
     --color-black: #000;
+    --color-black-rgb: 0,0,0;
     --color-white: #fff;
 
     --color-turquoise-100: #d9f7f6;
@@ -39,7 +40,8 @@
     --color-interstellar: #b1f2ef;
 
     // Layers
-    --z-menu: 4;
+    --z-menu: 5;
+    --z-detail: 4;    
     --z-timemachine: 3;
     --z-toolbar: 3;
     --z-map_controls: 2;

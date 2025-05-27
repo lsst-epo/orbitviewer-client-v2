@@ -17,10 +17,14 @@
 
         @include media(medium) {
             bottom: var(--site-margin-large);
+        }
+    }
 
-            #button-fullscreen {
-                display: none;
-            }
+    &-fullscreen {
+        display: none;
+        
+        @include media(medium) {
+            display: flex;
         }
     }
 }

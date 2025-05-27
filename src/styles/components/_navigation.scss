@@ -1,11 +1,84 @@
+@use '../partials/mixins' as *;
+
 .navigation {
     position: absolute;
-    top: var(--site-margin-large);
-    right: var(--site-margin-large);
+    inset: 0 0 auto 0;
+    padding: var(--site-margin-small);
     z-index: var(--z-menu);
+    display: flex;
+    justify-content: flex-end;
+
+    &.has-gradient {
+        background: linear-gradient(180deg, rgba(var(--color-black-rgb), 1) 33%, rgba(var(--color-black-rgb), 0) 100%);
+    }
 
     &-buttons {
+        position: relative;
         display: flex;
         gap: 8px;
     }
+}
+
+.nav_dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin: 12px;
+    @include frozen_glass;
+    @include gradient_border;
+    border-radius: var(--corner-large);
+
+    &:not([aria-hidden=false]) {
+        display: none;
+    }
+
+    @include media(medium) {
+        width: initial;
+    }
+
+    &-content {
+        @include reset_list;
+    }
+
+        &-group {
+            padding: 8px;
+        }
+
+            &-label {
+                padding: 12px 8px;
+            }
+
+            &-list {
+                @include reset_list;
+            }
+
+                &-item {
+                    display: flex;
+                    align-items: center;
+                    padding: 12px;
+                    gap: 8px;
+                    color: var(--color-turquoise-100);
+
+                    .heading {
+                        flex: auto;
+                        display: flex;
+                        align-items: center;
+                        gap: 8px;
+                    }
+
+                        .label {
+                            @include ellipsis;
+                        }
+
+                        .value {
+                            color: var(--color-grey-300);
+                        }
+                    
+                    .icon {
+                        flex: 0 0 auto;
+                        width: 24px;
+                        height: 24px;
+                        fill: currentColor
+                    }
+                }
 }

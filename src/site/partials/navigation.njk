@@ -1,11 +1,63 @@
-<div class="navigation">
+{% from '../components/button.njk' import Button %}
+
+<nav class="navigation" aria-label="Main Navigation">
     <div class="navigation-buttons">
-        <button class="button_share">
-            {{ icon('share') }}
-            <span>Share</span>
-        </button>
-        <button class="button_icon secondary medium">
+        {{ Button('Share', 'button_share', 'share') }}
+
+        <button type="button" class="button_icon secondary medium"
+            aria-expanded="false"
+            aria-controls="navigation-dropdown"
+            aria-haspopup="true"
+        >
             {{ icon('menu') }}
         </button>
+
+        <div id="navigation-dropdown" class="nav_dropdown" aria-hidden="true">
+            <ul class="nav_dropdown-content" role="menu">
+                <li class="nav_dropdown-group" role="group">
+                    <h3 class="nav_dropdown-label">Settings</h3>
+                    <ul class="nav_dropdown-list">
+                        <li class="nav_dropdown-item" role="menuitem" aria-describedby="language-value">
+                            <div class="heading">
+                                {{ icon('language') }}
+                                <span class="label">Language</span>
+                            </div>
+                            <span class="value" id="language-value">English</span>
+                        </li>
+                        <li class="nav_dropdown-item" role="menuitem" aria-describedby="detail-value">
+                            <div class="heading">
+                                {{ icon('settings') }}
+                                <span class="label">Exploration mode</span>
+                            </div>
+                            <span class="value" id="detail-value">Medium</span>
+                        </li>
+                        <li class="nav_dropdown-item" role="menuitem">
+                            <div class="heading">
+                                {{ icon('fullscreen') }}
+                                <span class="label">Fullscreen</span>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav_dropdown-group" role="group">
+                    <h3 class="nav_dropdown-label">Help</h3>
+                    <ul class="nav_dropdown-list">
+                        <li class="nav_dropdown-item" role="menuitem">
+                            <div class="heading">
+                                {{ icon('how_it_works') }}
+                                <span class="label">How to use</span>
+                            </div>
+                        </li>
+                        <li class="nav_dropdown-item" role="menuitem">
+                            <div class="heading">
+                                {{ icon('info') }}
+                                <span class="label">About</span>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
     </div>
-</div>
+</nav>

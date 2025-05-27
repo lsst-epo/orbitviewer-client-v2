@@ -1,0 +1,9 @@
+{% from "../partials/icons.njk" import icon %}
+
+{% macro ButtonIcon(classes = '', uniqueIcon = '', type = 'button') %}
+<button type="{{ type }}" class="{% if classes %} {{ classes }}{% endif %}">
+    {% if uniqueIcon %}
+        {{ icon(uniqueIcon) }}
+    {% endif %}
+</button>
+{% endmacro %}

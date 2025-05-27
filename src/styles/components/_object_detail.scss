@@ -1,0 +1,69 @@
+@use '../partials/mixins' as *;
+
+.object_detail {
+    position: absolute;
+    inset: 0;
+    z-index: var(--z-detail);
+    overflow: auto;
+    display: grid;
+    grid-template-rows: minmax(50vh, 1fr) 1fr;
+    grid-template-columns: minmax(30vw, 1fr) 1fr;
+
+    &[aria-hidden=true] {
+        display: none;
+    }
+
+    &-frame {
+        grid-column: 1 / -1;
+        grid-row: 1 / 2;
+
+        @include media(medium) {
+            grid-column: 2/ -1;
+            grid-row: 1 / -1;
+        }
+    }
+
+    &-content {
+        position: relative;
+        grid-column: 1 / -1;
+        grid-row: 2 / -1;
+
+        @include media(medium) {
+            grid-column: 1 / 2;
+            grid-row: 1 / -1;
+        }
+    }
+
+        .object_card {
+            display: flex;
+            flex-direction: column;
+            min-height: 100%;    
+            border-radius: var(--corner-large) var(--corner-large) 0 0;
+            
+            @include frozen_glass;
+            @include gradient_border;
+
+            @include media(medium) {
+                --object-top-margin: calc(var(--site-margin-large) + 48px);
+                position: absolute;
+                inset: var(--object-top-margin) auto var(--site-margin-large) var(--site-margin-large);
+                width: 100%;
+                min-height: initial;
+                overflow: hidden;
+                border-radius: var(--corner-large);
+            }
+
+            &-head {
+                flex: 0 0 auto;
+            }
+
+            &-body {
+                flex: auto;
+                overflow: auto;
+            }
+
+                &-content {
+                    background: linear-gradient(180deg, green 0%, red 100%);
+                }
+        }
+}

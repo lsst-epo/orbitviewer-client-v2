@@ -1,0 +1,13 @@
+{% from "../partials/icons.njk" import icon %}
+
+{% macro Button(label = 'Label', classes = '', leadingIcon = '', trailingIcon = '', type = 'button') %}
+<button type="{{ type }}" class="{% if classes %} {{ classes }}{% endif %}">
+    {% if leadingIcon %}
+        {{ icon(leadingIcon) }}
+    {% endif %}
+    <span>{{ label }}</span>
+    {% if trailingIcon %}
+        {{ icon(trailingIcon) }}
+    {% endif %}
+</button>
+{% endmacro %}

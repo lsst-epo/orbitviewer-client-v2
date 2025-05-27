@@ -1,18 +1,10 @@
-{% from "../partials/icons.njk" import icon %}
+{% from "../components/buttonicon.njk" import ButtonIcon %}
 
 <div class="map_controls">
     <div class="map_controls-buttons">
-        <button class="map_controls-button button_icon secondary small">
-            {{ icon('center') }}
-        </button>
-        <button class="map_controls-button button_icon secondary small">
-            {{ icon('add') }}
-        </button>
-        <button class="map_controls-button button_icon secondary small">
-            {{ icon('substract') }}
-        </button>
-        <button id="button-fullscreen" class="map_controls-button button_icon secondary small">
-            {{ icon('fullscreen') }}
-        </button>
+        {{ ButtonIcon('map_controls-button button_icon secondary small', 'center') }}
+        {{ ButtonIcon('map_controls-button button_icon secondary small', 'add') }}
+        {{ ButtonIcon('map_controls-button button_icon secondary small', 'substract') }}
+        {{ ButtonIcon('map_controls-button map_controls-fullscreen button_icon secondary small', 'fullscreen') }}
     </div>
 </div>
