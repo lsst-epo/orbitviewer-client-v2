@@ -1,0 +1,21 @@
+{% macro RangeSlider(values = [], minmax = []) %}
+<div class="rangeslider">
+    <div class="rangeslider_input">
+        <div class="track">
+            <div class="range"></div>
+        </div>
+        <div class="rangeslider_input-thumb thumb_min">
+            <div class="value chip">{{ values[0] }}</div>
+        </div>
+        {% if values.length > 1 %}
+        <div class="rangeslider_input-thumb thumb_max">
+            <div class="value chip">{{ values[1] }}</div>
+        </div>
+        {% endif %}
+    </div>
+    <div class="rangeslider-labels">
+        <div class="min">{{ minmax[0] }}</div>
+        <div class="max">{{ minmax[1] }}</div>
+    </div>
+</div>
+{% endmacro %}

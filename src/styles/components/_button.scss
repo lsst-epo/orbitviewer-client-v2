@@ -13,14 +13,16 @@
     color: var(--color-turquoise-100);
     font-size: var(--font-size);
     font-weight: var(--font-semibold);
+    user-select: none;
 
 
     &.primary {
         background: var(--color-turquoise-600);
+        border: solid 1px var(--color-turquoise-600);
     }
 
     &.secondary {
-        
+        border: solid 1px rgba(var(--color-white-rgb), .2);
     }
 
     &.ghost {

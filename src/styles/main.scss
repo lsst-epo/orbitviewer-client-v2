@@ -8,8 +8,12 @@
 @use './components/debug/terminal';
 
 // Components
+@use './components/input';
 @use './components/button';
 @use './components/buttonicon';
+@use './components/chip';
+@use './components/togglegroup';
+@use './components/rangeslider';
 @use './components/layout';
 @use './components/body';
 @use './components/canvas';
@@ -19,6 +23,7 @@
 @use './components/map_controls';
 @use './components/object_detail';
 @use './components/filters';
+@use './components/search';
 
 @use './templates/home';
 

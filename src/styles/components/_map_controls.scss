@@ -14,7 +14,7 @@
     &-buttons {
         position: absolute;
         right: var(--site-margin-large);
-        bottom: calc(var(--site-margin-large) + var(--toolbar-height) + var(--timemachine-gap)*2 + var(--timemachine-height));
+        bottom: calc(var(--site-margin-large) + var(--toolbar-height) + var(--timemachine-gap)*3 + var(--timemachine-height));
         display: flex;
         flex-direction: column;
         gap: 8px;

@@ -1,3 +1,21 @@
+{% from '../components/rangeslider.njk' import RangeSlider %}
+{% from '../components/buttonicon.njk' import ButtonIcon %}
+
 <div class="timemachine" aria-hidden="false">
-    timemachine
+    <div class="timemachine-head">
+        <div class="timemachine_heading">
+            {{ ButtonIcon('button_icon ghost xsmall', 'play') }}
+            <div class="timemachine_heading-date">
+                <span class="date">MAR 05, 2027</span>
+                <span class="time">05:59:46PM</span>
+            </div>
+            <div class="chip">Live</div>
+        </div>
+        <div class="timemachine-toggle">
+            {{ ButtonIcon('button_icon ghost xsmall', 'chevron-right') }}
+        </div>
+    </div>
+    <div class="timemachine-body">
+        {{ RangeSlider([000]) }}
+    </div>
 </div>

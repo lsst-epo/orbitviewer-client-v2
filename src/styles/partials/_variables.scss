@@ -5,6 +5,7 @@
     --color-black: #000;
     --color-black-rgb: 0,0,0;
     --color-white: #fff;
+    --color-white-rgb: 255,255,255;
 
     --color-turquoise-100: #d9f7f6;
     --color-turquoise-200: #b1f2ef;
@@ -42,6 +43,7 @@
 
     // Layers
     --z-filters: 6;
+    --z-search: 6;
     --z-menu: 5;
     --z-home: 4;
     --z-detail: 4;    

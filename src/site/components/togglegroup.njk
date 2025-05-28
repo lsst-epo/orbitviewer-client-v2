@@ -1,0 +1,14 @@
+{% macro ToggleGroup(classes = '', name = '', options = [], aria_label = '') %}
+<div class="togglegroup {% if classes %} {{ classes }}{% endif %}" role="radiogroup" {% if aria_label %}aria-label="{{ aria_label }}"{% endif %}>
+    <ul class="togglegroup-list">
+        {% for option in options %}
+        <li class="togglegroup-item">
+            <label for="{{ name }}-{{ loop.index }}">
+                <input type="radio" id="{{ name }}-{{ loop.index }}" name="{{ name }}" value="{{ option }}">
+                <span>{{ option }}</span>
+            </label>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endmacro %}

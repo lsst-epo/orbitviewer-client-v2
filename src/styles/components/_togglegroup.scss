@@ -1,0 +1,46 @@
+@use '../partials/mixins' as *;
+
+.togglegroup {
+    --height: 32px; 
+    
+    background: var(--color-grey-700);
+    border-radius: var(--height);
+    font-size: 14px;
+
+
+    &.large {
+        --height: 40px;
+    }
+
+    &-list {
+        @include reset_list;
+        display: flex;
+    }
+
+        &-item {
+            flex: auto;
+
+            label {
+                display: block;
+                
+                span {
+                    display: block;
+                    line-height: var(--height);
+                    border-radius: var(--height);
+                    text-align: center;
+                    color: var(--color-turquoise-400);
+                    font-weight: var(--font-semibold);
+                    user-select: none;
+                }
+
+                input {
+                    @include hidden;
+
+                    &:checked + span {
+                        background: var(--color-turquoise-700);
+                        color: var(--color-turquoise-200);
+                    }
+                }
+            }
+        }
+}

@@ -1,6 +1,7 @@
 @use '../partials/mixins' as *;
 
 .timemachine {
+    --timemachine-head-height: 48px;
     --timemachine-gap: 12px;
     
     position: absolute;
@@ -10,8 +11,6 @@
     z-index: var(--z-timemachine);
     min-height: var(--timemachine-height);
     border-radius: var(--corner-large);
-
-    @include arealabel;
 
     @include frozen_glass;
     @include gradient_border;
@@ -24,5 +23,38 @@
 
     &[aria-hidden=true] {
         display: none;
+    }
+
+    &-head {
+        display: flex;
+        height: var(--timemachine-head-height);
+        align-items: center;
+        overflow: auto;
+    }
+
+        &_heading {
+            flex: auto;
+            display: flex;
+            flex-wrap: nowrap;
+            align-items: center;
+            gap: 8px;
+            padding: 0 8px;
+
+            &-date {
+                flex: auto;
+                display: flex;
+                @include ellipsis;
+                gap: 8px;
+                text-transform: uppercase;
+                color: var(--color-button-text);
+            }
+        }
+
+        &-toggle {
+            padding: 0 8px;
+        }
+
+    &-body {
+        padding: 8px 16px;
     }
 }

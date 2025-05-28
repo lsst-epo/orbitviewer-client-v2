@@ -58,8 +58,28 @@
 
                 }
 
-                    &-field {
+                    &_field {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 16px;
+                        padding: 24px 0;
 
+                        &-label {
+                            display: flex;
+                            gap: 8px;
+                            
+                            .label {
+                                flex: auto;
+                            }
+
+                            .helper {
+
+                            }
+                        }
+
+                        &-input {
+                            
+                        }
                     }
         }
 }
