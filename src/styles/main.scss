@@ -2,6 +2,7 @@
 @use './partials/reset';
 @use './partials/variables';
 @use './partials/fonts';
+@use './partials/typography';
 
 // Debug
 @use './components/debug/terminal';
@@ -19,5 +20,6 @@
 @use './components/object_detail';
 @use './components/filters';
 
+@use './templates/home';
 
 

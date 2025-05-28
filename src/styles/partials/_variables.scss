@@ -43,6 +43,7 @@
     // Layers
     --z-filters: 6;
     --z-menu: 5;
+    --z-home: 4;
     --z-detail: 4;    
     --z-timemachine: 3;
     --z-toolbar: 3;
@@ -54,6 +55,7 @@
     --site-margin-large: 16px;
 
     // Sizing
+    --header-height: 68px;
     --timemachine-height: 113px;
     --toolbar-height: 64px;
     --toolbar-width: 104px;
@@ -75,5 +77,7 @@
     :root {
         --site-margin-small: 24px;
         --site-margin-large: 32px;
+
+        --header-height: 80px;
     }
 }

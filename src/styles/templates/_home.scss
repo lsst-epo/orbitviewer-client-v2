@@ -1,0 +1,90 @@
+@use '../partials/mixins' as *;
+
+.home {
+    position: absolute;
+    inset: 0;
+    z-index: var(--z-detail);
+    background: rgba(0,0,0,.8);
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: 1fr auto;
+    gap: 24px;
+    padding: calc(var(--header-height) + 16px) var(--site-margin-large) var(--site-margin-large);
+
+    @include media(medium) {
+        grid-template-columns: repeat(12,1fr);
+    }
+
+    &[aria-hidden=true] {
+        display: none;
+    }
+
+    &-body {
+        grid-row: 1/2;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        gap: 24px;
+
+        @include media(medium) {
+            grid-column: 4/10;
+        }
+    }
+
+        &-triad {
+            padding-top: 32px;
+            
+            img {
+                display: block;
+                width: 100%;
+                max-width: 256px;
+            }
+        }
+
+        &-heading {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: center;
+            text-align: center;
+
+            @include media(medium) {
+                gap: 24px;
+            }
+        }
+
+        &-action {
+            .button {
+                min-width: 128px;
+            }
+        }
+
+        &-count {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-bottom: 32px;
+            text-align: center;
+        }
+
+    &_foot {
+        grid-row: 2/-1;        
+        display: flex;
+        justify-content: center;
+
+        @include media(medium) {
+            grid-column: span 12;
+            justify-content: flex-end;
+        }
+        
+        &-list {
+            @include reset_list;
+            display: flex;
+        }
+
+            &-item {
+
+            }
+    }
+}

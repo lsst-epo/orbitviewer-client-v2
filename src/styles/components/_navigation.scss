@@ -3,7 +3,8 @@
 .navigation {
     position: absolute;
     inset: 0 0 auto 0;
-    padding: var(--site-margin-small);
+    height: var(--header-height);
+    padding: var(--site-margin-small) var(--site-margin-small) 8px;
     z-index: var(--z-menu);
     display: flex;
     justify-content: flex-end;
@@ -13,7 +14,6 @@
     }
 
     &-buttons {
-        position: relative;
         display: flex;
         gap: 8px;
     }
@@ -23,17 +23,16 @@
     position: absolute;
     top: 100%;
     right: 0;
-    margin: 12px;
+    width: calc(100% - 12*2px);
+    max-width: 320px;
+    margin: 0 12px;
     @include frozen_glass;
     @include gradient_border;
     border-radius: var(--corner-large);
+    overflow: auto;
 
-    &:not([aria-hidden=false]) {
+    &[aria-hidden=true] {
         display: none;
-    }
-
-    @include media(medium) {
-        width: initial;
     }
 
     &-content {

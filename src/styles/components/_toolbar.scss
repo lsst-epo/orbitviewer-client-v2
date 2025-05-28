@@ -21,6 +21,10 @@
         height: auto;
     }
 
+    &[aria-hidden=true] {
+        display: none;
+    }
+
     &-head {
         display: none;
 

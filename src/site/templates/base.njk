@@ -10,14 +10,18 @@
         <div class="view"></div>
 
         {{ content | safe }}
+        {% include 'home.njk' %}
+        {% include 'object_detail.njk' %}
 
         {% include 'navigation.njk' %}
+
+        
         {% include 'toolbar.njk' %}        
+        {% include 'filters.njk' %}
+        
         {% include 'timemachine.njk' %}
         {% include 'mapcontrols.njk' %}
         
-        {% include 'filters.njk' %}
-        {% include 'object_detail.njk' %}
 
         <script defer type="module">
             const src = "./bundle/main.js";

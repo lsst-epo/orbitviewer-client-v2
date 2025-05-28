@@ -6,6 +6,10 @@
     position: absolute;
     inset: 0;
     z-index: var(--z-map_controls);
+
+    &[aria-hidden=true] {
+        display: none;
+    }
     
     &-buttons {
         position: absolute;
