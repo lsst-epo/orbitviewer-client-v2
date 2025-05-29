@@ -1,15 +1,16 @@
 import { ThreeDOMLayer, ThreeLayer } from "@fils/gl-dom";
 import { AmbientLight, Fog, PerspectiveCamera, PointLight, PointLightHelper, WebGLRenderTarget } from "three";
-import { SolarParticles } from "./solar/SolarParticles";
 import { OrbitElements } from "../core/solar/SolarSystem";
+import { SolarParticles } from "./solar/SolarParticles";
 
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-import { mapOrbitElements, OrbitDataElements } from "../core/solar/SolarUtils";
-import { JD2MJD } from "../core/solar/SolarTime";
-import { Planet } from "./solar/Planet";
-import { PlanetId } from "../core/solar/Planet";
-import { SolarElement } from "./solar/SolarElement";
 import gsap from "gsap";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import { PlanetId } from "../core/solar/Planet";
+import { JD2MJD } from "../core/solar/SolarTime";
+import { mapOrbitElements, OrbitDataElements } from "../core/solar/SolarUtils";
+import { RubinRenderer } from "./core/RubinRenderer";
+import { Planet } from "./solar/Planet";
+import { SolarElement } from "./solar/SolarElement";
 
 export interface FollowTarget {
 	target: SolarElement;
@@ -17,9 +18,9 @@ export interface FollowTarget {
 }
 
 export class OrbitViewer extends ThreeLayer {
-    camera:PerspectiveCamera;
-    particles:SolarParticles;
-    controls:OrbitControls;
+  camera:PerspectiveCamera;
+  particles:SolarParticles;
+  controls:OrbitControls;
 
 	ambientLight: AmbientLight;
 	sunLight: PointLight;
@@ -32,52 +33,57 @@ export class OrbitViewer extends ThreeLayer {
 		alpha: .016
 	};
 
+	vfx:RubinRenderer;
+	useVFX:boolean = true;
+
     constructor(_gl:ThreeDOMLayer) {
-        super(_gl);
-        const w = this.gl.rect.width;
-        const h = this.gl.rect.height;
-        this.camera = new PerspectiveCamera(35, w/h, .01, 100000);
-        this.scene.add(this.camera);
-        this.params.camera = this.camera;
+      super(_gl);
+      const w = this.gl.rect.width;
+      const h = this.gl.rect.height;
+      this.camera = new PerspectiveCamera(35, w/h, .01, 100000);
+      this.scene.add(this.camera);
+      this.params.camera = this.camera;
 
-        this.camera.position.y = 5000;
-        this.camera.position.z = 10000;
-        this.controls = new OrbitControls(this.camera, _gl.dom);
-		this.controls.enableDamping = true;
-		this.controls.dampingFactor = .096;
-		// console.log(this.controls.minDistance, this.controls.maxDistance)
-		// this.controls.autoRotate = true;
-		// this.controls.autoRotateSpeed = .25;
+      this.camera.position.y = 5000;
+      this.camera.position.z = 10000;
+      this.controls = new OrbitControls(this.camera, _gl.dom);
+			this.controls.enableDamping = true;
+			this.controls.dampingFactor = .096;
+			// console.log(this.controls.minDistance, this.controls.maxDistance)
+			// this.controls.autoRotate = true;
+			// this.controls.autoRotateSpeed = .25;
 
-        this.particles = new SolarParticles();
-        this.particles.init(_gl.renderer);
+			this.vfx = new RubinRenderer(_gl.renderer);
 
-        this.scene.add(this.particles.points);
-        this.scene.add(this.particles.mesh);
-		// this.particles.mesh.visible = false;
+      this.particles = new SolarParticles();
+      this.particles.init(_gl.renderer);
 
-        this.sunLight = new PointLight(0xffffff, 1, 0, 0);
-        this.scene.add(this.sunLight);
-        this.sunLightHelper = new PointLightHelper(this.sunLight, 100);
-        // this.sunLightHelper.visible = false;
-        // this.scene.add(this.sunLightHelper);
+      this.scene.add(this.particles.points);
+      this.scene.add(this.particles.mesh);
+			// this.particles.mesh.visible = false;
 
-        this.ambientLight = new AmbientLight(0xffffff, 0.15);
-        this.scene.add(this.ambientLight);
+      this.sunLight = new PointLight(0xffffff, 1, 0, 0);
+      this.scene.add(this.sunLight);
+      this.sunLightHelper = new PointLightHelper(this.sunLight, 100);
+      // this.sunLightHelper.visible = false;
+      // this.scene.add(this.sunLightHelper);
 
-		const fog = new Fog(0x000000, 5000, 25000);
-		this.scene.fog = fog;
+      this.ambientLight = new AmbientLight(0xffffff, 0.15);
+      this.scene.add(this.ambientLight);
+
+			const fog = new Fog(0x000000, 5000, 25000);
+			this.scene.fog = fog;
     }
 
     hidePaths() {
     	for (const item of this.solarElements) {
-			item.orbitPath.ellipse.visible = false;
+				item.orbitPath.ellipse.visible = false;
      	}
     }
 
     showPaths() {
     	for (const item of this.solarElements) {
-			item.orbitPath.ellipse.visible = true;
+				item.orbitPath.ellipse.visible = true;
      	}
     }
 
@@ -191,4 +197,9 @@ export class OrbitViewer extends ThreeLayer {
         this.controls.update();
         this.particles.update(d, this.camera);
     }
+
+		render(): void {
+			if(this.useVFX) this.vfx.render(this.scene, this.camera);
+			else super.render();
+		}
 }

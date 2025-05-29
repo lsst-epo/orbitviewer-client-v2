@@ -7,6 +7,7 @@ import vertexShader from '../../../glsl/lib/earth_clouds.vert';
 import fragmentShader from '../../../glsl/lib/earth_clouds.frag';
 import { RTUtils } from "@fils/gfx";
 import { GLOBALS } from "../../core/Globals";
+import { tLoader } from "../solar/PlanetAssets";
 
 const MAT = new ShaderMaterial({
   vertexShader,
@@ -14,6 +15,9 @@ const MAT = new ShaderMaterial({
   uniforms: {
     time: {
       value: 0
+    },
+    map: {
+      value: tLoader.load(`/assets/textures/earth_clouds.webp`)
     }
   }
 })

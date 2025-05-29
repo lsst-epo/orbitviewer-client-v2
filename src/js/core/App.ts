@@ -40,6 +40,7 @@ export class App {
 			alpha: true
 		});
 		this.gl.renderer.setClearColor(0x000000, 1);
+		this.gl.renderer.setPixelRatio(devicePixelRatio || 1);
 		this.viewer = new OrbitViewer(this.gl);
 		
 		GLOBALS.clouds = new EarthClouds();
@@ -76,20 +77,20 @@ export class App {
 		GLOBALS.solarClock = solarClock;
 
 		// this.addGUI();
-        this.terminal.log(`Loading core data...`);
-        const t = Date.now();
-        LoadManager.loadCore(() => {
-            LoadManager.loadSample(VISUAL_SETTINGS.current, json => {
-                this.logItems(json.length, (Date.now() - t) / 1000);
-                // console.log(json);
-                const data = getSimData(json);
-                this.viewer.setData(data);
+    this.terminal.log(`Loading core data...`);
+    const t = Date.now();
+    LoadManager.loadCore(() => {
+    	LoadManager.loadSample(VISUAL_SETTINGS.current, json => {
+    	  this.logItems(json.length, (Date.now() - t) / 1000);
+    	  // console.log(json);
+    	  const data = getSimData(json);
+    	  this.viewer.setData(data);
 				this.viewer.createPlanets(LoadManager.data.planets);
-                this.addGUI();
-                console.log(LoadManager.data);
-            });
-            // this.addGUI();
-        })
+				this.viewer.hidePaths();
+        this.addGUI();
+        console.log(LoadManager.data);
+      });
+    })
 	}
 
 	logItems (nItems:number, time:number) {
@@ -389,9 +390,11 @@ export class App {
 			// folded: true
 		})
 
+		g3.add(this.viewer, 'useVFX');
+
 		const planetView = {
-			selected: 'none',
-			paths: true
+			selected: 'earth',
+			paths: false
 		}
 
 		g3.add(planetView, 'paths').on('change', () => {
@@ -402,14 +405,16 @@ export class App {
 		const plOpts = {
 			'none': 'none',
 			'mercury': 'mercury',
-    		'venus': 'venus',
-      		'earth': 'earth',
-      		'mars': 'mars',
-      		'jupiter': 'jupiter',
-      		'saturn': 'saturn',
-      		'uranus': 'uranus',
-      		'neptune': 'neptune'
+    	'venus': 'venus',
+      'earth': 'earth',
+      'mars': 'mars',
+      'jupiter': 'jupiter',
+      'saturn': 'saturn',
+      'uranus': 'uranus',
+      'neptune': 'neptune'
 		};
+
+		this.viewer.followPlanet(planetView.selected as PlanetId);
 
 		g3.add(planetView, 'selected', {
 			options: plOpts,
@@ -433,8 +438,8 @@ export class App {
 	}
 
 	clockChanged():boolean {
-        return (CLOCK_SETTINGS.speed !== solarClock.secsPerHour);
-    }
+    return (CLOCK_SETTINGS.speed !== solarClock.secsPerHour);
+  }
 
 	update() {
 		this.clock.tick();

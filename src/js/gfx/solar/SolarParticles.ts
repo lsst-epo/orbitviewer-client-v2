@@ -152,7 +152,7 @@ export class SolarParticles {
         this.mesh = new InstancedMesh(I_GEO, MAT2, count);
 		this.mesh.frustumCulled = false;
 
-        const col = new Color(0x999999);
+        const col = new Color(0x999999).convertSRGBToLinear();
 
         for(let i=0; i<count; i++) {
             this.mesh.setColorAt(i, col);

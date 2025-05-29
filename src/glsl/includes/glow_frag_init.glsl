@@ -1,0 +1,1 @@
+oGlow = glowBlack;

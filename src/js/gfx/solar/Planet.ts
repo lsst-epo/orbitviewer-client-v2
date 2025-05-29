@@ -10,7 +10,7 @@ import { PlanetTextureMap } from "./PlanetAssets";
 import { PlanetMaterial, PlanetMaterialParameters } from "../planets/PlanetMaterial";
 import { GLOBALS } from "../../core/Globals";
 
-export const PLANET_GEO = new SphereGeometry(1, 32, 32);
+export const PLANET_GEO = new SphereGeometry(1, 64, 32);
 const tLoader = new TextureLoader();
 
 export type PlanetId = 'mercury'|'venus'|'earth'|'mars'|'jupiter'|'saturn'|'uranus'|'neptune';
