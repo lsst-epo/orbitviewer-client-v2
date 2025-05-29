@@ -21,9 +21,9 @@ vec3 toPolar(in vec2 uv) {
 
 void main () {
   vec3 p = toPolar(vUv);
-  float n = fbm(vec4(p, time * .01), 6);
+  float n = fbm(vec4(p*vec3(2.0, 1.56, 4.0), time * .01), 6);
 
-  n = smoothstep(-.5, 1., n);
+  n = smoothstep(-.16, 1., n);
 
   gl_FragColor = vec4(vec3(n), 1.0);
 }
