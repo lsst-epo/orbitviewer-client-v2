@@ -7,6 +7,8 @@ import { SolarElement, SolarElementOptions } from "./SolarElement";
 import { cloneOrbitElements, DEG_TO_RAD, KM2AU, OrbitElements } from "../../core/solar/SolarSystem";
 import { PLANET_SCALE, PlanetCameraLock } from "../../core/solar/Planet";
 import { PlanetTextureMap } from "./PlanetAssets";
+import { PlanetMaterial, PlanetMaterialParameters } from "../planets/PlanetMaterial";
+import { GLOBALS } from "../../core/Globals";
 
 export const PLANET_GEO = new SphereGeometry(1, 32, 32);
 const tLoader = new TextureLoader();
@@ -21,7 +23,7 @@ const gltfLoader = new GLTFLoader();
 
 
 export class Planet extends SolarElement {
-    // material: PlanetMaterial;
+    material: PlanetMaterial;
 	mesh: Mesh;
 
     rotationSpeed:number;
@@ -30,12 +32,9 @@ export class Planet extends SolarElement {
 	constructor(id: PlanetId, _data: OrbitElements, opts: SolarElementOptions = {}) {
 		super(id, _data, opts);
 
-		this.mesh = new Mesh(PLANET_GEO, new MeshStandardMaterial({
-			color: 0xffffff,
-			roughness: 1,
-			metalness: 0,
-			map: PlanetTextureMap[id].map
-		}));
+        this.initMaterial(opts);
+
+		this.mesh = new Mesh(PLANET_GEO, this.material);
 
 		this.parent.add(this.mesh);
 
@@ -74,32 +73,34 @@ export class Planet extends SolarElement {
 
     }
 
-    // initMaterial(opts?: SolarElementOptions): PlanetMaterial {
+    initMaterial(opts?: SolarElementOptions): PlanetMaterial {
+        const s = PlanetShaderSettings[this.type];
 
-    //     opts.mapURL = `/assets/textures/2k_${this.type}.jpg`;
+        const opts2:PlanetMaterialParameters = {
+            // fresnelColor: s.fresnelColor,
+            // fresnelWidth: s.fresnelWidth,
+            // sunIntensity: s.sunIntensity
+        };
 
-    //     const s = PlanetShaderSettings[this.type];
+        if(this.type === 'earth') {
+            opts2.nightMap = tLoader.load(`/assets/textures/${this.type}_night.webp`);
+            // opts2.cloudsMap = tLoader.load(`/assets/textures/${this.type}_clouds.webp`);
+            opts2.cloudsMap = GLOBALS.clouds.texture;
+        }
 
-    //     const opts2:PlanetMaterialParameters = {
-    //         fresnelColor: s.fresnelColor,
-    //         fresnelWidth: s.fresnelWidth,
-    //         sunIntensity: s.sunIntensity
-    //     };
+        this.material = new PlanetMaterial({
+            color: opts.color ? opts.color : 0xffffff,
+            roughness: 1,
+			metalness: 0,
+            map: PlanetTextureMap[this.type].map
+        }, opts2, this.type === "earth");
 
-    //     if(this.type === 'earth') {
-    //         const loader = new TextureLoader();
-    //         opts2.nightMap = loader.load(`/assets/textures/2k_${this.type}_nightmap.jpg`)
-    //         opts2.cloudsMap = loader.load(`/assets/textures/2k_${this.type}_clouds.jpg`)
-    //     }
+        if(this.type === 'earth') {
+            this.material.normalMap = tLoader.load(`/assets/textures/${this.type}_normal.webp`);
+        }
 
-    //     this.material = new PlanetMaterial({
-    //         color: opts.color ? opts.color : 0xffffff,
-    //         shininess: 0,
-    //         map: opts.mapURL ? tLoader.load(opts.mapURL) : null
-    //     }, opts2, this.type === "earth");
-
-    //     return this.material;
-    // }
+        return this.material;
+    }
 
     // get lockedDistance():number {
     //     const lock = isPortrait() ? PlanetLockedMapPortrait[this.type] : PlanetLockedMap[this.type];
@@ -115,7 +116,7 @@ export class Planet extends SolarElement {
         super.update(d);
         const rt = PlanetRotationMap[this.type] as PlanetRotationData;
         this.mesh.rotation.y = rt.meridian * DEG_TO_RAD + d * this.rotationSpeed;
-        // this.material.update();
+        this.material.update();
     }
 
 }

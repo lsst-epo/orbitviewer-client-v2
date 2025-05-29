@@ -6,7 +6,7 @@ import { Terminal } from "../debug/Terminal";
 import { OrbitViewer } from "../gfx/OrbitViewer";
 import { initShaders } from "../gfx/Shaders";
 import { fetchSolarElements, getSolarSystemElements } from "./data/QueryManager";
-import { CLOCK_SETTINGS, GPU_SIM_SIZES, VISUAL_SETTINGS } from "./Globals";
+import { CLOCK_SETTINGS, GLOBALS, GPU_SIM_SIZES, VISUAL_SETTINGS } from "./Globals";
 import { SolarClock } from "./solar/SolarClock";
 import { getSimData } from "./solar/SolarData";
 import { getSolarStaticData, SolarItems } from "./Utils";
@@ -17,6 +17,7 @@ import { LoadManager } from "./data/LoadManager";
 import { SearchEngine } from "./data/SearchEngine";
 import { PlanetId } from "../gfx/solar/Planet";
 import { getAbout, getCategories, getCustomizedOrbits, getGlobals, getGuidedExperiences, getGuidedExperiencesTours, getLanding, getOrbitViewer, getSolarItemsInfo } from "./data/CraftManager";
+import { EarthClouds } from "../gfx/planets/EarthClouds";
 
 export const solarClock = new SolarClock(new Clock());
 
@@ -40,6 +41,8 @@ export class App {
 		});
 		this.gl.renderer.setClearColor(0x000000, 1);
 		this.viewer = new OrbitViewer(this.gl);
+		
+		GLOBALS.clouds = new EarthClouds();
 
 		// this.profiler = new PerformanceProfiler(this.viewer);
 
@@ -67,8 +70,10 @@ export class App {
 		requestAnimationFrame(animate);
 
 		this.clock = new Timer(true);
-
 		solarClock.start();
+
+		GLOBALS.clock = this.clock;
+		GLOBALS.solarClock = solarClock;
 
 		// this.addGUI();
         this.terminal.log(`Loading core data...`);
@@ -437,6 +442,8 @@ export class App {
 
 		if(this.clockChanged()) solarClock.secsPerHour = CLOCK_SETTINGS.speed;
 		const d = solarClock.update();
+
+		GLOBALS.clouds.render(this.gl.renderer);
 
 		this.viewer.update(t, d);
 		this.viewer.render();

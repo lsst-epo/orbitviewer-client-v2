@@ -50,7 +50,7 @@ export async function getCategories() {
   categories(group: "objectTypes", siteId: "1") {
     ... on objectTypes_Category {
       title
-      slug
+      objectTypeCode
       mainColor
     }
   }

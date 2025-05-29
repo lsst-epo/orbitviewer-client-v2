@@ -1,7 +1,7 @@
 import { Texture, TextureLoader } from "three"
 import { PlanetId } from "../../core/solar/Planet"
 
-const tLoader = new TextureLoader();
+export const tLoader = new TextureLoader();
 
 export const PlanetTextureMap:Record<PlanetId, Record<string, Texture>> = {
 	earth: {},

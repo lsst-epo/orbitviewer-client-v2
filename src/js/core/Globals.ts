@@ -1,5 +1,9 @@
+import { Timer } from "@fils/ani";
 import { Size } from "@fils/gfx";
 import { isMobile } from "@fils/utils";
+import { SolarClock } from "./solar/SolarClock";
+import { WebGLRenderer } from "three";
+import { EarthClouds } from "../gfx/planets/EarthClouds";
 
 /**
  * DEV_MODE is injected by esbuild
@@ -69,4 +73,16 @@ export const VISUAL_SETTINGS = {
 	ultra: getParticleCount(GPU_SIM_SIZES.ultra),
 	ultra2: getParticleCount(GPU_SIM_SIZES.ultra2),
 	ultra3: getParticleCount(GPU_SIM_SIZES.ultra3)
+}
+
+export interface Globals {
+	clock:Timer;
+	solarClock:SolarClock;
+	clouds:EarthClouds;
+}
+
+export const GLOBALS:Globals = {
+	clock: null,
+	solarClock: null,
+	clouds: null
 }
