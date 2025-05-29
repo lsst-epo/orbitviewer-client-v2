@@ -11,7 +11,7 @@
 	#endif
 
   #ifdef EARTH
-    vec4 nightColor = texture2D( nightMap, vMapUv );
+    vec4 nightColor = texture2D( nightMap, vMapUv ) * 1.9;
     vec2 cUV = vMapUv;
     cUV.x = mod(cUV.x + time *.01, 1.0);
     // cUV.y = mod(cUV.y + time *.001, 1.0);
@@ -20,7 +20,7 @@
     // vec3 ee = normalize(cameraPosition);
     float eIntensity = min(max(dot(vNormalW,eL), 0.0), 1.0);
     sampledDiffuseColor = mix(nightColor, sampledDiffuseColor, eIntensity);
-    sampledDiffuseColor += cloudsColor * .23;
+    sampledDiffuseColor += cloudsColor * .53;
   #endif
 
 	diffuseColor *= sampledDiffuseColor;
