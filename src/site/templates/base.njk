@@ -10,9 +10,14 @@
         <div class="view"></div>
 
         {{ content | safe }}
+
         {% include 'home.njk' %}
         {% include 'object_detail.njk' %}
         {% include 'onboarding.njk' %}
+
+        {% include 'objects.njk' %}
+
+        {% include 'wizard.njk' %}
 
         {% include 'navigation.njk' %}
 

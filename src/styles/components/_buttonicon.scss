@@ -26,8 +26,10 @@
 
     &.secondary {
         --bg: var(--color-grey-700);
-        --border: var(--color-grey-600);
+        --border: var(--color-grey-700);
         --text: var(--color-button-text);
+
+        position: relative;
     }
 
     &.xsmall {

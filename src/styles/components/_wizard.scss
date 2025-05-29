@@ -1,0 +1,95 @@
+@use '../partials/mixins' as *;
+
+.wizard {
+    --wizard-x: 24px;
+    --wizard-y: 24px;
+    --wizard-width: 104px;
+    --wizard-height: 267px;
+    --wizard-corner: var(--corner-large);
+
+    position: absolute;
+    inset: 0;
+    z-index: var(--z-wizard);
+    pointer-events: none;
+
+    &[aria-hidden=true] {
+        display: none;
+    }
+
+    &-mask {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        overflow: auto;
+        background: var(--color-backdrop);
+        mask: 
+        radial-gradient(var(--wizard-corner) at var(--wizard-corner) var(--wizard-corner), transparent var(--wizard-corner), white var(--wizard-corner)) 
+        var(--wizard-x) var(--wizard-y) / var(--wizard-width) var(--wizard-height) 
+        no-repeat,
+        linear-gradient(black, black);
+        mask-composite: subtract;
+        -webkit-mask-composite: xor;
+    }
+
+    &-focus {
+        position: absolute;
+        inset: var(--wizard-y) 0 0 var(--wizard-x);
+        z-index: 2;
+        width: var(--wizard-width);
+        height: var(--wizard-height);
+        border: solid 2px var(--color-turquoise-400);
+        border-radius: var(--wizard-corner);
+    }
+
+    &_tooltip {
+        position: absolute;
+        left: 140px;
+        top: 111px;
+        z-index: 3;
+        width: 384px;
+        border-radius: var(--corner-medium);
+        pointer-events: all;
+        
+        @include frozen_glass;
+        @include gradient_border;
+
+        padding: 12px;
+
+        &-body {
+            .heading {
+                display: flex;
+                padding: 8px;
+                gap: 8px;
+
+                .title {
+                    flex: auto;
+                    text-transform: uppercase;
+                    color: var(--color-turquoise-300);
+                    letter-spacing: .05em;
+                }
+
+                .steps {
+                    color: var(--color-grey-100);
+                }
+            }
+            
+            .description {
+                padding: 8px;
+                color: var(--color-grey-100);
+            }
+        }
+
+        &-foot {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 12px;
+            gap: 12px;
+
+            .button_group {
+                display: flex;
+                gap: 8px;
+            }
+
+        }
+    }
+}

@@ -2,6 +2,7 @@
     --height: 40px;
     --padding: 8px;
     --font-size: 16px;
+    --icon: 16px;
     
     display: flex;
     align-items: center;
@@ -15,6 +16,12 @@
     font-weight: var(--font-semibold);
     user-select: none;
 
+    .icon {
+        width: var(--icon);
+        height: var(--icon);
+        fill: currentColor;
+    }
+
 
     &.primary {
         background: var(--color-turquoise-600);
@@ -25,14 +32,13 @@
         border: solid 1px rgba(var(--color-white-rgb), .2);
     }
 
-    &.ghost {
-
-    }
+    &.ghost {}
 
     &.medium {
         --height: 48px;
         --padding: 12px;
         --font-size: 20px;
+        --icon: 24px;
     }
 }
 

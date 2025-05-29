@@ -1,9 +1,9 @@
 @use '../partials/mixins' as *;
 
-.onboarding {
+.objects {
     position: absolute;
     inset: 0;
-    z-index: var(--z-onboarding);
+    z-index: var(--z-objects);
     overflow: auto;
     background: var(--color-backdrop);
     backdrop-filter: blur(8px);
@@ -27,60 +27,63 @@
         text-align: center;
     }
 
-    &-info {
-        padding: 0 var(--site-margin-large);
-        text-align: center;
+    &-mask {
+        width: 100%;
+        overflow: auto;
+     
+        &::-webkit-scrollbar {
+            display: none;
+        }      
     }
-}
 
-.exploration {
-    width: 100%;
-    overflow: auto;
-
-    &::-webkit-scrollbar {
-        display: none;
-    }
-    
     &-list {
         @include reset_list;
         min-width: 100%;
         display: flex;
         gap: 12px;
         padding: 0 var(--site-margin-large);
-
-        @include media(medium) {
-            justify-content: center;
-        }
     }
 
         &-item {
-            width: 256px;
+            width: 30vw;
+            min-width: 280px;
             flex-shrink: 0;
-            min-height: 40vh;
+            min-height: 50vh;
         }
 
             &_card {
                 display: flex;
                 flex-direction: column;
                 height: 100%;
-                gap: 24px;
+                border-radius: var(--corner-medium);
                 @include frozen_glass;
                 @include gradient_border;
-                border-radius: var(--corner-medium);
-                padding: 24px;
+                padding: 4px;
+
+                &-head {
+                    img {
+                        width: 100%;
+                        aspect-ratio: 16/9;
+                        object-fit: cover;
+                        border-radius: var(--corner-medium);
+                    }
+                }
+                
 
                 &-body {
                     flex: auto;
-                    display: flex;
-                    flex-direction: column;
-                    gap: 16px;
-                }
+                    padding: 20px 16px;
 
-                &-foot {
-                    flex: 0 0 auto;
-                    
-                    .button {
-                        width: 100%;
+                    .name {
+                        color: var(--color-grey-100);
+                    }
+
+                    .description {
+                        color: var(--color-grey-100);
+                    }
+
+                    .count {
+                        color: var(--color-grey-100);
                     }
                 }
             }

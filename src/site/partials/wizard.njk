@@ -1,0 +1,22 @@
+{% from '../components/button.njk' import Button %}
+
+<section class="wizard" aria-hidden="true">
+    <div class="wizard-mask"></div>
+    <div class="wizard-focus"></div>
+    <div class="wizard_tooltip">
+        <div class="wizard_tooltip-body">
+            <div class="heading">
+                <h3 class="title">Onboarding wizard</h3>
+                <p class="steps">1/4</p>
+            </div>
+            <p class="description">Lorem ipsum dolor sit amet consectetur. Amet urna sit blandit vel. Aliquam nec sed leo ullamcorper commodo vulputate praesent vitae vel.</p>
+        </div>
+        <div class="wizard_tooltip-foot">
+            {{ Button('Skip', 'button secondary small') }}
+            <div class="button_group">
+                {{ Button('Previous', 'button ghost small', 'chevron-left') }}
+                {{ Button('Previous', 'button primary small', '', 'chevron-right') }}
+            </div>
+        </div>
+    </div>
+</section>
