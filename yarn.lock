@@ -273,6 +273,11 @@
   resolved "https://registry.yarnpkg.com/@fils/color/-/color-0.0.9.tgz#76c9dffe225b9bb0920e4d4a0c49af9d6a630620"
   integrity sha512-ftTOXTO27W7QSdZYLx7ywFKaoaY0xuvUxDhxoc77u/KhIEnU+PlO1Lv/JYdRZbh3kC37X5u0gjUS1B62RSZHOg==
 
+"@fils/gfx@0.1.4":
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/@fils/gfx/-/gfx-0.1.4.tgz#a39372e3129133162194a3d452a613092c403c39"
+  integrity sha512-ItglwpI+Z7hTxWDWoVd5+IzmJoMTMbjM8pPn2x9IwMo8IhiCbpXDbrx9yCq2ZGDIfQBPU2X+Dw/JBVrGCUJbiA==
+
 "@fils/gfx@^0.1.6":
   version "0.1.6"
   resolved "https://registry.yarnpkg.com/@fils/gfx/-/gfx-0.1.6.tgz#41628846f2296cc8505ee426a1ec742c5875bca7"
@@ -283,10 +288,22 @@
   resolved "https://registry.yarnpkg.com/@fils/gl-dom/-/gl-dom-0.0.9.tgz#9a6fdec5e6fe8a8beec2089f80cc206057ffcce5"
   integrity sha512-M57xwkXpeNk5bIyy6ZcLY8pGZmaB6oNIfgcjFEYyuIAYK18nTQLmDj1tMNVwm/YeDNlVOglgwLVNDN+pv7Da7w==
 
+"@fils/io@^0.0.8":
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/@fils/io/-/io-0.0.8.tgz#1300b7e692fcfec7f93e402bd2b7137b8ca779ea"
+  integrity sha512-vqUVmbaYG2x55v2DF/08+g3wC/LVu6ViSEJfbY7/KX8NklZ020yMsjIPKJ14xGWnwS/pa3n7+gVVU/2IrRDscg==
+
 "@fils/math@^0.0.8":
   version "0.0.8"
   resolved "https://registry.yarnpkg.com/@fils/math/-/math-0.0.8.tgz#6827b0f59ae61b54b6390a72d0e18e07b1471ce6"
   integrity sha512-vNuppon7xCIvNqe+qIGypZ/qvj/LnwDE0Vdgtfq75hkwWDI8F4WKWDFjfMHlHgiiHfvhhwbS9A/Crjl2aIfihA==
+  dependencies:
+    mersenne "^0.0.4"
+
+"@fils/math@^0.0.9":
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/@fils/math/-/math-0.0.9.tgz#7987580a39bc576624dc067cb67b51bb70947d68"
+  integrity sha512-s/RgWsdEUsXCoEEiJK001PDu/GvekzcKRYy9ifwSblsj6XrSiuJjc+l3vHv/ScZkndl6zEySFW36jjno/q5BHA==
   dependencies:
     mersenne "^0.0.4"
 
@@ -321,6 +338,15 @@
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/@fils/utils/-/utils-0.1.1.tgz#d56ec6756a7a613f6ffe7e9fbb8e04ced51da81a"
   integrity sha512-RmtCtCY5wM4q7wWClKbmMqIPUzplQQYy4KQOo2YZYdHA9j09n8i7OhwVyghzH5PbbhK8AB/ng8OngaJQU8l2KA==
+
+"@fils/vfx@^0.2.3":
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/@fils/vfx/-/vfx-0.2.3.tgz#2e261428ee869b6f4a6a47a8c6d6d667de104d26"
+  integrity sha512-5ilqih2+BXI5okbNGA2O9EYsEbEoS8CBkTfFda17Lts02m9SzIXlHVaH5ykGdMwnbRqntWQsS4e/rbgJ0ifiDw==
+  dependencies:
+    "@fils/gfx" "0.1.4"
+    "@fils/io" "^0.0.8"
+    "@fils/math" "^0.0.9"
 
 "@isaacs/cliui@^8.0.2":
   version "8.0.2"

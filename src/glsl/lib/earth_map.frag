@@ -31,7 +31,17 @@
     // vec3 ee = normalize(cameraPosition);
     float eIntensity = min(max(dot(vNormalW,eL), 0.0), 1.0);
     sampledDiffuseColor = mix(nightColor, sampledDiffuseColor, eIntensity);
-    oGlow = mix(nightColor, glowBlack, eIntensity);
+    /* oGlow = getBloomColor(
+      mix(
+        mix(nightColor, glowBlack, eIntensity).rgb,
+        glowBlack.rgb,
+        cloudsColor.r * .03
+      )
+    ); */
+
+    oGlow = getBloomColor(
+      mix(nightColor, glowBlack, eIntensity).rgb
+    );
     sampledDiffuseColor += cloudsColor * .53;
   #endif
 
