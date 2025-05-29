@@ -29,7 +29,6 @@
         display: flex;
         height: var(--timemachine-head-height);
         align-items: center;
-        overflow: auto;
     }
 
         &_heading {
@@ -40,13 +39,21 @@
             gap: 8px;
             padding: 0 8px;
 
+            .button {
+                flex: 0 0 auto;
+            }
+
             &-date {
                 flex: auto;
                 display: flex;
-                @include ellipsis;
                 gap: 8px;
                 text-transform: uppercase;
                 color: var(--color-button-text);
+
+                input {
+                    width: 100%;
+                    padding: 0 4px;
+                }
             }
         }
 

@@ -70,11 +70,17 @@
                     padding: 4px;
 
                     &-head {
+                        position: relative;
+                        aspect-ratio: 16/9;
+                        border-radius: var(--corner-medium);
+                        overflow: hidden;
+                        background: var(--color-backdrop);
+                        
                         img {
+                            position: absolute;
                             width: 100%;
-                            aspect-ratio: 16/9;
+                            height: 100%;
                             object-fit: cover;
-                            border-radius: var(--corner-medium);
                         }
                     }
                     
