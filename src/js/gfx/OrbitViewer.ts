@@ -58,7 +58,7 @@ export class OrbitViewer extends ThreeLayer {
       this.particles = new SolarParticles();
       this.particles.init(_gl.renderer);
 
-      this.scene.add(this.particles.points);
+      // this.scene.add(this.particles.points);
       this.scene.add(this.particles.mesh);
 			// this.particles.mesh.visible = false;
 
@@ -89,25 +89,24 @@ export class OrbitViewer extends ThreeLayer {
 
     createPlanets(d:Array<OrbitDataElements>) {
 
-        // Overwrite name so we can create fake items
-		for(const el of d) {
+      // Overwrite name so we can create fake items
+			for(const el of d) {
+      	el.tperi = JD2MJD(el.tperi);
 
-            el.tperi = JD2MJD(el.tperi);
+				const mel = mapOrbitElements(el);
+      	mel.category = 'planets-moons';
 
-			const mel = mapOrbitElements(el);
-            mel.category = 'planets-moons';
+				const planet = new Planet(el.id as PlanetId, mel);
 
-			const planet = new Planet(el.id as PlanetId, mel);
+      	// linkSolarElementToPopup(planet, el);
+      	// Remove planets form solar items
+      	// solarItems = solarItems.filter(e => e.elementID !== el.id)
 
-            // linkSolarElementToPopup(planet, el);
-            // Remove planets form solar items
-            // solarItems = solarItems.filter(e => e.elementID !== el.id)
+				this.solarElements.push(planet);
+        this.scene.add(planet);
+        // this.scene.add(planet.orbitPath.ellipse);
 
-			this.solarElements.push(planet);
-            this.scene.add(planet);
-            this.scene.add(planet.orbitPath.ellipse);
-
-            // this.scene.add(planet.sunLine);
+      	// this.scene.add(planet.sunLine);
 		}
 
 		// this.followTarget(this.solarElements[7]);

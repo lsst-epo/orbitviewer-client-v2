@@ -10,7 +10,7 @@ in vec3 vPosition;
 in vec3 vNormal;
 uniform float opacity;
 
-// layout(location = 1) out vec4 gGlow;
+#include <glow_pars_frag>
 
 void main () {
     // if(alive < .1) discard;
@@ -24,10 +24,9 @@ void main () {
 
     if(d < .001) discard;
 
-    vec3 color = vColor;
-    
-    // color = vNormal;
+    #include <glow_frag_init>
+    vec4 color = LinearTransferOETF(vec4(vColor, d));
 
-    gl_FragColor = vec4(color, d);
+    gl_FragColor = color;
     // gGlow = vec4(color * .5, d);
 }

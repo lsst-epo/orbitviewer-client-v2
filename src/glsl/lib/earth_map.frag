@@ -1,3 +1,5 @@
+#include <glow_frag_init>
+
 #ifdef USE_MAP
 
 	vec4 sampledDiffuseColor = texture2D( map, vMapUv );

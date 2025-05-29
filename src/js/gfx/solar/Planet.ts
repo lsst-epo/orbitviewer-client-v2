@@ -56,7 +56,7 @@ export class Planet extends SolarElement {
 				// console.log(gltf.scene);
 				gltf.scene.scale.setScalar(2);
 				const mesh = gltf.scene.children[0] as Mesh;
-				mesh.material = new MeshStandardMaterial({
+				mesh.material = new PlanetMaterial({
 					side: DoubleSide,
 					transparent: true,
 					depthWrite: false,
