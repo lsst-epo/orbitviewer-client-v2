@@ -44,7 +44,7 @@ export class App {
 		// this.profiler = new PerformanceProfiler(this.viewer);
 
 		this.terminal = new Terminal(document.querySelector('.terminal'));
-		// this.terminal.visible = false;
+		this.terminal.visible = false;
 
 		this.start();
 
@@ -184,7 +184,8 @@ export class App {
 		});
 
 		const cms = gui.addGroup({
-			title: '☁️ Craft CMS Queries'
+			title: '☁️ Craft CMS Queries',
+			folded: true
 		});
 
 		cms.addButton('Fetch Categories', () => {
