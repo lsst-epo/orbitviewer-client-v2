@@ -3,6 +3,7 @@
 .togglegroup {
     --height: 32px; 
     
+    display: inline-block;
     background: var(--color-grey-700);
     border-radius: var(--height);
     font-size: 14px;
@@ -24,9 +25,12 @@
                 display: block;
                 
                 span {
-                    display: block;
-                    line-height: var(--height);
-                    border-radius: var(--height);
+                    display: flex;
+                    align-items: center;
+                    min-width: var(--height);
+                    height: var(--height);
+                    padding-inline: calc(var(--height)/2);
+                    border-radius: var(--height);                    
                     text-align: center;
                     color: var(--color-turquoise-400);
                     font-weight: var(--font-semibold);

@@ -78,7 +78,9 @@
                         }
 
                         &-input {
-                            
+                            .togglegroup {
+                                width: 100%;
+                            }
                         }
                     }
         }
