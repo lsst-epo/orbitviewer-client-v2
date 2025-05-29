@@ -1,19 +1,52 @@
 .input {
     display: inline-flex;
     align-items: center;
+    color: var(--color-grey-100);
+    border: solid 1px transparent;
+
+    &:focus-within {
+        outline: auto;
+    }
     
     input[type=search] {
         box-sizing: content-box;
         width: 100%;
-        height: 1em;
+        height: 24px;
         padding: 12px 16px;
-        line-height: 1em;
+        line-height: 24px;
         font-size: 16px;
-        color: var(--color-grey-100);
+        color: inherit;
         caret-color: var(--color-turquoise-300);
 
         &::-webkit-search-cancel-button {
             -webkit-appearance: none;
         }
+
+        &:focus {
+            outline: none;
+        }
     }
+
+    .button_wrap {
+        flex: 0 0 auto;
+        padding: 4px;
+
+        &[aria-hidden=true] {
+            display: none;
+        }
+    }
+
+    .icon_wrap {
+        padding: 12px 16px;
+
+        &[aria-hidden=true] {
+            display: none;
+        }
+    }
+
+        .icon {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+        }
 }

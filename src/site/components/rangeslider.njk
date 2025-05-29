@@ -4,11 +4,11 @@
         <div class="track">
             <div class="range"></div>
         </div>
-        <div class="rangeslider_input-thumb thumb_min">
+        <div class="rangeslider_input-thumb thumb_min" focusable="true" tabindex="0">
             <div class="value chip">{{ values[0] }}</div>
         </div>
         {% if values.length > 1 %}
-        <div class="rangeslider_input-thumb thumb_max">
+        <div class="rangeslider_input-thumb thumb_max" focusable="true" tabindex="0">
             <div class="value chip">{{ values[1] }}</div>
         </div>
         {% endif %}

@@ -15,7 +15,6 @@
         top: 230px;
         left: 140px;
         width: 384px;
-        height: initial;
         max-height: 320px;
         background: initial;
         backdrop-filter: initial;
@@ -42,7 +41,7 @@
     }
 
         &_card {
-            max-height: 100%;
+            height: 100%;
             border-radius: var(--corner-large);
 
             @include media(medium) {
@@ -50,7 +49,9 @@
                 @include gradient_border;
             }
 
-            &-content {}
+            &-content {
+                height: 100%;
+            }
 
                 &-head {
                     display: flex;
@@ -64,6 +65,7 @@
                 &-body {
                     display: flex;
                     flex-direction: column;
+                    height: 100%;
                     
                     .input {
                         flex: 0 0 auto;
@@ -92,16 +94,25 @@
             }
 
                 &-item {
-                    a {
-                        display: block;
-                        padding: 16px 4px;
-                        line-height: 1em;
-                        color: var(--color-button-text);
-                    }
-                    
                 & + & {
                     border-top: solid 1px rgba(var(--color-white-rgb), .2);
                 }
                 }
+
+                    &-link {
+                        display: flex;
+                        padding: 16px 4px;
+                        line-height: 1em;
+
+                        .name {
+                            flex: auto;
+                            color: var(--color-button-text);
+                        }
+
+                        .category {
+                            flex: 0 0 auto;
+                            color: var(--color-grey-200);
+                        }
+                    }
     }
 }

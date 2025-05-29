@@ -19,10 +19,16 @@
 
     --color-grey-50: #f5f5f5;
     --color-grey-100: #dce0e3;
+    --color-grey-200: #a3a7a9; // new
     --color-grey-300: #6a6e6e;
     --color-grey-600: #424242;
     --color-grey-700: #2b2b2b;
-    --color-grey-800: #1f2121;    
+    --color-grey-800: #1f2121;  
+    
+    --color-red-light: #Fa6868;
+    --color-red-medium: #ED4C4C;
+    --color-red-dark: #CF4040;
+    --color-red-darker: #38110F;
 
     // Color Tokens
     --color-bg: var(--color-black);
@@ -42,10 +48,11 @@
     --color-interstellar: #b1f2ef;
 
     // Layers
-    --z-filters: 6;
-    --z-search: 6;
-    --z-menu: 5;
-    --z-home: 4;
+    --z-onboarding: 9;
+    --z-filters: 8;
+    --z-search: 8;
+    --z-menu: 7;
+    --z-home: 6;
     --z-detail: 4;    
     --z-timemachine: 3;
     --z-toolbar: 3;

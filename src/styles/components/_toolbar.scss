@@ -30,11 +30,17 @@
 
         @include media(medium) {
             display: block;
-            padding: 12px;
         }
 
-        .logo {
-            width: 100%;
+        a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px;
+
+            .logo {
+                width: 100%;
+            }
         }
     }
 

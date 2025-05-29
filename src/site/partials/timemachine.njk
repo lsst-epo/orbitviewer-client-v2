@@ -1,4 +1,5 @@
 {% from '../components/rangeslider.njk' import RangeSlider %}
+{% from '../components/button.njk' import Button %}
 {% from '../components/buttonicon.njk' import ButtonIcon %}
 
 <div class="timemachine" aria-hidden="false">
@@ -9,10 +10,10 @@
                 <span class="date">MAR 05, 2027</span>
                 <span class="time">05:59:46PM</span>
             </div>
-            <div class="chip">Live</div>
+            {{ Button('Live', 'chip') }}
         </div>
         <div class="timemachine-toggle">
-            {{ ButtonIcon('button_icon ghost xsmall', 'chevron-right') }}
+            {{ ButtonIcon('button_icon ghost xsmall', 'chevron-down') }}
         </div>
     </div>
     <div class="timemachine-body">

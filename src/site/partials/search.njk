@@ -1,9 +1,11 @@
+{% from "icons.njk" import icon %}
 {% from '../components/buttonicon.njk' import ButtonIcon %}
 {% from '../components/button.njk' import Button %}
 {% from '../components/rangeslider.njk' import RangeSlider %}
 {% from '../components/togglegroup.njk' import ToggleGroup %}
+{% from '../components/banner.njk' import Banner %}
 
-<section class="search" aria-hidden="false">
+<section class="search" aria-hidden="true">
     <header class="search-head">
         {{ ButtonIcon('button_icon secondary medium', 'close') }}
     </header>
@@ -14,67 +16,51 @@
                     <h3 class="title">Search</h3>
                 </div>
                 <div class="search_card-body">
-                    <div class="input">
-                        <input type="search" placeholder="Search by planet, object,..">
+                    <div class="input" focusable="true" tabindex="0">
+                        <input type="search" placeholder="Search by planet, object,.." tabindex="-1" focusable="false">
+                        <div class="button_wrap" aria-hidden="true">
+                            {{ Button('Search cloud', 'button primary small') }}
+                        </div>
+                        <div class="icon_wrap" aria-hidden="false">
+                            {{ icon('search') }}
+                        </div>
                     </div>
+
+                    {{ Banner('S130i9 not found in your local catalog. Try searching our cloud database.', 'alert', 'error') }}
+                    
                     <div class="search_results">
                         <div class="search_results-group">
                             <h3 class="title">Recommended searches</h3>
                             <ul class="search_results-list">
-                                <li class="search_results-item">
-                                    <a href="">Earth</a>
-                                </li>
-                                <li class="search_results-item">
-                                    <a href="">Mercury</a>
-                                </li>
-                                <li class="search_results-item">
-                                    <a href="">Mars</a>
-                                </li>
-                                <li class="search_results-item">
-                                    <a href="">Earth</a>
-                                </li>
-                                <li class="search_results-item">
-                                    <a href="">Mercury</a>
-                                </li>
-                                <li class="search_results-item">
-                                    <a href="">Mars</a>
-                                </li>
-                                <li class="search_results-item">
-                                    <a href="">Earth</a>
-                                </li>
-                                <li class="search_results-item">
-                                    <a href="">Mercury</a>
-                                </li>
-                                <li class="search_results-item">
-                                    <a href="">Mars</a>
-                                </li>
-                                <li class="search_results-item">
-                                    <a href="">Earth</a>
-                                </li>
-                                <li class="search_results-item">
-                                    <a href="">Mercury</a>
-                                </li>
-                                <li class="search_results-item">
-                                    <a href="">Mars</a>
-                                </li>
-                                <li class="search_results-item">
-                                    <a href="">Earth</a>
-                                </li>
-                                <li class="search_results-item">
-                                    <a href="">Mercury</a>
-                                </li>
-                                <li class="search_results-item">
-                                    <a href="">Mars</a>
-                                </li>
-                                <li class="search_results-item">
-                                    <a href="">Earth</a>
-                                </li>
-                                <li class="search_results-item">
-                                    <a href="">Mercury</a>
-                                </li>
-                                <li class="search_results-item">
-                                    <a href="">Mars</a>
-                                </li>
+                                {% set recommended_searches = [
+                                    { name: "Earth", category: "Trans-Neptunian Object" },
+                                    { name: "Mercury", category: "Comet" },
+                                    { name: "Mars", category: "Near-Earth Object" },
+                                    { name: "Earth", category: "Trans-Neptunian Object" },
+                                    { name: "Mercury", category: "Trans-Neptunian Object" },
+                                    { name: "Mars", category: "Trans-Neptunian Object" },
+                                    { name: "Earth", category: "Trans-Neptunian Object" },
+                                    { name: "Mercury", category: "Trans-Neptunian Object" },
+                                    { name: "Mars", category: "Trans-Neptunian Object" },
+                                    { name: "Earth", category: "Trans-Neptunian Object" },
+                                    { name: "Mercury", category: "Trans-Neptunian Object" },
+                                    { name: "Mars", category: "Trans-Neptunian Object" },
+                                    { name: "Earth", category: "Trans-Neptunian Object" },
+                                    { name: "Mercury", category: "Trans-Neptunian Object" },
+                                    { name: "Mars", category: "Trans-Neptunian Object" },
+                                    { name: "Earth", category: "Trans-Neptunian Object" },
+                                    { name: "Mercury", category: "Trans-Neptunian Object" }
+                                ] %}
+                                {% for item in recommended_searches %}
+                                    <li class="search_results-item">
+                                        <a href="" class="search_results-link">
+                                            <span class="name">{{ item.name }}</span>
+                                            {% if item.category %}
+                                                <span class="category">{{ item.category }}</span>
+                                            {% endif %}
+                                        </a>
+                                    </li>
+                                {% endfor %}
                             </ul>
                         </div>
                     </div>
