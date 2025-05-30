@@ -29,6 +29,7 @@
                 span {
                     display: flex;
                     align-items: center;
+                    justify-content: center;
                     min-width: var(--height);
                     height: var(--height);
                     padding-inline: calc(var(--height)/2);

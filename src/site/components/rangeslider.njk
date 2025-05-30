@@ -4,11 +4,17 @@
         <div class="track">
             <div class="range"></div>
         </div>
-        <div class="rangeslider_input-thumb thumb_min" focusable="true" tabindex="0">
+        <div class="rangeslider_input-thumb thumb_min"
+                role="slider" 
+                tabindex="0"
+                {# aria-valuemin="{{ minmax[0] }}" 
+                aria-valuemax="{{ minmax[1] }}"  #}
+                aria-valuenow="0"
+                aria-label="Time range selector">
             <div class="value chip">{{ values[0] }}</div>
         </div>
         {% if values.length > 1 %}
-        <div class="rangeslider_input-thumb thumb_max" focusable="true" tabindex="0">
+        <div class="rangeslider_input-thumb thumb_max" tabindex="0">
             <div class="value chip">{{ values[1] }}</div>
         </div>
         {% endif %}

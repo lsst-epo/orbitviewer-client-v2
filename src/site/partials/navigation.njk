@@ -5,15 +5,16 @@
         {{ Button('Share', 'button_share', 'share') }}
 
         <button type="button" class="button_icon secondary medium"
+            id="nav_trigger"
             aria-expanded="false"
-            aria-controls="navigation-dropdown"
+            aria-controls="nav_dropdown"
             aria-haspopup="true"
             tabindex="2"
         >
             {{ icon('menu') }}
         </button>
 
-        <div id="navigation-dropdown" class="nav_dropdown" aria-hidden="true">
+        <div id="nav_dropdown" class="nav_dropdown" aria-hidden="true">
             <ul class="nav_dropdown-content" role="menu">
                 <li class="nav_dropdown-group" role="group">
                     <h3 class="nav_dropdown-label">Settings</h3>
