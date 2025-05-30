@@ -98,7 +98,22 @@ export class App2 {
 			});
 		});
 
-		// Timemachine Toggle
+		// Search Close
+		const searchLayer = document.querySelector('.search');
+		const searchClose = searchLayer.querySelector('.search-head .button_icon');
+		searchClose.addEventListener('click', (event: Event) => {
+			event.preventDefault();
+			const isHidden = searchLayer.getAttribute('aria-hidden');
+			if (isHidden === "false") {
+				const focusedElement = searchLayer.querySelector(':focus');
+				if (focusedElement) {
+					(focusedElement as HTMLElement).blur();
+				}
+				searchLayer.setAttribute('aria-hidden', "true");
+			} else {
+				searchLayer.setAttribute('aria-hidden', "false");
+			}
+		});
 
 	}
 
