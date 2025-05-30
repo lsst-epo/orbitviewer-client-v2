@@ -1,5 +1,6 @@
 {% from "../partials/icons.njk" import initSpriteSheet %}
 {% from "../partials/icons.njk" import icon %}
+{% from "../components/toast.njk" import Toast %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -19,6 +20,8 @@
         {% include 'objects.njk' %}
 
         {% include 'wizard.njk' %}
+        
+        {{ Toast('Maximum date reached. Future positions cannot be calculated. Try exploring within the supported time range.') }}
 
         {% include 'navigation.njk' %}
 

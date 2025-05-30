@@ -1,0 +1,17 @@
+@use '../partials/mixins' as *;
+
+.toast {
+    position: absolute;
+    top: var(--site-margin-small);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: var(--z-toast);
+    width: 100%;
+    max-width: var(--timemachine-width);
+    border-radius: var(--corner-medium);
+    @include frozen_glass;
+    @include gradient_border;
+    padding: 20px;
+    color: var(--color-grey-100);
+    text-wrap: pretty;
+}

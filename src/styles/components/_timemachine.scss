@@ -18,7 +18,7 @@
     @include gradient_border;
 
     @include media(medium) {
-        max-width: 384px;
+        max-width: var(--timemachine-width);
         margin: auto;
         bottom: var(--site-margin-large);
     }
