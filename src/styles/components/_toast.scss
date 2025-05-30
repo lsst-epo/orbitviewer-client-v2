@@ -2,16 +2,21 @@
 
 .toast {
     position: absolute;
-    top: var(--site-margin-small);
+    top: 0;
     left: 50%;
     transform: translateX(-50%);
     z-index: var(--z-toast);
     width: 100%;
     max-width: var(--timemachine-width);
+    margin: var(--site-margin-small);
     border-radius: var(--corner-medium);
     @include frozen_glass;
     @include gradient_border;
     padding: 20px;
     color: var(--color-grey-100);
     text-wrap: pretty;
+
+    &[aria-hidden=true] {
+        display: none;
+    }
 }
