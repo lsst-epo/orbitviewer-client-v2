@@ -34,7 +34,23 @@ export class App2 {
 			enableTime: true,
 			dateFormat: "F j, Y H:i",
 			defaultDate: new Date(),
-			onChange: function(selectedDates, dateStr, instance) {
+			locale: {
+				weekdays: {
+					shorthand: ["S", "M", "T", "W", "T", "F", "S"],
+					longhand: [
+						"Sunday",
+						"Monday",
+						"Tuesday",
+						"Wednesday",
+						"Thursday",
+						"Friday",
+						"Saturday"
+					]
+				}
+			},
+			minDate: "2024-05-30",
+    		// maxDate: "2026-12-30",
+			onChange: function(_, __, instance) {
 				if (instance.timeContainer) {
 					const timeInputs = instance.timeContainer.querySelectorAll('input');
 					timeInputs.forEach(input => input.blur());
