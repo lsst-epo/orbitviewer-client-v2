@@ -33,7 +33,13 @@ export class App2 {
 			position: "above",
 			enableTime: true,
 			dateFormat: "F j, Y H:i",
-			defaultDate: new Date()
+			defaultDate: new Date(),
+			onChange: function(selectedDates, dateStr, instance) {
+				if (instance.timeContainer) {
+					const timeInputs = instance.timeContainer.querySelectorAll('input');
+					timeInputs.forEach(input => input.blur());
+				}
+			}
 		});
 	}
 
