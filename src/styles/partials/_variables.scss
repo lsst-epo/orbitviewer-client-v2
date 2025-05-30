@@ -23,6 +23,8 @@
     --color-grey-100: #dce0e3;
     --color-grey-200: #a3a7a9; // new
     --color-grey-300: #6a6e6e;
+    --color-grey-400: #565656; // new
+    --color-grey-500: #4C4C4C; // new
     --color-grey-600: #424242;
     --color-grey-700: #2b2b2b;
     --color-grey-800: #1f2121;  
@@ -30,7 +32,7 @@
     --color-red-light: #Fa6868;
     --color-red-medium: #ED4C4C;
     --color-red-dark: #CF4040;
-    --color-red-darker: #38110F;
+    --color-red-darker: #38110F; // new
 
     // Color Tokens
     --color-bg: var(--color-black);
@@ -41,13 +43,14 @@
     --color-button-text-hover: var(--color-turquoise-300);
     --color-button-bg-hover: var(--color-turquoise-800);
 
-    --color-planets: #ffffff;
-    --color-near_earth: #fbb363;
-    --color-asteroids: #fdda78;
-    --color-comets: #89ed00;
-    --color-centaurs: #3eb5f6;
-    --color-trans_neptunian: #a1f8a4;
-    --color-interstellar: #b1f2ef;
+    --color-planets: #B1F2EF;
+    --color-near_earth: #8C59DE;
+    --color-asteroids: #FF6EB4;
+    --color-comets: #50C878;
+    --color-centaurs: #458DD3;
+    --color-trans_neptunian: #008B8B;
+    --color-interstellar: #556B2F;
+    --color-trojans: #E05858;
 
     // Layers
     --z-toast: 10;
