@@ -28,7 +28,7 @@
     right: 0;
     width: calc(100% - 12*2px);
     max-width: 320px;
-    margin: 0 12px;
+    margin: 0 var(--site-margin-small);
     @include frozen_glass;
     @include gradient_border;
     border-radius: var(--corner-large);
