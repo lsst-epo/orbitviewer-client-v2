@@ -1,0 +1,68 @@
+// listitem.scss
+
+@use '../partials/mixins' as *;
+@use '../partials/typography' as *;
+
+.listitem {
+    &-content {
+        @include reset_list;
+    }
+
+        &-group {
+            padding: 8px;
+        }
+
+            &-label {
+                padding: 12px 8px;
+                @include font(caption-semi-caps);
+                color: var(--color-text);
+            }
+
+            &-list {
+                @include reset_list;
+            }
+
+                &-item {}
+
+                    &-link {
+                        display: flex;
+                        align-items: center;
+                        padding: 12px;
+                        gap: 8px;
+                        border-radius: var(--corner-medium);
+                        color: var(--color-link);
+
+                        .heading {
+                            flex: auto;
+                            display: flex;
+                            align-items: center;
+                            gap: 8px;
+                        }
+
+                            .label {
+                                @include ellipsis;
+                            }
+
+                            .value {
+                                color: var(--color-text-low);
+                            }
+                        
+                        .icon {
+                            flex: 0 0 auto;
+                            width: 24px;
+                            height: 24px;
+                            fill: currentColor
+                        }
+                    
+                    &:hover,
+                    &:focus,
+                    &:active {
+                        background: var(--color-turquoise-800);
+                        color: var(--color-turquoise-300);
+
+                        .value {
+                            color: var(--color-text);
+                        }
+                    }
+                    }
+}

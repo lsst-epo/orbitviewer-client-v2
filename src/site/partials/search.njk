@@ -29,9 +29,9 @@
                     {{ Banner('S130i9 not found in your local catalog. Try searching our cloud database.', 'alert', 'error') }}
                     
                     <div class="search_results">
-                        <div class="search_results-group">
-                            <h3 class="title">Recommended searches</h3>
-                            <ul class="search_results-list">
+                        <div class="listitem-group" role="group">
+                            <h3 class="listitem-label">Recommended searches</h3>
+                            <ul class="listitem-list">
                                 {% set recommended_searches = [
                                     { name: "Earth", category: "Trans-Neptunian Object" },
                                     { name: "Mercury", category: "Comet" },
@@ -52,11 +52,13 @@
                                     { name: "Mercury", category: "Trans-Neptunian Object" }
                                 ] %}
                                 {% for item in recommended_searches %}
-                                    <li class="search_results-item">
-                                        <a href="" class="search_results-link">
-                                            <span class="name">{{ item.name }}</span>
+                                    <li class="listitem-item" role="menuitem">
+                                        <a href="" class="listitem-link">
+                                            <span class="heading">
+                                                <span class="name">{{ item.name }}</span>
+                                            </span>
                                             {% if item.category %}
-                                                <span class="category">{{ item.category }}</span>
+                                                <span class="value">{{ item.category }}</span>
                                             {% endif %}
                                         </a>
                                     </li>

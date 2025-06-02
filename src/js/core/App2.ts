@@ -136,6 +136,7 @@ export class App2 {
 
 		// Onboarding
 		const onboardingButton = document.querySelectorAll('.exploration_card-foot .button');
+		const wizardLayer = document.querySelector('.wizard');
 		onboardingButton.forEach(el => {
 			el.addEventListener('click', (event) => {
 				event.preventDefault();
@@ -147,8 +148,28 @@ export class App2 {
 						(focusedElement as HTMLElement).blur();
 					}
 					onboardingLayer.setAttribute('aria-hidden', "true");
+					wizardLayer.setAttribute('aria-hidden', "false");
 				} else {
 					onboardingLayer.setAttribute('aria-hidden', "false");
+				}
+			});
+		});
+
+		// Wizard
+		const wizardButton = document.querySelectorAll('.wizard_tooltip .button');
+		wizardButton.forEach(el => {
+			el.addEventListener('click', (event) => {
+				event.preventDefault();
+
+				const isHidden = wizardLayer.getAttribute('aria-hidden');
+				if (isHidden === "false") {
+					const focusedElement = wizardLayer.querySelector(':focus');
+					if (focusedElement) {
+						(focusedElement as HTMLElement).blur();
+					}
+					wizardLayer.setAttribute('aria-hidden', "true");
+				} else {
+					wizardLayer.setAttribute('aria-hidden', "false");
 				}
 			});
 		});

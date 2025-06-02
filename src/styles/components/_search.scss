@@ -80,41 +80,4 @@
                     }
                 }
         }
-    
-    &_results {
-        padding: 8px;
-
-        &-group {
-            .title {
-                padding: 10px 4px;
-                color: var(--color-grey-100);
-            }
-        }
-
-            &-list {
-                @include reset_list;
-            }
-
-                &-item {
-                & + & {
-                    border-top: solid 1px rgba(var(--color-white-rgb), .2);
-                }
-                }
-
-                    &-link {
-                        display: flex;
-                        padding: 16px 4px;
-                        line-height: 1em;
-
-                        .name {
-                            flex: auto;
-                            color: var(--color-button-text);
-                        }
-
-                        .category {
-                            flex: 0 0 auto;
-                            color: var(--color-grey-200);
-                        }
-                    }
-    }
 }
