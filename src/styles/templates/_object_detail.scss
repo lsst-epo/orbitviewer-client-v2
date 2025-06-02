@@ -1,4 +1,5 @@
 @use '../partials/mixins' as *;
+@use '../partials/typography' as *;
 
 .object_detail {
     position: absolute;
@@ -33,37 +34,119 @@
             grid-row: 1 / -1;
         }
     }
+}
 
-        .object_card {
+.object_card {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;    
+    border-radius: var(--corner-large) var(--corner-large) 0 0;
+    
+    @include frozen_glass;
+    @include gradient_border;
+
+    @include media(medium) {
+        --object-top-margin: calc(var(--site-margin-large) + 48px);
+        position: absolute;
+        inset: var(--object-top-margin) auto var(--site-margin-small) var(--site-margin-small);
+        width: calc(100% - var(--site-margin-small));
+        min-height: initial;
+        overflow: hidden;
+        border-radius: var(--corner-large);
+    }
+
+    &-head {
+        flex: 0 0 auto;
+        padding: 8px 2px;
+    }
+
+    &-body {
+        flex: auto;
+        overflow: auto;
+        padding: 16px;
+    }
+
+        &-heading {
             display: flex;
             flex-direction: column;
-            min-height: 100%;    
-            border-radius: var(--corner-large) var(--corner-large) 0 0;
-            
-            @include frozen_glass;
-            @include gradient_border;
+            gap: 8px;
+        }
 
-            @include media(medium) {
-                --object-top-margin: calc(var(--site-margin-large) + 48px);
-                position: absolute;
-                inset: var(--object-top-margin) auto var(--site-margin-large) var(--site-margin-large);
-                width: 100%;
-                min-height: initial;
+            &-name {
+                @include font(headline);
+                color: var(--color-text);
+            }
+
+            &-hero {
+                position: relative;
+                aspect-ratio: 16/9;
+                background: var(--color-backdrop);
                 overflow: hidden;
                 border-radius: var(--corner-large);
-            }
 
-            &-head {
-                flex: 0 0 auto;
-            }
-
-            &-body {
-                flex: auto;
-                overflow: auto;
-            }
-
-                &-content {
-                    background: linear-gradient(180deg, green 0%, red 100%);
+                img {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
                 }
+            }
+
+            &-category {
+                padding: 16px 0;
+            }
+
+            &-description {
+                color: var(--color-text-low);
+                @include font(body-large);
+            }
+        
+        &-content {
+            display: flex;
+            flex-direction: column;
         }
+
+           &-unit {
+            padding: 24px 8px;
+            
+            .heading {
+                display: flex;
+                gap: 8px;
+                color: var(--color-text-low);
+            }
+
+                .title {
+                    flex: auto;
+                    @include font(body-large);
+                }
+
+                .info {
+                    flex: 0 0 auto;
+                    @include font(caption-regular);
+                }
+           }
+
+            &_graph {
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+                padding: 4px 0;
+                
+                &-head {
+                    display: flex;
+                    gap: 8px;
+
+                    .label {
+                        flex: auto;
+                    }
+
+                    .unit {
+                        flex: 0 0 auto;
+                        @include font(caption-regular);
+                    }
+                }
+           }
 }
+

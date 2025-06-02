@@ -1,0 +1,15 @@
+{% from '../partials/icons.njk' import icon %}
+
+{% macro ObjectCardGraph(title, info, icons=[], value) %}
+    <div class="object_card_graph">
+        <div class="object_card_graph-head">
+            <h3 class="label">{{ title }}</h3>
+            <p class="unit">{{ info }}</p>
+        </div>
+
+        <div class="object_card_graph-body">
+            {% if icons[0] %}{{ icon(icons[0]) }}{% endif %}
+            {% if icons[1] %}{{ icon(icons[1]) }}{% endif %}
+        </div>
+    </div>
+{% endmacro %}
