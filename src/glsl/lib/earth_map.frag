@@ -17,8 +17,8 @@
     vec2 cUV = vMapUv;
     // cUV.x = mod(cUV.x + time *.01, 1.0);
     // cUV.y = mod(cUV.y + time *.001, 1.0);
-    vec2 uv1 = vec2(fract(cUV.x + time * 0.001), cUV.y);
-    vec2 uv2 = vec2(fract(cUV.x + time * 0.001 + 1.0), cUV.y);
+    vec2 uv1 = vec2(fract(cUV.x + time * 0.0001), cUV.y);
+    vec2 uv2 = vec2(fract(cUV.x + time * 0.0001 + 1.0), cUV.y);
 
     vec4 color1 = texture2D(cloudsMap, uv1);
     vec4 color2 = texture2D(cloudsMap, uv2);
