@@ -1,6 +1,6 @@
 {% from '../partials/icons.njk' import icon %}
 
-{% macro ObjectCardGraph(title, info, icons=[], value) %}
+{% macro ObjectCardGraph(title, info, value, icons=[]) %}
     <div class="object_card_graph">
         <div class="object_card_graph-head">
             <h3 class="label">{{ title }}</h3>
@@ -8,8 +8,26 @@
         </div>
 
         <div class="object_card_graph-body">
-            {% if icons[0] %}{{ icon(icons[0]) }}{% endif %}
-            {% if icons[1] %}{{ icon(icons[1]) }}{% endif %}
+            <div class="graph">
+                {% if icons[0] %}
+                    <div class="icon_wrap">
+                        {{ icon(icons[0]) }}
+                    </div>
+                {% endif %}
+
+                <div class="progress">
+                    <div class="progress-pre" style="width: 30%">
+                        <div class="thumb"></div>
+                    </div>
+                    <div class="progress-post"></div>
+                </div>
+
+                {% if icons[1] %}
+                    <div class="icon_wrap">
+                        {{ icon(icons[1]) }}
+                    </div>
+                {% endif %}
+            </div>
         </div>
     </div>
 {% endmacro %}

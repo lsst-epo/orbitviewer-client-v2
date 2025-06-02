@@ -56,6 +56,7 @@
     }
 
     &-head {
+        position: relative;
         flex: 0 0 auto;
         padding: 8px 2px;
     }
@@ -70,6 +71,7 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
+            padding-bottom: 24px;
         }
 
             &-name {
@@ -106,26 +108,48 @@
         &-content {
             display: flex;
             flex-direction: column;
+            border-top: solid 1px var(--color-border);
         }
 
            &-unit {
             padding: 24px 8px;
+
+            & + & {
+                border-top: solid 1px var(--color-border);
+            }
             
             .heading {
                 display: flex;
                 gap: 8px;
-                color: var(--color-text-low);
             }
 
                 .title {
                     flex: auto;
                     @include font(body-large);
+                    color: var(--color-text-low);
                 }
 
                 .info {
                     flex: 0 0 auto;
                     @include font(caption-regular);
+                    color: var(--color-text-low);
                 }
+            
+            .value {
+                display: inline-flex;
+                align-items: baseline;
+                gap: 8px;
+
+                .primary {
+                    @include font(subtitle-large-regular);
+                    color: var(--color-text);
+                }
+
+                .secondary {
+                    @include font(body-large);
+                    color: var(--color-text-low);
+                }
+            }
            }
 
             &_graph {
@@ -137,6 +161,7 @@
                 &-head {
                     display: flex;
                     gap: 8px;
+                    color: var(--color-text-low);
 
                     .label {
                         flex: auto;
@@ -145,6 +170,78 @@
                     .unit {
                         flex: 0 0 auto;
                         @include font(caption-regular);
+                    }
+                }
+
+                &-body {
+                    .graph {
+                        display: flex;
+                        align-items: center;
+                        gap: 8px;
+                        padding: 8px 0;
+                        
+                        .icon_wrap {
+                            flex: 0 0 auto;
+                            display: flex;
+                        }
+
+                            .icon {
+                                width: 24px;
+                                height: 24px;
+                                fill: var(--color-grey-300);
+                            }
+
+                        .progress {
+                            flex: auto;
+                            display: flex;
+                            height: 3px;
+
+                            &-pre {
+                                position: relative;
+                                height: 100%;
+                                
+                                &:before {
+                                    content: '';
+                                    position: absolute;
+                                    left: 0;
+                                    top: 50%;
+                                    width: calc(100% - 7px);
+                                    height: 100%;
+                                    transform: translateY(-50%);
+                                    background: var(--color-grey-100);
+                                    border-radius: 3px;
+                                }
+
+                                .thumb {
+                                    position: absolute;
+                                    top: 50%;
+                                    right: 0;
+                                    transform: translate(50%, -50%);
+                                    width: 6px;
+                                    height: 6px;
+                                    border-radius: 6px;
+                                    background: var(--color-grey-100);
+                                }
+                            }
+
+                            &-post {
+                                position: relative;
+                                flex: auto;
+                                height: 100%;
+                                
+                                &:before {
+                                    content: '';
+                                    position: absolute;
+                                    right: 0;
+                                    top: 50%;
+                                    width: calc(100% - 7px);
+                                    height: 100%;
+                                    transform: translateY(-50%);
+                                    background: var(--color-grey-600);
+                                    border-radius: 3px;
+                                }
+                            }
+                        }
                     }
                 }
            }

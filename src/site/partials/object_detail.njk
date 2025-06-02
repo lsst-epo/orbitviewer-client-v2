@@ -9,41 +9,53 @@
                 {{ Button('Orbit viewer', 'button ghost medium', 'chevron-left') }}
             </header>
             <div class="object_card-body">
-                    <div class="object_card-heading">
-                        <h1 class="object_card-name">2014 UZ224</h1>
-                        <div class="object_card-hero">
-                            <img src="" alt="">
-                        </div>
-                        <div class="object_card-category">
+                <div class="object_card-heading">
+                    <h1 class="object_card-name">2014 UZ224</h1>
+                    <div class="object_card-hero">
+                        <img src="" alt="">
+                    </div>
+                    <div class="object_card-category">
 
-                        </div>
-
-                        <div class="object_card-description">
-                            <p>Lorem ipsum dolor sit amet consectetur. A mattis sed etiam semper a. Ipsum nisi eget et in aliquet feugiat commodo a. Vitae consequat ultricies sed at nibh viverra quam massa. Posuere hendrerit eu morbi nec integer dui. Auctor at neque eget gravida duis. Vel magna gravida ipsum porttitor fames sed. Eget congue a ut nullam. Quis leo bibendum lorem id dictum. Donec aliquam pellentesque enim adipiscing.</p>
-                        </div>
                     </div>
 
-                    <div class="object_card-content">
-                        <div class="object_card-unit">
-                            {{ ObjectCardGraph('Average distance from the Sun', 'Semi-major axis (a)', ['sun', 'orbit'], 10) }}
-                            {{ ObjectCardGraph('Deviation from a circular orbit', 'Eccentricity (e)', ['sun', 'orbit'], 10) }}
-                            {{ ObjectCardGraph('Angle of orbit', 'Inclination (i)', ['sun', 'orbit'], 10) }}
-                        </div>
-
-                        <div class="object_card-unit">
-                            <h2 class="title">Orbital elements</h2>
-                        </div>
-
-                        <div class="object_card-unit">
-                            <h2 class="title">When it will be closest to the Sun?</h2>
-                        </div>
-
-                        <div class="object_card-unit">
-                            <h2 class="title">How far is it today?</h2>
-                            {{ ObjectCardGraph('From the Sun', '1.00au', ['sun'], 10) }}
-                            {{ ObjectCardGraph('From the Earth', '1.00au', ['earth'], 10) }}
-                        </div>
+                    <div class="object_card-description">
+                        <p>Lorem ipsum dolor sit amet consectetur. A mattis sed etiam semper a. Ipsum nisi eget et in aliquet feugiat commodo a. Vitae consequat ultricies sed at nibh viverra quam massa. Posuere hendrerit eu morbi nec integer dui. Auctor at neque eget gravida duis. Vel magna gravida ipsum porttitor fames sed. Eget congue a ut nullam. Quis leo bibendum lorem id dictum. Donec aliquam pellentesque enim adipiscing.</p>
                     </div>
+                </div>
+
+                <div class="object_card-content">
+                    <div class="object_card-unit">
+                        <h2 class="title">Diameter</h2>
+                        <h4 class="value">
+                            <span class="primary">12742.00km</span>
+                            <span class="secondary">7917.51 mi</span>
+                        </h4>
+                    </div>
+                    
+                    <div class="object_card-unit">
+                        {{ ObjectCardGraph('Average distance from the Sun', 'Semi-major axis (a)', 10, ['sun', 'orbit']) }}
+                        {{ ObjectCardGraph('Deviation from a circular orbit', 'Eccentricity (e)', 10, ['sun', 'orbit']) }}
+                        {{ ObjectCardGraph('Angle of orbit', 'Inclination (i)', 10, ['sun', 'orbit']) }}
+                    </div>
+
+                    <div class="object_card-unit">
+                        <h2 class="title">Orbital elements</h2>
+                    </div>
+
+                    <div class="object_card-unit">
+                        <h2 class="title">When it will be closest to the Sun?</h2>
+                        <h4 class="value">
+                            <span class="primary">January 03, 2026</span>
+                            <span class="secondary">245 days left</span>
+                        </h4>
+                    </div>
+
+                    <div class="object_card-unit">
+                        <h2 class="title">How far is it today?</h2>
+                        {{ ObjectCardGraph('From the Sun', '1.00au', 10, ['sun']) }}
+                        {{ ObjectCardGraph('From the Earth', '1.00au', 10, ['earth']) }}
+                    </div>
+                </div>
             </div>
         </div>
     </div>
