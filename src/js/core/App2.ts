@@ -173,6 +173,21 @@ export class App2 {
 				}
 			});
 		});
+
+		// Timemachine toggle
+		const timemachineComponent = document.querySelector('.timemachine');
+		const timemachineToggle = document.querySelector('#timemachine-toggle');
+		timemachineToggle.addEventListener('click', (e) => {
+			e.preventDefault();
+			const isExpanded = timemachineToggle.getAttribute('aria-expanded');
+			if (isExpanded === "true") {
+				timemachineToggle.setAttribute('aria-expanded', "false");
+			} else {
+				timemachineToggle.setAttribute('aria-expanded', "true");
+			}
+
+			timemachineComponent.classList.toggle('collapsed');
+		});
 	}
 
 	update() {

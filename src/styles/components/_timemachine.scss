@@ -10,8 +10,7 @@
     right: var(--site-margin-large);
     bottom: calc(var(--toolbar-height) + var(--site-margin-large) + var(--timemachine-gap));
     left: var(--site-margin-large);
-    z-index: var(--z-timemachine);
-    min-height: var(--timemachine-height);
+    z-index: var(--z-timemachine);    
     border-radius: var(--corner-large);
 
     @include frozen_glass;
@@ -25,6 +24,19 @@
 
     &[aria-hidden=true] {
         display: none;
+    }
+
+    &:not(.collapsed) {
+        min-height: var(--timemachine-height);
+
+        .timemachine-toggle .button span {
+            display: none;
+        }
+
+        .timemachine-body {
+            display: block;
+            padding: 8px 16px;
+        }
     }
 
     &-head {
@@ -62,8 +74,7 @@
         &-toggle {
             padding: 0 8px;
         }
-
     &-body {
-        padding: 8px 16px;
+        display: none;
     }
 }
