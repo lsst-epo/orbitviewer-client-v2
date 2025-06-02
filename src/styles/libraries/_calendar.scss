@@ -1,6 +1,7 @@
 // calendar.scss
 
 @use '../partials/mixins' as *;
+@use '../partials/typography' as *;
 
 .flatpickr {
     --timepicker-height: 40px;
@@ -15,17 +16,26 @@
         &.hasTime {
             .flatpickr-time {
                 height: var(--timepicker-height);
-                border-top: initial;
+                border-top: solid 1px var(--color-border);
             }
         }
     }
 
+    &-innerContainer {
+        padding: 8px 0;
+    }
+
     &-months {
+        align-items: center;
+        border-bottom: solid 1px var(--color-border);
+        
         .flatpickr-prev-month,
         .flatpickr-next-month,
         .flatpickr-prev-month:hover,
         .flatpickr-next-month:hover {
-            color: var(--color-turquoise-100);
+            position: relative;
+            height: initial;
+            color: var(--color-link);
             
             svg {
                 fill: var(--color-turquoise-300);
@@ -33,23 +43,47 @@
         }
 
         .flatpickr-month {
-            color: var(--color-grey-100);
+            height: initial;
+            color: var(--color-link);
             fill: currentColor;
         }
     }
 
         &-current-month {
+            position: initial;
+            left: initial;
+            width: initial;
+            height: initial;
+            padding: initial;
+            display: flex;
+
             .flatpickr-monthDropdown-months {
-                font-weight: initial;
+                flex: auto;
+                padding: 6px 10px;
+                border-radius: 2px;
+                @include font(caption-regular-caps);
+                text-align: right;
+
+            &:hover {
+                background: var(--color-backdrop);
+            }
             }
 
             input.cur-year {
-                font-weight: initial;
+                padding: 6px 10px;
+                @include font(caption-regular-caps);
                 padding-right: 16px;
+                text-align: left;
             }
 
             .numInputWrapper {
+                flex: auto;
                 width: 7ch;
+                border-radius: 2px;
+
+                &:hover {
+                    background: var(--color-backdrop);
+                }
                 
                 span.arrowUp {
                     &:after {
@@ -94,6 +128,32 @@
     &-time {
         line-height: var(--timepicker-height);
         max-height: var(--timepicker-height);
+
+        input {
+            color: var(--color-link);
+
+            &:hover {
+                background: var(--color-backdrop);
+            }
+        }
+
+        .numInputWrapper span {
+            &.arrowUp:after {
+                border-bottom-color: var(--color-link);
+            }
+
+            &.arrowDown:after {
+                border-top-color: var(--color-link);
+            }
+        }
+
+        .flatpickr-am-pm {
+            color: var(--color-link);
+            
+            &:hover {
+                background: var(--color-backdrop);
+            }
+        }
     }
 }
 
