@@ -8,7 +8,7 @@
     overflow: auto;
     display: grid;
     grid-template-rows: minmax(50vh, 1fr) 1fr;
-    grid-template-columns: minmax(30vw, 1fr) 1fr;
+    grid-template-columns: minmax(30vw, 4fr) 6fr;
 
     &[aria-hidden=true] {
         display: none;
@@ -245,5 +245,35 @@
                     }
                 }
            }
+}
+
+.orbital_elements {
+    &-list {
+        @include reset_list;
+        display: flex;
+        flex-wrap: wrap;
+        padding: 8px 0;
+        gap: 8px;
+    }
+
+        &-item {
+            flex: auto;
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+            padding: 8px 12px;
+            border: solid 1px var(--color-border-strong);
+            border-radius: var(--corner-medium);
+            color: var(--color-text-low);
+        }
+
+            &-label {
+                flex: 0 0 auto;
+            }
+
+            &-value {
+                flex: auto;
+                text-align: right;
+            }
 }
 
