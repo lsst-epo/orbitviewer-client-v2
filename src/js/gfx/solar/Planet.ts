@@ -96,11 +96,20 @@ export class Planet extends SolarElement {
 			});
         }
 
-        if(id === 'earth') {
+        else if(id === 'earth') {
             // add atmosphere
             this.atmosphereMaterial = getAtmosphereMaterial(0x0022EE, 0xAAFFFF, 2.5);
             this.atmosphere = new Mesh(PLANET_GEO, this.atmosphereMaterial);
             this.atmosphere.scale.setScalar(1.15);
+            this.parent.add(this.atmosphere);
+            this.hasAtmosphere = true;
+        }
+
+        else if(id === 'mars') {
+            // add atmosphere
+            this.atmosphereMaterial = getAtmosphereMaterial(0xFF3333, 0xF4B681, 1.15);
+            this.atmosphere = new Mesh(PLANET_GEO, this.atmosphereMaterial);
+            this.atmosphere.scale.setScalar(1.11);
             this.parent.add(this.atmosphere);
             this.hasAtmosphere = true;
         }
@@ -134,7 +143,7 @@ export class Planet extends SolarElement {
             map: PlanetTextureMap[this.type].map
         }, opts2, this.type === "earth");
 
-        if(this.type === 'earth') {
+        if(this.type === 'earth' || this.type === 'mars') {
             this.material.normalMap = tLoader.load(`/assets/textures/${this.type}_normal.webp`);
             this.material.normalScale.set(4, 4);
         }

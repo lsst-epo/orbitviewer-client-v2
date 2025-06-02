@@ -371,18 +371,18 @@ export class App {
 		})
 		s.add(query, "prompt");
 		s.addButton('Search', () => {
-            if (query.prompt.length < 3) return alert("Write minimum 3 characters");
-            this.terminal.log(`Searching for <span class="green">${query.prompt}</span>...`)
-            const t = performance.now();
-            const items = SearchEngine.search(query.prompt);
-            const dt = (performance.now() - t) * .001;
-            logItems(items.length, dt);
-            const res = [];
-            for(const i of items) {
-                res.push(i.fulldesignation);
-            }
-            this.terminal.log(`Found: <span class="green">${res.join(',')}</span>...`)
-            console.log(items);
+      if (query.prompt.length < 3) return alert("Write minimum 3 characters");
+      this.terminal.log(`Searching for <span class="green">${query.prompt}</span>...`)
+      const t = performance.now();
+      const items = SearchEngine.search(query.prompt);
+      const dt = (performance.now() - t) * .001;
+      logItems(items.length, dt);
+      const res = [];
+      for(const i of items) {
+          res.push(i.fulldesignation);
+      }
+      this.terminal.log(`Found: <span class="green">${res.join(',')}</span>...`)
+      console.log(items);
 		})
 
 		const g3 = gui.addGroup({
@@ -393,7 +393,7 @@ export class App {
 		g3.add(this.viewer, 'useVFX');
 
 		const planetView = {
-			selected: 'earth',
+			selected: 'mars',
 			paths: false
 		}
 

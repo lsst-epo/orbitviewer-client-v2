@@ -34,7 +34,7 @@ void main() {
   vec4 col = vec4(fresCol, alpha);
 
   // noide
-  float N = fbm(vec4(toPolar(vUv) * 2.0, time * .1), 3);
+  float N = fbm(vec4(toPolar(vUv) * 2.0, time * .025), 6);
   N = smoothstep(-1., 1., N);
 
   col += col * N * 2.1;
