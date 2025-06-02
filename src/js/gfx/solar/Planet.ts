@@ -143,7 +143,7 @@ export class Planet extends SolarElement {
             map: PlanetTextureMap[this.type].map
         }, opts2, this.type === "earth");
 
-        if(this.type === 'earth' || this.type === 'mars') {
+        if(this.type === 'earth') {
             this.material.normalMap = tLoader.load(`/assets/textures/${this.type}_normal.webp`);
             this.material.normalScale.set(4, 4);
         }
