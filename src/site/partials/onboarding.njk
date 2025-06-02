@@ -1,9 +1,9 @@
 {% from '../components/button.njk' import Button %}
 
-<section class="onboarding" aria-hidden="true">
-    <h2 class="onboarding-title">Choose your Exploration Mode</h2>
+<section class="onboarding" aria-hidden="true" role="main" aria-labelledby="onboarding-heading">
+    <h2 class="onboarding-title" id="onboarding-heading">Choose your Exploration Mode</h2>
     <div class="exploration">
-        <ul class="exploration-list">
+        <ul class="exploration-list" role="radiogroup" aria-labelledby="onboarding-heading" aria-required="true">
                 {% set explorationModes = [
                     {
                         name: "Mobile",
@@ -32,7 +32,7 @@
                 ] %}
 
                 {% for mode in explorationModes %}
-                    <li class="exploration-item">
+                    <li class="exploration-item" role="radio" aria-checked="false" tabindex="0" >
                         <div class="exploration_card">
                             <div class="exploration_card-body">
                                 <h3 class="name">{{ mode.name }}</h3>

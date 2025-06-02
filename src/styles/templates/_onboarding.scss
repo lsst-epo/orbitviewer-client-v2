@@ -10,7 +10,6 @@
     backdrop-filter: blur(8px);
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
     gap: 24px;
     padding: calc(var(--header-height) + 16px) 0 var(--site-margin-large);
@@ -20,17 +19,28 @@
     }
 
     @include media(medium) {
-        gap: 40px;
+        align-items: center;
+        
+        gap: 40px;        
     }
 
     &-title {
         padding: 0 var(--site-margin-large);
-        text-align: center;
+        color: var(--color-text);
+        @include font(subtitle-large-regular);
+
+        @include media(medium) {
+            text-align: center;
+        }
     }
 
     &-info {
         padding: 0 var(--site-margin-large);
-        text-align: center;
+        color: var(--color-text);
+
+        @include media(medium) {
+            text-align: center;
+        }
     }
 }
 
@@ -75,6 +85,7 @@
                     display: flex;
                     flex-direction: column;
                     gap: 16px;
+                    color: var(--color-text);
 
                     .name {
                         @include font(caption-semi-caps);

@@ -115,6 +115,43 @@ export class App2 {
 			}
 		});
 
+		// Homepage
+		const homeLayer = document.querySelector('.home');
+		const homeButton = homeLayer.querySelector('.home .button');
+		const onboardingLayer = document.querySelector('.onboarding');
+		homeButton.addEventListener('click', (event: Event) => {
+			event.preventDefault();
+			const isHidden = homeLayer.getAttribute('aria-hidden');
+			if (isHidden === "false") {
+				const focusedElement = homeLayer.querySelector(':focus');
+				if (focusedElement) {
+					(focusedElement as HTMLElement).blur();
+				}
+				homeLayer.setAttribute('aria-hidden', "true");
+				onboardingLayer.setAttribute('aria-hidden', "false");
+			} else {
+				homeLayer.setAttribute('aria-hidden', "false");
+			}
+		});
+
+		// Onboarding
+		const onboardingButton = document.querySelectorAll('.exploration_card-foot .button');
+		onboardingButton.forEach(el => {
+			el.addEventListener('click', (event) => {
+				event.preventDefault();
+
+				const isHidden = onboardingLayer.getAttribute('aria-hidden');
+				if (isHidden === "false") {
+					const focusedElement = onboardingLayer.querySelector(':focus');
+					if (focusedElement) {
+						(focusedElement as HTMLElement).blur();
+					}
+					onboardingLayer.setAttribute('aria-hidden', "true");
+				} else {
+					onboardingLayer.setAttribute('aria-hidden', "false");
+				}
+			});
+		});
 	}
 
 	update() {
