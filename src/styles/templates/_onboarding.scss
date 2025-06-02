@@ -1,4 +1,5 @@
 @use '../partials/mixins' as *;
+@use '../partials/typography' as *;
 
 .onboarding {
     position: absolute;
@@ -74,6 +75,18 @@
                     display: flex;
                     flex-direction: column;
                     gap: 16px;
+
+                    .name {
+                        @include font(caption-semi-caps);
+                    }
+
+                    .title {
+                        @include font(title);
+                    }
+
+                    .count {
+                        @include font(caption-semi-caps);
+                    }
                 }
 
                 &-foot {

@@ -1,6 +1,7 @@
 // navigation.scss
 
 @use '../partials/mixins' as *;
+@use '../partials/typography' as *;
 
 .navigation {
     position: absolute;
@@ -65,6 +66,7 @@
                         display: flex;
                         align-items: center;
                         gap: 8px;
+                        @include font(caption-semi-caps);
                     }
 
                         .label {

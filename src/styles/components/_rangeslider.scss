@@ -1,5 +1,7 @@
 // rangeslider.scss
 
+@use '../partials/typography' as *;
+
 .rangeslider {
     --slider-height: 48px;
     
@@ -62,6 +64,6 @@
         display: flex;
         justify-content: space-between;
         user-select: none;
-        font-size: 12px;
+        @include font(overline-medium-regular);
     }
 }

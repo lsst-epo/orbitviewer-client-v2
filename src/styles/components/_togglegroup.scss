@@ -1,6 +1,7 @@
 // togglegroup.scss
 
 @use '../partials/mixins' as *;
+@use '../partials/typography' as *;
 
 .togglegroup {
     --height: 32px; 
@@ -8,7 +9,7 @@
     display: inline-block;
     background: var(--color-grey-700);
     border-radius: var(--height);
-    font-size: 14px;
+    @include font(overline-medium-semi);
 
 
     &.large {

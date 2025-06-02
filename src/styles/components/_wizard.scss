@@ -1,6 +1,7 @@
 // wizard.scss
 
 @use '../partials/mixins' as *;
+@use '../partials/typography' as *;
 
 .wizard {
     --wizard-x: 24px;
@@ -62,12 +63,11 @@
                 display: flex;
                 padding: 8px;
                 gap: 8px;
+                @include font(caption-regular-caps);
 
                 .title {
                     flex: auto;
-                    text-transform: uppercase;
                     color: var(--color-turquoise-300);
-                    letter-spacing: .05em;
                 }
 
                 .steps {
@@ -78,6 +78,7 @@
             .description {
                 padding: 8px;
                 color: var(--color-grey-100);
+                @include font(body-large);
             }
         }
 
