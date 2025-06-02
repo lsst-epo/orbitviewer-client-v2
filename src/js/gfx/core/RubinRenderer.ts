@@ -5,7 +5,7 @@ import { Camera, MeshBasicMaterial, Scene, ShaderMaterial, WebGLRenderer, WebGLR
 const SCREEN_MAT = new MeshBasicMaterial();
 
 const GLOW:BlurSettings = {
-  scale: .25,
+  scale: .5,
   radius: 1,
   quality: 2,
   iterations: 4

@@ -4,7 +4,7 @@
 
 import { OrbitDataElements } from "../solar/SolarUtils";
 
-export type SolarCategory = 'trans-neptunian-objects'|'near-earth-objects'|'interstellar-objects'|'comets'|'centaurs'|'asteroids'|'planets-moons';
+export type SolarCategory = 'trans-neptunian-objects'|'near-earth-objects'|'interstellar-objects'|'comets'|'centaurs'|'asteroids'|'planets-moons'|'jupiter-trojans';
 
 /**
  * Sorted by priority (lowest index in the array holds higher priority)
@@ -15,7 +15,8 @@ export const categoriesSort:Array<SolarCategory> = [
 	'centaurs',
 	'interstellar-objects',
 	'near-earth-objects',
-	'trans-neptunian-objects'
+	'trans-neptunian-objects',
+	'jupiter-trojans'
 ]
 
 export const getCategory = (item: OrbitDataElements):SolarCategory => {
@@ -30,6 +31,7 @@ export const getCategory = (item: OrbitDataElements):SolarCategory => {
 	if(type.indexOf(5) > -1) avail_categories.push('comets');
 	if(type.indexOf(4) > -1) avail_categories.push('centaurs');
 	if(type.indexOf(1) > -1) avail_categories.push('asteroids');
+	if(type.indexOf(8) > -1) avail_categories.push('jupiter-trojans');
 
 	let k = 100;
 	for (const id of avail_categories) {

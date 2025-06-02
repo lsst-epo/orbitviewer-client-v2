@@ -1,4 +1,4 @@
-import { ColorRepresentation, DoubleSide, Mesh, MeshPhongMaterial, MeshStandardMaterial, SphereGeometry, TextureLoader, Vector3 } from "three";
+import { Color, ColorRepresentation, DoubleSide, Mesh, MeshPhongMaterial, MeshStandardMaterial, ShaderMaterial, SphereGeometry, TextureLoader, Vector3 } from "three";
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 // import { isPortrait } from "../../production/utils/Helpers";
 // import { PlanetMaterial, PlanetMaterialParameters } from "../gfx/PlanetMaterial";
@@ -21,6 +21,32 @@ const gltfLoader = new GLTFLoader();
 //     color: 0xff0000
 // }));
 
+import vertexShader from "../../../glsl/lib/atmosphere.vert";
+import fragmentShader from "../../../glsl/lib/atmosphere.frag";
+
+function getAtmosphereMaterial(color1:ColorRepresentation, color2:ColorRepresentation, fresnelWidth:number=1):ShaderMaterial {
+    return new ShaderMaterial({
+        vertexShader,
+        fragmentShader,
+        uniforms: {
+            color1: {
+                value: new Color(color1)
+            },
+            color2: {
+                value: new Color(color2)
+            },
+            fresnelWidth: {
+                value: fresnelWidth
+            },
+            time: {
+                value: 0
+            }
+        },
+        transparent: true,
+        depthWrite: false
+    })
+}
+
 
 export class Planet extends SolarElement {
     material: PlanetMaterial;
@@ -28,6 +54,10 @@ export class Planet extends SolarElement {
 
     rotationSpeed:number;
     type:PlanetId;
+
+    hasAtmosphere:boolean = false;
+    atmosphere:Mesh;
+    atmosphereMaterial:ShaderMaterial;
 
 	constructor(id: PlanetId, _data: OrbitElements, opts: SolarElementOptions = {}) {
 		super(id, _data, opts);
@@ -46,7 +76,7 @@ export class Planet extends SolarElement {
 
         // console.log(PlanetRadiusMap[this.type] * KM2AU);
         PlanetDataMap[this.type] = cloneOrbitElements(_data);
-        let scl = PlanetRadiusMap[this.type] * KM2AU * PLANET_SCALE * 100;
+        const scl = PlanetRadiusMap[this.type] * KM2AU * PLANET_SCALE * 100;
         this.scale.set(scl, scl, scl);
         // correct fresnel
 
@@ -64,6 +94,15 @@ export class Planet extends SolarElement {
 				});
 				this.mesh.add(gltf.scene);
 			});
+        }
+
+        if(id === 'earth') {
+            // add atmosphere
+            this.atmosphereMaterial = getAtmosphereMaterial(0x0022EE, 0xAAFFFF, 2.5);
+            this.atmosphere = new Mesh(PLANET_GEO, this.atmosphereMaterial);
+            this.atmosphere.scale.setScalar(1.15);
+            this.parent.add(this.atmosphere);
+            this.hasAtmosphere = true;
         }
 
         // this.rotationSpeed = Random.randf(-1, 1);
@@ -97,6 +136,7 @@ export class Planet extends SolarElement {
 
         if(this.type === 'earth') {
             this.material.normalMap = tLoader.load(`/assets/textures/${this.type}_normal.webp`);
+            this.material.normalScale.set(4, 4);
         }
 
         return this.material;
@@ -117,6 +157,8 @@ export class Planet extends SolarElement {
         const rt = PlanetRotationMap[this.type] as PlanetRotationData;
         this.mesh.rotation.y = rt.meridian * DEG_TO_RAD + d * this.rotationSpeed;
         this.material.update();
+        if(!this.hasAtmosphere) return;
+        this.atmosphereMaterial.uniforms.time.value = GLOBALS.solarClock.time;
     }
 
 }
