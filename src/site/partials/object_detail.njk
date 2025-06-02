@@ -1,8 +1,8 @@
 {% from '../components/button.njk' import Button %}
 {% from '../components/object_card_graph.njk' import ObjectCardGraph %}
 
-<section class="object_detail" aria-hidden="false">
-    <div class="object_detail-frame"></div>
+<section class="object_detail" role="main" aria-labelledby="object-name" aria-hidden="false">
+    <div class="object_detail-frame" aria-hidden="false"></div>
     <div class="object_detail-content">
         <div class="object_card">
             <header class="object_card-head">
@@ -10,9 +10,9 @@
             </header>
             <div class="object_card-body">
                 <div class="object_card-heading">
-                    <h1 class="object_card-name">2014 UZ224</h1>
+                    <h1 class="object_card-name" id="object-name">2014 UZ224</h1>
                     <div class="object_card-hero">
-                        <img src="" alt="">
+                        <img src="" alt="Astronomical image of 2014 UZ224">
                     </div>
                     <div class="object_card-category">
 
@@ -24,50 +24,50 @@
                 </div>
 
                 <div class="object_card-content">
-                    <div class="object_card-unit">
-                        <h2 class="title">Diameter</h2>
-                        <h4 class="value">
+                    <div class="object_card-unit" role="group" aria-labelledby="diameter-label">
+                        <h2 class="title" id="diameter-label">Diameter</h2>
+                        <h4 class="value" role="text" aria-describedby="diameter-label">
                             <span class="primary">12742.00km</span>
                             <span class="secondary">7917.51 mi</span>
                         </h4>
                     </div>
                     
                     <div class="object_card-unit">
-                        {{ ObjectCardGraph('Average distance from the Sun', 'Semi-major axis (a)', 10, ['sun', 'orbit']) }}
-                        {{ ObjectCardGraph('Deviation from a circular orbit', 'Eccentricity (e)', 10, ['sun', 'orbit']) }}
-                        {{ ObjectCardGraph('Angle of orbit', 'Inclination (i)', 10, ['sun', 'orbit']) }}
+                        {{ ObjectCardGraph('Average distance from the Sun', 'Semi-major axis (a)', 20, 100, ['sun', 'orbit']) }}
+                        {{ ObjectCardGraph('Deviation from a circular orbit', 'Eccentricity (e)', 50, 100, ['sun', 'orbit']) }}
+                        {{ ObjectCardGraph('Angle of orbit', 'Inclination (i)', 10, 100, ['sun', 'orbit']) }}
                     </div>
 
                     <div class="object_card-unit">
                         <h2 class="title">Orbital elements</h2>
-                        <ul class="orbital_elements-list">
-                            <li class="orbital_elements-item">
-                                <div class="orbital_elements-label">ω</div>
-                                <div class="orbital_elements-value">322.63</div>
-                            </li>
-                            <li class="orbital_elements-item">
-                                <div class="orbital_elements-label">Ω</div>
-                                <div class="orbital_elements-value">322.63</div>
-                            </li>
-                            <li class="orbital_elements-item">
-                                <div class="orbital_elements-label">v</div>
-                                <div class="orbital_elements-value">322.63</div>
-                            </li>
+                        <ul class="orbital_elements-list" role="list" aria-label="Orbital element parameters">
+                            <dl class="orbital_elements-item" role="group">
+                                <dt class="orbital_elements-label" aria-label="Argument of periapsis">ω</dt>
+                                <dd class="orbital_elements-value">322.63</dd>
+                            </dl>
+                            <dl class="orbital_elements-item" role="group">
+                                <dt class="orbital_elements-label" aria-label="Longitude of the ascending node">Ω</dt>
+                                <dd class="orbital_elements-value">322.63</dd>
+                            </dl>
+                            <dl class="orbital_elements-item" role="group">
+                                <dt class="orbital_elements-label" aria-label="True anomaly">v</dt>
+                                <dd class="orbital_elements-value">322.63</dd>
+                            </dl>
                         </ul>
                     </div>
 
                     <div class="object_card-unit">
                         <h2 class="title">When it will be closest to the Sun?</h2>
                         <h4 class="value">
-                            <span class="primary">January 03, 2026</span>
+                            <time class="primary" datetime="2026-01-03" aria-label="January 3rd, 2026">January 03, 2026</time>
                             <span class="secondary">245 days left</span>
                         </h4>
                     </div>
 
                     <div class="object_card-unit">
                         <h2 class="title">How far is it today?</h2>
-                        {{ ObjectCardGraph('From the Sun', '1.00au', 10, ['sun']) }}
-                        {{ ObjectCardGraph('From the Earth', '1.00au', 10, ['earth']) }}
+                        {{ ObjectCardGraph('From the Sun', '1.00au', 70, 100, ['sun']) }}
+                        {{ ObjectCardGraph('From the Earth', '1.00au', 100, 100, ['earth']) }}
                     </div>
                 </div>
             </div>

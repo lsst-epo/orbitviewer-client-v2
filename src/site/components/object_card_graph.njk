@@ -1,10 +1,10 @@
 {% from '../partials/icons.njk' import icon %}
 
-{% macro ObjectCardGraph(title, info, value, icons=[]) %}
+{% macro ObjectCardGraph(title, info, currentValue, maxValue, icons=[]) %}
     <div class="object_card_graph">
         <div class="object_card_graph-head">
-            <h3 class="label">{{ title }}</h3>
-            <p class="unit">{{ info }}</p>
+            <h3 class="label" id="graph-{{ title | slug }}">{{ title }}</h3>
+            <p class="unit" aria-describedby="graph-{{ title | slug }}">{{ info }}</p>
         </div>
 
         <div class="object_card_graph-body">
@@ -15,11 +15,15 @@
                     </div>
                 {% endif %}
 
-                <div class="progress">
-                    <div class="progress-pre" style="width: 30%">
-                        <div class="thumb"></div>
+                <div class="progress" role="progressbar" 
+                    aria-valuenow="{{ currentValue }}" 
+                    aria-valuemin="0" 
+                    aria-valuemax="{{ maxValue }}"
+                    aria-labelledby="graph-{{ title | slug }}">
+                   <div class="progress-pre" style="width: {{ (currentValue / maxValue * 100) }}%">
+                        <div class="thumb" aria-hidden="true"></div>
                     </div>
-                    <div class="progress-post"></div>
+                    <div class="progress-post" aria-hidden="true"></div>
                 </div>
 
                 {% if icons[1] %}
