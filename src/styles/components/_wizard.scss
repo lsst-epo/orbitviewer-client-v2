@@ -71,13 +71,13 @@
                 }
 
                 .steps {
-                    color: var(--color-grey-100);
+                    color: var(--color-text);
                 }
             }
             
             .description {
                 padding: 8px;
-                color: var(--color-grey-100);
+                color: var(--color-text);
                 @include font(body-large);
             }
         }
