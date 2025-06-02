@@ -188,6 +188,19 @@ export class App2 {
 
 			timemachineComponent.classList.toggle('collapsed');
 		});
+
+		// Close Filters
+		const filtersComponent = document.querySelector('.filters');
+		const filtersClose = document.querySelector('.filters-head .button_icon');
+		filtersClose.addEventListener('click', (e) => {
+			e.preventDefault();
+			const isHidden = filtersComponent.getAttribute('aria-hidden');
+			if (isHidden === "true") {
+				filtersComponent.setAttribute('aria-hidden', "false");
+			} else {
+				filtersComponent.setAttribute('aria-hidden', "true");
+			}
+		});
 	}
 
 	update() {

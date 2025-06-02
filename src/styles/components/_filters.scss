@@ -1,6 +1,7 @@
 // filters.scss
 
 @use '../partials/mixins' as *;
+@use '../partials/typography' as *;
 
 .filters {
     position: absolute;
@@ -54,6 +55,12 @@
                 &-head {
                     display: flex;
                     justify-content: space-between;
+                    align-items: center;
+
+                    .title {
+                        @include font(subtitle-large-regular);
+                        color: var(--color-text);
+                    }
                 }
 
                 &-body {
@@ -63,19 +70,23 @@
                     &_field {
                         display: flex;
                         flex-direction: column;
-                        gap: 16px;
+                        gap: 24px;
                         padding: 24px 0;
 
                         &-label {
                             display: flex;
+                            align-items: baseline;
                             gap: 8px;
                             
                             .label {
                                 flex: auto;
+                                @include font(body-large);
+                                color: var(--color-text);
                             }
 
                             .helper {
-
+                                @include font(overline-medium-regular);
+                                color: var(--color-text);
                             }
                         }
 
