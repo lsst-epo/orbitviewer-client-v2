@@ -13,25 +13,26 @@
 
         {{ content | safe }}
 
-        {% include 'home.njk' %}
-        {% include 'object_detail.njk' %}
-        {% include 'onboarding.njk' %}
-
-        {% include 'objects.njk' %}
-
-        {% include 'wizard.njk' %}
-        
-        {{ Toast('Maximum date reached. Future positions cannot be calculated. Try exploring within the supported time range', '', 'Maximum date notification', true) }}
-
         {% include 'navigation.njk' %}
 
-        
-        {% include 'toolbar.njk' %}        
-        {% include 'filters.njk' %}
-        {% include 'search.njk' %}
-        
-        {% include 'timemachine.njk' %}
-        {% include 'mapcontrols.njk' %}
+        <main>
+            {% include 'home.njk' %}
+            {% include 'object_detail.njk' %}
+            {% include 'onboarding.njk' %}
+
+            {% include 'objects.njk' %}
+
+            {% include 'wizard.njk' %}
+            
+            {{ Toast('Maximum date reached. Future positions cannot be calculated. Try exploring within the supported time range', '', 'Maximum date notification', true) }}
+
+            {% include 'toolbar.njk' %}
+            {% include 'filters.njk' %}
+            {% include 'search.njk' %}
+            
+            {% include 'timemachine.njk' %}
+            {% include 'mapcontrols.njk' %}
+        </main>
         
 
         <script defer type="module">

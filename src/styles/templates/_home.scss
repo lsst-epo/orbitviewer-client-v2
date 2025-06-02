@@ -1,4 +1,5 @@
 @use '../partials/mixins' as *;
+@use '../partials/typography' as *;
 
 .home {
     position: absolute;
@@ -52,6 +53,20 @@
             @include media(medium) {
                 gap: 24px;
             }
+
+            .title {
+                @include font(body-large);
+                @include media(medium) {
+                    @include font(subtitle-large-regular);
+                }
+            }
+
+            .subtitle {
+                @include font(headline);
+                @include media(medium) {
+                    @include font(hero);
+                }
+            }
         }
 
         &-action {
@@ -66,6 +81,17 @@
             align-items: center;
             padding-bottom: 32px;
             text-align: center;
+
+            .label {
+                @include font(caption-regular);
+            }
+
+            .value {
+                @include font(subtitle-large-regular);
+                @include media(medium) {
+                    @include font(headline);
+                }   
+            }
         }
 
     &_foot {

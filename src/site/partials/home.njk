@@ -1,9 +1,9 @@
 {% from '../components/button.njk' import Button %}
 
-<section class="home" aria-hidden="true">
+<section class="home" aria-hidden="false">
     <div class="home-body">
         <div class="home-triad">
-            <img src="/assets/images/rubin-nsf-doe-triad.png" alt="">
+            <img src="/assets/images/rubin-nsf-doe-triad.png" alt="NSF-DOE Vera C. Rubin Observatory logo triad">
         </div>
 
         <div class="home-heading">
@@ -12,22 +12,22 @@
         </div>
 
         <div class="home-action">
-            {{ Button('Start', 'button primary medium') }}
+            {{ Button('Start exploring', 'button primary medium') }}
         </div>
 
-        <div class="home-count">
+        <div class="home-count" role="status" aria-live="polite">
             <p class="label">Discoveries Unveiled</p>
-            <p class="value">745,259</p>
+            <p class="value" aria-label="745,259 discoveries">745,259</p>
         </div>
     </div>
 
-    <div class="home_foot">
-        <ul class="home_foot-list">
+    <div class="home_foot" role="contentinfo" aria-label="Language selection">
+        <ul class="home_foot-list" role="list">
             <li class="home_foot-item">
-                <a href="">English</a>
+                <a href="" hreflang="en" aria-current="page">English</a>
             </li>
             <li class="home_foot-item">
-                <a href="">Español</a>
+                <a href="" hreflang="es">Español</a>
             </li>
         </ul>
     </div>
