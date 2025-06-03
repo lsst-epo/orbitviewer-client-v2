@@ -8,12 +8,17 @@
     top: var(--site-margin-small);
     left: var(--site-margin-small);
     z-index: var(--z-logo);
+    box-sizing: content-box;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 12px;
-    width: 102px;
-    height: 60px;
+    padding: 5px;
+    width: 87px;
+    height: 40px;
+
+    @include media(medium) {
+        padding: 12px 9px;
+    } 
 
     .logo {
         width: 100%;

@@ -1,6 +1,7 @@
 // search.scss
 
 @use '../partials/mixins' as *;
+@use '../partials/typography' as *;
 
 .search {
     position: absolute;
@@ -61,6 +62,11 @@
 
                     @include media(medium) {
                         display: none;
+                    }
+
+                    .title {
+                        @include font(subtitle-large-regular);
+                        color: var(--color-text);
                     }
                 }
 
