@@ -3,6 +3,23 @@
 @use '../partials/mixins' as *;
 @use '../partials/typography' as *;
 
+.site-logo {
+    position: absolute;
+    top: var(--site-margin-small);
+    left: var(--site-margin-small);
+    z-index: var(--z-logo);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    width: 102px;
+    height: 60px;
+
+    .logo {
+        width: 100%;
+    }
+}
+
 .navigation {
     position: absolute;
     inset: 0 0 auto 0;
