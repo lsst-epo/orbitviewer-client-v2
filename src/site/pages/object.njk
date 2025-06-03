@@ -1,3 +1,11 @@
+---
+layout: base
+pageTemplate: landing
+eleventyComputed:
+  title: "{{ staticData.title }}"
+  description: "{{ staticData.description }}"
+---
+
 {% from '../components/button.njk' import Button %}
 {% from '../components/buttonicon.njk' import ButtonIcon %}
 {% from '../components/object_card_graph.njk' import ObjectCardGraph %}

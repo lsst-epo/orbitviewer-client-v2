@@ -1,7 +1,7 @@
 @use '../base/mixins' as *;
 @use '../base/typography' as *;
 
-.home {
+.splash {
     position: absolute;
     inset: 0;
     z-index: var(--z-detail);

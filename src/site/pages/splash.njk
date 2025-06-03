@@ -1,0 +1,42 @@
+---
+layout: base
+pageTemplate: landing
+eleventyComputed:
+  title: "{{ staticData.title }}"
+  description: "{{ staticData.description }}"
+---
+
+{% from '../components/button.njk' import Button %}
+
+<section class="splash" aria-hidden="false">
+    <div class="splash-body">
+        <div class="splash-triad">
+            <img src="/assets/images/rubin-nsf-doe-triad.png" alt="{{ copy.splash.logo.alt.en }}">
+        </div>
+
+        <div class="splash-heading">
+            <h1 class="title">Vera C. Rubin’s 3D Orbit Viewer</h1>
+            <h2 class="subtitle">Mapping the Solar System Like Never Before</h2>
+        </div>
+
+        <div class="splash-action">
+            {{ Button('Start exploring', 'button primary medium') }}
+        </div>
+
+        <div class="splash-count" role="status" aria-live="polite">
+            <p class="label">{{ copy.splash.discoveries.en }}</p>
+            <p class="value" aria-label="745,259 discoveries">745,259</p>
+        </div>
+    </div>
+
+    <div class="splash_foot" role="contentinfo" aria-label="Language selection">
+        <ul class="splash_foot-list" role="list">
+            <li class="splash_foot-item">
+                <a href="" hreflang="{{ copy.splash.languages.english.shorthand }}" aria-current="page">{{ copy.splash.languages.english.full }}</a>
+            </li>
+            <li class="splash_foot-item">
+                <a href="" hreflang="{{ copy.splash.languages.spanish.shorthand }}">{{ copy.splash.languages.spanish.full }}</a>
+            </li>
+        </ul>
+    </div>
+</section>

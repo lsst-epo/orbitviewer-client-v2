@@ -5,7 +5,7 @@ export default {
             "es": ""
         }
     },
-    "home": {
+    "splash": {
         "logo": {
             "alt": {
                 "en": "NSF-DOE Vera C. Rubin Observatory logo",

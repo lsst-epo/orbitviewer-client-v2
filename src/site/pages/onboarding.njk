@@ -6,7 +6,55 @@ eleventyComputed:
   description: "{{ staticData.description }}"
 ---
 
-test
-{# <section class="terminal">
-  <div class="content"></div>
-</section> #}
+{% from '../components/button.njk' import Button %}
+
+<section class="onboarding" aria-hidden="false" role="main" aria-labelledby="onboarding-heading">
+    <h2 class="onboarding-title" id="onboarding-heading">Choose your Exploration Mode</h2>
+    <div class="exploration">
+        <ul class="exploration-list" role="radiogroup" aria-labelledby="onboarding-heading" aria-required="true">
+                {% set explorationModes = [
+                    {
+                        name: "Mobile",
+                        title: "Mobile Optimized",
+                        description: "Perfect for on-the-go exploration with minimal data usage",
+                        objects: "16,000 Objects"
+                    },
+                    {
+                        name: "High-end mobiles",
+                        title: "Core Experience",
+                        description: "Great performance on most devices with rich visuals",
+                        objects: "50,000 Objects"
+                    },
+                    {
+                        name: "High-end laptops",
+                        title: "Detailed discovery",
+                        description: "Detailed textures and increased object count for deeper exploration",
+                        objects: "250,000 objects"
+                    },
+                    {
+                        name: "Gaming PCs",
+                        title: "Maximum fidelity",
+                        description: "Maximum detail with complete celestial catalog for the ultimate experience",
+                        objects: "500,000 objects"
+                    }
+                ] %}
+
+                {% for mode in explorationModes %}
+                    <li class="exploration-item" role="radio" aria-checked="false" tabindex="0" >
+                        <div class="exploration_card">
+                            <div class="exploration_card-body">
+                                <h3 class="name">{{ mode.name }}</h3>
+                                <h4 class="title">{{ mode.title }}</h4>
+                                <p class="description">{{ mode.description }}</p>
+                                <p class="count">{{ mode.objects }}</p>
+                            </div>
+                            <div class="exploration_card-foot">
+                                {{ Button('Launch', 'button secondary medium') }}
+                            </div>
+                        </div>
+                    </li>
+                {% endfor %}
+        </ul>
+    </div>
+    <p class="onboarding-info">You can adjust your exploration mode later in the settings menu</p>
+</section>
