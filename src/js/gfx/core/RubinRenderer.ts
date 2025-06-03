@@ -35,7 +35,7 @@ export class RubinRenderer {
     const w = rnd.domElement.width;
     const h = rnd.domElement.height;
 
-    console.log(w, h, window.innerWidth, window.innerHeight);
+    // console.log(w, h, window.innerWidth, window.innerHeight);
 
     this.sceneRT = new WebGLRenderTarget(w, h, {
       samples: 4,

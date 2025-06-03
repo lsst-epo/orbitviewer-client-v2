@@ -94,22 +94,74 @@ export class Planet extends SolarElement {
 				});
 				this.mesh.add(gltf.scene);
 			});
+
+            // add atmosphere
+            this.atmosphereMaterial = getAtmosphereMaterial(0x9966FF, 0xCCCCFF, 6);
+            this.atmosphere = new Mesh(PLANET_GEO, this.atmosphereMaterial);
+            this.atmosphere.scale.setScalar(1.008);
+            this.parent.add(this.atmosphere);
+            this.hasAtmosphere = true;
         }
 
         else if(id === 'earth') {
             // add atmosphere
-            this.atmosphereMaterial = getAtmosphereMaterial(0x0022EE, 0xAAFFFF, 2.5);
+            this.atmosphereMaterial = getAtmosphereMaterial(0x0022EE, 0xAAFFFF, 2);
             this.atmosphere = new Mesh(PLANET_GEO, this.atmosphereMaterial);
-            this.atmosphere.scale.setScalar(1.15);
+            this.atmosphere.scale.setScalar(1.1);
             this.parent.add(this.atmosphere);
             this.hasAtmosphere = true;
         }
 
         else if(id === 'mars') {
             // add atmosphere
-            this.atmosphereMaterial = getAtmosphereMaterial(0xFF3333, 0xF4B681, 1.15);
+            this.atmosphereMaterial = getAtmosphereMaterial(0xFF3333, 0xF4B681, .9);
             this.atmosphere = new Mesh(PLANET_GEO, this.atmosphereMaterial);
-            this.atmosphere.scale.setScalar(1.11);
+            this.atmosphere.scale.setScalar(1.07);
+            this.parent.add(this.atmosphere);
+            this.hasAtmosphere = true;
+        }
+
+        else if(id === 'venus') {
+            // add atmosphere
+            this.atmosphereMaterial = getAtmosphereMaterial(0xFFFF33, 0xF4B681, .6);
+            this.atmosphere = new Mesh(PLANET_GEO, this.atmosphereMaterial);
+            this.atmosphere.scale.setScalar(1.01);
+            this.parent.add(this.atmosphere);
+            this.hasAtmosphere = true;
+        }
+
+        else if(id === 'mercury') {
+            // add atmosphere
+            this.atmosphereMaterial = getAtmosphereMaterial(0xFFFFFF, 0xeeeeee, .24);
+            this.atmosphere = new Mesh(PLANET_GEO, this.atmosphereMaterial);
+            this.atmosphere.scale.setScalar(1.01);
+            this.parent.add(this.atmosphere);
+            this.hasAtmosphere = true;
+        }
+
+        else if(id === 'jupiter') {
+            // add atmosphere
+            this.atmosphereMaterial = getAtmosphereMaterial(0xFF6633, 0xCCCC33, 5);
+            this.atmosphere = new Mesh(PLANET_GEO, this.atmosphereMaterial);
+            this.atmosphere.scale.setScalar(1.006);
+            this.parent.add(this.atmosphere);
+            this.hasAtmosphere = true;
+        }
+
+        else if(id === 'uranus') {
+            // add atmosphere
+            this.atmosphereMaterial = getAtmosphereMaterial(0x3333FF, 0xeeeeee, 6);
+            this.atmosphere = new Mesh(PLANET_GEO, this.atmosphereMaterial);
+            this.atmosphere.scale.setScalar(1.05);
+            this.parent.add(this.atmosphere);
+            this.hasAtmosphere = true;
+        }
+
+        else if(id === 'neptune') {
+            // add atmosphere
+            this.atmosphereMaterial = getAtmosphereMaterial(0x3333FF, 0xeeeeee, 5.5);
+            this.atmosphere = new Mesh(PLANET_GEO, this.atmosphereMaterial);
+            this.atmosphere.scale.setScalar(1.05);
             this.parent.add(this.atmosphere);
             this.hasAtmosphere = true;
         }
