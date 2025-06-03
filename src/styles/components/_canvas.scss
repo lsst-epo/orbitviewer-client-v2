@@ -31,6 +31,7 @@
 }
 
 .canvas_pointer {
+    --size: 20px;
     position: absolute;
     z-index: var(--z-pointer);
 
@@ -49,6 +50,7 @@
         top: 0;
         display: flex;
         gap: 2px;
+        transform: translate(calc(-1*var(--size)/2), -50%);
 
         &:hover {
             .canvas_pointer-text {
@@ -63,9 +65,9 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 20px;
-            height: 20px;
-            border-radius: 10px;
+            width: var(--size);
+            height: var(--size);
+            border-radius: calc(var(--size)/2);
             background: var(--color);
 
             .icon {
