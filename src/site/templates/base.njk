@@ -2,6 +2,7 @@
 {% from "../partials/icons.njk" import icon %}
 {% from "../components/toast.njk" import Toast %}
 {% from "../components/modal.njk" import Modal %}
+{% from "../components/pointer.njk" import Pointer %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -12,6 +13,9 @@
         {{ initSpriteSheet() }}
         <div class="view">
             <div class="sun"></div>
+
+            {{ Pointer('Earth', 'planets_moons', 'left: 30%; top: 50%') }}
+            {{ Pointer('2011 S00000ah', 'asteroids', 'left: 50%; top: 30%') }}
         </div>
 
         {% include 'navigation.njk' %}

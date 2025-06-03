@@ -1,5 +1,8 @@
 // canvas.scss
 
+@use '../base/mixins' as *;
+@use '../base/typography' as *;
+
 .view {
     position: absolute;
     left: 0;
@@ -25,4 +28,59 @@
     background: var(--yellow);
     box-shadow: 0 0 35px 12px var(--yellow);
 
+}
+
+.canvas_pointer {
+    position: absolute;
+    z-index: var(--z-pointer);
+
+    &.planets_moons { --color: var(--color-planets);}
+    &.near_earth { --color: var(--color-near_earth);}
+    &.asteroids { --color: var(--color-asteroids);}
+    &.comets { --color: var(--color-comets);}
+    &.centaurs { --color: var(--color-centaurs);}
+    &.trans_neptunian { --color: var(--color-trans_neptunian);}
+    &.interstellar { --color: var(--color-interstellar);}
+    &.trojans { --color: var(--color-trojans);}
+    
+    &-label {
+        position: absolute;
+        left: 0;
+        top: 0;
+        display: flex;
+        gap: 2px;
+
+        &:hover {
+            .canvas_pointer-text {
+                background: var(--color);
+                color: var(--color-black);
+                text-shadow: initial;
+            }
+        }
+    }
+
+        &-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            border-radius: 10px;
+            background: var(--color);
+
+            .icon {
+                width: 16px;
+                height: 16px;
+            }
+        }
+
+        &-text {
+            padding: 0 4px;
+            background: rgba(var(--color-black-rgb), .5);
+            border-radius: var(--corner-medium);
+            @include font(caption-regular-caps);
+            color: var(--color-link);
+            text-shadow: 1px 1px 0 rgba(var(--color-black-rgb), .3);
+            white-space: nowrap;
+        }
 }

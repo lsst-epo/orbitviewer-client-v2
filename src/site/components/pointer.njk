@@ -1,0 +1,12 @@
+{% from "../partials/icons.njk" import icon %}
+
+{% macro Pointer(name = 'Name', type = '', style = '') %}
+<div class="canvas_pointer {{ type }}" style="{{ style }}">
+    <div class="canvas_pointer-label">
+        <div class="canvas_pointer-icon">
+            {{ icon(type) }}
+        </div>
+        <span class="canvas_pointer-text">{{ name }}</span>
+    </div>
+</div>
+{% endmacro %}
