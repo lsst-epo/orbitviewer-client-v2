@@ -1,0 +1,64 @@
+// modal.scss
+
+@use '../base/mixins' as *;
+@use '../base/typography' as *;
+
+.modal {
+    position: absolute;
+    inset: 0;
+    background: var(--color-backdrop);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    z-index: var(--z-modal);
+    backdrop-filter: blur(var(--backdrop-blur));
+
+    &[aria-hidden=true] {
+        display: none;
+    }
+    
+    &_dialog {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        max-width: 432px;
+        gap: 24px;
+        @include frozen_glass;
+        @include gradient_border;
+        border-radius: var(--corner-large);
+
+        padding: 24px;
+
+        &-body {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+
+            .title {
+                @include font(subtitle-large-regular);
+                color: var(--color-text);
+            }
+
+            .description {
+                @include font(body-large);
+                color: var(--color-text-low);
+            }
+        }
+
+        &-foot {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+
+            @include media(medium) {
+                flex-direction: initial;
+                flex-flow: row-reverse;
+            }
+
+            .button {
+                flex: auto;
+            }
+        }
+    }
+}

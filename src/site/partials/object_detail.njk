@@ -1,7 +1,8 @@
 {% from '../components/button.njk' import Button %}
+{% from '../components/buttonicon.njk' import ButtonIcon %}
 {% from '../components/object_card_graph.njk' import ObjectCardGraph %}
 
-<section class="object_detail" role="main" aria-labelledby="object-name" aria-hidden="true">
+<section class="object_detail" role="main" aria-labelledby="object-name" aria-hidden="false">
     <div class="object_detail-frame" aria-hidden="false"></div>
     <div class="object_detail-content">
         <div class="object_card">
@@ -41,18 +42,27 @@
                     <div class="object_card-unit">
                         <h2 class="title">Orbital elements</h2>
                         <ul class="orbital_elements-list" role="list" aria-label="Orbital element parameters">
-                            <dl class="orbital_elements-item" role="group">
-                                <dt class="orbital_elements-label" aria-label="Argument of periapsis">ω</dt>
-                                <dd class="orbital_elements-value">322.63</dd>
-                            </dl>
-                            <dl class="orbital_elements-item" role="group">
-                                <dt class="orbital_elements-label" aria-label="Longitude of the ascending node">Ω</dt>
-                                <dd class="orbital_elements-value">322.63</dd>
-                            </dl>
-                            <dl class="orbital_elements-item" role="group">
-                                <dt class="orbital_elements-label" aria-label="True anomaly">v</dt>
-                                <dd class="orbital_elements-value">322.63</dd>
-                            </dl>
+                            <li class="orbital_elements-item">
+                                <dl class="orbital_elements-data" role="group">
+                                    <dt class="orbital_elements-label" aria-label="Argument of periapsis">ω</dt>
+                                    <dd class="orbital_elements-value">322.63</dd>
+                                </dl>
+                                {{ ButtonIcon('button_icon xsmall ghost', 'info') }}
+                            </li>
+                            <li class="orbital_elements-item">
+                                <dl class="orbital_elements-data" role="group">
+                                    <dt class="orbital_elements-label" aria-label="Longitude of the ascending node">Ω</dt>
+                                    <dd class="orbital_elements-value">322.63</dd>
+                                </dl>
+                                {{ ButtonIcon('button_icon xsmall ghost', 'info') }}
+                            </li>
+                            <li class="orbital_elements-item">
+                                <dl class="orbital_elements-data" role="group">
+                                    <dt class="orbital_elements-label" aria-label="True anomaly">v</dt>
+                                    <dd class="orbital_elements-value">322.63</dd>
+                                </dl>
+                                {{ ButtonIcon('button_icon xsmall ghost', 'info') }}
+                            </li>
                         </ul>
                     </div>
 

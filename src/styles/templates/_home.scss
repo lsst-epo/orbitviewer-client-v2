@@ -1,5 +1,5 @@
-@use '../partials/mixins' as *;
-@use '../partials/typography' as *;
+@use '../base/mixins' as *;
+@use '../base/typography' as *;
 
 .home {
     position: absolute;

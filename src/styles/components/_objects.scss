@@ -1,7 +1,7 @@
 // objects.scss
 
-@use '../partials/mixins' as *;
-@use '../partials/typography' as *;
+@use '../base/mixins' as *;
+@use '../base/typography' as *;
 
 .objects {
     position: absolute;
@@ -9,7 +9,7 @@
     z-index: var(--z-objects);
     overflow: auto;
     background: var(--color-backdrop);
-    backdrop-filter: blur(8px);
+    backdrop-filter: blur(var(--backdrop-blur));
     display: flex;
     flex-direction: column;
     gap: 24px;

@@ -1,8 +1,8 @@
-// Partials
-@use './partials/reset';
-@use './partials/variables';
-@use './partials/fonts';
-@use './partials/typography';
+// Base
+@use './base/reset';
+@use './base/variables';
+@use './base/fonts';
+@use './base/typography';
 
 // Debug
 @use './components/debug/terminal';
@@ -17,6 +17,7 @@
 @use './components/listitem';
 @use './components/togglegroup';
 @use './components/rangeslider';
+@use './components/modal';
 @use './components/layout';
 @use './components/body';
 @use './components/canvas';

@@ -1,7 +1,7 @@
 // search.scss
 
-@use '../partials/mixins' as *;
-@use '../partials/typography' as *;
+@use '../base/mixins' as *;
+@use '../base/typography' as *;
 
 .search {
     position: absolute;
@@ -11,7 +11,7 @@
     flex-direction: column;
     height: 100%;
     background: var(--color-backdrop);
-    backdrop-filter: blur(8px);
+    backdrop-filter: blur(var(--backdrop-blur));
 
     @include media(medium) {
         inset: initial;

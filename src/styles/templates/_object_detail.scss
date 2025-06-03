@@ -1,5 +1,5 @@
-@use '../partials/mixins' as *;
-@use '../partials/typography' as *;
+@use '../base/mixins' as *;
+@use '../base/typography' as *;
 
 .object_detail {
     position: absolute;
@@ -251,7 +251,6 @@
     &-list {
         @include reset_list;
         display: flex;
-        flex-wrap: wrap;
         padding: 8px 0;
         gap: 8px;
     }
@@ -259,11 +258,18 @@
         &-item {
             flex: auto;
             display: flex;
-            justify-content: space-between;
-            gap: 8px;
-            padding: 8px 12px;
+            align-items: center;
+            padding: 4px 0;
             border: solid 1px var(--color-border-strong);
             border-radius: var(--corner-medium);
+        }
+
+        &-data {
+            flex: auto;
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+            padding-inline: 8px 2px;
             color: var(--color-text-low);
         }
 

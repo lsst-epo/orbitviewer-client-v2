@@ -6,7 +6,7 @@
     background: 
         linear-gradient(180deg, rgba(255,255,255,.12) 0%, rgba(255,255,255,.09) 100%),
         linear-gradient(180deg, rgba(0,0,0,.7) 0%, rgba(0,0,0,.7) 100%);
-    backdrop-filter: blur(8px);
+    backdrop-filter: blur(var(--backdrop-blur));
 }
 
 @mixin reset_list {

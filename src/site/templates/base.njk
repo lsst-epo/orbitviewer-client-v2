@@ -1,6 +1,7 @@
 {% from "../partials/icons.njk" import initSpriteSheet %}
 {% from "../partials/icons.njk" import icon %}
 {% from "../components/toast.njk" import Toast %}
+{% from "../components/modal.njk" import Modal %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -19,7 +20,7 @@
 
         <main>
             <a href="/" tabindex="1" class="site-logo">
-                <img src="/assets/images/nsf-doe-rubin-observatory-orbitviewer.png" class="logo" alt="NSF DOE Rubin Observatory Orbitviewer logo">
+                <img src="/assets/images/nsf-doe-rubin-observatory-orbitviewer.png" class="logo" alt="{{ copy.logo.alt.en }}">
             </a>
             
             {% include 'home.njk' %}
@@ -30,6 +31,7 @@
 
             {% include 'wizard.njk' %}
             
+            {{ Modal('Things looking a bit slow?', 'Weve noticed some performance issues. A different visualization mode could provide a smoother experience on your device.') }}
             {{ Toast('Maximum date reached. Future positions cannot be calculated. Try exploring within the supported time range', '', 'Maximum date notification', true) }}
 
             {% include 'toolbar.njk' %}

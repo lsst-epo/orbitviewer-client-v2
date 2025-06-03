@@ -1,6 +1,6 @@
 // variables.scss
 
-@use '../partials/mixins' as *;
+@use '../base/mixins' as *;
 
 :root {
     // Color Primitives
@@ -58,6 +58,7 @@
 
     // Layers
     --z-toast: 12;
+    --z-modal: 12;
     --z-wizard: 11;
     --z-logo: 10;
     --z-onboarding: 9;
@@ -85,7 +86,8 @@
 
     // Styles
     --corner-medium: 5px;
-    --corner-large: 10px;    
+    --corner-large: 10px;   
+    --backdrop-blur: 8px; 
 
     // Fonts
     --font-stack: 'Source Sans 3', Arial, sans-serif;

@@ -1,7 +1,7 @@
 // toolbar.scss
 
-@use '../partials/mixins' as *;
-@use '../partials/typography' as *;
+@use '../base/mixins' as *;
+@use '../base/typography' as *;
 
 .toolbar {
     position: absolute;
