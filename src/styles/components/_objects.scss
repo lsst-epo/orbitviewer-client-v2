@@ -1,6 +1,7 @@
 // objects.scss
 
 @use '../partials/mixins' as *;
+@use '../partials/typography' as *;
 
 .objects {
     position: absolute;
@@ -11,10 +12,7 @@
     backdrop-filter: blur(8px);
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
     gap: 24px;
-    padding: calc(var(--header-height) + 16px) 0 var(--site-margin-large);
 
     &[aria-hidden=true] {
         display: none;
@@ -24,17 +22,40 @@
         gap: 40px;
     }
 
+    &-head {
+        flex: 0 0 auto;
+        display: flex;
+        justify-content: flex-end;
+        padding: var(--site-margin-small);
+
+        @include media(medium) {
+            display: none;
+        }
+    }
+
+    &-body {
+        flex: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        
+
+        @include media(medium) {
+            gap: 48px;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+
     &-heading {
         display: flex;
         flex-direction: column;
         gap: 16px;
+        color: var(--color-text);
+        padding: 0 var(--site-margin-large);
         
         .title {
-
-        }
-
-        .subtitle {
-
+            @include font(subtitle-large-regular);
         }
     }
 
@@ -52,7 +73,7 @@
             min-width: 100%;
             display: flex;
             gap: 12px;
-            padding: 0 calc(var(--site-margin-large)*2);
+            padding: 0 calc(var(--site-margin-large));
         }
 
             &-item {
@@ -89,18 +110,39 @@
 
                     &-body {
                         flex: auto;
+                        display: flex;
+                        flex-direction: column;
+                        gap: 8px;
                         padding: 20px 16px;
+                        color: var(--color-text);
 
                         .name {
-                            color: var(--color-grey-100);
-                        }
+                            @include font(subtitle-large-regular);
 
-                        .description {
-                            color: var(--color-grey-100);
+                            @include media(medium) {
+                                @include font(title);
+                            }
                         }
+                        
+                        .stats {
+                            display: flex;
+                            gap: 8px;
+                            color: var(--color-text-low);
 
-                        .count {
-                            color: var(--color-grey-100);
+                            &-column {
+                                flex: auto;
+                                display: flex;  
+                                flex-direction: column;
+                            }
+
+                                &-value {
+                                    @include font(subtitle-large-semi);
+                                }
+
+                                &-label {
+                                    margin: 0;
+                                    @include font(caption-regular);
+                                }
                         }
                     }
 
@@ -110,6 +152,15 @@
                         align-items: center;
                         padding: 24px;
                         gap: 16px;
+
+                        .label {
+                            color: var(--color-text);
+                            @include font(body-medium-semi);
+                        
+                        &.hidden {
+                            color: var(--color-text-low);
+                        }
+                        }
                     }
                 }
         
