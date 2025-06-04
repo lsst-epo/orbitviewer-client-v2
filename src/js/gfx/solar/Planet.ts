@@ -24,7 +24,7 @@ const gltfLoader = new GLTFLoader();
 import vertexShader from "../../../glsl/lib/atmosphere.vert";
 import fragmentShader from "../../../glsl/lib/atmosphere.frag";
 
-function getAtmosphereMaterial(color1:ColorRepresentation, color2:ColorRepresentation, fresnelWidth:number=1, brightness:number=1.5):ShaderMaterial {
+export function getAtmosphereMaterial(color1:ColorRepresentation, color2:ColorRepresentation, fresnelWidth:number=1, brightness:number=1.5):ShaderMaterial {
     return new ShaderMaterial({
         vertexShader,
         fragmentShader,

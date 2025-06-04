@@ -10,10 +10,11 @@ import { JD2MJD } from "../core/solar/SolarTime";
 import { mapOrbitElements, OrbitDataElements } from "../core/solar/SolarUtils";
 import { RubinRenderer } from "./core/RubinRenderer";
 import { Planet } from "./solar/Planet";
-import { SolarElement } from "./solar/SolarElement";
+import { InteractiveObject, SolarElement } from "./solar/SolarElement";
+import { Sun } from "./solar/Sun";
 
 export interface FollowTarget {
-	target: SolarElement;
+	target: InteractiveObject;
 	alpha: number;
 }
 
@@ -27,6 +28,8 @@ export class OrbitViewer extends ThreeLayer {
 	sunLightHelper: PointLightHelper;
 
 	solarElements:Array<SolarElement> = []
+
+	sun:Sun;
 
 	cameraTarget: FollowTarget = {
 		target: null,
@@ -62,6 +65,9 @@ export class OrbitViewer extends ThreeLayer {
       this.scene.add(this.particles.mesh);
 			// this.particles.mesh.visible = false;
 
+			this.sun = new Sun();
+			this.scene.add(this.sun);
+
       this.sunLight = new PointLight(0xffffff, 1, 0, 0);
       this.scene.add(this.sunLight);
       this.sunLightHelper = new PointLightHelper(this.sunLight, 100);
@@ -73,6 +79,8 @@ export class OrbitViewer extends ThreeLayer {
 
 			const fog = new Fog(0x000000, 5000, 25000);
 			this.scene.fog = fog;
+
+			this.followSun();
     }
 
     hidePaths() {
@@ -115,12 +123,17 @@ export class OrbitViewer extends ThreeLayer {
 	followPlanet(id:PlanetId) {
 		for(const item of this.solarElements) {
 			if(id === item.name) {
+				console.log(`Follow: ${item.data.id}`);
 				return this.followTarget(item);
 			}
 		}
 	}
 
-	followTarget(target:SolarElement) {
+	followSun() {
+		this.followTarget(this.sun);
+	}
+
+	followTarget(target:InteractiveObject) {
 		gsap.killTweensOf(this.cameraTarget);
 		this.cameraTarget.alpha = .036;
 		gsap.to(this.cameraTarget, {
@@ -135,8 +148,6 @@ export class OrbitViewer extends ThreeLayer {
 		this.controls.autoRotateSpeed = .05;
 		this.controls.minDistance = target.lockedDistance.min;
 		this.controls.maxDistance = target.lockedDistance.max;
-
-		console.log(`Follow: ${target.data.id}`);
 	}
 
 	releaseCameraTarget() {
@@ -186,15 +197,17 @@ export class OrbitViewer extends ThreeLayer {
      */
     update(time:number, d:number) {
    		for (let i = 0, len = this.solarElements.length; i < len; i++) {
-			this.solarElements[i].update(d);
-		}
+				this.solarElements[i].update(d);
+			}
 
     	if(this.cameraTarget.target) {
-			this.controls.target.lerp(this.cameraTarget.target.position, this.cameraTarget.alpha);
+				this.controls.target.lerp(this.cameraTarget.target.position, this.cameraTarget.alpha);
      	}
 
-        this.controls.update();
-        this.particles.update(d, this.camera);
+			this.sun.update();
+
+      this.controls.update();
+      this.particles.update(d, this.camera);
     }
 
 		render(): void {

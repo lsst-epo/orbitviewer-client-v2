@@ -393,7 +393,7 @@ export class App {
 		g3.add(this.viewer, 'useVFX');
 
 		const planetView = {
-			selected: 'earth',
+			selected: 'none',
 			paths: false
 		}
 

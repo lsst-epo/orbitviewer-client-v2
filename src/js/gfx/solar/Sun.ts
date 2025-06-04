@@ -1,5 +1,5 @@
 import { MathUtils } from "@fils/math";
-import { Mesh, Object3D, SphereGeometry, Vector3 } from "three";
+import { Color, Mesh, Object3D, ShaderMaterial, SphereGeometry, Vector3 } from "three";
 // import { CameraManager } from "../core/CameraManager";
 // import { SunMaterial } from "../gfx/SunMaterial";
 import { InteractiveObject } from "./SolarElement";
@@ -8,6 +8,9 @@ import { PLANET_SCALE } from "../../core/solar/Planet";
 import { KM2AU, SUN_RADIUS } from "../../core/solar/SolarSystem";
 import { GLOBALS } from "../../core/Globals";
 
+import vertexShader from "../../../glsl/lib/sun.vert";
+import fragmentShader from "../../../glsl/lib/sun.frag";
+
 const GEO = new SphereGeometry(1, 32, 32);
 const R = SUN_RADIUS * KM2AU * PLANET_SCALE;
 
@@ -15,6 +18,29 @@ export const SUN_SCALE = {
     min: R,
     max: R
 }
+
+const SUN_MAT = new ShaderMaterial({
+    vertexShader,
+    fragmentShader,
+    uniforms: {
+        time: {
+            value: 0
+        },
+        color1: {
+            value: new Color(0xF4B681)
+        },
+        color2: {
+            value: new Color(0xE78557)
+        },
+        fresnelWidth: {
+            value: 4
+        },
+        brightness: {
+            value: 3
+        }
+    },
+    transparent: true
+});
 
 /**
  * GFX Asset for the Sun
@@ -25,8 +51,8 @@ export class Sun extends Object3D implements InteractiveObject {
     selected:boolean = false;
     target:Object3D = this;
     lockedDistance = {
-      min: 4.6,
-      max: 6
+      min: 15,
+      max: 25
     };
     lockedOffset:Vector3 = new Vector3()
     closeUp: boolean = true;
@@ -38,10 +64,7 @@ export class Sun extends Object3D implements InteractiveObject {
 
         this.mesh = new Mesh(
             GEO,
-            new SunMaterial({
-                emissive: 0xff6600,
-                emissiveIntensity: 1.5
-            })
+            SUN_MAT
         );
 
         this.add(this.mesh);
@@ -57,8 +80,9 @@ export class Sun extends Object3D implements InteractiveObject {
         this.selected = value;
     }
 
-    update(time:number) {
+    update() {
         const t = GLOBALS.solarClock.time;
+        SUN_MAT.uniforms.time.value = t;
         
         // const sel = this.selected;
 
