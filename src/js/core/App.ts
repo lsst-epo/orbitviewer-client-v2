@@ -350,10 +350,10 @@ export class App {
 		})
 
 		g2.add(CLOCK_SETTINGS, 'speed', {
-			title: 'Sec Per Hour',
+			title: 'Hours per Sec',
 			min: -1000,
 			max: 1000,
-			step: 1
+			step: .01
 		});
 
 		g2.addButton('Reset', () => {
@@ -393,7 +393,7 @@ export class App {
 		g3.add(this.viewer, 'useVFX');
 
 		const planetView = {
-			selected: 'neptune',
+			selected: 'earth',
 			paths: false
 		}
 

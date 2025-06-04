@@ -19,6 +19,8 @@ export class SolarClock {
     private edge1:Date = new Date('1900-01-01T00:00:00');
     private edge2:Date = new Date('2100-01-01T00:00:00');
 
+    private todayRef = Date.now() * .001;
+
     /**
      * 
      * @param clock - internal clock for handling ellapsed time
@@ -33,7 +35,9 @@ export class SolarClock {
      * Elapsed time
      */
     get time():number {
-        return this.elapsedTime;
+        // console.log(this.date.getTime() * .001);
+        // return this.elapsedTime;
+        return this.date.getTime() * .001 - this.todayRef;
     }
 
     /**

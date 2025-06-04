@@ -102,7 +102,10 @@ export class PlanetMaterial extends MeshStandardMaterial {
       // u.sunIntensity.value = this.sunIntensity;
       // u.fresnelColor.value.copy(this.fresnel);
       // u.selected.value = MathUtils.lerp(u.selected.value, this.selected ? 1 : 0, .06);
-      if(this.earth) u.time.value = solarClock.time;
+      if(this.earth) {
+        u.time.value = solarClock.time;
+        // console.log(solarClock.time);
+      }
       // console.log(solarClock.time);
     }
 }

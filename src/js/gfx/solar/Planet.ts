@@ -24,7 +24,7 @@ const gltfLoader = new GLTFLoader();
 import vertexShader from "../../../glsl/lib/atmosphere.vert";
 import fragmentShader from "../../../glsl/lib/atmosphere.frag";
 
-function getAtmosphereMaterial(color1:ColorRepresentation, color2:ColorRepresentation, fresnelWidth:number=1):ShaderMaterial {
+function getAtmosphereMaterial(color1:ColorRepresentation, color2:ColorRepresentation, fresnelWidth:number=1, brightness:number=1.5):ShaderMaterial {
     return new ShaderMaterial({
         vertexShader,
         fragmentShader,
@@ -38,8 +38,8 @@ function getAtmosphereMaterial(color1:ColorRepresentation, color2:ColorRepresent
             fresnelWidth: {
                 value: fresnelWidth
             },
-            time: {
-                value: 0
+            brightness: {
+                value: brightness
             }
         },
         transparent: true,
@@ -55,7 +55,7 @@ export class Planet extends SolarElement {
     rotationSpeed:number;
     type:PlanetId;
 
-    hasAtmosphere:boolean = false;
+    // hasAtmosphere:boolean = false;
     atmosphere:Mesh;
     atmosphereMaterial:ShaderMaterial;
 
@@ -94,77 +94,10 @@ export class Planet extends SolarElement {
 				});
 				this.mesh.add(gltf.scene);
 			});
-
-            // add atmosphere
-            this.atmosphereMaterial = getAtmosphereMaterial(0x9966FF, 0xCCCCFF, 6);
-            this.atmosphere = new Mesh(PLANET_GEO, this.atmosphereMaterial);
-            this.atmosphere.scale.setScalar(1.008);
-            this.parent.add(this.atmosphere);
-            this.hasAtmosphere = true;
         }
 
-        else if(id === 'earth') {
-            // add atmosphere
-            this.atmosphereMaterial = getAtmosphereMaterial(0x0022EE, 0xAAFFFF, 2);
-            this.atmosphere = new Mesh(PLANET_GEO, this.atmosphereMaterial);
-            this.atmosphere.scale.setScalar(1.1);
-            this.parent.add(this.atmosphere);
-            this.hasAtmosphere = true;
-        }
-
-        else if(id === 'mars') {
-            // add atmosphere
-            this.atmosphereMaterial = getAtmosphereMaterial(0xFF3333, 0xF4B681, .9);
-            this.atmosphere = new Mesh(PLANET_GEO, this.atmosphereMaterial);
-            this.atmosphere.scale.setScalar(1.07);
-            this.parent.add(this.atmosphere);
-            this.hasAtmosphere = true;
-        }
-
-        else if(id === 'venus') {
-            // add atmosphere
-            this.atmosphereMaterial = getAtmosphereMaterial(0xFFFF33, 0xF4B681, .6);
-            this.atmosphere = new Mesh(PLANET_GEO, this.atmosphereMaterial);
-            this.atmosphere.scale.setScalar(1.01);
-            this.parent.add(this.atmosphere);
-            this.hasAtmosphere = true;
-        }
-
-        else if(id === 'mercury') {
-            // add atmosphere
-            this.atmosphereMaterial = getAtmosphereMaterial(0xFFFFFF, 0xeeeeee, .24);
-            this.atmosphere = new Mesh(PLANET_GEO, this.atmosphereMaterial);
-            this.atmosphere.scale.setScalar(1.01);
-            this.parent.add(this.atmosphere);
-            this.hasAtmosphere = true;
-        }
-
-        else if(id === 'jupiter') {
-            // add atmosphere
-            this.atmosphereMaterial = getAtmosphereMaterial(0xFF6633, 0xCCCC33, 5);
-            this.atmosphere = new Mesh(PLANET_GEO, this.atmosphereMaterial);
-            this.atmosphere.scale.setScalar(1.006);
-            this.parent.add(this.atmosphere);
-            this.hasAtmosphere = true;
-        }
-
-        else if(id === 'uranus') {
-            // add atmosphere
-            this.atmosphereMaterial = getAtmosphereMaterial(0x3333FF, 0xeeeeee, 6);
-            this.atmosphere = new Mesh(PLANET_GEO, this.atmosphereMaterial);
-            this.atmosphere.scale.setScalar(1.05);
-            this.parent.add(this.atmosphere);
-            this.hasAtmosphere = true;
-        }
-
-        else if(id === 'neptune') {
-            // add atmosphere
-            this.atmosphereMaterial = getAtmosphereMaterial(0x3333FF, 0xeeeeee, 5.5);
-            this.atmosphere = new Mesh(PLANET_GEO, this.atmosphereMaterial);
-            this.atmosphere.scale.setScalar(1.05);
-            this.parent.add(this.atmosphere);
-            this.hasAtmosphere = true;
-        }
+        // add atmosphere
+        this.initAtmosphere(id);
 
         // this.rotationSpeed = Random.randf(-1, 1);
         const rt = PlanetRotationMap[this.type] as PlanetRotationData;
@@ -173,9 +106,15 @@ export class Planet extends SolarElement {
 
     }
 
-    initMaterial(opts?: SolarElementOptions): PlanetMaterial {
-        const s = PlanetShaderSettings[this.type];
+    initAtmosphere(id:PlanetId) {
+        const opts = PlanetAtmosphereSettings[id];
+        this.atmosphereMaterial = getAtmosphereMaterial(opts.color1, opts.color2, opts.fresnelWidth * PLANET_SCALE / 1000, opts.brightness);
+        this.atmosphere = new Mesh(PLANET_GEO, this.atmosphereMaterial);
+        this.atmosphere.scale.setScalar(opts.scale);
+        this.parent.add(this.atmosphere);
+    }
 
+    initMaterial(opts?: SolarElementOptions): PlanetMaterial {
         const opts2:PlanetMaterialParameters = {
             // fresnelColor: s.fresnelColor,
             // fresnelWidth: s.fresnelWidth,
@@ -218,8 +157,8 @@ export class Planet extends SolarElement {
         const rt = PlanetRotationMap[this.type] as PlanetRotationData;
         this.mesh.rotation.y = rt.meridian * DEG_TO_RAD + d * this.rotationSpeed;
         this.material.update();
-        if(!this.hasAtmosphere) return;
-        this.atmosphereMaterial.uniforms.time.value = GLOBALS.solarClock.time;
+        // if(!this.hasAtmosphere) return;
+        // this.atmosphereMaterial.uniforms.time.value = GLOBALS.solarClock.time;
     }
 
 }
@@ -284,52 +223,70 @@ export const PlanetRotationMap:Record<PlanetId, PlanetRotationData> = {
     }
 }
 
-export type ShaderSettings = {
+export type AtmosphereSettings = {
     fresnelWidth: number;
-    fresnelColor: ColorRepresentation;
-    sunIntensity:number;
+    scale: number;
+    color1: ColorRepresentation;
+    color2: ColorRepresentation;
+    brightness:number;
 }
 
-export const PlanetShaderSettings:Record<PlanetId,ShaderSettings> = {
+export const PlanetAtmosphereSettings:Record<PlanetId,AtmosphereSettings> = {
     mercury: {
-        fresnelColor: 0x010111,
-        fresnelWidth: .002,
-        sunIntensity: 7.5
+        color1: 0xFFFFFF,
+        color2: 0xeeeeee,
+        fresnelWidth: .24,
+        scale: 1.01,
+        brightness: 1.75
     },
     venus: {
-        fresnelColor: 0x010111,
-        fresnelWidth: .004,
-        sunIntensity: 1.5
+        color1: 0xFFFF33,
+        color2: 0xF4B681,
+        fresnelWidth: .6,
+        scale: 1.01,
+        brightness: 1.5
     },
     earth: {
-        fresnelColor: 0x010133,
-        fresnelWidth: .005,
-        sunIntensity: 2.5
+        color1: 0x0022EE,
+        color2: 0xAAFFFF,
+        fresnelWidth: 1.35,
+        scale: 1.04,
+        brightness: 3.5
     },
     mars: {
-        fresnelColor: 0x330101,
-        fresnelWidth: .004,
-        sunIntensity: 2.5
+        color1: 0xFF3333,
+        color2: 0xF4B681,
+        fresnelWidth: .4,
+        scale: 1.01,
+        brightness: 3.6
     },
     jupiter: {
-        fresnelColor: 0x000000,
-        fresnelWidth: .04,
-        sunIntensity: 0.5
+        color1: 0xFF6633,
+        color2: 0xCCCC33,
+        fresnelWidth: 5,
+        scale: 1.006,
+        brightness: 1.5
     },
     saturn: {
-        fresnelColor: 0x010101,
-        fresnelWidth: .04,
-        sunIntensity: .5
+        color1: 0x9966FF,
+        color2: 0xCCCCFF,
+        fresnelWidth: 6,
+        scale: 1.008,
+        brightness: 1.5
     },
     uranus: {
-        fresnelColor: 0x000000,
-        fresnelWidth: .1,
-        sunIntensity: 0.25
+        color1: 0x3333FF,
+        color2: 0xeeeeee,
+        fresnelWidth: 6,
+        scale: 1.05,
+        brightness: 1.5
     },
     neptune: {
-        fresnelColor: 0x010111,
-        fresnelWidth: .1,
-        sunIntensity: .2
+        color1: 0x3333FF,
+        color2: 0xFF0000,
+        fresnelWidth: 5,
+        scale: 1.04,
+        brightness: 1.5
     }
 }
 
