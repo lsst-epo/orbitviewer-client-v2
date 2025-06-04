@@ -37,7 +37,7 @@ export class App {
 
 		this.gl = new ThreeDOMLayer(document.querySelector('.view'), {
 			antialias: true,
-			alpha: true
+			alpha: false
 		});
 		this.gl.renderer.setClearColor(0x000000, 1);
 		this.gl.renderer.setPixelRatio(devicePixelRatio || 1);
@@ -393,7 +393,7 @@ export class App {
 		g3.add(this.viewer, 'useVFX');
 
 		const planetView = {
-			selected: 'none',
+			selected: 'sun',
 			paths: false
 		}
 
@@ -404,6 +404,7 @@ export class App {
 
 		const plOpts = {
 			'none': 'none',
+			'sun': 'sun',
 			'mercury': 'mercury',
     	'venus': 'venus',
       'earth': 'earth',
@@ -414,13 +415,18 @@ export class App {
       'neptune': 'neptune'
 		};
 
-		this.viewer.followPlanet(planetView.selected as PlanetId);
+		const follow = () => {
+			if (planetView.selected === 'none') this.viewer.releaseCameraTarget();
+			else if (planetView.selected === 'sun') this.viewer.followSun();
+			else this.viewer.followPlanet(planetView.selected as PlanetId);
+		}
+
+		follow();
 
 		g3.add(planetView, 'selected', {
 			options: plOpts,
 		}).on('change', () => {
-			if (planetView.selected === 'none') this.viewer.releaseCameraTarget();
-			else this.viewer.followPlanet(planetView.selected as PlanetId);
+			follow();
 		});
 
 		g3.add(this.terminal, 'visible', {

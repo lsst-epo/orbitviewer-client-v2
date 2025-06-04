@@ -1,5 +1,5 @@
 import { MathUtils } from "@fils/math";
-import { Color, Mesh, Object3D, ShaderMaterial, SphereGeometry, Vector3 } from "three";
+import { AdditiveBlending, Color, Mesh, Object3D, ShaderMaterial, SphereGeometry, Vector3 } from "three";
 // import { CameraManager } from "../core/CameraManager";
 // import { SunMaterial } from "../gfx/SunMaterial";
 import { InteractiveObject } from "./SolarElement";
@@ -10,8 +10,9 @@ import { GLOBALS } from "../../core/Globals";
 
 import vertexShader from "../../../glsl/lib/sun.vert";
 import fragmentShader from "../../../glsl/lib/sun.frag";
+import { getAtmosphereMaterial } from "./Planet";
 
-const GEO = new SphereGeometry(1, 32, 32);
+const GEO = new SphereGeometry(1, 64, 32);
 const R = SUN_RADIUS * KM2AU * PLANET_SCALE;
 
 export const SUN_SCALE = {
@@ -33,13 +34,14 @@ const SUN_MAT = new ShaderMaterial({
             value: new Color(0xE78557)
         },
         fresnelWidth: {
-            value: 4
+            value: 2
         },
         brightness: {
-            value: 3
+            value: 1
         }
     },
-    transparent: true
+    // transparent: true,
+    // blending: AdditiveBlending
 });
 
 /**
@@ -57,6 +59,9 @@ export class Sun extends Object3D implements InteractiveObject {
     lockedOffset:Vector3 = new Vector3()
     closeUp: boolean = true;
 
+    halo:Mesh;
+    haloMaterial:ShaderMaterial;
+
     constructor() {
         super();
 
@@ -68,6 +73,15 @@ export class Sun extends Object3D implements InteractiveObject {
         );
 
         this.add(this.mesh);
+
+        /* this.haloMaterial = getAtmosphereMaterial(0xFF0000, 0xE78557, 4, 1.1);
+        this.haloMaterial.defines['SUN'] = 'true';
+        this.halo = new Mesh(
+            GEO,
+            this.haloMaterial
+        );
+        this.halo.scale.setScalar(1.32);
+        this.add(this.halo); */
 
         // this.particles = new SunParticles(1.1, this.scale.x * .15);
         // this.add(this.particles.mesh);

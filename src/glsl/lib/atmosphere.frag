@@ -19,7 +19,12 @@ void main() {
   float falloff = smoothstep(1.-fresnelWidth*1.05, 1.-fresnelWidth, fresnelTerm);
   fresnelTerm = getFresnelHalo(fresnelTerm);
 
+  #ifdef SUN
+  float ramp = fresnelTerm;
+  #else
   float ramp = getRamp(fresnelTerm);
+  #endif
+  
   color.rgb = mix(color2, color1, ramp);
 
   if(falloff < .001) discard;

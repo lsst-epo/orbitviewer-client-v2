@@ -13,14 +13,11 @@ uniform float time;
 #include <fbm4D>
 
 void main() {
-  vec4 color = vec4(color1, 1.0);
+  vec4 color = vec4(color2, 1.0);
 
   float fresnelTerm = getFresnelTerm();
   float falloff = smoothstep(1.-fresnelWidth*1.05, 1.-fresnelWidth, fresnelTerm);
   fresnelTerm = getFresnelHalo(fresnelTerm);
-
-  float ramp = fresnelTerm;
-  color.rgb = mix(color2, color1, ramp);
 
   // if(falloff < .001) discard;
 
@@ -31,26 +28,35 @@ void main() {
   vec4 col = color;
   // col.rgb = color1;
 
+  vec3 p = toPolar(vUv);
+
   // big noise
-  float N = fbm(vec4(toPolar(vUv), time * .1), 2);
-  N = smoothstep(-.25, 1., N);
+  float N = snoise(vec4(p, time * .024));
+  // float N = fbm(vec4(p, time * .024), 1);
+  N = smoothstep(-.5, 1., N);
 
   // small noise
-  float N2 = fbm(vec4(toPolar(vUv) * 1.5 * vec3(8.0, 4.0, 4.0), time * .5), 2);
-  N2 = smoothstep(-1., 1., N2);
+  float N2 = fbm(vec4(p * 1.7 * vec3(8.0, 4.0, 4.0 + N * .1), time * .2), 3);
+  N2 = smoothstep(-.25, 1., N2);
 
-  N2 *= N;
+  float N3 = N2 * N;
 
-  col += col * N2 * 2.1;
-  col.a *= max(.15, N2);
+  col += col * N3 * 2.1;
+  col.a *= max(.15, N3);
 
-  // col *= brightness;
+  float br = brightness * 1.5;
+
+  float ramp = fresnelTerm * .5 + fresnelTerm * N2;
+  col.rgb = mix(color1, col.rgb, 1.0-ramp);
+  // col.a += 1.0 - ramp;
+
+  // col *= br;
 
   // gl_FragColor = glowBlack;
-  gl_FragColor = vec4(col.rgb, 1.0);
+  gl_FragColor = vec4(col.rgb * .8, 1.0);
   
   // oGlow = glowBlack;
-  oGlow = getBloomColor(col.rgb * brightness);
-  oGlow.a *= col.a * brightness;// * .1;
+  oGlow = getBloomColor(col.rgb);
+  oGlow.a *= col.a;// * .1;
   // oGlow = col;
 }

@@ -79,8 +79,6 @@ export class OrbitViewer extends ThreeLayer {
 
 			const fog = new Fog(0x000000, 5000, 25000);
 			this.scene.fog = fog;
-
-			this.followSun();
     }
 
     hidePaths() {
