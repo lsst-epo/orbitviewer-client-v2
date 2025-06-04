@@ -32,7 +32,8 @@
 		"cross-env": "^7.0.3",
 		"esbuild": "^0.25.1",
 		"esbuild-plugin-alias": "^0.2.1",
-		"postcss": "^8.5.3",
+		"postcss": "^8.5.4",
+		"postcss-pxtorem": "^6.1.0",
 		"sass": "^1.86.0"
 	}
 }

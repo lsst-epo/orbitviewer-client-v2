@@ -3,6 +3,7 @@ import esbuild from 'esbuild';
 
 import * as sass from 'sass';
 import autoprefixer from 'autoprefixer';
+import pxtorem from 'postcss-pxtorem';
 import postcss from 'postcss';
 import CleanCSS from 'clean-css';
 
@@ -38,7 +39,14 @@ export const buildCSS = (isProduction=false) => {
 	return new Promise((resolve, reject) => {
 		const result = sass.compile('./src/styles/main.scss');
 		const css = result.css.toString();
-		postcss([autoprefixer])
+		postcss([
+			autoprefixer,
+			pxtorem({
+				rootValue: 16,
+				propList: ['*'],
+				minPixelValue: 2,
+			})
+		])
 			.process(css, {
 				from: 'src/styles/main.scss',
 				to: `bundle/main.css`,
