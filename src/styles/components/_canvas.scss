@@ -51,8 +51,10 @@
         display: flex;
         gap: 2px;
         transform: translate(calc(-1*var(--size)/2), -50%);
+        transition: all .3s ease;
 
         &:hover {
+
             .canvas_pointer-text {
                 background: var(--color);
                 color: var(--color-black);
