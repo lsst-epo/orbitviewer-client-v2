@@ -93,6 +93,8 @@
                     width: 100%;
                     height: 100%;
                     object-fit: cover;
+                    @include font(caption-regular);
+                    color: var(--color-text-low);
                 }
             }
 

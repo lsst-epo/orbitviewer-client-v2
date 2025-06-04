@@ -13,24 +13,24 @@
         <div class="search_card">
             <div class="search_card-content">
                 <div class="search_card-head">
-                    <h3 class="title">Search</h3>
+                    <h3 class="title">{{ copy.search.title.en }}</h3>
                 </div>
                 <div class="search_card-body">
                     <div class="input" focusable="true" tabindex="0">
                         <input type="search" placeholder="Search by planet, object,.." tabindex="-1" focusable="false">
                         <div class="button_wrap" aria-hidden="true">
-                            {{ Button('Search cloud', 'button primary small') }}
+                            {{ Button(copy.search.search_cloud.en, 'button primary small') }}
                         </div>
                         <div class="icon_wrap" aria-hidden="false">
                             {{ icon('search') }}
                         </div>
                     </div>
-
-                    {{ Banner('S130i9 not found in your local catalog. Try searching our cloud database.', 'alert', 'error') }}
+                    
+                    {{ Banner(copy.search.not_found_local.en.replace("{{query}}", "28934u"), 'alert', 'error') }}
                     
                     <div class="search_results">
                         <div class="listitem-group" role="group">
-                            <h3 class="listitem-label">Recommended searches</h3>
+                            <h3 class="listitem-label">{{ copy.search.recommended_searches.en }}</h3>
                             <ul class="listitem-list">
                                 {% set recommended_searches = [
                                     { name: "Earth", category: "Trans-Neptunian Object" },

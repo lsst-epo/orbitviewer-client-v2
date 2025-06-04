@@ -6,7 +6,7 @@
     <div class="wizard_tooltip" role="document">
         <div class="wizard_tooltip-body">
             <header class="heading">
-                <h3 id="wizard-title" class="title">Onboarding wizard</h3>
+                <h3 id="wizard-title" class="title">{{ copy.wizard.title.en }}</h3>
                 <p id="wizard-steps" class="steps" aria-label="Step 1 of 4">1/4</p>
             </header>
             <p id="wizard-description" class="description">Lorem ipsum dolor sit amet consectetur. Amet urna sit blandit vel. Aliquam nec sed leo ullamcorper commodo vulputate praesent vitae vel.</p>
@@ -15,7 +15,7 @@
         </div>
         <div class="wizard_tooltip-foot">
             {{ Button('Skip', 'button secondary small') }}
-            <div class="button_group" role="group" aria-label="Navigation controls">
+            <div class="button_group" role="group" aria-label="{{ copy.wizard.button_group.aria.en }}">
                 {{ Button('Previous', 'button ghost small', 'chevron-left') }}
                 {{ Button('Next', 'button primary small', '', 'chevron-right') }}
             </div>

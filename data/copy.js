@@ -72,5 +72,155 @@ export default {
                 "es": ""
             }
         }
+    },
+    "onboarding": {
+        "title": {
+            "en": "Choose your Exploration Mode",
+            "es": ""
+        },
+        "mode": {
+            "low": {
+                "name": {
+                    "en": "Mobile",
+                    "es": ""
+                },
+                "title": {
+                    "en": "Mobile Optimized",
+                    "es": ""
+                },
+                "description": {
+                    "en": "Perfect for on-the-go exploration with minimal data usage",
+                    "es": ""
+                }
+            },
+            "medium": {
+                "name": {
+                    "en": "High-end mobiles",
+                    "es": ""
+                },
+                "title": {
+                    "en": "Core Experience",
+                    "es": ""
+                },
+                "description": {
+                    "en": "Great performance on most devices with rich visuals",
+                    "es": ""
+                }
+            },
+            "high": {
+                "name": {
+                    "en": "High-end laptops",
+                    "es": ""
+                },
+                "title": {
+                    "en": "Detailed discovery",
+                    "es": ""
+                },
+                "description": {
+                    "en": "Detailed textures and increased object count for deeper exploration",
+                    "es": ""
+                }
+            },
+            "extra": {
+                "name": {
+                    "en": "Gaming PCs",
+                    "es": ""
+                },
+                "title": {
+                    "en": "Maximum fidelity",
+                    "es": ""
+                },
+                "description": {
+                    "en": "Maximum detail with complete celestial catalog for the ultimate experience",
+                    "es": ""
+                }
+            },
+        },
+        "objects": {
+            "en": "objects",
+            "es": ""
+        },
+        "info": {
+            "en": "You can adjust your exploration mode later in the settings menu",
+            "es": ""
+        }
+    },
+    "filters": {
+        "title": {
+            "en": "Filters",
+            "es": ""
+        },
+        "discoveries": {
+            "en": "Discoveries",
+            "es": ""
+        },
+        "distance": {
+            "en": "Distance",
+            "es": ""
+        },
+        "au": {
+            "en": "In Astronomical Units",
+            "es": "",
+        },
+        "discovery": {
+            "en": "Discovery date",
+            "es": "",
+        }
+    },
+    "search": {
+        "title": {
+            "en": "Search",
+            "es": ""
+        },
+        "search_cloud": {
+            "en": "Search cloud",
+            "es": ""
+        },
+        "not_found_local": {
+            "en": "\"{{query}}\" not found in your local catalog. Try searching our cloud database.",
+            "es": ""
+        },
+        "recommended_searches": {
+            "en": "Recommended searches",
+            "es": ""
+        }
+    },
+    "timemachine": {
+        "aria": {
+            "en": "Date selector",
+            "es": ""
+        },
+        "toggle": {
+            "aria": {
+                "en": "Collapse time machine controls",
+                "es": ""
+            }
+        }
+    },
+    "toolbar": {
+        "objects": {
+            "en": "Objects",
+            "es": ""
+        },
+        "filters": {
+            "en": "Filters",
+            "es": ""
+        },
+        "search": {
+            "en": "Search",
+            "es": ""
+        }
+    },
+    "wizard": {
+        "title": {
+            "en": "Onboarding wizard",
+            "es": ""
+        },
+        "button_group": {
+            "aria": {
+                "en": "Navigation controls",
+                "es": ""
+            }
+        }
     }
 }
