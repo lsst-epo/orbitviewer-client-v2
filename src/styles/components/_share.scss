@@ -24,6 +24,12 @@
         backdrop-filter: initial;
         pointer-events: none;
     }
+
+    .button_close {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+    }
     
     &_dialog {
         display: flex;

@@ -5,7 +5,7 @@
         <li class="togglegroup-item">
             <label for="{{ name }}-{{ loop.index }}">
                 <input type="radio" id="{{ name }}-{{ loop.index }}" name="{{ name }}" value="{{ option }}" {% if option == checked %}checked="checked"{% endif %}>
-                <span>{% if show_labels %}{{ option }}{% endif %}</span>
+                <span>{% if show_labels == true %}{{ option }}{% endif %}</span>
             </label>
         </li>
         {% endfor %}

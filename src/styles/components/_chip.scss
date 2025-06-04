@@ -4,13 +4,32 @@
 @use '../base/typography' as *;
 
 .chip {
-    border-radius: 26px;
-    color: var(--color-text);
-    text-transform: uppercase;
-    text-align: center;
-    @include frozen_glass;
-    @include gradient_border;
-    @include font(caption-regular-caps);
+    span {
+        position: relative;
+        display: block;
+        border-radius: 26px;
+        color: var(--color-text);
+        text-transform: uppercase;
+        text-align: center;
+        @include frozen_glass;
+        @include gradient_border;
+        @include font(caption-regular-caps);
+        padding: 2px 8px;
+        user-select: none;
+        cursor: pointer;
+    }
 
-    padding: 2px 8px;
+    input[type=checkbox] {
+        @include hidden;
+        
+        &:checked + span{
+            background: var(--color-turquoise-800);
+            backdrop-filter: initial;
+            color: var(--color-turquoise-300);
+
+            &:before {
+                content: initial;
+            }
+        }
+    }
 }

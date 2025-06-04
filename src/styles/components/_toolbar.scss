@@ -35,6 +35,7 @@
             display: block;
             width: 102px;
             height: 60px;
+            border-bottom: solid 1px var(--color-border);
         }
     }
 
@@ -48,6 +49,7 @@
 
             @include media(medium) {
                 flex-direction: column;
+                padding: 4px 0;
             }
         }
 

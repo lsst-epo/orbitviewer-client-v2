@@ -10,7 +10,10 @@
             <div class="timemachine_heading-date">
                 <input type="text" id="myDateInput" aria-label="{{ copy.timemachine.aria.en }}">
             </div>
-            {{ Button('Live', 'chip') }}
+            <label for="live" class="chip active">
+                <input type="checkbox" id="live">
+                <span>Live</span>
+            </label>
         </div>
         <div class="timemachine-toggle">
             <button id="timemachine-toggle" type="button" 

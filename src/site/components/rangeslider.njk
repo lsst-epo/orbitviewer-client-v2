@@ -11,11 +11,11 @@
                 aria-valuemax="{{ minmax[1] }}"  #}
                 aria-valuenow="0"
                 aria-label="Time range selector">
-            <div class="value chip">{{ values[0] }}</div>
+            <div class="value chip"><span>{{ values[0] }}</span></div>
         </div>
         {% if values.length > 1 %}
         <div class="rangeslider_input-thumb thumb_max" tabindex="0">
-            <div class="value chip">{{ values[1] }}</div>
+            <div class="value chip"><span>{{ values[1] }}</span></div>
         </div>
         {% endif %}
     </div>

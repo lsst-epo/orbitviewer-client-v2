@@ -58,6 +58,21 @@ export class App2 {
 			}
 		});
 
+		// Toggle Share
+		const shareTrigger = document.querySelector('.button_share');
+		const shareLayer = document.querySelector('.share');
+		shareTrigger.addEventListener('click', ()=> {
+			const visibility = shareLayer.getAttribute('aria-hidden');
+			shareLayer.setAttribute('aria-hidden', visibility === "true" ? "false" : "true");
+		});
+
+		// Toggle Share
+		const shareClose = document.querySelector('.share .button_close');
+		shareClose.addEventListener('click', ()=> {
+			const visibility = shareLayer.getAttribute('aria-hidden');
+			shareLayer.setAttribute('aria-hidden', visibility === "true" ? "false" : "true");
+		});
+
 		// Toggle Navigation
 		const navTrigger = document.querySelector('#nav_trigger');
 		const navDropdown = document.querySelector('#nav_dropdown');
@@ -117,22 +132,24 @@ export class App2 {
 
 		// Homepage
 		const homeLayer = document.querySelector('.home');
-		const homeButton = homeLayer.querySelector('.home .button');
+		const homeButton = document.querySelector('.home .button');
 		const onboardingLayer = document.querySelector('.onboarding');
-		homeButton.addEventListener('click', (event: Event) => {
-			event.preventDefault();
-			const isHidden = homeLayer.getAttribute('aria-hidden');
-			if (isHidden === "false") {
-				const focusedElement = homeLayer.querySelector(':focus');
-				if (focusedElement) {
-					(focusedElement as HTMLElement).blur();
+		if (homeButton) {
+			homeButton.addEventListener('click', (event: Event) => {
+				event.preventDefault();
+				const isHidden = homeLayer.getAttribute('aria-hidden');
+				if (isHidden === "false") {
+					const focusedElement = homeLayer.querySelector(':focus');
+					if (focusedElement) {
+						(focusedElement as HTMLElement).blur();
+					}
+					homeLayer.setAttribute('aria-hidden', "true");
+					onboardingLayer.setAttribute('aria-hidden', "false");
+				} else {
+					homeLayer.setAttribute('aria-hidden', "false");
 				}
-				homeLayer.setAttribute('aria-hidden', "true");
-				onboardingLayer.setAttribute('aria-hidden', "false");
-			} else {
-				homeLayer.setAttribute('aria-hidden', "false");
-			}
-		});
+			});
+		}
 
 		// Onboarding
 		const onboardingButton = document.querySelectorAll('.exploration_card-foot .button');

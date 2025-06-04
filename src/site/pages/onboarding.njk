@@ -13,9 +13,13 @@ eleventyComputed:
     <div class="exploration">
         <ul class="exploration-list" role="radiogroup" aria-labelledby="onboarding-heading" aria-required="true">
             {% for key, mode in copy.onboarding.mode %}
-            <li class="exploration-item" role="radio" aria-checked="false" tabindex="0" >
+            {% set recommended = 2 %}
+            <li class="exploration-item {% if loop.index0 == recommended %}recommended{% endif %}" role="radio" aria-checked="false" tabindex="0" >
                 <div class="exploration_card">
                     <div class="exploration_card-body">
+                        {% if loop.index0 == recommended %}
+                            <span class="ribbon">recommended</span>
+                        {% endif %}
                         <h3 class="name">{{ mode.name.en }}</h3>
                         <h4 class="title">{{ mode.title.en }}</h4>
                         <p class="description">{{ mode.description.en }}</p>

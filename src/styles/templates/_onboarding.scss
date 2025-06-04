@@ -46,7 +46,8 @@
 
 .exploration {
     width: 100%;
-    overflow: auto;
+    overflow-x: auto;
+    overflow-y: visible;
 
     &::-webkit-scrollbar {
         display: none;
@@ -68,6 +69,26 @@
             width: 256px;
             flex-shrink: 0;
             min-height: 40vh;
+            overflow: hidden;
+
+            &.recommended {
+                .ribbon {
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    padding: 2px 20px;
+                    transform: rotate(45deg) translate(14px, -40px);
+                    transform-origin: bottom left;
+                    background: var(--color-turquoise-600);
+                    @include font(overline-small);
+
+                }
+                
+                .button {
+                    background: var(--color-turquoise-600);
+                    border: solid 1px var(--color-turquoise-600);
+                }
+            }
         }
 
             &_card {
@@ -93,6 +114,10 @@
 
                     .title {
                         @include font(title);
+                    }
+
+                    .description {
+                        color: var(--color-text-low);
                     }
 
                     .count {

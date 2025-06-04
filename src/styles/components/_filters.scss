@@ -73,6 +73,10 @@
                         gap: 24px;
                         padding: 24px 0;
 
+                        & + & {
+                            border-top: solid 1px var(--color-border);
+                        }
+
                         &-label {
                             display: flex;
                             align-items: baseline;

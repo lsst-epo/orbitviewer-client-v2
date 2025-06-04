@@ -48,6 +48,10 @@
                         background: var(--color-turquoise-700);
                         color: var(--color-turquoise-200);
                     }
+
+                    &:focus + span {
+                        outline: auto;
+                    }
                 }
             }
         }
