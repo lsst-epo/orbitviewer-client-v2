@@ -2,9 +2,9 @@
 module.exports = {
   plugins: {
     'postcss-pxtorem': {
-      rootValue: 16, // Base font size
+      rootValue: 12, // Base font size
       propList: ['*'], // Convert all properties
-      selectorBlackList: [], // Ignore specific selectors
+      selectorBlackList: ['html'], // Ignore specific selectors
       minPixelValue: 2, // Don't convert values below 2px
     }
   }

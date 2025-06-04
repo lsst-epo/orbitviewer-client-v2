@@ -57,6 +57,11 @@ $font-styles: (
     }
 }
 
+
+html {
+    font-size: clamp(16px, 1rem + 0.2vw, 24px);
+}
+
 body {
     font-family: var(--font-stack);
     font-optical-sizing: auto;
