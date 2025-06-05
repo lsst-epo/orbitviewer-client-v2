@@ -82,22 +82,33 @@ export class Sun extends Object3D implements InteractiveObject {
         });
         this.mesh.userData.defaultMaterial = SUN_MAT;
         this.mesh.userData.isSun = true;
-
         this.add(this.mesh);
+
+        this.haloMaterial = SUN_MAT.clone();
+        this.haloMaterial.defines.HALO = true;
+        this.haloMaterial.transparent = true;
+        this.halo = new Mesh(
+            GEO,
+            this.haloMaterial
+        )
+        this.haloMaterial.uniforms.fresnelWidth.value *= 2.0;
+        this.halo.userData.firePass = true;
+        this.halo.scale.setScalar(1.025);
+        this.add(this.halo);
 
         this.mf = new SunMagneticField(GEO);
         this.add(this.mf);
 
-        this.haloMaterial = getAtmosphereMaterial(0xF4C6A1, 0xC76537, 4, 1.1);
-        this.haloMaterial.defines['SUN'] = 'true';
-        this.halo = new Mesh(
-            GEO,
-            this.haloMaterial
-        );
-        this.haloMaterial.transparent = true;
-        this.halo.scale.setScalar(1.32);
-        this.add(this.halo);
-        this.halo.userData.firePass = true;
+        // this.haloMaterial = getAtmosphereMaterial(0xF4C6A1, 0xC76537, 4, 1.1);
+        // this.haloMaterial.defines['SUN'] = 'true';
+        // this.halo = new Mesh(
+        //     GEO,
+        //     this.haloMaterial
+        // );
+        // this.haloMaterial.transparent = true;
+        // this.halo.scale.setScalar(1.32);
+        // this.add(this.halo);
+        // this.halo.userData.firePass = true;
 
         // this.particles = new SunParticles(1.1, this.scale.x * .15);
         // this.add(this.particles.mesh);
@@ -115,6 +126,7 @@ export class Sun extends Object3D implements InteractiveObject {
     update() {
         const t = GLOBALS.solarClock.time;
         SUN_MAT.uniforms.time.value = t;
+        this.haloMaterial.uniforms.time.value = t;
         this.mf.update();
         // const sel = this.selected;
 

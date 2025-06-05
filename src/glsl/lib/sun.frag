@@ -20,9 +20,16 @@ void main() {
   float falloff = smoothstep(1.-fresnelWidth*1.05, 1.-fresnelWidth, fresnelTerm);
   fresnelTerm = getFresnelHalo(fresnelTerm);
 
+  #ifdef HALO
+    if(fresnelTerm < .001) discard;
+  #endif
+
   // if(falloff < .001) discard;
 
   float alpha = 0.1 * (1.0-fresnelTerm);
+  #ifdef HALO
+  alpha *= fresnelTerm * 16.0;
+  #endif
   color.a *= alpha;
   if(color.a < .001) discard;
 
@@ -57,7 +64,11 @@ void main() {
   // col *= br;
 
   // gl_FragColor = glowBlack;
+  #ifdef HALO
+  gl_FragColor = vec4(col.rgb * .5, col.a);
+  #else
   gl_FragColor = vec4(col.rgb * .5, 1.0);
+  #endif
   
   // oGlow = glowBlack;
   oGlow = getBloomColor(col.rgb * brightness, 2);
