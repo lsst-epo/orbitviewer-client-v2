@@ -2,8 +2,9 @@ import { Timer } from "@fils/ani";
 import { Size } from "@fils/gfx";
 import { isMobile } from "@fils/utils";
 import { SolarClock } from "./solar/SolarClock";
-import { WebGLRenderer } from "three";
+import { Object3D, Scene, WebGLRenderer } from "three";
 import { EarthClouds } from "../gfx/planets/EarthClouds";
+import { Sun } from "../gfx/solar/Sun";
 
 /**
  * DEV_MODE is injected by esbuild
@@ -79,10 +80,12 @@ export interface Globals {
 	clock:Timer;
 	solarClock:SolarClock;
 	clouds:EarthClouds;
+	sun:Sun;
 }
 
 export const GLOBALS:Globals = {
 	clock: null,
 	solarClock: null,
-	clouds: null
+	clouds: null,
+	sun: null
 }

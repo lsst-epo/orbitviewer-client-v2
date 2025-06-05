@@ -15,6 +15,7 @@
 	},
 	"dependencies": {
 		"@fils/ani": "^0.0.6",
+		"@fils/gen": "^0.2.2",
 		"@fils/gfx": "^0.1.6",
 		"@fils/gl-dom": "^0.0.9",
 		"@fils/math": "^0.1.0",

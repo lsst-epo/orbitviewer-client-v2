@@ -193,7 +193,7 @@ export const PlanetRotationMap:Record<PlanetId, PlanetRotationData> = {
     },
     earth: {
         axialTilt: 23.4392811,
-        period: 1,
+        period: 0.9972685185,
         meridian: 0
     },
     mars: {

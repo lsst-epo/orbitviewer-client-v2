@@ -40,7 +40,8 @@
     ); */
 
     oGlow = getBloomColor(
-      mix(nightColor, glowBlack, eIntensity).rgb
+      mix(nightColor, glowBlack, eIntensity).rgb,
+      2
     );
     sampledDiffuseColor += cloudsColor * .53;
   #endif

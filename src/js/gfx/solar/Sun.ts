@@ -1,5 +1,5 @@
 import { MathUtils } from "@fils/math";
-import { AdditiveBlending, Color, Mesh, Object3D, ShaderMaterial, SphereGeometry, Vector3 } from "three";
+import { AdditiveBlending, Color, Mesh, MeshBasicMaterial, Object3D, ShaderMaterial, SphereGeometry, Vector3 } from "three";
 // import { CameraManager } from "../core/CameraManager";
 // import { SunMaterial } from "../gfx/SunMaterial";
 import { InteractiveObject } from "./SolarElement";
@@ -11,6 +11,7 @@ import { GLOBALS } from "../../core/Globals";
 import vertexShader from "../../../glsl/lib/sun.vert";
 import fragmentShader from "../../../glsl/lib/sun.frag";
 import { getAtmosphereMaterial } from "./Planet";
+import { SunMagneticField } from "./SunMagneticField";
 
 const GEO = new SphereGeometry(1, 64, 32);
 const R = SUN_RADIUS * KM2AU * PLANET_SCALE;
@@ -20,6 +21,8 @@ export const SUN_SCALE = {
     max: R
 }
 
+// console.log(GEO.index.count, GEO.index.array.length, GEO.index.array.length /3);
+
 const SUN_MAT = new ShaderMaterial({
     vertexShader,
     fragmentShader,
@@ -28,16 +31,16 @@ const SUN_MAT = new ShaderMaterial({
             value: 0
         },
         color1: {
-            value: new Color(0xF4B681)
+            value: new Color(0xF4C6A1)
         },
         color2: {
-            value: new Color(0xE78557)
+            value: new Color(0xC76537)
         },
         fresnelWidth: {
-            value: 2
+            value: 1.9
         },
         brightness: {
-            value: 1
+            value: 1.3
         }
     },
     // transparent: true,
@@ -53,14 +56,16 @@ export class Sun extends Object3D implements InteractiveObject {
     selected:boolean = false;
     target:Object3D = this;
     lockedDistance = {
-      min: 15,
-      max: 25
+      min: 20,
+      max: 30
     };
     lockedOffset:Vector3 = new Vector3()
     closeUp: boolean = true;
 
     halo:Mesh;
     haloMaterial:ShaderMaterial;
+
+    mf:SunMagneticField;
 
     constructor() {
         super();
@@ -72,19 +77,32 @@ export class Sun extends Object3D implements InteractiveObject {
             SUN_MAT
         );
 
+        this.mesh.userData.blockMaterial = new MeshBasicMaterial({
+            color: 0x000000
+        });
+        this.mesh.userData.defaultMaterial = SUN_MAT;
+        this.mesh.userData.isSun = true;
+
         this.add(this.mesh);
 
-        /* this.haloMaterial = getAtmosphereMaterial(0xFF0000, 0xE78557, 4, 1.1);
+        this.mf = new SunMagneticField(GEO);
+        this.add(this.mf);
+
+        this.haloMaterial = getAtmosphereMaterial(0xF4C6A1, 0xC76537, 4, 1.1);
         this.haloMaterial.defines['SUN'] = 'true';
         this.halo = new Mesh(
             GEO,
             this.haloMaterial
         );
+        this.haloMaterial.transparent = true;
         this.halo.scale.setScalar(1.32);
-        this.add(this.halo); */
+        this.add(this.halo);
+        this.halo.userData.firePass = true;
 
         // this.particles = new SunParticles(1.1, this.scale.x * .15);
         // this.add(this.particles.mesh);
+
+        GLOBALS.sun = this;
     }
 
     set highlight(value:boolean) {
@@ -97,7 +115,7 @@ export class Sun extends Object3D implements InteractiveObject {
     update() {
         const t = GLOBALS.solarClock.time;
         SUN_MAT.uniforms.time.value = t;
-        
+        this.mf.update();
         // const sel = this.selected;
 
         /* const cd = MathUtils.smoothstep(10, 10000, camPos.length());

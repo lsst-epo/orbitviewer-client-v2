@@ -29,6 +29,8 @@ export class SolarClock {
         this.iClock = clock;
         this.date = new Date();        
         this.iClock.stop();
+
+        window['solar'] = this;
     }
 
     /**

@@ -273,6 +273,13 @@
   resolved "https://registry.yarnpkg.com/@fils/color/-/color-0.0.9.tgz#76c9dffe225b9bb0920e4d4a0c49af9d6a630620"
   integrity sha512-ftTOXTO27W7QSdZYLx7ywFKaoaY0xuvUxDhxoc77u/KhIEnU+PlO1Lv/JYdRZbh3kC37X5u0gjUS1B62RSZHOg==
 
+"@fils/gen@^0.2.2":
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@fils/gen/-/gen-0.2.2.tgz#79e0b3cbaa234961b1a94cf6869f7ff1d893c396"
+  integrity sha512-Hamopp6C0qcBjSVj97KDpo/L605g6LhWtIZEAW368Vmcx9Jw7duA5X8SZvepa4qYc5XT2VAV4kACIreFBCp6ng==
+  dependencies:
+    "@fils/math" "^0.0.9"
+
 "@fils/gfx@0.1.4":
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/@fils/gfx/-/gfx-0.1.4.tgz#a39372e3129133162194a3d452a613092c403c39"

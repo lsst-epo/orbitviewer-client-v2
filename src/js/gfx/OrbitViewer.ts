@@ -12,6 +12,7 @@ import { RubinRenderer } from "./core/RubinRenderer";
 import { Planet } from "./solar/Planet";
 import { InteractiveObject, SolarElement } from "./solar/SolarElement";
 import { Sun } from "./solar/Sun";
+import { GLOBALS } from "../core/Globals";
 
 export interface FollowTarget {
 	target: InteractiveObject;
@@ -74,7 +75,7 @@ export class OrbitViewer extends ThreeLayer {
       // this.sunLightHelper.visible = false;
       // this.scene.add(this.sunLightHelper);
 
-      this.ambientLight = new AmbientLight(0xffffff, 0.15);
+      this.ambientLight = new AmbientLight(0xffffff, 0.05);
       this.scene.add(this.ambientLight);
 
 			const fog = new Fog(0x000000, 5000, 25000);
