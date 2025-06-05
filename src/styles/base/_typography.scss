@@ -46,7 +46,10 @@ $font-styles: (
         font-size: $font-size * 1px;
         line-height: $line-height * 1px;
         font-weight: $font-weight;
-        letter-spacing: $letter-spacing * 1em;
+        
+        @if $letter-spacing != 0 {
+            letter-spacing: $letter-spacing * 1em;
+        }
 
         @if $is-uppercase {
             text-transform: uppercase;

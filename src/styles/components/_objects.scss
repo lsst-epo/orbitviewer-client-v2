@@ -12,7 +12,7 @@
     backdrop-filter: blur(var(--backdrop-blur));
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 16px;
 
     &[aria-hidden=true] {
         display: none;
@@ -38,7 +38,6 @@
         display: flex;
         flex-direction: column;
         gap: 24px;
-        
 
         @include media(medium) {
             gap: 48px;
@@ -50,9 +49,13 @@
     &-heading {
         display: flex;
         flex-direction: column;
-        gap: 16px;
+        gap: 8px;
         color: var(--color-text);
         padding: 0 var(--site-margin-large);
+
+        @include media(medium) {
+            gap: 16px;
+        }
         
         .title {
             @include font(subtitle-large-regular);
@@ -77,10 +80,13 @@
         }
 
             &-item {
-                width: 30vw;
+                width: 80vw;
                 min-width: 280px;
                 flex-shrink: 0;
-                min-height: 50vh;
+                
+                @include media(medium) {
+                    width: 20vw;
+                }
             }
 
                 &_card {
@@ -94,10 +100,14 @@
 
                     &-head {
                         position: relative;
-                        aspect-ratio: 16/9;
+                        aspect-ratio: 21/9;
                         border-radius: var(--corner-medium);
                         overflow: hidden;
                         background: var(--color-backdrop);
+
+                        @include media(medium) {
+                            aspect-ratio: 16/9;
+                        }
                         
                         img {
                             position: absolute;
@@ -113,15 +123,24 @@
                         display: flex;
                         flex-direction: column;
                         gap: 8px;
-                        padding: 20px 16px;
+                        padding: 16px;
                         color: var(--color-text);
+
+                        @include media(medium) {
+                            padding: 20px 16px;
+                        }
 
                         .name {
                             @include font(subtitle-large-regular);
+                            @include ellipsis;
 
                             @include media(medium) {
                                 @include font(title);
                             }
+                        }
+
+                        .description {
+                            line-clamp: 4;
                         }
                         
                         .stats {

@@ -10,11 +10,13 @@
     border: solid 1px var(--border);
     color: var(--text);
     border-radius: var(--area);
+    transition: all .3s ease;
 
     .icon {
         width: var(--icon);
         height: var(--icon);
         fill: currentColor;
+        transition: all .3s ease;
     }
 
     &.primary {
