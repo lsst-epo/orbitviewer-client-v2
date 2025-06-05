@@ -4,25 +4,22 @@
 @use '../base/typography' as *;
 
 .tab {
-    &-list {
-        @include reset_list;
+    &_list {
         display: flex;
         gap: 20px;
         border-bottom: solid 1px var(--color-border);
-    }
 
-        &-item {}
-
-            &-link {
-                display: flex;
-                padding: 8px 0;
-                @include font(caption-semi-caps);
-                color: var(--color-text-low);
-                border-bottom: solid 2px transparent;
-            
-            &.active {
-                color: var(--color-link);
-                border-bottom-color: var(--color-turquoise-600);
-            }
-            }
+        [role=tab] {
+            display: flex;
+            padding: 8px 0;
+            @include font(caption-semi-caps);
+            color: var(--color-text-low);
+            border-bottom: solid 2px transparent;
+        
+        &[aria-selected=true] {
+            color: var(--color-link);
+            border-bottom-color: var(--color-turquoise-600);
+        }
+        }
+    }            
 }

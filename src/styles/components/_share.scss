@@ -53,9 +53,8 @@
             }
         }
 
-        &-body {}
-
-            &-content {
+        &-body {
+            [role=tabpanel] {
                 display: flex;
                 flex-direction: column;
                 gap: 16px;
@@ -67,16 +66,38 @@
                 
                 .input_group {
                     display: flex;
+                    gap: 4px;
 
                     .input {
                         flex: auto;
+                        background: linear-gradient(180deg, rgba(var(--color-white-rgb), .11) 0%, rgba(var(--color-white-rgb), .08) 100%);
+                        border-radius: var(--corner-medium);
                     }
 
                     .button {
                         flex: 0 0 auto;
                     }
                 }
+
+                .social_share {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    gap: 8px;
+
+                    .label {
+                        @include font(body-large);
+                        color: var(--color-text);
+                    }
+
+                    .social_list {
+                        @include reset_list;
+                        display: flex;
+                        gap: 8px;
+                    }
+                }
             } 
+        }
     }
 }
 

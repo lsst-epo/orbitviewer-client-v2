@@ -49,7 +49,7 @@
                         color: var(--color-turquoise-200);
                     }
 
-                    &:focus + span {
+                    &:focus-visible + span {
                         outline: auto;
                     }
                 }

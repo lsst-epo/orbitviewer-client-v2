@@ -2,6 +2,7 @@ import { ThreeDOMLayer } from "@fils/gl-dom";
 import { OrbitViewer } from "../gfx/OrbitViewer";
 import { Timer } from "@fils/ani";
 import flatpickr from "flatpickr";
+import { Tabs } from "../ui/tabs";
 
 export class App2 {
 	gl:ThreeDOMLayer;
@@ -27,6 +28,8 @@ export class App2 {
 		requestAnimationFrame(animate);
 
 		this.clock = new Timer(true);
+
+		// Flatpickr (Datepicker)
 
 		flatpickr("#myDateInput", {
 			disableMobile: true,
@@ -57,6 +60,9 @@ export class App2 {
 				}
 			}
 		});
+
+		// Tabs
+		const shareTabs = new Tabs('.share_dialog-body');
 
 		// Toggle Share
 		const shareTrigger = document.querySelector('.button_share');

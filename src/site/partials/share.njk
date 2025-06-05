@@ -8,29 +8,39 @@
             <h2 class="title" id="share-title">Share</h2>
         </div>
         <div class="share_dialog-body">
-            <ul class="tab-list">
-                <li class="tab-item">
-                    <a href="#link" class="tab-link active">
-                        <span>Link</span>
-                    </a>
-                </li>
-                <li class="tab-item">
-                    <a href="#screen_capture" class="tab-link">
-                        <span>Screen capture</span>
-                    </a>
-                </li>
-            </ul>
+            <nav class="tab_list" aria-label="Tab navigation">
+                <a href="#link" role="tab" aria-selected="true">
+                    <span>Link</span>
+                </a>
+                <a href="#screen_capture" role="tab" aria-selected="false">
+                    <span>Screen capture</span>
+                </a>
+            </nav>
 
-            <div id="link" class="share_dialog-content" aria-hidden="true">
+            <div id="link" role="tabpanel" aria-hidden="true">
                 <div class="input_group">
                     <div class="input">
                         <input type="url" value="https://orbitviewer-client-dot-skyviewer.uw.r.appspot.com/?x=2&y=348" readonly>
                     </div>
                     {{ Button('Copy', 'button primary medium', 'link') }}
                 </div>
+                <div class="social_share">
+                    <p class="label">Share on</p>
+                    <ul class="social_list">
+                        <li class="social_list-item">
+                            {{ ButtonIcon('button_icon small secondary', 'facebook') }}
+                        </li>
+                        <li class="social_list-item">
+                            {{ ButtonIcon('button_icon small secondary', 'instagram') }}
+                        </li>
+                        <li class="social_list-item">
+                            {{ ButtonIcon('button_icon small secondary', 'x') }}
+                        </li>
+                    </ul>
+                </div>
             </div>
 
-            <div id="screen_capture" class="share_dialog-content" aria-hidden="false">
+            <div id="screen_capture" role="tabpanel" aria-hidden="false">
                 <div class="screen_capture-hero horizontal">
                     <img src="/assets/images/sample/screen_capture.png" alt="image">
                 </div>

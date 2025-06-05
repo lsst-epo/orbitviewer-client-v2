@@ -67,7 +67,12 @@
 
                 input {
                     width: 100%;
-                    padding: 0 4px;
+                    padding: 4px 8px;
+                    border-radius: var(--corner-medium);
+
+                    &:hover {
+                        background: var(--color-backdrop);
+                    }
                 }
             }
         }

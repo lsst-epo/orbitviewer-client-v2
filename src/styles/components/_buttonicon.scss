@@ -19,7 +19,7 @@
 
     &.primary {
         &:hover {
-            box-shadow: 0 0 0 1px var(--color-turquoise-700);
+            box-shadow: 0 0 0 2px var(--color-turquoise-700);
             color: var(--color-turquoise-300);
         }
     }
@@ -40,7 +40,7 @@
         position: relative;
 
         &:hover {
-            box-shadow: 0 0 0 1px var(--color-turquoise-700);
+            box-shadow: 0 0 0 2px var(--color-turquoise-700);
             color: var(--color-turquoise-300);
         }
     }
