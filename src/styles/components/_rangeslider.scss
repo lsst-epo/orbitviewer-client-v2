@@ -3,11 +3,12 @@
 @use '../base/typography' as *;
 
 .rangeslider {
-    --slider-height: 48px;
+    --slider-height: 40px;
     
     display: flex;
     flex-direction: column;
     gap: 2px;
+    padding: 0 16px;
     
     &_input {
         --track-height: 6px;
@@ -26,6 +27,7 @@
 
             .range {
                 height: var(--track-height);
+                background: var(--color-turquoise-700);
             }
 
             &-thumb {
@@ -33,7 +35,7 @@
                 
                 position: absolute;
                 top: 50%;
-                margin-top: calc(-1*var(--size)/2);
+                margin: calc(-1*var(--size)/2) 0 0 calc(-1*var(--size)/2);
                 display: flex;
                 justify-content: center;
                 align-items: center;

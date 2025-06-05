@@ -3,6 +3,7 @@ import { OrbitViewer } from "../gfx/OrbitViewer";
 import { Timer } from "@fils/ani";
 import flatpickr from "flatpickr";
 import { Tabs } from "../ui/tabs";
+import RangeSlider from "../ui/RangeSlider";
 
 export class App2 {
 	gl:ThreeDOMLayer;
@@ -63,6 +64,16 @@ export class App2 {
 
 		// Tabs
 		const shareTabs = new Tabs('.share_dialog-body');
+
+		// Slide Range
+		const timemachineSliderContainer = document.querySelector('#slider-timemachine') as HTMLElement;
+		const timemachineSlider = new RangeSlider(timemachineSliderContainer);
+
+		const distanceSliderContainer = document.querySelector('#slider-distance') as HTMLElement;
+		const distanceSlider = new RangeSlider(distanceSliderContainer);
+
+		const dateSliderContainer = document.querySelector('#slider-date') as HTMLElement;
+		const dateSlider = new RangeSlider(dateSliderContainer);
 
 		// Toggle Share
 		const shareTrigger = document.querySelector('.button_share');

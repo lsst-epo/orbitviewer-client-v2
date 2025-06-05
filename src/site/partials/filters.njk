@@ -30,7 +30,7 @@
                             <span class="helper">{{ copy.filters.au.en }}</span>
                         </label>
                         <div class="filters_card_field-input">
-                            {{ RangeSlider([000, 000], ['Min', 'Max']) }}
+                            {{ RangeSlider('slider-distance', [0, 100], [0, 100]) }}
                         </div>
                     </div>
 
@@ -39,7 +39,7 @@
                             <span for="" class="label">{{ copy.filters.discovery.en }}</span>
                         </label>
                         <div class="filters_card_field-input">
-                            {{ RangeSlider([000, 000], ['Min', 'Max']) }}
+                            {{ RangeSlider('slider-date', [1900, 2025], [1900, 2025]) }}
                         </div>
                     </div>
                 </div>

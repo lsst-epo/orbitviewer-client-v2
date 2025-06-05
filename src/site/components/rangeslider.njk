@@ -1,20 +1,28 @@
-{% macro RangeSlider(values = [], minmax = []) %}
-<div class="rangeslider">
+{% macro RangeSlider(id = "", values = [], minmax = []) %}
+<div class="rangeslider" id="{{ id }}">
     <div class="rangeslider_input">
         <div class="track">
+            {% if values.length > 1 %}
             <div class="range"></div>
+            {% endif %}
         </div>
         <div class="rangeslider_input-thumb thumb_min"
                 role="slider" 
                 tabindex="0"
                 {# aria-valuemin="{{ minmax[0] }}" 
                 aria-valuemax="{{ minmax[1] }}"  #}
-                aria-valuenow="0"
+                aria-valuenow="{{ values[0] }}"
                 aria-label="Time range selector">
             <div class="value chip"><span>{{ values[0] }}</span></div>
         </div>
         {% if values.length > 1 %}
-        <div class="rangeslider_input-thumb thumb_max" tabindex="0">
+        <div class="rangeslider_input-thumb thumb_max""
+                role="slider" 
+                tabindex="0"
+                {# aria-valuemin="{{ minmax[0] }}" 
+                aria-valuemax="{{ minmax[1] }}"  #}
+                aria-valuenow="{{ values[1] }}"
+                aria-label="Time range selector">
             <div class="value chip"><span>{{ values[1] }}</span></div>
         </div>
         {% endif %}
