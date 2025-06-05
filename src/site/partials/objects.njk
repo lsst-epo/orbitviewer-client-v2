@@ -8,91 +8,39 @@
     </header>
     <div class="objects-body">
         <div class="objects-heading">
-            <h2 class="title">Choose Objects to Explore</h2>
-            <h3 class="subtitle">Let’s take a moment to select which types of orbits you want to see first. You can later add or remove in-view orbits if you wish.</h3>
+            <h2 class="title">{{ copy.objects.title.en }}</h2>
+            <h3 class="subtitle">{{ copy.objects.subtitle.en }}</h3>
         </div>
         <div class="objects-mask">
             <ul class="objects-list">
-                    {% set explorationModes = [
-                        {
-                            id: "planets_moons",
-                            name: "Planets & Moons",
-                            description: "The foundational bodies of our solar system, from rocky inner planets to gas giants. Includes Earth and over 200 moons orbiting various planets.",
-                            objects: "40K",
-                            rubin: "30K"
-                        },
-                        {
-                            id: "near_earth_objects",
-                            name: "Near Earth Objects",
-                            description: "Asteroids and comets that pass close to Earth's orbit, some potentially hazardous. These objects are carefully tracked as they can occasionally pose risks to our planet.",
-                            objects: "40K",
-                            rubin: "30K"
-                        },
-                        {
-                            id: "asteroids",
-                            name: "Asteroids",
-                            description: "Rocky bodies primarily orbiting between Mars and Jupiter in the main asteroid belt. Millions of these objects exist, ranging from dust-sized particles to dwarf planets.",
-                            objects: "40K",
-                            rubin: "30K"
-                        },
-                        {
-                            id: "comets",
-                            name: "Comets",
-                            description: "Icy bodies with distinctive tails that become visible when they approach the Sun. They originate from the outer solar system and follow highly elliptical orbits.",
-                            objects: "40K",
-                            rubin: "30K"
-                        },
-                        {
-                            id: "centaurs",
-                            name: "Centaurs",
-                            description: "Mysterious objects that share characteristics of both asteroids and comets. They occupy unstable orbits between Jupiter and Neptune, crossing planetary paths.",
-                            objects: "40K",
-                            rubin: "30K"
-                        },
-                        {
-                            id: "trans_neptunian_objects",
-                            name: "Trans-Neptunian Objects",
-                            description: "Icy bodies orbiting beyond Neptune in the outer reaches of our solar system. Includes Pluto and thousands of similar objects in the Kuiper Belt and scattered disc.",
-                            objects: "40K",
-                            rubin: "30K"
-                        },
-                        {
-                            id: "interstellar_objects",
-                            name: "Interstellar Objects",
-                            description: "Rare visitors from beyond our solar system passing through on hyperbolic trajectories. Only a handful have been detected, offering glimpses of other stellar neighborhoods.",
-                            objects: "40K",
-                            rubin: "30K"
-                        }
-                    ] %}
-
-                    {% for mode in explorationModes %}
-                        <li class="objects-item">
-                            <div class="objects_card">
-                                <div class="objects_card-head">
-                                    <img src="/assets/images/sample/Planets_and_Moons.png" alt="">
-                                </div>
-                                <div class="objects_card-body">
-                                    <h3 class="name">{{ mode.name }}</h3>
-                                    <p class="description">{{ mode.description }}</p>
-                                    <div class="stats">
-                                        <dl class="stats-column">
-                                            <dt class="stats-value">{{ mode.objects }}</dt>
-                                            <dd class="stats-label">Near Earth Objects</dd>
-                                        </dl>
-                                        <dl class="stats-column">
-                                            <dt class="stats-value">{{ mode.rubin }}</dt>
-                                            <dd class="stats-label">Detected by Rubin</dd>
-                                        </dl>
-                                    </div>
-                                </div>
-                                <div class="objects_card-foot">
-                                    <span class="label hidden">Hidden</span>
-                                    {{ ToggleGroup('', mode.id, [false, true], true, false) }}
-                                    <span class="label">Visible</span>
-                                </div>
+                {% for type in copy.objects.types %}
+                <li class="objects-item">
+                    <div class="objects_card">
+                        <div class="objects_card-head">
+                            <img src="/assets/images/sample/Planets_and_Moons.png" alt="">
+                        </div>
+                        <div class="objects_card-body">
+                            <h3 class="name">{{ type.name.en }}</h3>
+                            <p class="description">{{ type.description.en }}</p>
+                            <div class="stats">
+                                <dl class="stats-column">
+                                    <dt class="stats-value">{{ type.objects }}</dt>
+                                    <dd class="stats-label">{{ copy.objects.total.en }}</dd>
+                                </dl>
+                                <dl class="stats-column">
+                                    <dt class="stats-value">{{ type.rubin }}</dt>
+                                    <dd class="stats-label">{{ copy.objects.detected.en }}</dd>
+                                </dl>
                             </div>
-                        </li>
-                    {% endfor %}
+                        </div>
+                        <div class="objects_card-foot">
+                            <span class="label hidden">{{ copy.objects.hidden.en }}</span>
+                            {{ ToggleGroup('', type.id, [false, true], true, false) }}
+                            <span class="label">{{ copy.objects.visible.en }}</span>
+                        </div>
+                    </div>
+                </li>
+                {% endfor %}
             </ul>
             <div class="objects_controls">
                 {{ ButtonIcon('button_icon secondary large objects_controls-left', 'chevron-left') }}

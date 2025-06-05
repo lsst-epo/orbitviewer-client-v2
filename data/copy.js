@@ -222,5 +222,117 @@ export default {
                 "es": ""
             }
         }
+    },
+    "objects": {
+        "title": {
+            "en": "Choose Objects to Explore",
+            "es": ""
+        },
+        "subtitle": {
+            "en": "Let’s take a moment to select which types of orbits you want to see first. You can later add or remove in-view orbits if you wish.",
+            "es": ""
+        },
+        "types": {
+            "planets_moons": {
+                name: {
+                    "en": "Planets & Moons",
+                    "es": "",
+                },
+                description: {
+                    "en": "The foundational bodies of our solar system, from rocky inner planets to gas giants. Includes Earth and over 200 moons orbiting various planets.",
+                    "es": ""
+                },
+                objects: "40K",
+                rubin: "30K"
+            },
+            "near_earth_objects": {
+                name: {
+                    "en": "Near Earth Objects",
+                    "es": ""
+                },
+                description: {
+                    "en": "Asteroids and comets that pass close to Earth's orbit, some potentially hazardous. These objects are carefully tracked as they can occasionally pose risks to our planet.",
+                    "es": ""
+                },
+                objects: "40K",
+                rubin: "30K"
+            },
+            "asteroids": {
+                name: {
+                    "en": "Asteroids",
+                    "es": ""
+                },
+                description: {
+                    "en": "Rocky bodies primarily orbiting between Mars and Jupiter in the main asteroid belt. Millions of these objects exist, ranging from dust-sized particles to dwarf planets.",
+                    "es": ""
+                },
+                objects: "40K",
+                rubin: "30K"
+            },
+            "comets": {
+                name: {
+                    "en": "Comets",
+                    "es": ""
+                },
+                description: {
+                    "en": "Icy bodies with distinctive tails that become visible when they approach the Sun. They originate from the outer solar system and follow highly elliptical orbits.",
+                    "es": ""
+                },
+                objects: "40K",
+                rubin: "30K"
+            },
+            "centaurs": {
+                name: {
+                    "en": "Centaurs",
+                    "es": ""
+                },
+                description: {
+                    "en": "Mysterious objects that share characteristics of both asteroids and comets. They occupy unstable orbits between Jupiter and Neptune, crossing planetary paths.",
+                    "es": ""
+                },
+                objects: "40K",
+                rubin: "30K"
+            },
+            "trans_neptunian_objects": {
+                name: {
+                    "en": "Trans-Neptunian Objects",
+                    "es": ""
+                },
+                description: {
+                    "en": "Icy bodies orbiting beyond Neptune in the outer reaches of our solar system. Includes Pluto and thousands of similar objects in the Kuiper Belt and scattered disc.",
+                    "es": ""
+                },
+                objects: "40K",
+                rubin: "30K"
+            },
+            "interstellar_objects": {            
+                name: {
+                    "en": "Interstellar Objects",
+                    "es": ""
+                },
+                description: {
+                    "en": "Rare visitors from beyond our solar system passing through on hyperbolic trajectories. Only a handful have been detected, offering glimpses of other stellar neighborhoods.",
+                    "es": ""
+                },
+                objects: "40K",
+                rubin: "30K"
+            }
+        },
+        "total": {
+            "en": "Near Earth Objects",
+            "es": ""
+        },
+        "detected": {
+            "en": "Detected by Rubin",
+            "es": ""
+        },
+        "hidden": {
+            "en": "Hidden",
+            "es": ""
+        },
+        "visible": {
+            "en": "Visible",
+            "es": ""
+        }
     }
 }
