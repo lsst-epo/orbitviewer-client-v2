@@ -287,7 +287,7 @@ class RangeSlider {
 
   private roundToStep(value: number): number {
     // Round to reasonable precision to avoid floating point issues
-    return Math.round(value * 100) / 100;
+    return Math.round(value);
   }
 
   private updateSlider(): void {
@@ -310,7 +310,7 @@ class RangeSlider {
         thumb.setAttribute('aria-valuenow', this.values[index].toString());
         
         if (this.valueDisplays[index]) {
-          this.valueDisplays[index].textContent = this.values[index].toString();
+          this.valueDisplays[index].textContent = Math.round(this.values[index]).toString();
         }
       }
     });
