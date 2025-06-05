@@ -1,5 +1,6 @@
-{% macro ToggleGroup(classes = '', name = '', options = [], checked = null, show_labels = true, aria_label = '') %}
-<div class="togglegroup {% if classes %} {{ classes }}{% endif %}" role="radiogroup" {% if aria_label %}aria-label="{{ aria_label }}"{% endif %}>
+{% macro ToggleGroup(id = '', classes = '', name = '', options = [], checked = null, show_labels = true, aria_label = '') %}
+<div id="{{ id }}" class="togglegroup {% if classes %} {{ classes }}{% endif %}" role="radiogroup" {% if aria_label %}aria-label="{{ aria_label }}"{% endif %}>
+    <div class="togglegroup-indicator" aria-hidden="true"></div>
     <ul class="togglegroup-list">
         {% for option in options %}
         <li class="togglegroup-item">

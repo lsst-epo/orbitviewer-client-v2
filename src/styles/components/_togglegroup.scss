@@ -6,6 +6,7 @@
 .togglegroup {
     --height: 32px; 
     
+    position: relative;
     display: inline-block;
     background: var(--color-grey-700);
     border-radius: var(--height);
@@ -16,9 +17,23 @@
         --height: 40px;
     }
 
+    &-indicator {
+        position: absolute;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        background: var(--color-turquoise-700);
+        border-radius: var(--height);
+        transition: transform 0.3s ease, width 0.3s ease;
+        z-index: 1;
+    }
+
     &-list {
+        position: relative;
         @include reset_list;
         display: flex;
+        z-index: 2;
     }
 
         &-item {
@@ -45,7 +60,6 @@
                     @include hidden;
 
                     &:checked + span {
-                        background: var(--color-turquoise-700);
                         color: var(--color-turquoise-200);
                     }
 

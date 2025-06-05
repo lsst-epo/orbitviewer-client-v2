@@ -2,8 +2,9 @@ import { ThreeDOMLayer } from "@fils/gl-dom";
 import { OrbitViewer } from "../gfx/OrbitViewer";
 import { Timer } from "@fils/ani";
 import flatpickr from "flatpickr";
-import { Tabs } from "../ui/tabs";
 import RangeSlider from "../ui/RangeSlider";
+import ToggleGroup from "../ui/ToggleGroup";
+import Tabs from "../ui/tabs";
 
 export class App2 {
 	gl:ThreeDOMLayer;
@@ -74,6 +75,13 @@ export class App2 {
 
 		const dateSliderContainer = document.querySelector('#slider-date') as HTMLElement;
 		const dateSlider = new RangeSlider(dateSliderContainer);
+
+		// Togglegroups
+		const discoveriesToggleContainer = document.querySelector('#toggle-discoveries');
+		const discoveriesToggle = new ToggleGroup(discoveriesToggleContainer);
+		
+		const ratioToggleContainer = document.querySelector('#toggle-ratio');
+		const ratioToggle = new ToggleGroup(ratioToggleContainer);
 
 		// Toggle Share
 		const shareTrigger = document.querySelector('.button_share');

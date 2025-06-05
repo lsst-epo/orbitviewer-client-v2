@@ -1,4 +1,4 @@
-export class Tabs {
+class Tabs {
   private tabLinks: NodeListOf<HTMLElement>;
   private tabContents: NodeListOf<HTMLElement>;
 
@@ -54,3 +54,5 @@ export class Tabs {
     return document.querySelector('[role="tab"][aria-selected="true"]');
   }
 }
+
+export default Tabs;
