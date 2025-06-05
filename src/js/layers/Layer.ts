@@ -14,7 +14,21 @@ class Layer {
 
     close(): void {
         this.visible = false;
+
+        const focusedElement = this.element.querySelector(':focus') as HTMLElement;
+        if (focusedElement) {
+            focusedElement.blur();
+        }
+
         this.element.setAttribute('aria-hidden', 'true');
+    }
+
+    toggle(): void {
+        if (this.visible) {
+            this.close();
+        } else {
+            this.open();
+        }
     }
 
     isVisible(): boolean {

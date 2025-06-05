@@ -1,12 +1,13 @@
 import { ThreeDOMLayer } from "@fils/gl-dom";
 import { OrbitViewer } from "../gfx/OrbitViewer";
 import { Timer } from "@fils/ani";
-import ToggleGroup from "../components/ToggleGroup";
 import Filters from "../layers/filters";
 import TimeMachine from "../layers/TimeMachine";
 import Share from "../layers/Share";
 import Search from "../layers/Search";
 import Wizard from "../layers/Wizard";
+import ObjectsFilters from "../layers/ObjectsFilters";
+import Navigation from "../layers/Navigation";
 
 export class App2 {
 	gl:ThreeDOMLayer;
@@ -33,40 +34,34 @@ export class App2 {
 
 		this.clock = new Timer(true);
 
-		
+		// Navigation
+		const navigationDom = document.querySelector('.nav_dropdown');
+		const navigation = new Navigation(navigationDom);
+
+		// Objects Filters
+		const objectsFiltersDom = document.querySelector('.objects');
+		const objectsFilters = new ObjectsFilters(objectsFiltersDom);
+
 		// Filters
-		const filtersContainer = document.querySelector('.filters');
-		const filters = new Filters(filtersContainer);
-
-		// Timemachine
-		const timeMachineContainer = document.querySelector('.timemachine');
-		const timeMachine = new TimeMachine(timeMachineContainer);
-
-		// Share
-		const shareContainer = document.querySelector('.share');
-		const share = new Share(shareContainer);
+		const filtersDom = document.querySelector('.filters');
+		const filters = new Filters(filtersDom);
 
 		// Search
-		const searchContainer = document.querySelector('.search');
-		const search = new Search(searchContainer);
+		const searchDom = document.querySelector('.search');
+		const search = new Search(searchDom);
+
+		// Timemachine
+		const timeMachineDom = document.querySelector('.timemachine');
+		const timeMachine = new TimeMachine(timeMachineDom);
+
+		// Share
+		const shareDom = document.querySelector('.share');
+		const share = new Share(shareDom);
 
 		// Wizard
-		const wizardContainer = document.querySelector('.wizard');
-		const wizard = new Wizard(wizardContainer);
+		const wizardDom = document.querySelector('.wizard');
+		const wizard = new Wizard(wizardDom);
 	
-
-		const objectsToggleContainer = document.querySelectorAll('.objects_card .togglegroup');
-		objectsToggleContainer.forEach(element => {
-			const objectsToggle = new ToggleGroup(element);
-		});
-
-		// Toggle Navigation
-		const navTrigger = document.querySelector('#nav_trigger');
-		const navDropdown = document.querySelector('#nav_dropdown');
-		navTrigger.addEventListener('click', ()=> {
-			const visibility = navDropdown.getAttribute('aria-hidden');
-			navDropdown.setAttribute('aria-hidden', visibility === "true" ? "false" : "true");
-		});
 
 		// Toolbar Navigation
 		const toolbarItem = document.querySelectorAll('.toolbar-link');
