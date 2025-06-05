@@ -194,5 +194,9 @@
                 justify-content: space-between;
                 pointer-events: none;
             }
+
+            .button_icon {
+                pointer-events: initial;
+            }
         }
 }

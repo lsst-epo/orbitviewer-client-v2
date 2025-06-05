@@ -50,7 +50,8 @@
                     height: 24px;
                     border-radius: 24px;
                     background: var(--color-turquoise-600);
-                    border: solid 4px var(--color-turquoise-200);
+                    border: solid 3px var(--color-turquoise-200);
+                    transition: box-shadow .3s ease, background .3s ease;
                 }
                 
                 .value {
@@ -58,6 +59,14 @@
                     min-width: 100%;
                     transform: translateY(-32px);
                     user-select: none;
+                }
+
+                &:hover,
+                &:focus {
+                    &:after {
+                        background: var(--color-turquoise-400);
+                        box-shadow: 0 0 0 2px var(--color-turquoise-700);
+                    }
                 }
             }
     }

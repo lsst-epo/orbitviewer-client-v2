@@ -35,7 +35,7 @@
                         </div>
                         <div class="objects_card-foot">
                             <span class="label hidden">{{ copy.objects.hidden.en }}</span>
-                            {{ ToggleGroup(key, '', type.id, [false, true], true, false) }}
+                            {{ ToggleGroup('toggle-object-' ~ loop.index0, '', 'toggle-object-' ~ loop.index0, [false, true], true, false) }}
                             <span class="label">{{ copy.objects.visible.en }}</span>
                         </div>
                     </div>

@@ -83,6 +83,11 @@ export class App2 {
 		const ratioToggleContainer = document.querySelector('#toggle-ratio');
 		const ratioToggle = new ToggleGroup(ratioToggleContainer);
 
+		const objectsToggleContainer = document.querySelectorAll('.objects_card .togglegroup');
+		objectsToggleContainer.forEach(element => {
+			const objectsToggle = new ToggleGroup(element);
+		});
+
 		// Toggle Share
 		const shareTrigger = document.querySelector('.button_share');
 		const shareLayer = document.querySelector('.share');
