@@ -1,10 +1,12 @@
 import { ThreeDOMLayer } from "@fils/gl-dom";
 import { OrbitViewer } from "../gfx/OrbitViewer";
 import { Timer } from "@fils/ani";
-import flatpickr from "flatpickr";
-import RangeSlider from "../ui/RangeSlider";
-import ToggleGroup from "../ui/ToggleGroup";
-import Tabs from "../ui/tabs";
+import ToggleGroup from "../components/ToggleGroup";
+import Filters from "../layers/filters";
+import TimeMachine from "../layers/TimeMachine";
+import Share from "../layers/Share";
+import Search from "../layers/Search";
+import Wizard from "../layers/Wizard";
 
 export class App2 {
 	gl:ThreeDOMLayer;
@@ -31,76 +33,31 @@ export class App2 {
 
 		this.clock = new Timer(true);
 
-		// Flatpickr (Datepicker)
-
-		flatpickr("#myDateInput", {
-			disableMobile: true,
-			position: "above",
-			enableTime: true,
-			dateFormat: "F j, Y H:i",
-			defaultDate: new Date(),
-			locale: {
-				weekdays: {
-					shorthand: ["S", "M", "T", "W", "T", "F", "S"],
-					longhand: [
-						"Sunday",
-						"Monday",
-						"Tuesday",
-						"Wednesday",
-						"Thursday",
-						"Friday",
-						"Saturday"
-					]
-				}
-			},
-			minDate: "2024-05-30",
-    		// maxDate: "2026-12-30",
-			onChange: function(_, __, instance) {
-				if (instance.timeContainer) {
-					const timeInputs = instance.timeContainer.querySelectorAll('input');
-					timeInputs.forEach(input => input.blur());
-				}
-			}
-		});
-
-		// Tabs
-		const shareTabs = new Tabs('.share_dialog-body');
-
-		// Slide Range
-		const timemachineSliderContainer = document.querySelector('#slider-timemachine') as HTMLElement;
-		const timemachineSlider = new RangeSlider(timemachineSliderContainer);
-
-		const distanceSliderContainer = document.querySelector('#slider-distance') as HTMLElement;
-		const distanceSlider = new RangeSlider(distanceSliderContainer);
-
-		const dateSliderContainer = document.querySelector('#slider-date') as HTMLElement;
-		const dateSlider = new RangeSlider(dateSliderContainer);
-
-		// Togglegroups
-		const discoveriesToggleContainer = document.querySelector('#toggle-discoveries');
-		const discoveriesToggle = new ToggleGroup(discoveriesToggleContainer);
 		
-		const ratioToggleContainer = document.querySelector('#toggle-ratio');
-		const ratioToggle = new ToggleGroup(ratioToggleContainer);
+		// Filters
+		const filtersContainer = document.querySelector('.filters');
+		const filters = new Filters(filtersContainer);
+
+		// Timemachine
+		const timeMachineContainer = document.querySelector('.timemachine');
+		const timeMachine = new TimeMachine(timeMachineContainer);
+
+		// Share
+		const shareContainer = document.querySelector('.share');
+		const share = new Share(shareContainer);
+
+		// Search
+		const searchContainer = document.querySelector('.search');
+		const search = new Search(searchContainer);
+
+		// Wizard
+		const wizardContainer = document.querySelector('.wizard');
+		const wizard = new Wizard(wizardContainer);
+	
 
 		const objectsToggleContainer = document.querySelectorAll('.objects_card .togglegroup');
 		objectsToggleContainer.forEach(element => {
 			const objectsToggle = new ToggleGroup(element);
-		});
-
-		// Toggle Share
-		const shareTrigger = document.querySelector('.button_share');
-		const shareLayer = document.querySelector('.share');
-		shareTrigger.addEventListener('click', ()=> {
-			const visibility = shareLayer.getAttribute('aria-hidden');
-			shareLayer.setAttribute('aria-hidden', visibility === "true" ? "false" : "true");
-		});
-
-		// Toggle Share
-		const shareClose = document.querySelector('.share .button_close');
-		shareClose.addEventListener('click', ()=> {
-			const visibility = shareLayer.getAttribute('aria-hidden');
-			shareLayer.setAttribute('aria-hidden', visibility === "true" ? "false" : "true");
 		});
 
 		// Toggle Navigation
@@ -143,23 +100,6 @@ export class App2 {
 			});
 		});
 
-		// Search Close
-		const searchLayer = document.querySelector('.search');
-		const searchClose = searchLayer.querySelector('.search-head .button_icon');
-		searchClose.addEventListener('click', (event: Event) => {
-			event.preventDefault();
-			const isHidden = searchLayer.getAttribute('aria-hidden');
-			if (isHidden === "false") {
-				const focusedElement = searchLayer.querySelector(':focus');
-				if (focusedElement) {
-					(focusedElement as HTMLElement).blur();
-				}
-				searchLayer.setAttribute('aria-hidden', "true");
-			} else {
-				searchLayer.setAttribute('aria-hidden', "false");
-			}
-		});
-
 		// Homepage
 		const homeLayer = document.querySelector('.home');
 		const homeButton = document.querySelector('.home .button');
@@ -180,74 +120,6 @@ export class App2 {
 				}
 			});
 		}
-
-		// Onboarding
-		const onboardingButton = document.querySelectorAll('.exploration_card-foot .button');
-		const wizardLayer = document.querySelector('.wizard');
-		onboardingButton.forEach(el => {
-			el.addEventListener('click', (event) => {
-				event.preventDefault();
-
-				const isHidden = onboardingLayer.getAttribute('aria-hidden');
-				if (isHidden === "false") {
-					const focusedElement = onboardingLayer.querySelector(':focus');
-					if (focusedElement) {
-						(focusedElement as HTMLElement).blur();
-					}
-					onboardingLayer.setAttribute('aria-hidden', "true");
-					wizardLayer.setAttribute('aria-hidden', "false");
-				} else {
-					onboardingLayer.setAttribute('aria-hidden', "false");
-				}
-			});
-		});
-
-		// Wizard
-		const wizardButton = document.querySelectorAll('.wizard_tooltip .button');
-		wizardButton.forEach(el => {
-			el.addEventListener('click', (event) => {
-				event.preventDefault();
-
-				const isHidden = wizardLayer.getAttribute('aria-hidden');
-				if (isHidden === "false") {
-					const focusedElement = wizardLayer.querySelector(':focus');
-					if (focusedElement) {
-						(focusedElement as HTMLElement).blur();
-					}
-					wizardLayer.setAttribute('aria-hidden', "true");
-				} else {
-					wizardLayer.setAttribute('aria-hidden', "false");
-				}
-			});
-		});
-
-		// Timemachine toggle
-		const timemachineComponent = document.querySelector('.timemachine');
-		const timemachineToggle = document.querySelector('#timemachine-toggle');
-		timemachineToggle.addEventListener('click', (e) => {
-			e.preventDefault();
-			const isExpanded = timemachineToggle.getAttribute('aria-expanded');
-			if (isExpanded === "true") {
-				timemachineToggle.setAttribute('aria-expanded', "false");
-			} else {
-				timemachineToggle.setAttribute('aria-expanded', "true");
-			}
-
-			timemachineComponent.classList.toggle('collapsed');
-		});
-
-		// Close Filters
-		const filtersComponent = document.querySelector('.filters');
-		const filtersClose = document.querySelector('.filters-head .button_icon');
-		filtersClose.addEventListener('click', (e) => {
-			e.preventDefault();
-			const isHidden = filtersComponent.getAttribute('aria-hidden');
-			if (isHidden === "true") {
-				filtersComponent.setAttribute('aria-hidden', "false");
-			} else {
-				filtersComponent.setAttribute('aria-hidden', "true");
-			}
-		});
 	}
 
 	update() {
