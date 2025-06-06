@@ -1,6 +1,6 @@
 ---
 layout: base
-pageTemplate: landing
+pageTemplate: splash
 eleventyComputed:
   title: "{{ staticData.title }}"
   description: "{{ staticData.description }}"
@@ -20,7 +20,8 @@ eleventyComputed:
         </div>
 
         <div class="splash-action">
-            {{ Button('Start exploring', 'button primary medium') }}
+            {# {{ Button('Start exploring', 'button primary medium') }} #}
+            <a href="/onboarding" class="button primary medium"><span>Start exploring</span></a>
         </div>
 
         <div class="splash-count" role="status" aria-live="polite">

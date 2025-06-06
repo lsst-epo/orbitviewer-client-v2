@@ -1,7 +1,5 @@
 {% from "../partials/icons.njk" import initSpriteSheet %}
 {% from "../partials/icons.njk" import icon %}
-{% from "../components/toast.njk" import Toast %}
-{% from "../components/modal.njk" import Modal %}
 {% from "../components/pointer.njk" import Pointer %}
 
 <!DOCTYPE html>
@@ -25,23 +23,11 @@
                 <img src="/assets/images/nsf-doe-rubin-observatory-orbitviewer.png" class="logo" alt="{{ copy.logo.alt.en }}">
             </a>
 
-            {{ content | safe }}
-
-            {% include 'objects.njk' %}
-
-            {% include 'wizard.njk' %}
-
-            {% include 'share.njk' %}
-            
-            {{ Modal('Things looking a bit slow?', 'Weve noticed some performance issues. A different visualization mode could provide a smoother experience on your device.') }}
-            {{ Toast('Maximum date reached. Future positions cannot be calculated. Try exploring within the supported time range', '', 'Maximum date notification', true) }}
-
-            {% include 'toolbar.njk' %}
-            {% include 'filters.njk' %}
-            {% include 'search.njk' %}
-            
-            {% include 'timemachine.njk' %}
-            {% include 'mapcontrols.njk' %}
+            <div nomad-wrapper>
+	            <div nomad-template="{{ pageTemplate }}">
+                    {{ content | safe }}
+                </div>
+            </div>
         </main>
         
 

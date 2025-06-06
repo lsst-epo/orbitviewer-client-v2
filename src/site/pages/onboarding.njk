@@ -1,6 +1,6 @@
 ---
 layout: base
-pageTemplate: landing
+pageTemplate: onboarding
 eleventyComputed:
   title: "{{ staticData.title }}"
   description: "{{ staticData.description }}"
@@ -26,7 +26,8 @@ eleventyComputed:
                         <p class="count">{{ mode.objects.en }}</p>
                     </div>
                     <div class="exploration_card-foot">
-                        {{ Button('Launch', 'button secondary medium') }}
+                        {# {{ Button('Launch', 'button secondary medium') }} #}
+                        <a href="/" class="button secondary medium"><span>Launch</span></a>
                     </div>
                 </div>
             </li>

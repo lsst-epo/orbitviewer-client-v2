@@ -1,27 +1,55 @@
 import { ThreeDOMLayer } from "@fils/gl-dom";
 import { OrbitViewer } from "../gfx/OrbitViewer";
 import { Timer } from "@fils/ani";
-import Filters from "../layers/filters";
-import TimeMachine from "../layers/TimeMachine";
 import Share from "../layers/Share";
-import Search from "../layers/Search";
-import Wizard from "../layers/Wizard";
-import ObjectsFilters from "../layers/ObjectsFilters";
 import Navigation from "../layers/Navigation";
+import { DefaultPage, Nomad, NomadRoute, NomadRouteListener } from "@fils/nomad";
+import { ObjectPage } from "../pages/ObjectPage";
+import { ObjectsFiltersPage } from "../pages/ObjectsFiltersPage";
+import ObjectsFilters from "../layers/ObjectsFilters";
+import Filters from "../layers/Filters";
+import Search from "../layers/Search";
+import TimeMachine from "../layers/TimeMachine";
+import Wizard from "../layers/Wizard";
 
-export class App2 {
+export class App2 implements NomadRouteListener {
 	gl:ThreeDOMLayer;
 	viewer:OrbitViewer;
 	clock:Timer;
+	currentPage: DefaultPage;
 
 	constructor() {
 		this.gl = new ThreeDOMLayer(document.querySelector('.view'));
 		this.gl.renderer.setClearColor(0x000000, 0);
 		this.viewer = new OrbitViewer(this.gl);
+
+		this.initNomad();
 		
 		this.start();
 
 		console.log('%cSite by Fil Studio', "color:white;font-family:system-ui;font-size:1rem;font-weight:bold");
+	}
+
+	initNomad() {
+		const nomad = new Nomad({
+			replace: false
+		}, (id, template, dom) => {
+			if (template === 'objects') return new ObjectsFiltersPage(id, template, dom)
+			else if (template === 'object') return new ObjectPage(id, template, dom)
+			return new DefaultPage(id, template, dom)
+		})
+		
+		nomad.addRouteListener(this);
+		
+		this.currentPage = nomad.route.page as DefaultPage;
+	}
+	
+	onRouteChangeStart(href: string): void {
+		
+	}
+
+	onRouteChanged(route: NomadRoute): void {
+		this.currentPage = route.page as DefaultPage;
 	}
 
 	start() {
@@ -37,6 +65,10 @@ export class App2 {
 		// Navigation
 		const navigationDom = document.querySelector('.nav_dropdown');
 		const navigation = new Navigation(navigationDom);
+
+		// Share
+		const shareDom = document.querySelector('.share');
+		const share = new Share(shareDom);
 
 		// Objects Filters
 		const objectsFiltersDom = document.querySelector('.objects');
@@ -54,16 +86,11 @@ export class App2 {
 		const timeMachineDom = document.querySelector('.timemachine');
 		const timeMachine = new TimeMachine(timeMachineDom);
 
-		// Share
-		const shareDom = document.querySelector('.share');
-		const share = new Share(shareDom);
-
 		// Wizard
 		const wizardDom = document.querySelector('.wizard');
 		const wizard = new Wizard(wizardDom);
-	
 
-		// Toolbar Navigation
+		// Toolbar
 		const toolbarItem = document.querySelectorAll('.toolbar-link');
 		toolbarItem.forEach(el => {
 			el.addEventListener('click', (event) => {
@@ -94,27 +121,6 @@ export class App2 {
 				}
 			});
 		});
-
-		// Homepage
-		const homeLayer = document.querySelector('.home');
-		const homeButton = document.querySelector('.home .button');
-		const onboardingLayer = document.querySelector('.onboarding');
-		if (homeButton) {
-			homeButton.addEventListener('click', (event: Event) => {
-				event.preventDefault();
-				const isHidden = homeLayer.getAttribute('aria-hidden');
-				if (isHidden === "false") {
-					const focusedElement = homeLayer.querySelector(':focus');
-					if (focusedElement) {
-						(focusedElement as HTMLElement).blur();
-					}
-					homeLayer.setAttribute('aria-hidden', "true");
-					onboardingLayer.setAttribute('aria-hidden', "false");
-				} else {
-					homeLayer.setAttribute('aria-hidden', "false");
-				}
-			});
-		}
 	}
 
 	update() {
@@ -122,5 +128,6 @@ export class App2 {
 		const t = this.clock.currentTime;
 		this.viewer.update(t);
 		this.viewer.render();
+		this.currentPage?.update();
 	}
 }

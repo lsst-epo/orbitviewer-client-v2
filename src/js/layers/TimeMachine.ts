@@ -6,20 +6,26 @@ class TimeMachine extends Layer {
     slider: HTMLElement;
     toggleButton: HTMLElement;
     dom: HTMLElement;
+	timemachineSlider: RangeSlider;
     
     constructor(dom) {
         super(dom);
 
+		this.dom = dom;
+
         this.slider = dom.querySelector('#slider-timemachine') as HTMLElement;
         this.toggleButton = dom.querySelector('#timemachine-toggle') as HTMLElement;
+
+		this.timemachineSlider = new RangeSlider(this.slider, {
+			onChange: (values: number[]) => {
+				this.toggleButton.querySelector('span').textContent = values.join(', ');
+			}
+		});
 
         this.start();
     }
 
-    start() {
-        // Slide Range
-		const timemachineSlider = new RangeSlider(this.slider);
-		
+    start() {		
         // Flatpickr Datepicker
         flatpickr("#myDateInput", {
 			disableMobile: true,
