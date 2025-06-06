@@ -2,11 +2,13 @@ class ToggleGroup {
     element: any;
     inputs: any[];
     indicator: HTMLDivElement | null;
+    callback: ((value: string, element: HTMLElement) => void) | null;
     
-    constructor(element) {
+    constructor(element, callback = null) {
         this.element = typeof element === 'string' ? document.querySelector(element) : element;
         this.indicator = null;
         this.inputs = [];
+        this.callback = callback;
         
         this.init();
     }
@@ -56,7 +58,12 @@ class ToggleGroup {
 
     bindEvents() {
         this.inputs.forEach(input => {
-            input.addEventListener('change', () => this.updateIndicator());
+            input.addEventListener('change', () => {
+                this.updateIndicator();
+                if (this.callback && input.checked) {
+                    this.callback(input.value, input);
+                }
+            });
         });
         
         window.addEventListener('resize', () => this.updateIndicator());

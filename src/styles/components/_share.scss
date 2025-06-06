@@ -107,6 +107,7 @@
         background: var(--color-backdrop);
         overflow: hidden;
         border-radius: var(--corner-large);
+        aspect-ratio: 16/9;
 
         img,
         canvas {

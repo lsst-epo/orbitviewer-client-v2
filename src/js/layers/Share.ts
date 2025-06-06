@@ -20,23 +20,30 @@ class Share extends Layer {
     }
 
     start() {
-        // Open Button
 		this.triggerButton.addEventListener('click', (e) => {
 			e.preventDefault();
 			this.open();
 		});
 
-        // Close Button
 		this.closeButton.addEventListener('click', (e) => {
 			e.preventDefault();
 			this.close();
 		});
         
-        // Tabs
 		const shareTabs = new Tabs('.share_dialog-body');
 
-		// Togglegroups
-		const ratioToggle = new ToggleGroup(this.ratioToggle);
+		const ratioToggle = new ToggleGroup(this.ratioToggle, (value, element) => {
+            const screenCapture = this.dom.querySelector('.screen_capture-hero');
+            if (screenCapture) {
+                value = value.toLowerCase();
+                console.log(value);
+                const possibleValues = ['square', 'vertical', 'horizontal'];
+                possibleValues.forEach(v => screenCapture.classList.remove(v));
+                if (value && possibleValues.includes(value)) {
+                    screenCapture.classList.add(value);
+                }                
+            }
+        });
     }
 }
 
