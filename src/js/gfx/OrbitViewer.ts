@@ -19,6 +19,10 @@ export interface FollowTarget {
 	alpha: number;
 }
 
+const DEFAULT_CAM_LIMITS = {
+	minDistance: 24
+}
+
 export class OrbitViewer extends ThreeLayer {
   camera:PerspectiveCamera;
   particles:SolarParticles;
@@ -53,6 +57,7 @@ export class OrbitViewer extends ThreeLayer {
       this.controls = new OrbitControls(this.camera, _gl.dom);
 			this.controls.enableDamping = true;
 			this.controls.dampingFactor = .096;
+			this.controls.minDistance = DEFAULT_CAM_LIMITS.minDistance;
 			// console.log(this.controls.minDistance, this.controls.maxDistance)
 			// this.controls.autoRotate = true;
 			// this.controls.autoRotateSpeed = .25;
@@ -153,7 +158,7 @@ export class OrbitViewer extends ThreeLayer {
 		if (!this.cameraTarget.target) return;
 		this.cameraTarget.target = null;
 		this.controls.autoRotate = false;
-		this.controls.minDistance = 0;
+		this.controls.minDistance = DEFAULT_CAM_LIMITS.minDistance;
 		this.controls.maxDistance = Infinity;
 		gsap.to(this.controls.target, {
 			x: 0,
