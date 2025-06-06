@@ -250,7 +250,7 @@ export const PlanetAtmosphereSettings:Record<PlanetId,AtmosphereSettings> = {
         color1: 0x0022EE,
         color2: 0xAAFFFF,
         fresnelWidth: 1.35,
-        scale: 1.04,
+        scale: 1.05,
         brightness: 3.5
     },
     mars: {
