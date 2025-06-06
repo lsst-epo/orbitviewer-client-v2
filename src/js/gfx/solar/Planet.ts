@@ -235,8 +235,8 @@ export const PlanetAtmosphereSettings:Record<PlanetId,AtmosphereSettings> = {
     mercury: {
         color1: 0xFFFFFF,
         color2: 0xeeeeee,
-        fresnelWidth: .24,
-        scale: 1.01,
+        fresnelWidth: .2,
+        scale: 1.005,
         brightness: 1.75
     },
     venus: {
@@ -256,8 +256,8 @@ export const PlanetAtmosphereSettings:Record<PlanetId,AtmosphereSettings> = {
     mars: {
         color1: 0xFF3333,
         color2: 0xF4B681,
-        fresnelWidth: .4,
-        scale: 1.01,
+        fresnelWidth: .25,
+        scale: 1.005,
         brightness: 3.6
     },
     jupiter: {

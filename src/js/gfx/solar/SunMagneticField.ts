@@ -7,7 +7,7 @@ import fragmentShader from "../../../glsl/lib/smf.frag";
 import vertexShader from "../../../glsl/lib/smf.vert";
 import { GLOBALS } from "../../core/Globals";
 
-const N_LINES = 512;
+const N_LINES = 128;
 const N_SEGMENTS = 4;
 
 const I_GEO = new SphereGeometry(.001, 8, 8);
