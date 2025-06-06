@@ -39,6 +39,7 @@ const MAT = new ShaderMaterial({
 
 import fragmentShader from '../../../glsl/sim/particles_instanced.frag';
 import vertexShader from '../../../glsl/sim/particles_instanced.vert';
+import { LoadManager } from "../../core/data/LoadManager";
 
 const MAT2 = new ShaderMaterial({
     vertexShader,
@@ -214,20 +215,25 @@ export class SolarParticles {
         this.updateVisibility();
 
         // To-Do: Bring Category Color
-        /* const color = this.points.geometry.attributes.color;
-        const arr = color.array as Float32Array;
+        // const color = this.points.geometry.attributes.color;
+        // const arr = color.array as Float32Array;
 
         for(let i=0; i<count; i++) {
             const el = this._data[i];
-            const col = CategoryColorMap[el.category];
+            // const categories = LoadManager.craftData.categories.categories;
+            // console.log(el.category, categories);
+            // const color:Color = LoadManager.craftData.categories[el.category].threeColor;
+            // this.mesh.setColorAt(i, color);
+            // console.log(el.category);
+            // const col = CategoryColorMap[el.category];
             // const col = new Color(0xcccc00);
-            arr[i*3] = col.r;
-            arr[i*3 + 1] = col.g;
-            arr[i*3 + 2] = col.b;
+            // arr[i*3] = col.r;
+            // arr[i*3 + 1] = col.g;
+            // arr[i*3 + 2] = col.b;
         }
 
-        // this.mesh.instanceColor.needsUpdate = true;
-        color.needsUpdate = true; */
+        this.mesh.instanceColor.needsUpdate = true;
+        // color.needsUpdate = true;
     }
 
     /**

@@ -46,7 +46,7 @@ export async function getQuery(query = null) {
 // -----------------------------------
 
 export async function getCategories() {
-  const query = `{
+  /* const query = `{
   categories(group: "objectTypes", siteId: "1") {
     ... on objectTypes_Category {
       title
@@ -54,7 +54,16 @@ export async function getCategories() {
       mainColor
     }
   }
-}`;
+}`; */
+
+  const query = `{
+    categories(group: "objectTypes", siteId: "1") {
+      ... on objectTypes_Category {
+        title
+        mainColor
+      }
+    }
+  }`;
   
   const content = await getQuery(query)
 

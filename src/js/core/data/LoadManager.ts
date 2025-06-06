@@ -1,4 +1,6 @@
+import { Color } from "three";
 import { getSolarStaticData } from "../Utils";
+import { getCategories, getSolarItemsInfo } from "./CraftManager";
 
 const staticURL = "./assets/data/";
 const baseURL = "./assets/data/";
@@ -18,6 +20,16 @@ class LoadManagerClass {
             dwarf_planets: null,
             solar_items: null,
             sample: null
+        },
+        craftData: {
+            pages: {
+                landing: null,
+                about: null,
+                objects: null,
+                how_to_use: null
+            },
+            categories: null,
+            solar_items: null
         }
     }
 
@@ -25,8 +37,21 @@ class LoadManagerClass {
         return this.mgr.data;
     }
 
+    get craftData() {
+        return this.mgr.craftData;
+    }
+
     private get coreDataAvailable() {
         return this.mgr.data.planets && this.mgr.data.dwarf_planets && this.mgr.data.solar_items;
+    }
+
+    private get coreCraftDataAvailable() {
+        const craft = this.mgr.craftData;
+        return craft.categories && craft.solar_items;// && craft.pages.landing;
+    }
+
+    public get coreLoaded():boolean {
+        return this.coreDataAvailable && this.coreCraftDataAvailable;
     }
 
     private loadData(id:string, url:string, onLoaded:Function) {
@@ -39,17 +64,65 @@ class LoadManagerClass {
         });
     }
 
+    private createCategoryColorMap(cnt) {
+        cnt.data.categories.forEach(entry => {
+            entry.threeColor = new Color(entry.mainColor);
+            // console.log(entry);
+        })
+    }
+
+    private loadCraft(id:string, onLoaded:Function) {
+        const onL = cnt => {
+            if(cnt.errors) {
+                console.warn('Error. Retrying...');
+                cnt.errors.forEach(error => {
+                    console.log(error.message)
+                });
+                this.loadCraft(id, onLoaded);
+            }
+            //@ts-ignore
+            // console.log(cnt.data);
+            if(id === 'categories') {
+                this.createCategoryColorMap(cnt);
+            }
+            //@ts-ignore
+            this.mgr.craftData[id]= cnt.data;
+            onLoaded()
+        }
+
+        if(id === 'categories') {
+            getCategories().then(cnt => {
+                onL(cnt);
+            }).catch(e => {
+                console.warn('Error. Retrying...');
+                console.log(e);
+                this.loadCraft(id, onLoaded);
+            });
+        } else if(id === 'solar_items') {
+            getSolarItemsInfo().then(cnt => {
+                onL(cnt);
+            }).catch(e => {
+                console.warn('Error. Retrying...');
+                console.log(e);
+                this.loadCraft(id, onLoaded);
+            });
+        }
+    }
+
     loadCore(onLoaded:Function) {
         if (this.mgr.isLoading) return console.warn('Loading process already initiated!');
         this.mgr.isLoading = true;
 
         const onL = () => {
-            if (this.coreDataAvailable) onLoaded();
+            if (this.coreLoaded) onLoaded();
         }
 
         this.loadData('planets', `${staticURL}${PLANETS}`, onL);
         this.loadData('dwarf_planets', `${staticURL}${DWARF_PLANETS}`, onL);
         this.loadData('solar_items', `${baseURL}solar-items.json`, onL);
+
+        this.loadCraft('categories', onL);
+        this.loadCraft('solar_items', onL);
     }
 
     loadSample(profile:string, onLoaded:Function) {
