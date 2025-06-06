@@ -229,7 +229,7 @@ export default {
             "es": ""
         },
         "subtitle": {
-            "en": "Let’s take a moment to select which types of orbits you want to see first. You can later add or remove in-view orbits if you wish.",
+            "en": "Select which types of orbits you want to see.",
             "es": ""
         },
         "types": {
