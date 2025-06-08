@@ -2,7 +2,8 @@
  * Categories related data
  */
 
-import { OrbitDataElements } from "../solar/SolarUtils";
+import { OrbitDataElements, OrbitDataElementsV2 } from "../solar/SolarUtils";
+import { LoadManager } from "./LoadManager";
 
 export type SolarCategory = 'trans-neptunian-objects'|'near-earth-objects'|'interstellar-objects'|'comets'|'centaurs'|'asteroids'|'planets-moons'|'jupiter-trojans';
 
@@ -19,7 +20,28 @@ export const categoriesSort:Array<SolarCategory> = [
 	'jupiter-trojans'
 ]
 
-export const getCategory = (item: OrbitDataElements):SolarCategory => {
+export const CategoryTypeMap:Record<SolarCategory, number> = {
+	asteroids: 1,
+	"near-earth-objects": 2,
+	"trans-neptunian-objects": 3,
+	centaurs: 4,
+	comets: 5,
+	"interstellar-objects": 6,
+	"planets-moons": 7,
+	"jupiter-trojans": 8
+}
+
+export function getCraftCategory(category:SolarCategory) {
+	const categories = LoadManager.craftData.categories;
+	for(const cat of categories) {
+		const type = parseInt(cat.objectTypeCode);
+		if(type === CategoryTypeMap[category]) return cat;
+	}
+
+	return null;
+}
+
+export const getCategory = (item: OrbitDataElements|OrbitDataElementsV2):SolarCategory => {
 	const avail_categories:Array<SolarCategory> = [];
 	const type = item.object_type;
 

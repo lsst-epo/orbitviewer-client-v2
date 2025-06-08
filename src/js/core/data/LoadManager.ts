@@ -84,10 +84,14 @@ class LoadManagerClass {
             // console.log(cnt.data);
             if(id === 'categories') {
                 this.createCategoryColorMap(cnt);
+                this.mgr.craftData[id] = cnt.data.categories;
+            } else {
+               this.mgr.craftData[id] = cnt.data.entries; 
             }
             //@ts-ignore
-            this.mgr.craftData[id]= cnt.data;
-            onLoaded()
+            // this.mgr.craftData[id] = cnt.data;
+            
+            onLoaded();
         }
 
         if(id === 'categories') {
@@ -127,6 +131,7 @@ class LoadManagerClass {
 
     loadSample(profile:string, onLoaded:Function) {
         getSolarStaticData(profile).then((json) => {
+            // console.log(json);
             this.mgr.data.sample = json;
             onLoaded(json);
 			// downloadJSON(json, `data-${VISUAL_SETTINGS.current}.json`, true);

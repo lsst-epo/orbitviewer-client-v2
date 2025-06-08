@@ -30,8 +30,8 @@ export function downloadJSON(data, filename, minify = false) {
 // export const STATIC_URL = "./assets/data/";
 export const STATIC_URL = "https://storage.googleapis.com/orbitviewer-data/";
 
-export async function getSolarStaticData(weight:string) {
-    const url = `${STATIC_URL}mpcorbs-${weight}.json`;
+export async function getSolarStaticData(weight:string, isV2:boolean=false) {
+    const url = isV2 ? `${STATIC_URL}mpcorbs-${weight}-v2.json` : `${STATIC_URL}mpcorbs-${weight}.json`;
     const response = await fetch(url);
     return await response.json();
 }

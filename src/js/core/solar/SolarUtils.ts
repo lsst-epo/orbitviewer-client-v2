@@ -5,7 +5,7 @@
 import { Vector3 } from "three";
 import { getCategory } from "../data/Categories";
 import { PlanetDataMap, PLANET_SCALE } from "./Planet";
-import { calculateOrbit, EPOCH, getMeanAnomaly, OrbitElements, OrbitType } from "./SolarSystem";
+import { calculateOrbit, EPOCH, getMeanAnomaly, OrbitElements, OrbitType, SolarCategory } from "./SolarSystem";
 import { MJD2JD, SolarTimeManager } from "./SolarTime";
 import { Random } from "@fils/math";
 
@@ -29,6 +29,26 @@ export type OrbitDataElements = {
     n:number;
     tperi?:number;
     peri:number;
+	object_type: number[];
+}
+
+export type OrbitDataElementsV2 = {
+    id?:string;
+    unpacked_primary_provisional_designation:string;
+    node:number;
+    a:number;
+    e:number;
+    // Name?:string;
+    // G?:number;
+    incl:number;
+    // H?:number;
+    q:number;
+    mean_anomaly:number;
+    // mpch:number;
+    epoch_mjd:number;
+    mean_motion:number;
+    peri_time?:number;
+    arcperi:number;
 	object_type: number[];
 }
 
@@ -60,7 +80,7 @@ export function getRandomElementsArray(len:number):OrbitDataElements[] {
     return arr;
 }
 
-export function getOrbitType(el:OrbitDataElements): OrbitType {
+export function getOrbitType(el:OrbitDataElements|OrbitDataElementsV2): OrbitType {
     if(el.e < 0.98) {
         return OrbitType.Elliptical;
     } else if(el.e < 1.2) {
@@ -90,7 +110,31 @@ export function mapOrbitElements(dEl:OrbitDataElements):OrbitElements {
         Tp: dEl.tperi,
         epoch: dEl.epoch != undefined ? dEl.epoch : EPOCH,
         type: getOrbitType(dEl),
-        category: getCategory(dEl)
+        category: getCategory(dEl) as SolarCategory
+    }
+    return el;
+}
+
+
+export function mapOrbitElementsV2(dEl:OrbitDataElementsV2):OrbitElements {
+    const el = {
+        id: dEl.unpacked_primary_provisional_designation,
+        fulldesignation: dEl.unpacked_primary_provisional_designation,
+        N: dEl.node,
+        a: dEl.a,
+        e: dEl.e,
+        // name: dEl.Name,
+        // G: dEl.G,
+        i: dEl.incl,
+        // H: dEl.H,
+        w: dEl.arcperi,
+        M: dEl.mean_anomaly,
+        n: dEl.mean_motion,
+        q: dEl.q,
+        Tp: dEl.peri_time,
+        epoch: dEl.epoch_mjd != undefined ? dEl.epoch_mjd : EPOCH,
+        type: getOrbitType(dEl),
+        category: getCategory(dEl) as SolarCategory
     }
     return el;
 }

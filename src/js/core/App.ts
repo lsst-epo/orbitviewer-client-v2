@@ -40,7 +40,7 @@ export class App {
 			alpha: false
 		});
 		this.gl.renderer.setClearColor(0x000000, 1);
-		this.gl.renderer.setPixelRatio(devicePixelRatio || 1);
+		// this.gl.renderer.setPixelRatio(devicePixelRatio || 1);
 		// this.gl.renderer.outputColorSpace = 'srgb-linear';
 		this.viewer = new OrbitViewer(this.gl);
 		
@@ -90,6 +90,7 @@ export class App {
 				this.viewer.hidePaths();
         this.addGUI();
         console.log(LoadManager.data);
+				console.log(LoadManager.craftData);
       });
     })
 	}

@@ -40,6 +40,7 @@ const MAT = new ShaderMaterial({
 import fragmentShader from '../../../glsl/sim/particles_instanced.frag';
 import vertexShader from '../../../glsl/sim/particles_instanced.vert';
 import { LoadManager } from "../../core/data/LoadManager";
+import { getCraftCategory } from "../../core/data/Categories";
 
 const MAT2 = new ShaderMaterial({
     vertexShader,
@@ -220,10 +221,10 @@ export class SolarParticles {
 
         for(let i=0; i<count; i++) {
             const el = this._data[i];
-            // const categories = LoadManager.craftData.categories.categories;
-            // console.log(el.category, categories);
-            // const color:Color = LoadManager.craftData.categories[el.category].threeColor;
-            // this.mesh.setColorAt(i, color);
+            // console.log(el.category);
+            const categoryData = getCraftCategory(el.category);
+            const color:Color = categoryData.threeColor;
+            this.mesh.setColorAt(i, color);
             // console.log(el.category);
             // const col = CategoryColorMap[el.category];
             // const col = new Color(0xcccc00);
