@@ -79,7 +79,7 @@ export class SolarParticles {
         MAT.uniforms.computedPosition.value = this.sim.texture;
         MAT2.uniforms.computedPosition.value = this.sim.texture;
 
-        this.points = new Points(this.createPointsGeo(), MAT);
+        // this.points = new Points(this.createPointsGeo(), MAT);
         this.createInstancedMesh();
 
         /* this.maps = new WebGLMultipleRenderTargets(512, 512, 3);
@@ -182,7 +182,7 @@ export class SolarParticles {
     }
 
     updateVisibility() {
-        this.points.visible = this.mode === "points";
+        // this.points.visible = this.mode === "points";
         this.mesh.visible = this.mode === "instanced";
     }
 
@@ -202,8 +202,8 @@ export class SolarParticles {
         const MAX = VISUAL_SETTINGS[VISUAL_SETTINGS.current];
         if(this.quality != VISUAL_SETTINGS.current){
             this.quality = VISUAL_SETTINGS.current as SimQuality;
-            this.points.geometry.dispose();
-            this.points.geometry = this.createPointsGeo();
+            // this.points.geometry.dispose();
+            // this.points.geometry = this.createPointsGeo();
             this.mesh.geometry.dispose();
             this.mesh.dispose();
             this.createInstancedMesh();
