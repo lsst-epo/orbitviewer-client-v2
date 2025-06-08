@@ -87,7 +87,7 @@ export class App {
     	  const data = getSimData(json);
     	  this.viewer.setData(data);
 				this.viewer.createPlanets(LoadManager.data.planets);
-				this.viewer.hidePaths();
+				// this.viewer.hidePaths();
         this.addGUI();
         console.log(LoadManager.data);
 				console.log(LoadManager.craftData);
@@ -396,7 +396,7 @@ export class App {
 
 		const planetView = {
 			selected: 'none',
-			paths: false
+			paths: true
 		}
 
 		g3.add(planetView, 'paths').on('change', () => {

@@ -1,10 +1,24 @@
 import { MathUtils } from "@fils/math";
-import { Box3, BufferAttribute, BufferGeometry, CatmullRomCurve3, Group, Line, Mesh, MeshBasicMaterial, Object3D, TubeGeometry, Vector3 } from "three";
+import { Box3, CatmullRomCurve3, Color, Group, Mesh, Object3D, ShaderMaterial, TubeGeometry, Vector3 } from "three";
 // import { TrajectoryMaterial } from "../gfx/TrajectoryMaterial";
 
 import { calculateOrbitByType, OrbitElements, OrbitType } from "../../core/solar/SolarSystem";
-import { PLANET_SCALE } from "../../core/solar/Planet";
 import { SolarTimeManager } from "../../core/solar/SolarTime";
+
+import fragmentShader from "../../../glsl/lib/path.frag";
+import vertexShader from "../../../glsl/lib/path.vert";
+
+function getMaterial():ShaderMaterial {
+    return new ShaderMaterial({
+        vertexShader,
+        fragmentShader,
+        uniforms: {
+            color: {
+                value: new Color(0x999999)
+            }
+        }
+    })
+}
 
 const MIN_DISTANCE = {
     min: .1,
@@ -128,13 +142,7 @@ export class EllipticalPath {
             // );
 
             this.ellipse = new Group();
-            const mat = new MeshBasicMaterial({
-                color: 0x666666,
-                transparent: true,
-				opacity: 1,
-				fog: true
-				// wireframe: true
-            });
+            const mat = getMaterial();
             // this.material = mat;
 
             // const l = new Line(geo, mat);

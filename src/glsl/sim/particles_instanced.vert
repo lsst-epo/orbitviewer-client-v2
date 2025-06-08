@@ -9,6 +9,9 @@ out float depth;
 out vec3 vNormal;
 out vec3 vPosition;
 
+uniform float near;
+uniform float far;
+
 mat4 scale(vec3 s) {
   return mat4(
     s.x, 0.0, 0.0, 0.0,
@@ -56,8 +59,8 @@ void main () {
     vec4 transformed = translationMatrix * scaleMatrix * vec4(pos, 1.0);
 
     depth = smoothstep(
-        5000.0,
-        25000.0,
+        near,
+        far,
         distance(cameraPosition, transformed.xyz)
     );
 

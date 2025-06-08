@@ -23,6 +23,9 @@ const DEFAULT_CAM_LIMITS = {
 	minDistance: 24
 }
 
+export const NEAR = 5000;
+export const FAR = 25000;
+
 export class OrbitViewer extends ThreeLayer {
   camera:PerspectiveCamera;
   particles:SolarParticles;
@@ -83,7 +86,7 @@ export class OrbitViewer extends ThreeLayer {
       this.ambientLight = new AmbientLight(0xffffff, 0.05);
       this.scene.add(this.ambientLight);
 
-			const fog = new Fog(0x000000, 5000, 25000);
+			const fog = new Fog(0x000000, NEAR, FAR);
 			this.scene.fog = fog;
     }
 
@@ -116,7 +119,7 @@ export class OrbitViewer extends ThreeLayer {
 
 				this.solarElements.push(planet);
         this.scene.add(planet);
-        // this.scene.add(planet.orbitPath.ellipse);
+        this.scene.add(planet.orbitPath.ellipse);
 
       	// this.scene.add(planet.sunLine);
 		}

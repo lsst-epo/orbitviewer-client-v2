@@ -27,7 +27,7 @@ void main () {
     if(d < .001) discard;
 
     #include <glow_frag_init>
-    vec4 color = brightness * LinearTransferOETF(vec4(vColor, d));
+    vec4 color = brightness * (vec4(vColor, d));
 
     gl_FragColor = color;
     oGlow = color * .5;

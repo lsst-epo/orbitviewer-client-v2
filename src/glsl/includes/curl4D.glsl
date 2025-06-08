@@ -36,7 +36,7 @@ vec3 curlNoise4D(vec4 p) {
   return normalize(vec3(x, y, z) * divisor);
 }
 
-vec3 curlNoise4D_simple(vec4 p) {
+highp vec3 curlNoise4D_simple(vec4 p) {
   const float e = 0.1;
   vec4 dx = vec4(e, 0.0, 0.0, 0.0);
   vec4 dy = vec4(0.0, e, 0.0, 0.0);

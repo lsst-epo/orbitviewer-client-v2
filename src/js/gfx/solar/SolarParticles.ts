@@ -41,6 +41,7 @@ import fragmentShader from '../../../glsl/sim/particles_instanced.frag';
 import vertexShader from '../../../glsl/sim/particles_instanced.vert';
 import { LoadManager } from "../../core/data/LoadManager";
 import { getCraftCategory } from "../../core/data/Categories";
+import { FAR, NEAR } from "../OrbitViewer";
 
 const MAT2 = new ShaderMaterial({
     vertexShader,
@@ -53,6 +54,12 @@ const MAT2 = new ShaderMaterial({
         },
         opacity: {
             value: 1
+        },
+        near: {
+            value: 0
+        },
+        far: {
+            value: 0
         }
     }
 });
@@ -210,6 +217,9 @@ export class SolarParticles {
         }
         this._data = value;
         const count = Math.min(MAX, this._data.length);
+
+        MAT2.uniforms.near.value = NEAR;
+        MAT2.uniforms.far.value = FAR;
 
         this.sim.data = value;
 

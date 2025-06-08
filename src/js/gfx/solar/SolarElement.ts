@@ -130,17 +130,17 @@ export class SolarElement extends Object3D implements InteractiveObject {
     update(d:number) {
         calculateOrbitByType(this.data, d, OrbitType.Elliptical, this.position);
 
-        // const pos = this.sunLine.geometry.attributes.position;
-        // const arr = pos.array as Float32Array;
-        // arr[3] = this.position.x;
-        // arr[4] = this.position.y;
-        // arr[5] = this.position.z;
+        /* const pos = this.sunLine.geometry.attributes.position;
+        const arr = pos.array as Float32Array;
+        arr[3] = this.position.x;
+        arr[4] = this.position.y;
+        arr[5] = this.position.z;
 
-        // pos.needsUpdate = true;
+        pos.needsUpdate = true; */
 
         // this.mesh.updateMatrixWorld();
         // this.material.update();
-        // this.orbitPath.update(d, this.position, this.scale.x);
+        this.orbitPath.update(d, this.position, this.scale.x);
 
         // this.orbitPath.ellipse.visible = this.visible;
     }

@@ -1,10 +1,11 @@
 out vec2 vUv;
+precision highp float;
 
 #include <fresnel_pars_vert>
 
 #ifdef HALO
 #include <curl4D>
-uniform float time;
+uniform highp float time;
 #endif
 
 void main() {
