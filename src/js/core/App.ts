@@ -5,7 +5,7 @@ import { OrbitViewer } from "../gfx/OrbitViewer";
 import { initShaders } from "../gfx/Shaders";
 import { CLOCK_SETTINGS, GLOBALS } from "./Globals";
 import { SolarClock } from "./solar/SolarClock";
-import { getSimData } from "./solar/SolarData";
+import { getSimData, getSimDataV2 } from "./solar/SolarData";
 
 import Stats from "three/examples/jsm/libs/stats.module.js";
 import { EarthClouds } from "../gfx/planets/EarthClouds";
@@ -23,6 +23,8 @@ import TimeMachine from "../layers/TimeMachine";
 import Wizard from "../layers/Wizard";
 
 export const solarClock = new SolarClock(new Clock());
+
+export const USE_V2 = true;
 
 export class App implements NomadRouteListener {
 	gl:ThreeDOMLayer;
@@ -108,7 +110,7 @@ export class App implements NomadRouteListener {
 	}
 	
 	launch() {
-		const data = getSimData(LoadManager.data.sample);
+		const data = USE_V2 ? getSimDataV2(LoadManager.data.sample) : getSimData(LoadManager.data.sample);;
 		this.viewer.setData(data);
 		this.viewer.createPlanets(LoadManager.data.planets);
 		// this.viewer.hidePaths();
