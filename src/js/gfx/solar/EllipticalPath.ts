@@ -1,30 +1,24 @@
 import { MathUtils } from "@fils/math";
-import { Box3, CatmullRomCurve3, Color, Group, Mesh, Object3D, ShaderMaterial, TubeGeometry, Vector3 } from "three";
+import { Box3, CatmullRomCurve3, Group, Mesh, Object3D, TubeGeometry, Vector3 } from "three";
 // import { TrajectoryMaterial } from "../gfx/TrajectoryMaterial";
 
 import { calculateOrbitByType, OrbitElements, OrbitType } from "../../core/solar/SolarSystem";
 import { SolarTimeManager } from "../../core/solar/SolarTime";
 
-import fragmentShader from "../../../glsl/lib/path.frag";
-import vertexShader from "../../../glsl/lib/path.vert";
-
-function getMaterial():ShaderMaterial {
-    return new ShaderMaterial({
-        vertexShader,
-        fragmentShader,
-        uniforms: {
-            color: {
-                value: new Color(0x999999)
-            }
-        }
-    })
-}
+import { Line2 } from "three/examples/jsm/lines/Line2.js";
+import { LineSegments2 } from "three/examples/jsm/lines/LineSegments2.js";
+import { LineGeometry } from "three/examples/jsm/lines/LineGeometry.js";
+import { LineSegmentsGeometry } from "three/examples/jsm/lines/LineSegmentsGeometry.js";
+import { PathMaterial } from "./PathMaterial";
+import { GLOBALS } from "../../core/Globals";
 
 const MIN_DISTANCE = {
     min: .1,
     max: 5
 };
 const MIN_POINTS = 10;
+
+const origin = new Vector3();
 
 /**
  * Elliptical Path
@@ -39,7 +33,7 @@ export class EllipticalPath {
     pts:Array<Vector3> = [];
     ellipse:Object3D;
     orbitElements:OrbitElements;
-    // material:TrajectoryMaterial;
+    material:PathMaterial;
     selected:boolean = false;
     hidden:boolean = false;
     boundingBox:Box3;
@@ -96,12 +90,12 @@ export class EllipticalPath {
             }
 
             const pos = [];
-            const weight = [];
+            // const weight = [];
             let k = 0;
 
             for(const p of this.pts) {
                 pos.push(p.x, p.y, p.z);
-                weight.push(k++/this.pts.length);
+                // weight.push(k++/this.pts.length);
             }
 
 			// console.log(this.pts);
@@ -142,19 +136,54 @@ export class EllipticalPath {
             // );
 
             this.ellipse = new Group();
-            const mat = getMaterial();
-            // this.material = mat;
+            const mat = new PathMaterial({
+                color: 0xffffff,
+                linewidth: 2,
+                // dashed: true,
+                gapSize: 200,
+                dashSize: 60,
+                fog: true
+            });
+            this.material = mat;
+            const curve = new CatmullRomCurve3(this.pts, true);
 
-            // const l = new Line(geo, mat);
-            // this.ellipse.add(l);
-            //
-			const geo = new TubeGeometry(new CatmullRomCurve3(this.pts, true), 500, 5, 8, true);
-			const l = new Mesh(geo, mat);
+            /* const mat2= new PathMaterial({
+                color: 0x666666,
+                linewidth: 2,
+                // dashed: true,
+                // gapSize: 100,
+                // dashSize: 30,
+                fog: true
+            }); */
+
+            const D = curve.getPointAt(0).distanceTo(origin);
+            // console.log('~R', D);
+            const Dr = MathUtils.smoothstep(330, 1500, D);
+            const nPts = MathUtils.lerp(50, 100, Dr);
+
+            const pts = curve.getPoints(Math.round(nPts)*2);
+            const positions = [];
+
+            for(let i=0;i<pts.length; i++) {
+                const pt = pts[i];
+                positions.push(pt.x, pt.y, pt.z);
+            }
+
+            // console.log(pts);
+
+			const geo = new LineGeometry();
+            geo.setPositions(positions);
+
+            // const l2 = new Line2(geo, mat2);
+            // l2.computeLineDistances();
+			// this.ellipse.add(l2);
+
+            const l = new Line2(geo, mat);
+            l.computeLineDistances();
 			this.ellipse.add(l);
 
-            geo.computeBoundingBox();
-            this.boundingBox = geo.boundingBox;
-
+            // geo.computeBoundingBox();
+            // this.boundingBox = geo.boundingBox;
 
 
         } else {
@@ -169,6 +198,11 @@ export class EllipticalPath {
 
     update(d:number, target:Vector3, radius:number) {
         if(this.type !== OrbitType.Elliptical) return;
+
+        const ramp = MathUtils.smoothstep(0, 1, Math.sin(GLOBALS.solarClock.time * .5));
+        // console.log(ramp);
+        // this.material.gapSize = MathUtils.lerp(0, 200, ramp);
+        this.material.dashOffset = GLOBALS.solarClock.time;
 
         // const mat = this.material;
         // if(mat.shader) {

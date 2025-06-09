@@ -130,7 +130,7 @@ class LoadManagerClass {
     }
 
     loadSample(profile:string, onLoaded:Function) {
-        getSolarStaticData(profile).then((json) => {
+        getSolarStaticData(profile, true).then((json) => {
             // console.log(json);
             this.mgr.data.sample = json;
             onLoaded(json);

@@ -8,7 +8,7 @@ import { initShaders } from "../gfx/Shaders";
 import { fetchSolarElements, getSolarSystemElements } from "./data/QueryManager";
 import { CLOCK_SETTINGS, GLOBALS, GPU_SIM_SIZES, VISUAL_SETTINGS } from "./Globals";
 import { SolarClock } from "./solar/SolarClock";
-import { getSimData } from "./solar/SolarData";
+import { getSimData, getSimDataV2 } from "./solar/SolarData";
 import { getSolarStaticData, SolarItems } from "./Utils";
 
 import Stats from "three/examples/jsm/libs/stats.module.js";
@@ -84,7 +84,7 @@ export class App {
     	LoadManager.loadSample(VISUAL_SETTINGS.current, json => {
     	  this.logItems(json.length, (Date.now() - t) / 1000);
     	  // console.log(json);
-    	  const data = getSimData(json);
+    	  const data = getSimDataV2(json);
     	  this.viewer.setData(data);
 				this.viewer.createPlanets(LoadManager.data.planets);
 				// this.viewer.hidePaths();
