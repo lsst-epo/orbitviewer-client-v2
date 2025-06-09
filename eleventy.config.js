@@ -25,6 +25,15 @@ if(!isProduction) {
 		ev.file = file;
 		ev.when = Date.now();
 
+		if(file.indexOf('/locale-templates/') > -1) {
+      console.log(`Updated Locale Template [${file}]`);
+      for(const lang of staticData.languages) {
+        const dest = resolve(file.replace('/locale-templates/', `/pages/locale/${lang}/`));
+        copyFileSync(file, dest);
+      }
+      return;
+    }
+
 		if(file.indexOf('.scss') > -1) {
 			console.log(`Updated CSS [${file}]`);
 			buildCSS(isProduction);

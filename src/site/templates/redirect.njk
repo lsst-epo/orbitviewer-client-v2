@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+  <html lang="{{staticData.defaultLanguage}}">
+	{% include 'head.njk' %}
+
+	<body>
+	{% set languages = staticData.languages %}
+	{% set defaultLanguage = staticData.defaultLanguage %}
+	<script type="text/javascript">
+        const defaultLanguage = "{{staticData.defaultLanguage}}";
+        const languages = [];
+
+        {% for lang in staticData.languages %}
+        languages.push("{{lang}}");
+        {% endfor %}
+
+        // console.log(languages);
+
+        let lang = window.navigator.language;
+
+        let shortLang = defaultLanguage;
+
+        if(lang) {
+            shortLang = lang.toLowerCase();
+            if (shortLang.indexOf('-') !== -1) shortLang = shortLang.split('-')[0];
+			if (shortLang.indexOf('_') !== -1) shortLang = shortLang.split('_')[0];
+		}
+
+        function redirect() {
+            for(const l of languages) {
+                if(l === shortLang) {
+                    return l;
+                }
+            }
+
+            return defaultLanguage
+        }
+
+        const rL = redirect();
+        window.location += `${rL}/`;
+        // window.location.replace('./' + shortLang );
+
+	</script>
+	</body>
+</html>

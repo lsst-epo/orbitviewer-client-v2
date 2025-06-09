@@ -1,14 +1,15 @@
 ---
 layout: base
 pageTemplate: object
+permalink: "/{{lang}}/object/"
 eleventyComputed:
   title: "{{ staticData.title }}"
   description: "{{ staticData.description }}"
 ---
 
-{% from "../partials/icons.njk" import icon %}
-{% from '../components/button.njk' import Button %}
-{% from '../components/object_card_graph.njk' import ObjectCardGraph %}
+{% from "../../../partials/icons.njk" import icon %}
+{% from '../../../components/button.njk' import Button %}
+{% from '../../../components/object_card_graph.njk' import ObjectCardGraph %}
 
 <section class="object_detail" role="main" aria-labelledby="object-name" aria-hidden="false">
     <div class="object_detail-frame" aria-hidden="false"></div>

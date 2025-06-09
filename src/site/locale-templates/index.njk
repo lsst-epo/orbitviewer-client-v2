@@ -1,0 +1,28 @@
+---
+layout: base
+pageTemplate: landing
+permalink: "/{{lang}}/"
+eleventyComputed:
+  title: "{{ staticData.title }}"
+  description: "{{ staticData.description }}"
+---
+
+{% from "../../../partials/icons.njk" import icon %}
+{% from "../../../components/modal.njk" import Modal %}
+{% from "../../../components/toast.njk" import Toast %}
+
+{% include 'objects.njk' %}
+
+{% include 'splash.njk' %}
+{% include 'onboarding.njk' %}
+
+{% include 'wizard.njk' %}
+
+{% include 'share.njk' %}
+
+{{ Modal('Things looking a bit slow?', 'Weve noticed some performance issues. A different visualization mode could provide a smoother experience on your device.') }}
+{{ Toast('Maximum date reached. Future positions cannot be calculated. Try exploring within the supported time range', '', 'Maximum date notification', true) }}
+
+{% include 'toolbar.njk' %}
+{% include 'filters.njk' %}
+{% include 'search.njk' %}

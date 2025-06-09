@@ -9,8 +9,9 @@
 	"type": "module",
 	"scripts": {
 		"glsl": "node scripts/build/glsl",
-		"dev": "yarn glsl && eleventy --serve --watch",
-		"build": "yarn glsl && node scripts/build/build.js && cross-env ELEVENTY_ENV=production eleventy",
+		"langs": "node scripts/build/langs.js",
+		"dev": "yarn langs && yarn glsl && eleventy --serve --watch",
+		"build": "yarn langs && yarn glsl && node scripts/build/build.js && cross-env ELEVENTY_ENV=production eleventy",
 		"stage": "yarn build && push rubin/tests/$PATH_VAR --distro=clients"
 	},
 	"dependencies": {
