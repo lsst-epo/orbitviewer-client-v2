@@ -3,8 +3,8 @@ import { getSolarStaticData } from "../Utils";
 import { getCategories, getSolarItemsInfo } from "./CraftManager";
 import { VISUAL_SETTINGS } from "../Globals";
 
-const staticURL = "./assets/data/";
-const baseURL = "./assets/data/";
+const staticURL = "/assets/data/";
+const baseURL = "/assets/data/";
 
 const PLANETS = "planet_elems.json";
 const DWARF_PLANETS = "dwarf_planet_elems.json";

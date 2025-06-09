@@ -1,27 +1,30 @@
 import { Timer } from "@fils/ani";
 import { ThreeDOMLayer } from "@fils/gl-dom";
-import { UI } from "@fils/ui";
 import { Clock } from "three";
-import { Terminal } from "../debug/Terminal";
 import { OrbitViewer } from "../gfx/OrbitViewer";
 import { initShaders } from "../gfx/Shaders";
-import { fetchSolarElements, getSolarSystemElements } from "./data/QueryManager";
-import { CLOCK_SETTINGS, GLOBALS, GPU_SIM_SIZES, VISUAL_SETTINGS } from "./Globals";
+import { CLOCK_SETTINGS, GLOBALS } from "./Globals";
 import { SolarClock } from "./solar/SolarClock";
-import { getSimData, getSimDataV2 } from "./solar/SolarData";
-import { getSolarStaticData, SolarItems } from "./Utils";
+import { getSimData } from "./solar/SolarData";
 
 import Stats from "three/examples/jsm/libs/stats.module.js";
-import { getRandomElementsArray } from "./solar/SolarUtils";
-import { LoadManager } from "./data/LoadManager";
-import { SearchEngine } from "./data/SearchEngine";
-import { PlanetId } from "../gfx/solar/Planet";
-import { getAbout, getCategories, getCustomizedOrbits, getGlobals, getGuidedExperiences, getGuidedExperiencesTours, getLanding, getOrbitViewer, getSolarItemsInfo } from "./data/CraftManager";
 import { EarthClouds } from "../gfx/planets/EarthClouds";
+import { LoadManager } from "./data/LoadManager";
+import { DefaultPage } from "../pages/DefaultPage";
+import { Nomad, NomadRoute, NomadRouteListener } from "@fils/nomad";
+import { ObjectsFiltersPage } from "../pages/ObjectsFiltersPage";
+import { ObjectPage } from "../pages/ObjectPage";
+import Navigation from "../layers/Navigation";
+import Share from "../layers/Share";
+import ObjectsFilters from "../layers/ObjectsFilters";
+import Filters from "../layers/Filters";
+import Search from "../layers/Search";
+import TimeMachine from "../layers/TimeMachine";
+import Wizard from "../layers/Wizard";
 
 export const solarClock = new SolarClock(new Clock());
 
-export class App {
+export class App implements NomadRouteListener {
 	gl:ThreeDOMLayer;
 	viewer:OrbitViewer;
 	clock:Timer;
@@ -29,6 +32,8 @@ export class App {
 	protected testRunning:boolean = false;
 	protected deltas:number[] = [];
 	protected testStarted:number = 0;
+
+	currentPage: DefaultPage;
 
 	constructor() {
 		initShaders();
@@ -44,10 +49,34 @@ export class App {
 		
 		GLOBALS.clouds = new EarthClouds();
 
+		this.initNomad();
+
 		// this.profiler = new PerformanceProfiler(this.viewer);
 		this.start();
 
 		console.log('%cSite by Fil Studio', "color:white;font-family:system-ui;font-size:1rem;font-weight:bold");
+	}
+	
+	initNomad() {
+		const nomad = new Nomad({
+			replace: false
+		}, (id, template, dom) => {
+			if (template === 'objects') return new ObjectsFiltersPage(id, template, dom)
+			else if (template === 'object') return new ObjectPage(id, template, dom)
+			return new DefaultPage(id, template, dom)
+		})
+
+		nomad.addRouteListener(this);
+
+		this.currentPage = nomad.route.page as DefaultPage;
+	}
+
+	onRouteChangeStart(href: string): void {
+
+	}
+
+	onRouteChanged(route: NomadRoute): void {
+		this.currentPage = route.page as DefaultPage;
 	}
 
 	start() {
@@ -87,13 +116,68 @@ export class App {
 		console.log(LoadManager.data);
 		console.log(LoadManager.craftData);
 
+		// Navigation
+		const navigationDom = document.querySelector('.nav_dropdown');
+		const navigation = navigationDom ? new Navigation(navigationDom) : null;
+
+		// Share
+		const shareDom = document.querySelector('.share');
+		const share = shareDom ? new Share(shareDom) : null;
+
+		// Objects Filters
+		const objectsFiltersDom = document.querySelector('.objects');
+		const objectsFilters = objectsFiltersDom ? new ObjectsFilters(objectsFiltersDom) : null;
+
+		// Filters
+		const filtersDom = document.querySelector('.filters');
+		const filters = filtersDom ? new Filters(filtersDom) : null;
+
+		// Search
+		const searchDom = document.querySelector('.search');
+		const search = searchDom ? new Search(searchDom) : null;
+
+		// Timemachine
+		const timeMachineDom = document.querySelector('.timemachine');
+		const timeMachine = timeMachineDom ? new TimeMachine(timeMachineDom) :  null;
+
+		// Wizard
+		const wizardDom = document.querySelector('.wizard');
+		const wizard = wizardDom ? new Wizard(wizardDom) : null;
+
+		// Toolbar
+		const toolbarItem = document.querySelectorAll('.toolbar-link');
+		toolbarItem.forEach(el => {
+			el.addEventListener('click', (event) => {
+				event.preventDefault();
+				const openValue = el.getAttribute('data-open');
+				const wasActive = el.classList.contains('active');
+
+				toolbarItem.forEach(item => {
+					if (item !== el) {
+						const itemOpenValue = item.getAttribute('data-open');
+						const itemTarget = document.querySelector(`.${itemOpenValue}`);
+						if (itemTarget) {
+							itemTarget.setAttribute('aria-hidden', 'true');
+						}
+					}
+				});
+
+				toolbarItem.forEach(item => item.classList.remove('active'));
+
+				if (!wasActive) {
+					el.classList.add('active');
+				}
+
+				const target = document.querySelector(`.${openValue}`);
+				if (target) {
+					const isHidden = target.getAttribute('aria-hidden');
+					target.setAttribute('aria-hidden', isHidden === "true" ? "false" : "true");
+				}
+			});
+		});
+
 		this.viewer.goToLandingMode();
 	}
-
-	/* logItems (nItems:number, time:number) {
-		const clss = time < 5 ? 'green' : 'red';
-		this.terminal.log(`Fectched ${nItems} items. Elapsed time: <span class="${clss}">${time} seconds</span>.`);
-	} */
 
 	clockChanged():boolean {
     return (CLOCK_SETTINGS.speed !== solarClock.hoursPerSec);
@@ -110,6 +194,8 @@ export class App {
 
 		this.viewer.update(t, d);
 		this.viewer.render();
+
+		this.currentPage?.update();
 
 		if(this.testRunning) {
 			this.deltas.push(this.clock.currentDelta);
