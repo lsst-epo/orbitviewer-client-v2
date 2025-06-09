@@ -8,7 +8,7 @@ eleventyComputed:
 
 {% from '../components/button.njk' import Button %}
 
-<section class="onboarding" aria-hidden="false" role="main" aria-labelledby="onboarding-heading">
+<section class="onboarding" aria-hidden="true" role="main" aria-labelledby="onboarding-heading">
     <h2 class="onboarding-title" id="onboarding-heading">{{ copy.onboarding.title.en }}</h2>
     <div class="exploration">
         <ul class="exploration-list" role="radiogroup" aria-labelledby="onboarding-heading" aria-required="true">
@@ -27,7 +27,7 @@ eleventyComputed:
                     </div>
                     <div class="exploration_card-foot">
                         {# {{ Button('Launch', 'button secondary medium') }} #}
-                        <a href="/" class="button secondary medium"><span>Launch</span></a>
+                        <a href="/" class="button secondary medium button_launch"><span>Launch</span></a>
                     </div>
                 </div>
             </li>
