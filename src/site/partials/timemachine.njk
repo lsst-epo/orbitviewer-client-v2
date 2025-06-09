@@ -1,0 +1,32 @@
+{% from '../partials/icons.njk' import icon %}
+{% from '../components/rangeslider.njk' import RangeSlider %}
+{% from '../components/button.njk' import Button %}
+{% from '../components/buttonicon.njk' import ButtonIcon %}
+
+<div class="timemachine" role="region" aria-hidden="false">
+    <div class="timemachine-head">
+        <div class="timemachine_heading">
+            {{ ButtonIcon('button_icon ghost xsmall', 'play') }}
+            <div class="timemachine_heading-date">
+                <input type="text" id="myDateInput" aria-label="{{ copy.timemachine.aria.en }}">
+            </div>
+            <label for="live" class="chip active">
+                <input type="checkbox" id="live">
+                <span>Live</span>
+            </label>
+        </div>
+        <div class="timemachine-toggle">
+            <button id="timemachine-toggle" type="button" 
+                    class="button ghost xsmall" 
+                    aria-expanded="true" 
+                    aria-controls="timemachine_body"
+                    aria-label="{{ copy.timemachine.toggle.aria.en }}">
+                        <span>1S/S</span>
+                        {{ icon('chevron-down')}}
+            </button>
+        </div>
+    </div>
+    <div class="timemachine-body" id="timemachine_body">
+        {{ RangeSlider('slider-timemachine', [50], [0, 100]) }}
+    </div>
+</div>

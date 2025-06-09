@@ -1,0 +1,9 @@
+{% from "../partials/icons.njk" import icon %}
+
+{% macro Toast(text = 'Text', classes = '', aria_label = '', visible = false) %}
+<div class="toast {% if classes %} {{ classes }}{% endif %}" role="status" aria-live="polite" aria-atomic="true" {% if aria_label %}aria-label="{{ aria_label }}"{% endif %} aria-hidden="{{ visible }}">
+    <div class="text">
+        {{ text }}
+    </div>
+</div>
+{% endmacro %}

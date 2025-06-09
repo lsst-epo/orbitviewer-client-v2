@@ -1,0 +1,100 @@
+---
+layout: base
+pageTemplate: object
+eleventyComputed:
+  title: "{{ staticData.title }}"
+  description: "{{ staticData.description }}"
+---
+
+{% from "../partials/icons.njk" import icon %}
+{% from '../components/button.njk' import Button %}
+{% from '../components/object_card_graph.njk' import ObjectCardGraph %}
+
+<section class="object_detail" role="main" aria-labelledby="object-name" aria-hidden="false">
+    <div class="object_detail-frame" aria-hidden="false"></div>
+    <div class="object_detail-content">
+        <div class="object_card">
+            <header class="object_card-head">
+                {{ Button('Orbit viewer', 'button ghost medium', 'chevron-left') }}
+            </header>
+            <div class="object_card-body">
+                <div class="object_card-heading">
+                    <h1 class="object_card-name" id="object-name">2014 UZ224</h1>
+                    <div class="object_card-hero">
+                        <img src="" alt="{{ copy.object.hero.alt.en }} 2014 UZ224">
+                    </div>
+                    <div class="object_card-category">
+
+                    </div>
+
+                    <div class="object_card-description">
+                        <p>Lorem ipsum dolor sit amet consectetur. A mattis sed etiam semper a. Ipsum nisi eget et in aliquet feugiat commodo a. Vitae consequat ultricies sed at nibh viverra quam massa. Posuere hendrerit eu morbi nec integer dui. Auctor at neque eget gravida duis. Vel magna gravida ipsum porttitor fames sed. Eget congue a ut nullam. Quis leo bibendum lorem id dictum. Donec aliquam pellentesque enim adipiscing.</p>
+                    </div>
+                </div>
+
+                <div class="object_card-content">
+                    <div class="object_card-unit" role="group" aria-labelledby="diameter-label">
+                        <h2 class="title" id="diameter-label">{{ copy.object.diameter.en }}</h2>
+                        <h4 class="value" role="text" aria-describedby="diameter-label">
+                            <span class="primary">12742.00km</span>
+                            <span class="secondary">7917.51 mi</span>
+                        </h4>
+                    </div>
+                    
+                    <div class="object_card-unit">
+                        {{ ObjectCardGraph('Average distance from the Sun', 'Semi-major axis (a)', 20, 100, ['sun', 'orbit']) }}
+                        {{ ObjectCardGraph('Deviation from a circular orbit', 'Eccentricity (e)', 50, 100, ['sun', 'orbit']) }}
+                        {{ ObjectCardGraph('Angle of orbit', 'Inclination (i)', 10, 100, ['sun', 'orbit']) }}
+                    </div>
+
+                    <div class="object_card-unit">
+                        <h2 class="title">{{ copy.object.orbital_elements.title.en }}</h2>
+                        <ul class="orbital_elements-list" role="list" aria-label="{{ copy.object.orbital_elements.label.en }}">
+                            <li class="orbital_elements-item">
+                                <dl class="orbital_elements-data" role="group">
+                                    <dt class="orbital_elements-label" aria-label="{{ copy.object.orbital_elements.periapsis.en }}">ω</dt>
+                                    <dd class="orbital_elements-value">322.63</dd>
+                                </dl>
+                                <button type="button" class="button_icon xsmall ghost" data-tooltip="This is a tooltip with word wrapping for longer content">
+                                    {{ icon('info') }}
+                                </button>
+                            </li>
+                            <li class="orbital_elements-item">
+                                <dl class="orbital_elements-data" role="group">
+                                    <dt class="orbital_elements-label" aria-label="{{ copy.object.orbital_elements.longitude.en }}">Ω</dt>
+                                    <dd class="orbital_elements-value">322.63</dd>
+                                </dl>
+                                <button type="button" class="button_icon xsmall ghost" data-tooltip="This is a tooltip with word wrapping for longer content">
+                                    {{ icon('info') }}
+                                </button>
+                            </li>
+                            <li class="orbital_elements-item">
+                                <dl class="orbital_elements-data" role="group">
+                                    <dt class="orbital_elements-label" aria-label="{{ copy.object.orbital_elements.anomaly.en }}">v</dt>
+                                    <dd class="orbital_elements-value">322.63</dd>
+                                </dl>
+                                <button type="button" class="button_icon xsmall ghost" data-tooltip="This is a tooltip with word wrapping for longer content">
+                                    {{ icon('info') }}
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="object_card-unit">
+                        <h2 class="title">{{ copy.object.closest_sun.title.en }}</h2>
+                        <h4 class="value">
+                            <time class="primary" datetime="2026-01-03" aria-label="January 3rd, 2026">January 03, 2026</time>
+                            <span class="secondary">245 days left</span>
+                        </h4>
+                    </div>
+
+                    <div class="object_card-unit">
+                        <h2 class="title">{{ copy.object.how_far.title.en }}</h2>
+                        {{ ObjectCardGraph('From the Sun', '1.00au', 70, 100, ['sun']) }}
+                        {{ ObjectCardGraph('From the Earth', '1.00au', 100, 100, ['earth']) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

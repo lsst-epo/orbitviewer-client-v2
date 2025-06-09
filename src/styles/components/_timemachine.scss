@@ -1,0 +1,87 @@
+// timemachine.scss
+
+@use '../base/mixins' as *;
+
+.timemachine {
+    --timemachine-head-height: 48px;
+    --timemachine-gap: 12px;
+    
+    position: absolute;
+    right: var(--site-margin-large);
+    bottom: calc(var(--toolbar-height) + var(--site-margin-large) + var(--timemachine-gap));
+    left: var(--site-margin-large);
+    z-index: var(--z-timemachine);    
+    border-radius: var(--corner-large);
+
+    @include frozen_glass;
+    @include gradient_border;
+
+    @include media(medium) {
+        max-width: var(--timemachine-width);
+        margin: auto;
+        bottom: var(--site-margin-large);
+    }
+
+    &[aria-hidden=true] {
+        display: none;
+    }
+
+    &:not(.collapsed) {
+        min-height: var(--timemachine-height);
+
+        .timemachine-toggle .button span {
+            display: none;
+        }
+
+        .timemachine-body {
+            display: block;
+            padding: 8px 16px;
+            border-top: solid 1px var(--color-border);
+        }
+    }
+
+    &-head {
+        display: flex;
+        height: var(--timemachine-head-height);
+        align-items: center;
+    }
+
+        &_heading {
+            flex: auto;
+            display: flex;
+            flex-wrap: nowrap;
+            align-items: center;
+            gap: 8px;
+            padding: 0 8px;
+
+            .button {
+                flex: 0 0 auto;
+            }
+
+            &-date {
+                flex: auto;
+                display: flex;
+                gap: 8px;
+                text-transform: uppercase;
+                color: var(--color-button-text);
+
+                input {
+                    width: 100%;
+                    padding: 4px 8px;
+                    border-radius: var(--corner-medium);
+
+                    &:hover {
+                        background: var(--color-backdrop);
+                    }
+                }
+            }
+        }
+
+        &-toggle {
+            padding: 0 8px;
+            border-left: solid 1px var(--color-border);
+        }
+    &-body {
+        display: none;
+    }
+}

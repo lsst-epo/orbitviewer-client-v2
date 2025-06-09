@@ -1,0 +1,62 @@
+// navigation.scss
+
+@use '../base/mixins' as *;
+@use '../base/typography' as *;
+
+.site-logo {
+    position: absolute;
+    top: var(--site-margin-small);
+    left: var(--site-margin-small);
+    z-index: var(--z-logo);
+    box-sizing: content-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    width: 87px;
+    height: 40px;
+
+    @include media(medium) {
+        padding: 12px 9px;
+    } 
+
+    .logo {
+        width: 100%;
+    }
+}
+
+.navigation {
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: var(--header-height);
+    padding: var(--site-margin-small) var(--site-margin-small) 8px;
+    z-index: var(--z-menu);
+    display: flex;
+    justify-content: flex-end;
+
+    &.has-gradient {
+        background: linear-gradient(180deg, rgba(var(--color-black-rgb), 1) 33%, rgba(var(--color-black-rgb), 0) 100%);
+    }
+
+    &-buttons {
+        display: flex;
+        gap: 8px;
+    }
+}
+
+.nav_dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: calc(100% - 12*2px);
+    max-width: 320px;
+    margin: 0 var(--site-margin-small);
+    @include frozen_glass;
+    @include gradient_border;
+    border-radius: var(--corner-large);
+    overflow: auto;
+
+    &[aria-hidden=true] {
+        display: none;
+    }
+}

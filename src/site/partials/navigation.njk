@@ -1,0 +1,77 @@
+{% from '../components/button.njk' import Button %}
+
+<nav class="navigation" aria-label="Main Navigation">
+    <div class="navigation-buttons">
+        {{ Button('Share', 'button_share', 'share') }}
+
+        <div class="nav_dropdown_wrapper">
+            <button type="button" class="button_icon secondary medium"
+                id="nav_trigger"
+                aria-expanded="false"
+                aria-controls="nav_dropdown"
+                aria-haspopup="true"
+                tabindex="2"
+            >
+                {{ icon('menu') }}
+            </button>
+
+            <div id="nav_dropdown" class="nav_dropdown" aria-hidden="true">
+                <ul class="listitem-content" role="menu">
+                    <li class="listitem-group" role="group">
+                        <h3 class="listitem-label">Settings</h3>
+                        <ul class="listitem-list">
+                            <li class="listitem-item" role="menuitem" aria-describedby="language-value">
+                                <a href="" class="listitem-link">
+                                    <span class="heading">
+                                        {{ icon('language') }}
+                                        <span class="label">Language</span>
+                                    </span>
+                                    <span class="value" id="language-value">English</span>
+                                </a>
+                            </li>
+                            <li class="listitem-item" role="menuitem" aria-describedby="detail-value">
+                                <a href="" class="listitem-link">
+                                    <span class="heading">
+                                        {{ icon('settings') }}
+                                        <span class="label">Exploration mode</span>
+                                    </span>
+                                    <span class="value" id="detail-value">Medium</span>
+                                </a>
+                            </li>
+                            <li class="listitem-item" role="menuitem">
+                                <a href="" class="listitem-link">
+                                    <span class="heading">
+                                        {{ icon('fullscreen') }}
+                                        <span class="label">Fullscreen</span>
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="listitem-group" role="group">
+                        <h3 class="listitem-label">Help</h3>
+                        <ul class="listitem-list">
+                            <li class="listitem-item" role="menuitem">
+                                <a href="" class="listitem-link">
+                                    <span class="heading">
+                                        {{ icon('how_it_works') }}
+                                        <span class="label">How to use</span>
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="listitem-item" role="menuitem">
+                                <a href="" class="listitem-link">
+                                    <span class="heading">
+                                        {{ icon('info') }}
+                                        <span class="label">About</span>
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>

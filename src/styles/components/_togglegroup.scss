@@ -1,0 +1,73 @@
+// togglegroup.scss
+
+@use '../base/mixins' as *;
+@use '../base/typography' as *;
+
+.togglegroup {
+    --height: 32px; 
+    
+    position: relative;
+    display: inline-block;
+    background: var(--color-grey-800);
+    border: solid 1px var(--color-border);
+    border-radius: var(--height);
+    @include font(overline-medium-semi);
+
+
+    &.large {
+        --height: 40px;
+    }
+
+    &-indicator {
+        position: absolute;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        background: var(--color-turquoise-600);
+        border-radius: var(--height);
+        transition: transform 0.3s ease, width 0.3s ease;
+        z-index: 1;
+    }
+
+    &-list {
+        position: relative;
+        @include reset_list;
+        display: flex;
+        z-index: 2;
+    }
+
+        &-item {
+            flex: auto;
+
+            label {
+                display: block;
+                
+                span {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    min-width: var(--height);
+                    height: var(--height);
+                    padding-inline: calc(var(--height)/2);
+                    border-radius: var(--height);                    
+                    text-align: center;
+                    color: var(--color-turquoise-400);
+                    font-weight: var(--font-semibold);
+                    user-select: none;
+                }
+
+                input {
+                    @include hidden;
+
+                    &:checked + span {
+                        color: var(--color-turquoise-200);
+                    }
+
+                    &:focus-visible + span {
+                        outline: auto;
+                    }
+                }
+            }
+        }
+}

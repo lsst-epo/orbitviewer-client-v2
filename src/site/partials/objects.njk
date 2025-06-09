@@ -1,0 +1,51 @@
+{% from '../components/button.njk' import Button %}
+{% from '../components/buttonicon.njk' import ButtonIcon %}
+{% from '../components/togglegroup.njk' import ToggleGroup %}
+
+<section class="objects" aria-hidden="true">
+    <header class="objects-head">
+        {{ ButtonIcon('button_icon secondary medium button_close', 'close') }}
+    </header>
+    <div class="objects-body">
+        <div class="objects-heading">
+            <h2 class="title">{{ copy.objects.title.en }}</h2>
+            <h3 class="subtitle">{{ copy.objects.subtitle.en }}</h3>
+        </div>
+        <div class="objects-mask">
+            <ul class="objects-list">
+                {% for key, type in copy.objects.types %}
+                <li class="objects-item">
+                    <div class="objects_card">
+                        <div class="objects_card-head">
+                            <img src="/assets/images/sample/Planets_and_Moons.png" alt="">
+                        </div>
+                        <div class="objects_card-body">
+                            <h3 class="name">{{ type.name.en }}</h3>
+                            <p class="description">{{ type.description.en }}</p>
+                            <div class="stats">
+                                <dl class="stats-column">
+                                    <dt class="stats-value">{{ type.objects }}</dt>
+                                    <dd class="stats-label">{{ copy.objects.total.en }}</dd>
+                                </dl>
+                                <dl class="stats-column">
+                                    <dt class="stats-value">{{ type.rubin }}</dt>
+                                    <dd class="stats-label">{{ copy.objects.detected.en }}</dd>
+                                </dl>
+                            </div>
+                        </div>
+                        <div class="objects_card-foot">
+                            <span class="label hidden">{{ copy.objects.hidden.en }}</span>
+                            {{ ToggleGroup('toggle-object-' ~ loop.index0, '', 'toggle-object-' ~ loop.index0, [false, true], true, false) }}
+                            <span class="label">{{ copy.objects.visible.en }}</span>
+                        </div>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+            <div class="objects_controls">
+                {{ ButtonIcon('button_icon secondary large objects_controls-left', 'chevron-left') }}
+                {{ ButtonIcon('button_icon secondary large objects_controls-right', 'chevron-right') }}
+            </div>
+        </div>
+    </div>
+</section>

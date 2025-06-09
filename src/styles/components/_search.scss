@@ -1,0 +1,90 @@
+// search.scss
+
+@use '../base/mixins' as *;
+@use '../base/typography' as *;
+
+.search {
+    position: absolute;
+    inset: 0;
+    z-index: var(--z-search);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: var(--color-backdrop);
+    backdrop-filter: blur(var(--backdrop-blur));
+
+    @include media(medium) {
+        inset: initial;
+        top: 230px;
+        left: 140px;
+        width: 384px;
+        max-height: 320px;
+        background: initial;
+        backdrop-filter: initial;
+    }
+
+    &[aria-hidden=true] {
+        display: none;
+    }
+
+    &-head {
+        flex: 0 0 auto;
+        display: flex;
+        justify-content: flex-end;
+        padding: var(--site-margin-small);
+
+        @include media(medium) {
+            display: none;
+        }
+    }
+
+    &-body {
+        flex: auto;
+        max-height: 100%;
+    }
+
+        &_card {
+            height: 100%;
+            border-radius: var(--corner-large);
+
+            @include media(medium) {
+                @include frozen_glass;
+                @include gradient_border;
+            }
+
+            &-content {
+                height: 100%;
+            }
+
+                &-head {
+                    display: flex;
+                    justify-content: space-between;
+
+                    @include media(medium) {
+                        display: none;
+                    }
+
+                    .title {
+                        @include font(subtitle-large-regular);
+                        color: var(--color-text);
+                    }
+                }
+
+                &-body {
+                    display: flex;
+                    flex-direction: column;
+                    height: 100%;
+                    
+                    .input {
+                        flex: 0 0 auto;
+                        width: 100%;
+                    }
+
+                    .search_results {
+                        flex: auto;
+                        overflow: auto;
+                        border-top: solid 1px var(--color-border);
+                    }
+                }
+        }
+}

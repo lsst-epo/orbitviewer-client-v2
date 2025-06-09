@@ -1,0 +1,80 @@
+// typography.scss
+
+@use "sass:map";
+@use "sass:list";
+
+$font-weights: (
+    "regular": var(--font-regular),
+    "semibold": var(--font-semibold)
+);
+
+@function get-font-weight($weight-name) {
+    @return map.get($font-weights, $weight-name);
+}
+
+$font-styles: (
+    "hero": (48, 60, get-font-weight("regular"), 0, false),
+    "headline": (32, 40, get-font-weight("regular"), 0, false),
+    "title": (28, 36, get-font-weight("regular"), 0, false),
+    "subtitle-large-semi": (24, 32, get-font-weight("semibold"), 0, false),
+    "subtitle-large-regular": (24, 32, get-font-weight("regular"), 0, false),
+    "subtitle-small": (20, 24, get-font-weight("semibold"), 0, false),
+    "body-large": (18, 24, get-font-weight("regular"), 0, false),
+    "body-medium-semi": (16, 20, get-font-weight("semibold"), 0, false),
+    "body-medium-regular": (16, 20, get-font-weight("regular"), 0, false),
+    "caption-regular": (14, 20, get-font-weight("regular"), 0, false),
+    "caption-regular-caps": (14, 20, get-font-weight("regular"), 0.05, true),
+    "caption-semi-caps": (14, 20, get-font-weight("semibold"), 0.05, true),
+    "overline-medium-regular": (12, 16, get-font-weight("regular"), 0.05, true),
+    "overline-medium-semi": (12, 16, get-font-weight("semibold"), 0.05, true),
+    "overline-small": (10, 12, get-font-weight("semibold"), 0.1, true),
+);
+
+@function get-font-style($style-name) {
+    @return map.get($font-styles, $style-name);
+}
+
+@mixin font($style-name) {
+    $style: get-font-style($style-name);
+    @if $style {
+        $font-size: list.nth($style, 1);
+        $line-height: list.nth($style, 2);
+        $font-weight: list.nth($style, 3);
+        $letter-spacing: list.nth($style, 4);
+        $is-uppercase: list.nth($style, 5);
+        
+        font-size: $font-size * 1px;
+        line-height: $line-height * 1px;
+        font-weight: $font-weight;
+        
+        @if $letter-spacing != 0 {
+            letter-spacing: $letter-spacing * 1em;
+        }
+
+        @if $is-uppercase {
+            text-transform: uppercase;
+        }
+
+    } @else {
+        @warn "Unknown font style: #{$style-name}";
+    }
+}
+
+
+html {
+    font-size: clamp(16px, 1rem + 0.1vw, 24px);
+}
+
+body {
+    font-family: var(--font-stack);
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-variation-settings:
+        "wdth" 100,
+        "YTLC" 500;
+    color: red;
+
+    @include font(body-medium-regular);
+}
+
+

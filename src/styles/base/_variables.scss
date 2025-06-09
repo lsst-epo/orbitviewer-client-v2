@@ -1,0 +1,110 @@
+// variables.scss
+
+@use '../base/mixins' as *;
+
+:root {
+    // Color Primitives
+    --color-black: #000;
+    --color-black-rgb: 0,0,0;
+    --color-white: #fff;
+    --color-white-rgb: 255,255,255;
+
+    --color-turquoise-100: #d9f7f6;
+    --color-turquoise-200: #b1f2ef;
+    --color-turquoise-300: #00BEC0; // #00babc;
+    --color-turquoise-400: #009fa1;
+    --color-turquoise-500: #058b8c;
+    --color-turquoise-600: #12726d;
+    --color-turquoise-700: #0c4a47;
+    --color-turquoise-800: #062e2c;
+    --color-turquoise-900: #021a18;
+
+    --color-grey-50: #f5f5f5;
+    --color-grey-100: #dce0e3;
+    --color-grey-200: #a3a7a9; // new
+    --color-grey-300: #6a6e6e;
+    --color-grey-400: #565656; // new
+    --color-grey-500: #4C4C4C; // new
+    --color-grey-600: #424242;
+    --color-grey-700: #2b2b2b;
+    --color-grey-800: #1f2121;  
+    
+    --color-red-light: #Fa6868;
+    --color-red-medium: #ED4C4C;
+    --color-red-dark: #CF4040;
+    --color-red-darker: #38110F; // new
+
+    // Color Tokens
+    --color-bg: var(--color-black);
+    --color-text: var(--color-grey-100);
+    --color-text-low: var(--color-grey-200);
+    --color-link: var(--color-turquoise-100);
+    --color-border: rgba(var(--color-white-rgb), .1);
+    --color-border-strong: rgba(var(--color-white-rgb), .2);
+
+    --color-backdrop: rgba(var(--color-black-rgb), .5);
+    --color-button-text: var(--color-turquoise-100);
+    --color-button-text-hover: var(--color-turquoise-200);
+    --color-button-bg-hover: var(--color-turquoise-800);
+
+    --color-planets: #B1F2EF;
+    --color-near_earth: #986AE1;
+    --color-asteroids: #FF6EB4;
+    --color-comets: #50C878;
+    --color-centaurs: #458DD3;
+    --color-trans_neptunian: #009494;
+    --color-interstellar: #718E3E;
+    --color-trojans: #E05858;
+
+    // Layers
+    --z-toast: 14;
+    --z-modal: 14;
+    --z-share: 13;
+    --z-wizard: 12;
+    --z-logo: 11;
+    --z-onboarding: 10;
+    --z-filters: 9;
+    --z-search: 9;
+    --z-menu: 8;
+    --z-objects: 8;
+    --z-home: 7;
+    --z-detail: 6;    
+    --z-timemachine: 5;
+    --z-toolbar: 4;
+    --z-map_controls: 3;
+    --z-pointer: 2;
+    --z-canvas: 1;
+
+    // Margins
+    --site-margin-small: 12px;
+    --site-margin-large: 16px;
+
+    // Sizing
+    --header-height: 68px;
+    --timemachine-width: 384px;
+    --timemachine-height: 113px;
+    --toolbar-height: 64px;
+    --toolbar-width: 104px;
+
+    // Styles
+    --corner-medium: 5px;
+    --corner-large: 10px;   
+    --backdrop-blur: 8px; 
+
+    // Fonts
+    --font-stack: 'Source Sans 3', Arial, sans-serif;
+    --font-regular: 400;
+    --font-semibold: 600;
+
+    // Transitions
+    --easing-default: cubic-bezier(0.47, 0, 0.23, 1.08); 
+}
+
+@include media(medium) {
+    :root {
+        --site-margin-small: 24px;
+        --site-margin-large: 32px;
+
+        --header-height: 80px;
+    }
+}

@@ -1,14 +1,40 @@
+{% from "../partials/icons.njk" import initSpriteSheet %}
+{% from "../partials/icons.njk" import icon %}
+{% from "../components/pointer.njk" import Pointer %}
+
 <!DOCTYPE html>
 <html lang="en">
 	{% include 'head.njk' %}
 
 	<body>
-        <div class="view"></div>
+        <div class="content"></div>
+        {{ initSpriteSheet() }}
+        <div class="view">
+            <div class="sun"></div>
 
-        {{ content | safe }}
+            {{ Pointer(0, 'Earth', 'planets_moons', '/object', 'left: 30%; top: 50%') }}
+            {{ Pointer(1, '2011 S00000ah', 'asteroids', '/object', 'left: 50%; top: 30%') }}
+        </div>
+
+        {% include 'navigation.njk' %}
+        {% include 'timemachine.njk' %}
+        {% include 'mapcontrols.njk' %}
+
+        <main>
+            <a href="/" tabindex="1" class="site-logo">
+                <img src="/assets/images/nsf-doe-rubin-observatory-orbitviewer.png" class="logo" alt="{{ copy.logo.alt.en }}">
+            </a>
+
+            <div nomad-wrapper>
+	            <div nomad-template="{{ pageTemplate }}">
+                    {{ content | safe }}
+                </div>
+            </div>
+        </main>
+        
 
         <script defer type="module">
-            const src = "./bundle/main.js";
+            const src = "/bundle/main.js";
             import(src).then(module => {});
         </script>
 	</body>

@@ -1,0 +1,83 @@
+// button.scss
+
+@use '../base/typography' as *;
+
+.button {
+    --height: 40px;
+    --padding: 8px;
+    --icon: 16px;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: var(--height);
+    line-height: var(--height);
+    padding-inline: var(--padding);
+    border: solid 1px transparent;
+    border-radius: var(--corner-medium);
+    color: var(--color-turquoise-100);
+    user-select: none;
+
+    @include font(body-medium-semi);
+
+    .icon {
+        width: var(--icon);
+        height: var(--icon);
+        fill: currentColor;
+    }
+
+
+    &.primary {
+        background: var(--color-turquoise-600);
+        border: solid 1px var(--color-turquoise-600);
+    }
+
+    &.secondary {
+        border: solid 1px var(--color-border-strong);
+    }
+
+    &.ghost {
+        &:hover {
+            border: solid 1px var(--color-border-strong);
+        }
+    }
+
+    &.xsmall {
+        --height: 32px;
+        --padding: 4px;
+        --icon: 16px;
+    }
+
+    &.medium {
+        --height: 48px;
+        --padding: 12px;
+        --icon: 24px;
+
+        @include font(subtitle-small);
+    }
+}
+
+.button_share {
+    --height: 48px;
+    
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    height: var(--height);
+    padding: 0 16px;
+    background: var(--color-turquoise-700);
+    border-radius: calc(var(--height)/2);
+    color: var(--color-turquoise-200);
+    font-weight: var(--font-semibold);
+    letter-spacing: 0.05em;
+
+    .icon {
+        width: 16px;
+        height: 16px;
+        fill: currentColor;
+    }
+
+    span {
+        @include font(caption-semi-caps);
+    }
+}

@@ -1,0 +1,94 @@
+// toolbar.scss
+
+@use '../base/mixins' as *;
+@use '../base/typography' as *;
+
+.toolbar {
+    position: absolute;
+    right: var(--site-margin-large);
+    bottom: var(--site-margin-large);
+    left: var(--site-margin-large);
+    height: var(--toolbar-max_height);
+    z-index: var(--z-toolbar);
+    border-radius: var(--corner-large);
+
+    @include frozen_glass;
+    @include gradient_border;
+
+    @include media(medium) {
+        top: var(--site-margin-small);
+        right: auto;
+        bottom: auto;
+        left: var(--site-margin-small);
+        width: var(--toolbar-width);
+        height: auto;
+    }
+
+    &[aria-hidden=true] {
+        display: none;
+    }
+
+    &-head {
+        display: none;
+
+        @include media(medium) {
+            display: block;
+            width: 102px;
+            height: 60px;
+            border-bottom: solid 1px var(--color-border);
+        }
+    }
+
+    &-body {
+        overflow: auto;
+    }
+
+        &-list {
+            @include reset_list;
+            display: flex;
+
+            @include media(medium) {
+                flex-direction: column;
+                padding: 4px 0;
+            }
+        }
+
+            &-item {
+                flex: auto;
+                padding: 4px;
+            }
+
+                &-link {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 2px;
+                    padding: 6px 8px;
+                    border-radius: var(--corner-medium);
+                    border: solid 1px transparent;
+                    color: var(--color-button-text);
+                    transition: all .3s var(--easing-default);
+                    cursor: pointer;
+
+                    &:focus,
+                    &:hover {
+                        background: rgba(var(--color-white-rgb), .1);
+                        border-color: rgba(var(--color-white-rgb), .35);
+                    }
+                
+                    &.active {
+                        background: var(--color-button-bg-hover);
+                        color: var(--color-button-text-hover);
+                    }
+
+                    .icon {
+                        width: 24px;
+                        height: 24px;
+                        fill: currentColor;
+                    }
+
+                    span {
+                        @include font(caption-regular);
+                    }
+                }
+}

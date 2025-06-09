@@ -1,0 +1,79 @@
+// mixins.scss
+
+@use "sass:map";
+
+@mixin frozen_glass {
+    background: 
+        linear-gradient(180deg, rgba(255,255,255,.12) 0%, rgba(255,255,255,.09) 100%),
+        linear-gradient(180deg, rgba(0,0,0,.8) 0%, rgba(0,0,0,.8) 100%);
+    backdrop-filter: blur(var(--backdrop-blur));
+}
+
+@mixin reset_list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+@mixin ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@mixin hidden { 
+    border: 0;
+    padding: 0;
+    margin: 0;
+    position: absolute !important;
+    height: 1px; 
+    width: 1px;
+    overflow: hidden;
+    clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+    clip: rect(1px, 1px, 1px, 1px); /* legacy browsers */
+    clip-path: inset(50%); /*modern browsers, clip-path works inwards from each corner*/
+    white-space: nowrap; /* stop words getting smushed together */
+}
+
+@mixin arealabel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: grey;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+}
+
+@mixin gradient_border {
+    padding: 1px;
+    
+    &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        padding: 1px;
+        background: linear-gradient(180deg, rgba(255,255,255,.18) 0%, rgba(255,255,255,.08) 53%);
+        border-radius: inherit;
+        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        mask-composite: xor;
+        -webkit-mask-composite: xor;
+        pointer-events: none;
+    }
+}
+
+$breakpoints: (
+  "small": 480px,
+  "medium": 768px,
+  "large": 1024px,
+  "xlarge": 1200px
+);
+
+@mixin media($breakpoint) {
+  @if map.has-key($breakpoints, $breakpoint) {
+    @media (min-width: map.get($breakpoints, $breakpoint)) {
+      @content;
+    }
+  } @else {
+    @warn "No breakpoint found for '#{$breakpoint}'";
+  }
+}

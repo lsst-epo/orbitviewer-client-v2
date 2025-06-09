@@ -1,0 +1,90 @@
+// canvas.scss
+
+@use '../base/mixins' as *;
+@use '../base/typography' as *;
+
+.view {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: var(--z-canvas);
+    width: 100vw;
+    height: 100vh;
+    width: 100dvw;
+    height: 100svh;
+    background: url(/assets/images/sample/uhjiu8FjnsQ.jpg) no-repeat center center;
+    background-size: cover;
+}
+
+.sun {
+    --yellow: #FFCD05;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 30vw;
+    height: 30vw;
+    border-radius: 15vw;
+    background: var(--yellow);
+    box-shadow: 0 0 35px 12px var(--yellow);
+
+}
+
+.canvas_pointer {
+    --size: 20px;
+    position: absolute;
+    z-index: var(--z-pointer);
+
+    &.planets_moons { --color: var(--color-planets);}
+    &.near_earth { --color: var(--color-near_earth);}
+    &.asteroids { --color: var(--color-asteroids);}
+    &.comets { --color: var(--color-comets);}
+    &.centaurs { --color: var(--color-centaurs);}
+    &.trans_neptunian { --color: var(--color-trans_neptunian);}
+    &.interstellar { --color: var(--color-interstellar);}
+    &.trojans { --color: var(--color-trojans);}
+    
+    &-label {
+        position: absolute;
+        left: 0;
+        top: 0;
+        display: flex;
+        gap: 2px;
+        transform: translate(calc(-1*var(--size)/2), -50%);
+        transition: all .3s ease;
+
+        &:hover {
+
+            .canvas_pointer-text {
+                background: var(--color);
+                color: var(--color-black);
+                text-shadow: initial;
+            }
+        }
+    }
+
+        &-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: var(--size);
+            height: var(--size);
+            border-radius: calc(var(--size)/2);
+            background: var(--color);
+
+            .icon {
+                width: 16px;
+                height: 16px;
+            }
+        }
+
+        &-text {
+            padding: 0 4px;
+            background: rgba(var(--color-black-rgb), .5);
+            border-radius: var(--corner-medium);
+            @include font(caption-regular-caps);
+            color: var(--color-link);
+            text-shadow: 1px 1px 0 rgba(var(--color-black-rgb), .3);
+            white-space: nowrap;
+        }
+}
