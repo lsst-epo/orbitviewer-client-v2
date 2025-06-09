@@ -16,11 +16,7 @@ import { ObjectsFiltersPage } from "../pages/ObjectsFiltersPage";
 import { ObjectPage } from "../pages/ObjectPage";
 import Navigation from "../layers/Navigation";
 import Share from "../layers/Share";
-import ObjectsFilters from "../layers/ObjectsFilters";
-import Filters from "../layers/Filters";
-import Search from "../layers/Search";
-import TimeMachine from "../layers/TimeMachine";
-import Wizard from "../layers/Wizard";
+import OrbitViewerPage from "../layers/OrbitViewerPage";
 
 export const solarClock = new SolarClock(new Clock());
 
@@ -36,6 +32,9 @@ export class App implements NomadRouteListener {
 	protected testStarted:number = 0;
 
 	currentPage: DefaultPage;
+	navigation: Navigation;
+	share: Share;
+	orbitViewerPage: OrbitViewerPage;
 
 	constructor() {
 		initShaders();
@@ -51,6 +50,16 @@ export class App implements NomadRouteListener {
 		
 		GLOBALS.clouds = new EarthClouds();
 
+
+		const navigationDom = document.querySelector('.nav_dropdown');
+		this.navigation = navigationDom ? new Navigation(navigationDom) : null;
+
+		const shareDom = document.querySelector('.share');
+		this.share = shareDom ? new Share(shareDom) : null;
+
+		this.orbitViewerPage = new OrbitViewerPage;
+
+		
 		this.initNomad();
 
 		// this.profiler = new PerformanceProfiler(this.viewer);
@@ -103,10 +112,10 @@ export class App implements NomadRouteListener {
 		GLOBALS.solarClock = solarClock;
 
 		// this.addGUI();
-    const t = Date.now();
-    LoadManager.loadCore(() => {
-    	this.launch();
-    })
+		const t = Date.now();
+		LoadManager.loadCore(() => {
+			this.launch();
+		})
 	}
 	
 	launch() {
@@ -117,66 +126,6 @@ export class App implements NomadRouteListener {
 		// this.addGUI();
 		console.log(LoadManager.data);
 		console.log(LoadManager.craftData);
-
-		// Navigation
-		const navigationDom = document.querySelector('.nav_dropdown');
-		const navigation = navigationDom ? new Navigation(navigationDom) : null;
-
-		// Share
-		const shareDom = document.querySelector('.share');
-		const share = shareDom ? new Share(shareDom) : null;
-
-		// Objects Filters
-		const objectsFiltersDom = document.querySelector('.objects');
-		const objectsFilters = objectsFiltersDom ? new ObjectsFilters(objectsFiltersDom) : null;
-
-		// Filters
-		const filtersDom = document.querySelector('.filters');
-		const filters = filtersDom ? new Filters(filtersDom) : null;
-
-		// Search
-		const searchDom = document.querySelector('.search');
-		const search = searchDom ? new Search(searchDom) : null;
-
-		// Timemachine
-		const timeMachineDom = document.querySelector('.timemachine');
-		const timeMachine = timeMachineDom ? new TimeMachine(timeMachineDom) :  null;
-
-		// Wizard
-		const wizardDom = document.querySelector('.wizard');
-		const wizard = wizardDom ? new Wizard(wizardDom) : null;
-
-		// Toolbar
-		const toolbarItem = document.querySelectorAll('.toolbar-link');
-		toolbarItem.forEach(el => {
-			el.addEventListener('click', (event) => {
-				event.preventDefault();
-				const openValue = el.getAttribute('data-open');
-				const wasActive = el.classList.contains('active');
-
-				toolbarItem.forEach(item => {
-					if (item !== el) {
-						const itemOpenValue = item.getAttribute('data-open');
-						const itemTarget = document.querySelector(`.${itemOpenValue}`);
-						if (itemTarget) {
-							itemTarget.setAttribute('aria-hidden', 'true');
-						}
-					}
-				});
-
-				toolbarItem.forEach(item => item.classList.remove('active'));
-
-				if (!wasActive) {
-					el.classList.add('active');
-				}
-
-				const target = document.querySelector(`.${openValue}`);
-				if (target) {
-					const isHidden = target.getAttribute('aria-hidden');
-					target.setAttribute('aria-hidden', isHidden === "true" ? "false" : "true");
-				}
-			});
-		});
 
 		this.viewer.goToLandingMode();
 	}

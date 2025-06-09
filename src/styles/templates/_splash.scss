@@ -4,8 +4,8 @@
 .splash {
     position: absolute;
     inset: 0;
-    z-index: var(--z-detail);
-    background: rgba(0,0,0,.8);
+    z-index: var(--z-home);
+    background: rgba(0,0,0,.4);
     display: grid;
     grid-template-columns: auto;
     grid-template-rows: 1fr auto;
