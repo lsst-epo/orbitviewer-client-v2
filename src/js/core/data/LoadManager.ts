@@ -2,6 +2,7 @@ import { Color } from "three";
 import { getSolarStaticData } from "../Utils";
 import { getCategories, getSolarItemsInfo } from "./CraftManager";
 import { VISUAL_SETTINGS } from "../Globals";
+import { USE_V2 } from "../App";
 
 const staticURL = "/assets/data/";
 const baseURL = "/assets/data/";
@@ -135,7 +136,7 @@ class LoadManagerClass {
     }
 
     loadSample(profile:string, onLoaded:Function) {
-        getSolarStaticData(profile, false).then((json) => {
+        getSolarStaticData(profile, USE_V2).then((json) => {
             this.sampleLoaded = true;
             this.mgr.data.sample = json;
             onLoaded(json);

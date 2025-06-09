@@ -34,13 +34,13 @@ export type OrbitDataElements = {
 
 export type OrbitDataElementsV2 = {
     id?:string;
-    unpacked_primary_provisional_designation:string;
+    fulldesignation:string;
     node:number;
     a:number;
     e:number;
     // Name?:string;
     // G?:number;
-    incl:number;
+    i:number;
     // H?:number;
     q:number;
     mean_anomaly:number;
@@ -118,18 +118,18 @@ export function mapOrbitElements(dEl:OrbitDataElements):OrbitElements {
 
 export function mapOrbitElementsV2(dEl:OrbitDataElementsV2):OrbitElements {
     const el = {
-        id: dEl.unpacked_primary_provisional_designation,
-        fulldesignation: dEl.unpacked_primary_provisional_designation,
+        id: dEl.fulldesignation,
+        fulldesignation: dEl.fulldesignation,
         N: dEl.node,
         a: dEl.a,
         e: dEl.e,
         // name: dEl.Name,
         // G: dEl.G,
-        i: dEl.incl,
+        i: dEl.i,
         // H: dEl.H,
         w: dEl.argperi,
         M: dEl.mean_anomaly,
-        n: dEl.mean_motion,
+        n: dEl.mean_motion / 100,
         q: dEl.q,
         Tp: dEl.peri_time,
         epoch: dEl.epoch_mjd != undefined ? dEl.epoch_mjd : EPOCH,
