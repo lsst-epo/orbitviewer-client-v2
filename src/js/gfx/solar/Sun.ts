@@ -124,7 +124,8 @@ export class Sun extends Object3D implements InteractiveObject {
     }
 
     update() {
-        const t = GLOBALS.solarClock.time;
+        // const t = GLOBALS.solarClock.time;
+        const t = GLOBALS.clock.currentTime;
         SUN_MAT.uniforms.time.value = t;
         this.haloMaterial.uniforms.time.value = t;
         this.mf.update();

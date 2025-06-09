@@ -8,7 +8,7 @@
 
 // import { RTUtils } from "@fils/gfx";
 import { BufferAttribute, BufferGeometry, Color, InstancedBufferAttribute, InstancedMesh, PerspectiveCamera, Points, ShaderMaterial, SphereGeometry, WebGLRenderer } from "three";
-import { GPU_SIM_SIZES, VISUAL_SETTINGS } from "../../core/Globals";
+import { GLOBALS, GPU_SIM_SIZES, VISUAL_SETTINGS } from "../../core/Globals";
 import { OrbitElements } from "../../core/solar/SolarSystem";
 import { GPUSim, SimQuality } from "./GPUSim";
 
@@ -262,5 +262,7 @@ export class SolarParticles {
      */
     update(d:number, camera:PerspectiveCamera) {
         this.sim.render(d);
+        MAT2.uniforms.near.value = GLOBALS.fog.near;
+        MAT2.uniforms.far.value = GLOBALS.fog.far;
     }
 }

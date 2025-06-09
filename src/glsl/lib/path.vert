@@ -1,6 +1,9 @@
 out vec2 vUv;
 out float depth;
 
+uniform float near;
+uniform float far;
+
 void main() {
     vUv = uv;
     vec3 pos = position;
@@ -8,8 +11,8 @@ void main() {
     vec4 transformed = modelViewMatrix * vec4(pos, 1.0);
 
     depth = smoothstep(
-        5000.0,
-        25000.0,
+        near,
+        far,
         length(transformed.xyz)
     );
 

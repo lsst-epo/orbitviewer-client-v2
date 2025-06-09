@@ -1,16 +1,13 @@
 import { MathUtils } from "@fils/math";
-import { Box3, CatmullRomCurve3, Group, Mesh, Object3D, TubeGeometry, Vector3 } from "three";
-// import { TrajectoryMaterial } from "../gfx/TrajectoryMaterial";
+import { Box3, CatmullRomCurve3, Group, Object3D, Vector3 } from "three";
 
 import { calculateOrbitByType, OrbitElements, OrbitType } from "../../core/solar/SolarSystem";
 import { SolarTimeManager } from "../../core/solar/SolarTime";
 
 import { Line2 } from "three/examples/jsm/lines/Line2.js";
-import { LineSegments2 } from "three/examples/jsm/lines/LineSegments2.js";
 import { LineGeometry } from "three/examples/jsm/lines/LineGeometry.js";
-import { LineSegmentsGeometry } from "three/examples/jsm/lines/LineSegmentsGeometry.js";
-import { PathMaterial } from "./PathMaterial";
 import { GLOBALS } from "../../core/Globals";
+import { PathMaterial } from "./PathMaterial";
 
 const MIN_DISTANCE = {
     min: .1,

@@ -2,9 +2,10 @@ import { Timer } from "@fils/ani";
 import { Size } from "@fils/gfx";
 import { isMobile } from "@fils/utils";
 import { SolarClock } from "./solar/SolarClock";
-import { Object3D, Scene, WebGLRenderer } from "three";
+import { Fog, Object3D, Scene, WebGLRenderer } from "three";
 import { EarthClouds } from "../gfx/planets/EarthClouds";
 import { Sun } from "../gfx/solar/Sun";
+import { FAR, NEAR } from "../gfx/OrbitViewer";
 
 /**
  * DEV_MODE is injected by esbuild
@@ -67,7 +68,7 @@ export function getParticleCount(s:Size) {
 }
 
 export const VISUAL_SETTINGS = {
-	current: isMobile() ? 'low' : 'high',
+	current: 'low',//isMobile() ? 'low' : 'high',
 	low: getParticleCount(GPU_SIM_SIZES.low),
 	medium: getParticleCount(GPU_SIM_SIZES.medium),
 	high: getParticleCount(GPU_SIM_SIZES.high),
@@ -81,11 +82,13 @@ export interface Globals {
 	solarClock:SolarClock;
 	clouds:EarthClouds;
 	sun:Sun;
+	fog:Fog;
 }
 
 export const GLOBALS:Globals = {
 	clock: null,
 	solarClock: null,
 	clouds: null,
-	sun: null
+	sun: null,
+	fog: new Fog(0x000000, NEAR, NEAR)
 }

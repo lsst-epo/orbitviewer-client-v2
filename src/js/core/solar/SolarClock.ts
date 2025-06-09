@@ -53,7 +53,7 @@ export class SolarClock {
      * Sets the number of hours equivalent per second.
      * 0 means real-time, 1 one hour per second, 2 two hours per second, etc.
      */
-    set secsPerHour(speed:number) {
+    set hoursPerSec(speed:number) {
         // const v = Math.max(0, value);
         this.targetSpeed = speed;
     }
@@ -62,7 +62,7 @@ export class SolarClock {
      * The number of hours equivalent per second.
      * 0 means real-time, 1 one hour per second, 2 two hours per second, etc.
      */
-    get secsPerHour():number {
+    get hoursPerSec():number {
         return this.targetSpeed;
     }
 

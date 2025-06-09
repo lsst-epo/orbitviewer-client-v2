@@ -181,6 +181,7 @@ export class SunMagneticField extends Object3D {
   }
 
   update() {
-    MAT.uniforms.time.value = GLOBALS.solarClock.time;
+    // MAT.uniforms.time.value = GLOBALS.solarClock.time;
+    MAT.uniforms.time.value = GLOBALS.clock.currentTime;
   }
 }

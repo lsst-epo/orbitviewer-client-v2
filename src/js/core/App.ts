@@ -81,18 +81,20 @@ export class App {
     this.terminal.log(`Loading core data...`);
     const t = Date.now();
     LoadManager.loadCore(() => {
-    	LoadManager.loadSample(VISUAL_SETTINGS.current, json => {
-    	  this.logItems(json.length, (Date.now() - t) / 1000);
-    	  // console.log(json);
-    	  const data = getSimDataV2(json);
-    	  this.viewer.setData(data);
-				this.viewer.createPlanets(LoadManager.data.planets);
-				// this.viewer.hidePaths();
-        this.addGUI();
-        console.log(LoadManager.data);
-				console.log(LoadManager.craftData);
-      });
+    	this.launch();
     })
+	}
+	
+	launch() {
+		const data = getSimData(LoadManager.data.sample);
+		this.viewer.setData(data);
+		this.viewer.createPlanets(LoadManager.data.planets);
+		// this.viewer.hidePaths();
+		// this.addGUI();
+		console.log(LoadManager.data);
+		console.log(LoadManager.craftData);
+
+		this.viewer.goToLandingMode();
 	}
 
 	logItems (nItems:number, time:number) {
@@ -337,7 +339,7 @@ export class App {
 			tid = window.setTimeout(() => {
 				const data = getRandomElementsArray(len);
 				this.viewer.setData(getSimData(data));
-				this.viewer.controls.enabled = false;
+				// this.viewer.controls.enabled = false;
 				tid = window.setTimeout(() => {
 					this.deltas = [];
 					this.testStarted = performance.now();
@@ -395,8 +397,8 @@ export class App {
 		g3.add(this.viewer, 'useVFX');
 
 		const planetView = {
-			selected: 'none',
-			paths: true
+			selected: 'sun',
+			paths: false
 		}
 
 		g3.add(planetView, 'paths').on('change', () => {

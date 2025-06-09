@@ -1,6 +1,7 @@
 import { Color } from "three";
 import { getSolarStaticData } from "../Utils";
 import { getCategories, getSolarItemsInfo } from "./CraftManager";
+import { VISUAL_SETTINGS } from "../Globals";
 
 const staticURL = "./assets/data/";
 const baseURL = "./assets/data/";
@@ -13,6 +14,8 @@ export interface RubinData {
 }
 
 class LoadManagerClass {
+    private sampleLoaded:boolean = false;
+
     private mgr = {
         isLoading: false,
         data: {
@@ -51,7 +54,7 @@ class LoadManagerClass {
     }
 
     public get coreLoaded():boolean {
-        return this.coreDataAvailable && this.coreCraftDataAvailable;
+        return this.coreDataAvailable && this.coreCraftDataAvailable && this.sampleLoaded;
     }
 
     private loadData(id:string, url:string, onLoaded:Function) {
@@ -127,11 +130,13 @@ class LoadManagerClass {
 
         this.loadCraft('categories', onL);
         this.loadCraft('solar_items', onL);
+
+        this.loadSample(VISUAL_SETTINGS.current, onL);
     }
 
     loadSample(profile:string, onLoaded:Function) {
-        getSolarStaticData(profile, true).then((json) => {
-            // console.log(json);
+        getSolarStaticData(profile, false).then((json) => {
+            this.sampleLoaded = true;
             this.mgr.data.sample = json;
             onLoaded(json);
 			// downloadJSON(json, `data-${VISUAL_SETTINGS.current}.json`, true);

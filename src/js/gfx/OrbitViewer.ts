@@ -1,5 +1,5 @@
 import { ThreeDOMLayer, ThreeLayer } from "@fils/gl-dom";
-import { AmbientLight, Fog, PerspectiveCamera, PointLight, PointLightHelper, WebGLRenderTarget } from "three";
+import { AmbientLight, Fog, Object3D, PerspectiveCamera, PointLight, PointLightHelper, WebGLRenderTarget } from "three";
 import { OrbitElements } from "../core/solar/SolarSystem";
 import { SolarParticles } from "./solar/SolarParticles";
 
@@ -16,6 +16,7 @@ import { GLOBALS } from "../core/Globals";
 
 // import { Lensflare, LensflareElement } from 'three/examples/jsm/objects/Lensflare.js';
 import { tLoader } from "./solar/PlanetAssets";
+import { CameraManager } from "./core/CameraManager";
 
 export interface FollowTarget {
 	target: InteractiveObject;
@@ -29,10 +30,13 @@ const DEFAULT_CAM_LIMITS = {
 export const NEAR = 5000;
 export const FAR = 25000;
 
+const dummy = new Object3D();
+
 export class OrbitViewer extends ThreeLayer {
   camera:PerspectiveCamera;
   particles:SolarParticles;
-  controls:OrbitControls;
+  
+	controls:CameraManager;
 
 	ambientLight: AmbientLight;
 	sunLight: PointLight;
@@ -43,6 +47,7 @@ export class OrbitViewer extends ThreeLayer {
 	solarElements:Array<SolarElement> = []
 
 	sun:Sun;
+	earth:Planet;
 
 	cameraTarget: FollowTarget = {
 		target: null,
@@ -62,13 +67,13 @@ export class OrbitViewer extends ThreeLayer {
 
       this.camera.position.y = 5000;
       this.camera.position.z = 10000;
-      this.controls = new OrbitControls(this.camera, _gl.dom);
-			this.controls.enableDamping = true;
-			this.controls.dampingFactor = .096;
-			this.controls.minDistance = DEFAULT_CAM_LIMITS.minDistance;
+			this.controls = new CameraManager(this.camera, _gl.dom);
+      
 			// console.log(this.controls.minDistance, this.controls.maxDistance)
 			// this.controls.autoRotate = true;
 			// this.controls.autoRotateSpeed = .25;
+
+			window['cam'] = this.camera;
 
 			this.vfx = new RubinRenderer(_gl.renderer);
 
@@ -106,9 +111,32 @@ export class OrbitViewer extends ThreeLayer {
       this.ambientLight = new AmbientLight(0xffffff, 0.05);
       this.scene.add(this.ambientLight);
 
-			const fog = new Fog(0x000000, NEAR, FAR);
-			this.scene.fog = fog;
+			this.scene.fog = GLOBALS.fog;
     }
+
+		fadeIn() {
+			gsap.to(GLOBALS.fog, {
+				far: FAR,
+				duration: 5,
+				ease: 'cubic.inOut'
+			});
+		}
+
+		goToLandingMode() {
+			this.fadeIn();
+			this.controls.followTarget(this.sun, true);
+			
+			// dummy.lookAt(this.earth.position);
+			// dummy.updateMatrix();
+			dummy.rotation.set(-3.0288209992191786, -1.018007295096466, -3.045504707405481);
+			this.controls.setRotation(dummy.rotation);
+
+			gsap.to(GLOBALS.solarClock, {
+				hoursPerSec: 100,
+				duration: 5,
+				ease: 'expo.inOut'
+			})
+		}
 
     hidePaths() {
     	for (const item of this.solarElements) {
@@ -141,65 +169,34 @@ export class OrbitViewer extends ThreeLayer {
         this.scene.add(planet);
         this.scene.add(planet.orbitPath.ellipse);
 
+				if(el.id === 'earth') {
+					console.log("Houston, Houston: we've found the earth");
+					this.earth = planet;
+				}
+
       	// this.scene.add(planet.sunLine);
 		}
 
 		// this.followTarget(this.solarElements[7]);
+
+		this.hidePaths();
 	}
 
 	followPlanet(id:PlanetId) {
 		for(const item of this.solarElements) {
 			if(id === item.name) {
 				console.log(`Follow: ${item.data.id}`);
-				return this.followTarget(item);
+				return this.controls.followTarget(item);
 			}
 		}
 	}
 
-	followSun() {
-		this.followTarget(this.sun);
-	}
-
-	followTarget(target:InteractiveObject) {
-		gsap.killTweensOf(this.cameraTarget);
-		this.cameraTarget.alpha = .036;
-		gsap.to(this.cameraTarget, {
-			alpha: 1,
-			delay: 2,
-			duration: 5,
-			ease: 'expo.inOut'
-		})
-		this.cameraTarget.target = target;
-		this.controls.enablePan = false;
-		this.controls.autoRotate = true;
-		this.controls.autoRotateSpeed = .05;
-		this.controls.minDistance = target.lockedDistance.min;
-		this.controls.maxDistance = target.lockedDistance.max;
-	}
-
 	releaseCameraTarget() {
-		if (!this.cameraTarget.target) return;
-		this.cameraTarget.target = null;
-		this.controls.autoRotate = false;
-		this.controls.minDistance = DEFAULT_CAM_LIMITS.minDistance;
-		this.controls.maxDistance = Infinity;
-		gsap.to(this.controls.target, {
-			x: 0,
-			y: 0,
-			z: 0,
-			overwrite: true,
-			duration: 3,
-			ease: 'expo.inOut'
-		});
+		this.controls.releaseCameraTarget();
+	}
 
-		gsap.to(this.camera.position, {
-			overwrite: true,
-			z: 10000,
-			y: 5000,
-			x: 0,
-			duration: 3,
-			ease: 'expo.inOut'
-		})
+	followSun() {
+		this.controls.followTarget(this.sun);
 	}
 
     setTarget(target:WebGLRenderTarget)  {
@@ -227,13 +224,10 @@ export class OrbitViewer extends ThreeLayer {
 				this.solarElements[i].update(d);
 			}
 
-    	if(this.cameraTarget.target) {
-				this.controls.target.lerp(this.cameraTarget.target.position, this.cameraTarget.alpha);
-     	}
+    	this.controls.update();
 
 			this.sun.update();
 
-      this.controls.update();
       this.particles.update(d, this.camera);
     }
 
