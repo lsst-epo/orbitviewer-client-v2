@@ -14,6 +14,9 @@ import { InteractiveObject, SolarElement } from "./solar/SolarElement";
 import { Sun } from "./solar/Sun";
 import { GLOBALS } from "../core/Globals";
 
+// import { Lensflare, LensflareElement } from 'three/examples/jsm/objects/Lensflare.js';
+import { tLoader } from "./solar/PlanetAssets";
+
 export interface FollowTarget {
 	target: InteractiveObject;
 	alpha: number;
@@ -34,6 +37,8 @@ export class OrbitViewer extends ThreeLayer {
 	ambientLight: AmbientLight;
 	sunLight: PointLight;
 	sunLightHelper: PointLightHelper;
+
+	// lensFlare:Lensflare;
 
 	solarElements:Array<SolarElement> = []
 
@@ -80,7 +85,22 @@ export class OrbitViewer extends ThreeLayer {
       this.sunLight = new PointLight(0xffffff, 1, 0, 0);
       this.scene.add(this.sunLight);
       this.sunLightHelper = new PointLightHelper(this.sunLight, 100);
-      // this.sunLightHelper.visible = false;
+      
+			/* this.lensFlare = new Lensflare();
+			
+			const textureFlare0 = tLoader.load( "/assets/textures/lensflare0.png" );
+			const textureFlare1 = tLoader.load( "/assets/textures/lensflare1.png" );
+			const textureFlare2 = tLoader.load( "/assets/textures/lensflare2.png" );
+			const textureFlare3 = tLoader.load( "/assets/textures/lensflare3.png" );
+
+			this.lensFlare.addElement( new LensflareElement( textureFlare0, 512, 0 ) );
+			this.lensFlare.addElement( new LensflareElement( textureFlare1, 512, 0 ) );
+			this.lensFlare.addElement( new LensflareElement( textureFlare2, 512, 0.5 ) );
+			this.lensFlare.addElement( new LensflareElement( textureFlare3, 60, 0.96 ) );
+
+			this.sunLight.add(this.lensFlare); */
+			
+			// this.sunLightHelper.visible = false;
       // this.scene.add(this.sunLightHelper);
 
       this.ambientLight = new AmbientLight(0xffffff, 0.05);

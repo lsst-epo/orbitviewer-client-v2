@@ -48,7 +48,7 @@ export type OrbitDataElementsV2 = {
     epoch_mjd:number;
     mean_motion:number;
     peri_time?:number;
-    arcperi:number;
+    argperi:number;
 	object_type: number[];
 }
 
@@ -127,7 +127,7 @@ export function mapOrbitElementsV2(dEl:OrbitDataElementsV2):OrbitElements {
         // G: dEl.G,
         i: dEl.incl,
         // H: dEl.H,
-        w: dEl.arcperi,
+        w: dEl.argperi,
         M: dEl.mean_anomaly,
         n: dEl.mean_motion,
         q: dEl.q,

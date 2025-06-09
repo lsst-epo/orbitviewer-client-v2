@@ -137,7 +137,7 @@ export class EllipticalPath {
 
             this.ellipse = new Group();
             const mat = new PathMaterial({
-                color: 0xffffff,
+                color: 0x999999,
                 linewidth: 2,
                 // dashed: true,
                 gapSize: 200,
