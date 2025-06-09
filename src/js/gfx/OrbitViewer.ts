@@ -112,6 +112,8 @@ export class OrbitViewer extends ThreeLayer {
       this.scene.add(this.ambientLight);
 
 			this.scene.fog = GLOBALS.fog;
+
+			GLOBALS.viewer = this;
     }
 
 		fadeIn() {

@@ -5,7 +5,7 @@ import { SolarClock } from "./solar/SolarClock";
 import { Fog, Object3D, Scene, WebGLRenderer } from "three";
 import { EarthClouds } from "../gfx/planets/EarthClouds";
 import { Sun } from "../gfx/solar/Sun";
-import { FAR, NEAR } from "../gfx/OrbitViewer";
+import { FAR, NEAR, OrbitViewer } from "../gfx/OrbitViewer";
 
 /**
  * DEV_MODE is injected by esbuild
@@ -83,6 +83,7 @@ export interface Globals {
 	clouds:EarthClouds;
 	sun:Sun;
 	fog:Fog;
+	viewer:OrbitViewer;
 }
 
 export const GLOBALS:Globals = {
@@ -90,5 +91,6 @@ export const GLOBALS:Globals = {
 	solarClock: null,
 	clouds: null,
 	sun: null,
-	fog: new Fog(0x000000, NEAR, NEAR)
+	fog: new Fog(0x000000, NEAR, NEAR),
+	viewer: null
 }
