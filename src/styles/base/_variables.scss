@@ -11,7 +11,7 @@
 
     --color-turquoise-100: #d9f7f6;
     --color-turquoise-200: #b1f2ef;
-    --color-turquoise-300: #00babc;
+    --color-turquoise-300: #00BEC0; // #00babc;
     --color-turquoise-400: #009fa1;
     --color-turquoise-500: #058b8c;
     --color-turquoise-600: #12726d;
@@ -44,16 +44,16 @@
 
     --color-backdrop: rgba(var(--color-black-rgb), .5);
     --color-button-text: var(--color-turquoise-100);
-    --color-button-text-hover: var(--color-turquoise-300);
+    --color-button-text-hover: var(--color-turquoise-200);
     --color-button-bg-hover: var(--color-turquoise-800);
 
     --color-planets: #B1F2EF;
-    --color-near_earth: #8C59DE;
+    --color-near_earth: #986AE1;
     --color-asteroids: #FF6EB4;
     --color-comets: #50C878;
     --color-centaurs: #458DD3;
-    --color-trans_neptunian: #008B8B;
-    --color-interstellar: #556B2F;
+    --color-trans_neptunian: #009494;
+    --color-interstellar: #718E3E;
     --color-trojans: #E05858;
 
     // Layers

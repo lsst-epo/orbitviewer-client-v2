@@ -65,6 +65,7 @@
                     gap: 2px;
                     padding: 6px 8px;
                     border-radius: var(--corner-medium);
+                    border: solid 1px transparent;
                     color: var(--color-button-text);
                     transition: all .3s var(--easing-default);
                     cursor: pointer;
@@ -72,6 +73,7 @@
                     &:focus,
                     &:hover {
                         background: rgba(var(--color-white-rgb), .1);
+                        border-color: rgba(var(--color-white-rgb), .35);
                     }
                 
                     &.active {
