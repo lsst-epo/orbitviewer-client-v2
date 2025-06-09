@@ -12,7 +12,7 @@ import { RubinRenderer } from "./core/RubinRenderer";
 import { Planet } from "./solar/Planet";
 import { InteractiveObject, SolarElement } from "./solar/SolarElement";
 import { Sun } from "./solar/Sun";
-import { GLOBALS } from "../core/Globals";
+import { CLOCK_SETTINGS, GLOBALS } from "../core/Globals";
 
 // import { Lensflare, LensflareElement } from 'three/examples/jsm/objects/Lensflare.js';
 import { tLoader } from "./solar/PlanetAssets";
@@ -133,8 +133,8 @@ export class OrbitViewer extends ThreeLayer {
 			dummy.rotation.set(-3.0288209992191786, -1.018007295096466, -3.045504707405481);
 			this.controls.setRotation(dummy.rotation);
 
-			gsap.to(GLOBALS.solarClock, {
-				hoursPerSec: 100,
+			gsap.to(CLOCK_SETTINGS, {
+				speed: 100,
 				duration: 5,
 				ease: 'expo.inOut'
 			})

@@ -17,6 +17,7 @@ import { ObjectPage } from "../pages/ObjectPage";
 import Navigation from "../layers/Navigation";
 import Share from "../layers/Share";
 import OrbitViewerPage from "../layers/OrbitViewerPage";
+import gsap from "gsap";
 
 export const solarClock = new SolarClock(new Clock());
 
@@ -128,6 +129,13 @@ export class App implements NomadRouteListener {
 		console.log(LoadManager.craftData);
 
 		this.viewer.goToLandingMode();
+		/* this.viewer.fadeIn();
+
+		gsap.to(CLOCK_SETTINGS, {
+			speed: 100,
+			duration: 5,
+			ease: 'expo.inOut'
+		}) */
 	}
 
 	clockChanged():boolean {
