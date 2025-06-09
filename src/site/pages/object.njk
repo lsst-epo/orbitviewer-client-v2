@@ -6,8 +6,8 @@ eleventyComputed:
   description: "{{ staticData.description }}"
 ---
 
+{% from "../partials/icons.njk" import icon %}
 {% from '../components/button.njk' import Button %}
-{% from '../components/buttonicon.njk' import ButtonIcon %}
 {% from '../components/object_card_graph.njk' import ObjectCardGraph %}
 
 <section class="object_detail" role="main" aria-labelledby="object-name" aria-hidden="false">
@@ -55,21 +55,27 @@ eleventyComputed:
                                     <dt class="orbital_elements-label" aria-label="{{ copy.object.orbital_elements.periapsis.en }}">ω</dt>
                                     <dd class="orbital_elements-value">322.63</dd>
                                 </dl>
-                                {{ ButtonIcon('button_icon xsmall ghost', 'info') }}
+                                <button type="button" class="button_icon xsmall ghost" data-tooltip="This is a tooltip with word wrapping for longer content">
+                                    {{ icon('info') }}
+                                </button>
                             </li>
                             <li class="orbital_elements-item">
                                 <dl class="orbital_elements-data" role="group">
                                     <dt class="orbital_elements-label" aria-label="{{ copy.object.orbital_elements.longitude.en }}">Ω</dt>
                                     <dd class="orbital_elements-value">322.63</dd>
                                 </dl>
-                                {{ ButtonIcon('button_icon xsmall ghost', 'info') }}
+                                <button type="button" class="button_icon xsmall ghost" data-tooltip="This is a tooltip with word wrapping for longer content">
+                                    {{ icon('info') }}
+                                </button>
                             </li>
                             <li class="orbital_elements-item">
                                 <dl class="orbital_elements-data" role="group">
                                     <dt class="orbital_elements-label" aria-label="{{ copy.object.orbital_elements.anomaly.en }}">v</dt>
                                     <dd class="orbital_elements-value">322.63</dd>
                                 </dl>
-                                {{ ButtonIcon('button_icon xsmall ghost', 'info') }}
+                                <button type="button" class="button_icon xsmall ghost" data-tooltip="This is a tooltip with word wrapping for longer content">
+                                    {{ icon('info') }}
+                                </button>
                             </li>
                         </ul>
                     </div>

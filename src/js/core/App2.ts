@@ -64,31 +64,31 @@ export class App2 implements NomadRouteListener {
 
 		// Navigation
 		const navigationDom = document.querySelector('.nav_dropdown');
-		const navigation = new Navigation(navigationDom);
+		const navigation = navigationDom ? new Navigation(navigationDom) : null;
 
 		// Share
 		const shareDom = document.querySelector('.share');
-		const share = new Share(shareDom);
+		const share = shareDom ? new Share(shareDom) : null;
 
 		// Objects Filters
 		const objectsFiltersDom = document.querySelector('.objects');
-		const objectsFilters = new ObjectsFilters(objectsFiltersDom);
+		const objectsFilters = objectsFiltersDom ? new ObjectsFilters(objectsFiltersDom) : null;
 
 		// Filters
 		const filtersDom = document.querySelector('.filters');
-		const filters = new Filters(filtersDom);
+		const filters = filtersDom ? new Filters(filtersDom) : null;
 
 		// Search
 		const searchDom = document.querySelector('.search');
-		const search = new Search(searchDom);
+		const search = searchDom ? new Search(searchDom) : null;
 
 		// Timemachine
 		const timeMachineDom = document.querySelector('.timemachine');
-		const timeMachine = new TimeMachine(timeMachineDom);
+		const timeMachine = timeMachineDom ? new TimeMachine(timeMachineDom) :  null;
 
 		// Wizard
 		const wizardDom = document.querySelector('.wizard');
-		const wizard = new Wizard(wizardDom);
+		const wizard = wizardDom ? new Wizard(wizardDom) : null;
 
 		// Toolbar
 		const toolbarItem = document.querySelectorAll('.toolbar-link');
