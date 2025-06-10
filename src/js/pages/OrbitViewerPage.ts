@@ -12,11 +12,11 @@ import { GLOBALS, IS_DEV_MODE } from "../core/Globals";
 const SKIP_ONBOARDING = true;
 
 class OrbitViewerPage extends DefaultPage {
-  filters: Filters;
-  search: Search;
-  timeMachine: TimeMachine;
-  wizard: Wizard;
-  splash: Splash;
+	filters: Filters;
+	search: Search;
+	timeMachine: TimeMachine;
+	wizard: Wizard;
+	splash: Splash;
 	onboarding: Onboarding;
 	mapControls: MapControls;
 	toolbar: Toolbar;

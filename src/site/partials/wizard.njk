@@ -7,17 +7,17 @@
         <div class="wizard_tooltip-body">
             <header class="heading">
                 <h3 id="wizard-title" class="title">{{ copy.wizard.title[lang] }}</h3>
-                <p id="wizard-steps" class="steps" aria-label="Step 1 of 4">1/4</p>
+                <p id="wizard-steps" class="steps" aria-label="{{ copy.wizard.steps.aria[lang] }}">1/4</p>
             </header>
-            <p id="wizard-description" class="description">Lorem ipsum dolor sit amet consectetur. Amet urna sit blandit vel. Aliquam nec sed leo ullamcorper commodo vulputate praesent vitae vel.</p>
+            <p id="wizard-description" class="description">{{ copy.wizard.content.toolbar[lang] }}</p>
             <!-- Add live region for step announcements -->
             <div aria-live="polite" aria-atomic="true" class="sr-only" id="wizard-announcements"></div>
         </div>
         <div class="wizard_tooltip-foot">
-            {{ Button('Skip', 'button secondary small') }}
+            {{ Button(copy.wizard.button_group.skip, 'button secondary small') }}
             <div class="button_group" role="group" aria-label="{{ copy.wizard.button_group.aria[lang] }}">
-                {{ Button('Previous', 'button ghost small', 'chevron-left') }}
-                {{ Button('Next', 'button primary small', '', 'chevron-right') }}
+                {{ Button(copy.wizard.button_group.previous, 'button ghost small', 'chevron-left') }}
+                {{ Button(copy.wizard.button_group.next, 'button primary small', '', 'chevron-right') }}
             </div>
         </div>
     </div>

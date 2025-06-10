@@ -1,8 +1,8 @@
 {% from '../components/button.njk' import Button %}
 
-<nav class="navigation" aria-label="Main Navigation">
+<nav class="navigation" aria-label="{{ copy.navigation.aria[lang] }}">
     <div class="navigation-buttons">
-        {{ Button('Share', 'button_share', 'share') }}
+        {{ Button(copy.navigation.share[lang], 'button_share', 'share') }}
 
         <div class="nav_dropdown_wrapper">
             <button type="button" class="button_icon secondary medium"
@@ -18,13 +18,13 @@
             <div id="nav_dropdown" class="nav_dropdown" aria-hidden="true">
                 <ul class="listitem-content" role="menu">
                     <li class="listitem-group" role="group">
-                        <h3 class="listitem-label">Settings</h3>
+                        <h3 class="listitem-label">{{ copy.navigation.settings[lang] }}</h3>
                         <ul class="listitem-list">
                             <li class="listitem-item" role="menuitem" aria-describedby="language-value">
                                 <a href="" class="listitem-link">
                                     <span class="heading">
                                         {{ icon('language') }}
-                                        <span class="label">Language</span>
+                                        <span class="label">{{ copy.navigation.language[lang] }}</span>
                                     </span>
                                     <span class="value" id="language-value">English</span>
                                 </a>
@@ -33,7 +33,7 @@
                                 <a href="" class="listitem-link">
                                     <span class="heading">
                                         {{ icon('settings') }}
-                                        <span class="label">Exploration mode</span>
+                                        <span class="label">{{ copy.navigation.exploration[lang] }}</span>
                                     </span>
                                     <span class="value" id="detail-value">Medium</span>
                                 </a>
@@ -42,7 +42,7 @@
                                 <a href="" class="listitem-link">
                                     <span class="heading">
                                         {{ icon('fullscreen') }}
-                                        <span class="label">Fullscreen</span>
+                                        <span class="label">{{ copy.navigation.fullscreen[lang] }}</span>
                                     </span>
                                 </a>
                             </li>
@@ -56,7 +56,7 @@
                                 <a href="" class="listitem-link">
                                     <span class="heading">
                                         {{ icon('how_it_works') }}
-                                        <span class="label">How to use</span>
+                                        <span class="label">{{ copy.navigation.how_to_use[lang] }}</span>
                                     </span>
                                 </a>
                             </li>
@@ -64,7 +64,7 @@
                                 <a href="" class="listitem-link">
                                     <span class="heading">
                                         {{ icon('info') }}
-                                        <span class="label">About</span>
+                                        <span class="label">{{ copy.navigation.about[lang] }}</span>
                                     </span>
                                 </a>
                             </li>

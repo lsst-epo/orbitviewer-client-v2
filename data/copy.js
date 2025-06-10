@@ -5,12 +5,108 @@ export default {
             "es": ""
         }
     },
+    "navigation": {
+        "aria": {
+            "en": "Main Navigation",
+            "es": ""
+        },
+        "share": {
+            "en": "Share",
+            "es": ""
+        },
+        "settings": {
+            "en": "Settings",
+            "es": ""
+        },
+        "language": {
+            "en": "Language",
+            "es": ""
+        },
+        "exploration": {
+            "en": "Exploration mode",
+            "es": ""
+        },
+        "fullscreen": {
+            "en": "Fullscreen",
+            "es": ""
+        },
+        "help": {
+            "en": "Help",
+            "es": ""
+        },
+        "how_to_use": {
+            "en": "How to use",
+            "es": ""
+        },
+        "about": {
+            "en": "About",
+            "es": ""
+        }
+    },
+    "share": {
+        "title": {
+            "en": "Share",
+            "es": ""
+        },
+        "tabs": {
+            "aria": {
+                "en": "Tab navigation",
+                "es": ""
+            },
+            "link": {
+                "en": "Link",
+                "es": ""
+            },
+            "screen_capture": {
+                "en": "Screen capture",
+                "es": ""
+            },
+            "copy": {
+                "en": "Copy",
+                "es": ""
+            },
+            "share_on": {
+                "en": "Share on",
+                "es": ""
+            }
+        },
+        "aspect_ratio": {
+            "horizontal": {
+                "en": "Horizontal",
+                "es": ""
+            },
+            "vertical": {
+                "en": "Vertical",
+                "es": ""
+            },
+            "square": {
+                "en": "Square",
+                "es": ""
+            }
+        },
+        "download": {
+            "en": "Download image",
+            "es": ""
+        }
+    },
     "splash": {
         "logo": {
             "alt": {
                 "en": "NSF-DOE Vera C. Rubin Observatory logo",
                 "es": ""
             }
+        },
+        "title": {
+            "en": "Vera C. Rubin’s 3D Orbit Viewer",
+            "es": ""
+        },
+        "subtitle": {
+            "en": "Mapping the Solar System Like Never Before",
+            "es": ""
+        },
+        "action": {
+            "en": "Start exploring",
+            "es": ""
         },
         "discoveries": {
             "en": "Discoveries Unveiled",
@@ -28,6 +124,10 @@ export default {
         }
     },
     "object": {
+        "back": {
+            "en": "Orbit viewer",
+            "es": ""
+        },
         "hero": {
             "alt": {
                 "en": "Astronomical image of",
@@ -43,32 +143,62 @@ export default {
                 "en": "Orbital elements",
                 "es": ""
             },
-            "label": {
+            "aria": {
                 "en": "Orbital element parameters",
                 "es": ""
             },
             "periapsis": {
-                "en": "Argument of periapsis",
-                "es": ""
+                "aria": {
+                    "en": "Argument of periapsis",
+                    "es": ""
+                },
+                "tooltip": {
+                    "en": "This is the periapsis tooltip",
+                    "es": ""
+                }
             },
             "longitude": {
-                "en": "Longitude of the ascending node",
-                "es": ""
+                "aria": {
+                    "en": "Longitude of the ascending node",
+                    "es": ""
+                },
+                "tooltip": {
+                    "en": "This is the longitued tooltip",
+                    "es": ""
+                }
             },
             "anomaly": {
-                "en": "True anomaly",
-                "es": ""
+                "aria": {
+                    "en": "True anomaly",
+                    "es": ""
+                },
+                "tooltip": {
+                    "en": "This is the true anomaly tooltip",
+                    "es": ""
+                }
             }
         },
         "closest_sun": {
             "title": {
                 "en": "When it will be closest to the Sun?",
                 "es": ""
+            },
+            "days_left": {
+                "en": "days left",
+                "es": ""
             }
         },
         "how_far": {
             "title": {
                 "en": "How far is it today?",
+                "es": ""
+            },
+            "from_sun": {
+                "en": "From the Sun",
+                "es": ""
+            },
+            "from_earth": {
+                "en": "From the Earth",
                 "es": ""
             }
         }
@@ -136,6 +266,14 @@ export default {
                 }
             },
         },
+        "recommended": {
+            "en": "recommended",
+            "es": ""
+        },
+        "action": {
+            "en": "Launch",
+            "es": ""
+        }
         "objects": {
             "en": "objects",
             "es": ""
@@ -150,9 +288,31 @@ export default {
             "en": "Filters",
             "es": ""
         },
+        "reset": {
+            "en": "Reset",
+            "es": ""
+        },
         "discoveries": {
             "en": "Discoveries",
             "es": ""
+        },
+        "toggle": {
+            "all": {
+                "en": "All",
+                "es": "Todos"
+            },
+            "rubin": {
+                "en": "Rubin",
+                "es": "Rubin"
+            },
+            "other": {
+                "en": "Other",
+                "es": "Otros"
+            },
+            "aria": {
+                "en": "Filter objects by discoverer",
+                "es": ""
+            }
         },
         "distance": {
             "en": "Distance",
@@ -216,9 +376,45 @@ export default {
             "en": "Onboarding wizard",
             "es": ""
         },
+        "steps": {
+            "aria": {
+                "en": "Step X of Y",
+                "es": ""
+            }
+        },
+        "content": {
+            "toolbar": {
+                "en": "Lorem ipsum dolor sit amet consectetur. Amet urna sit blandit vel. Aliquam nec sed leo ullamcorper commodo vulputate praesent vitae vel.",
+                "es": ""
+            },
+            "time_controls": {
+                "en": "Lorem ipsum dolor sit amet consectetur. Amet urna sit blandit vel. Aliquam nec sed leo ullamcorper commodo vulputate praesent vitae vel.",
+                "es": ""
+            },
+            "map_controls": {
+                "en": "Lorem ipsum dolor sit amet consectetur. Amet urna sit blandit vel. Aliquam nec sed leo ullamcorper commodo vulputate praesent vitae vel.",
+                "es": ""
+            },
+            "share_menu": {
+                "en": "Lorem ipsum dolor sit amet consectetur. Amet urna sit blandit vel. Aliquam nec sed leo ullamcorper commodo vulputate praesent vitae vel.",
+                "es": ""
+            }
+        },
         "button_group": {
             "aria": {
                 "en": "Navigation controls",
+                "es": ""
+            },
+            "skip": {
+                "en": "Skip",
+                "es": ""
+            },
+            "previous": {
+                "en": "Previous",
+                "es": ""
+            },
+            "next": {
+                "en": "Next",
                 "es": ""
             }
         }
@@ -333,6 +529,38 @@ export default {
         "visible": {
             "en": "Visible",
             "es": ""
+        }
+    },
+    "modal": {
+        "title": {
+            "en": "Things looking a bit slow?",
+            "es": ""
+        },
+        "description": {
+            "en": "Weve noticed some performance issues. A different visualization mode could provide a smoother experience on your device.",
+            "es": ""
+        },
+        "action": {
+            "primary": {
+                "en": "Switch to lite mode",
+                "es": ""
+            },
+            "secondary": {
+                "en": "Maybe later",
+                "es": ""
+            }
+        }
+    },
+    "toast": {
+        "max_date": {
+            "message":  {
+                "en": "Maximum date reached. Future positions cannot be calculated. Try exploring within the supported time range",
+                "es": ""
+            },
+            "aria": {
+                "en": "Maximum date notification",
+                "es": ""
+            }
         }
     }
 }

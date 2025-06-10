@@ -19,7 +19,7 @@ eleventyComputed:
                 <div class="exploration_card">
                     <div class="exploration_card-body">
                         {% if loop.index0 == recommended %}
-                            <span class="ribbon">recommended</span>
+                            <span class="ribbon">{{ copy.onboarding.recommended[lang] }}</span>
                         {% endif %}
                         <h3 class="name">{{ mode.name[lang] }}</h3>
                         <h4 class="title">{{ mode.title[lang] }}</h4>
@@ -28,7 +28,7 @@ eleventyComputed:
                     </div>
                     <div class="exploration_card-foot">
                         {# {{ Button('Launch', 'button secondary medium') }} #}
-                        <a data-id="{{ids[loop.index0]}}" href="{{utils.void}}" class="button secondary medium button_launch"><span>Launch</span></a>
+                        <a data-id="{{ids[loop.index0]}}" href="{{utils.void}}" class="button secondary medium button_launch"><span>{{ copy.onboarding.action[lang] }}</span></a>
                     </div>
                 </div>
             </li>
