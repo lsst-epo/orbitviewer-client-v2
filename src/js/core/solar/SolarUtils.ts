@@ -129,7 +129,7 @@ export function mapOrbitElementsV2(dEl:OrbitDataElementsV2):OrbitElements {
         // H: dEl.H,
         w: dEl.argperi,
         M: dEl.mean_anomaly,
-        n: dEl.mean_motion / 400,
+        n: dEl.mean_motion,
         q: dEl.q,
         Tp: dEl.peri_time,
         epoch: dEl.epoch_mjd != undefined ? dEl.epoch_mjd : EPOCH,
