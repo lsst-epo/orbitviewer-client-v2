@@ -10,11 +10,9 @@ export class ObjectPage extends DefaultPage {
         this.dom = dom;
 
         this.infoButtons = this.dom.querySelectorAll('.orbital_elements-data .button_icon');
-
-        this.start();
     }
 
-    start() {
+    create() {
         const tooltip = new Tooltip({
             autoDismissDelay: 3000,
             offset: 12,
@@ -22,6 +20,7 @@ export class ObjectPage extends DefaultPage {
         });
 
         this.infoButtons.forEach((el: HTMLElement) => {
+            
             el.addEventListener('mouseleave', () => {
                 tooltip.hide();
             });

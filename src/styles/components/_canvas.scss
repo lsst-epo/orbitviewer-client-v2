@@ -12,22 +12,6 @@
     height: 100vh;
     width: 100dvw;
     height: 100svh;
-    // background: url(/assets/images/sample/uhjiu8FjnsQ.jpg) no-repeat center center;
-    // background-size: cover;
-}
-
-.sun {
-    --yellow: #FFCD05;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 30vw;
-    height: 30vw;
-    border-radius: 15vw;
-    background: var(--yellow);
-    box-shadow: 0 0 35px 12px var(--yellow);
-
 }
 
 .canvas_pointer {

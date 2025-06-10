@@ -16,7 +16,7 @@ import { ObjectsFiltersPage } from "../pages/ObjectsFiltersPage";
 import { ObjectPage } from "../pages/ObjectPage";
 import Navigation from "../layers/Navigation";
 import Share from "../layers/Share";
-import OrbitViewerPage from "../layers/OrbitViewerPage";
+import OrbitViewerPage from "../pages/OrbitViewerPage";
 import gsap from "gsap";
 
 export const solarClock = new SolarClock(new Clock());
@@ -57,9 +57,6 @@ export class App implements NomadRouteListener {
 
 		const shareDom = document.querySelector('.share');
 		this.share = shareDom ? new Share(shareDom) : null;
-
-		this.orbitViewerPage = new OrbitViewerPage;
-
 		
 		this.initNomad();
 
@@ -73,6 +70,7 @@ export class App implements NomadRouteListener {
 		const nomad = new Nomad({
 			replace: false
 		}, (id, template, dom) => {
+			if (template === 'objectviewerpage') return new OrbitViewerPage(id, template, dom)
 			if (template === 'objects') return new ObjectsFiltersPage(id, template, dom)
 			else if (template === 'object') return new ObjectPage(id, template, dom)
 			return new DefaultPage(id, template, dom)
