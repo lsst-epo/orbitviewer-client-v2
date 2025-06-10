@@ -8,7 +8,7 @@
         <div class="timemachine_heading">
             {{ ButtonIcon('button_icon ghost xsmall', 'play') }}
             <div class="timemachine_heading-date">
-                <input type="text" id="myDateInput" aria-label="{{ copy.timemachine.aria.en }}">
+                <input type="text" id="myDateInput" aria-label="{{ copy.timemachine.aria[lang] }}">
             </div>
             <label for="live" class="chip active">
                 <input type="checkbox" id="live">
@@ -20,7 +20,7 @@
                     class="button ghost xsmall" 
                     aria-expanded="true" 
                     aria-controls="timemachine_body"
-                    aria-label="{{ copy.timemachine.toggle.aria.en }}">
+                    aria-label="{{ copy.timemachine.toggle.aria[lang] }}">
                         <span>1S/S</span>
                         {{ icon('chevron-down')}}
             </button>

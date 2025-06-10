@@ -8,8 +8,8 @@
     </header>
     <div class="objects-body">
         <div class="objects-heading">
-            <h2 class="title">{{ copy.objects.title.en }}</h2>
-            <h3 class="subtitle">{{ copy.objects.subtitle.en }}</h3>
+            <h2 class="title">{{ copy.objects.title[lang] }}</h2>
+            <h3 class="subtitle">{{ copy.objects.subtitle[lang] }}</h3>
         </div>
         <div class="objects-mask">
             <ul class="objects-list">
@@ -20,23 +20,23 @@
                             <img src="/assets/images/sample/Planets_and_Moons.png" alt="">
                         </div>
                         <div class="objects_card-body">
-                            <h3 class="name">{{ type.name.en }}</h3>
-                            <p class="description">{{ type.description.en }}</p>
+                            <h3 class="name">{{ type.name[lang] }}</h3>
+                            <p class="description">{{ type.description[lang] }}</p>
                             <div class="stats">
                                 <dl class="stats-column">
                                     <dt class="stats-value">{{ type.objects }}</dt>
-                                    <dd class="stats-label">{{ copy.objects.total.en }}</dd>
+                                    <dd class="stats-label">{{ copy.objects.total[lang] }}</dd>
                                 </dl>
                                 <dl class="stats-column">
                                     <dt class="stats-value">{{ type.rubin }}</dt>
-                                    <dd class="stats-label">{{ copy.objects.detected.en }}</dd>
+                                    <dd class="stats-label">{{ copy.objects.detected[lang] }}</dd>
                                 </dl>
                             </div>
                         </div>
                         <div class="objects_card-foot">
-                            <span class="label hidden">{{ copy.objects.hidden.en }}</span>
+                            <span class="label hidden">{{ copy.objects.hidden[lang] }}</span>
                             {{ ToggleGroup('toggle-object-' ~ loop.index0, '', 'toggle-object-' ~ loop.index0, [false, true], true, false) }}
-                            <span class="label">{{ copy.objects.visible.en }}</span>
+                            <span class="label">{{ copy.objects.visible[lang] }}</span>
                         </div>
                     </div>
                 </li>

@@ -2,7 +2,7 @@
 layout: redirect
 pageTemplate: landing
 eleventyComputed:
-  title: "{{ settings.title.en }}"
+  title: "{{ settings.title[lang] }}"
   description: "{{ settings.description[staticData.defaultLanguage] }}"
   card: "{{ settings.card }}"
   locale: "{{ staticData.locale[staticData.defaultLanguage] }}"

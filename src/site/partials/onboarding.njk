@@ -9,7 +9,7 @@ eleventyComputed:
 {% from '../components/button.njk' import Button %}
 
 <section class="onboarding" aria-hidden="true" role="main" aria-labelledby="onboarding-heading">
-    <h2 class="onboarding-title" id="onboarding-heading">{{ copy.onboarding.title.en }}</h2>
+    <h2 class="onboarding-title" id="onboarding-heading">{{ copy.onboarding.title[lang] }}</h2>
     <div class="exploration">
         <ul class="exploration-list" role="radiogroup" aria-labelledby="onboarding-heading" aria-required="true">
             {% for key, mode in copy.onboarding.mode %}
@@ -20,10 +20,10 @@ eleventyComputed:
                         {% if loop.index0 == recommended %}
                             <span class="ribbon">recommended</span>
                         {% endif %}
-                        <h3 class="name">{{ mode.name.en }}</h3>
-                        <h4 class="title">{{ mode.title.en }}</h4>
-                        <p class="description">{{ mode.description.en }}</p>
-                        <p class="count">{{ mode.objects.en }}</p>
+                        <h3 class="name">{{ mode.name[lang] }}</h3>
+                        <h4 class="title">{{ mode.title[lang] }}</h4>
+                        <p class="description">{{ mode.description[lang] }}</p>
+                        <p class="count">{{ mode.objects[lang] }}</p>
                     </div>
                     <div class="exploration_card-foot">
                         {# {{ Button('Launch', 'button secondary medium') }} #}
@@ -34,5 +34,5 @@ eleventyComputed:
             {% endfor %}
         </ul>
     </div>
-    <p class="onboarding-info">{{ copy.onboarding.info.en }}</p>
+    <p class="onboarding-info">{{ copy.onboarding.info[lang] }}</p>
 </section>

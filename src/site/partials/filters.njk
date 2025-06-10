@@ -11,13 +11,13 @@
         <div class="filters_card">
             <div class="filters_card-content">
                 <div class="filters_card-head">
-                    <h3 class="title">{{ copy.filters.title.en }}</h3>
+                    <h3 class="title">{{ copy.filters.title[lang] }}</h3>
                     {{ Button('Reset', 'button secondary small') }}
                 </div>
                 <div class="filters_card-body">
                     <div class="filters_card_field">
                         <label class="filters_card_field-label">
-                            <span for="" class="label">{{ copy.filters.discoveries.en }}</span>
+                            <span for="" class="label">{{ copy.filters.discoveries[lang] }}</span>
                         </label>
                         <div class="filters_card_field-input">
                             {{ ToggleGroup('toggle-discoveries', 'large', 'discoveries', ['all', 'vera', 'other'], 'all', true, 'Filter objects by discoverer') }}
@@ -26,8 +26,8 @@
                     
                     <div class="filters_card_field">
                         <label class="filters_card_field-label">
-                            <span for="" class="label">{{ copy.filters.discoveries.en }}</span>
-                            <span class="helper">{{ copy.filters.au.en }}</span>
+                            <span for="" class="label">{{ copy.filters.discoveries[lang] }}</span>
+                            <span class="helper">{{ copy.filters.au[lang] }}</span>
                         </label>
                         <div class="filters_card_field-input">
                             {{ RangeSlider('slider-distance', [0, 100], [0, 100]) }}
@@ -36,7 +36,7 @@
 
                     <div class="filters_card_field">
                         <label class="filters_card_field-label">
-                            <span for="" class="label">{{ copy.filters.discovery.en }}</span>
+                            <span for="" class="label">{{ copy.filters.discovery[lang] }}</span>
                         </label>
                         <div class="filters_card_field-input">
                             {{ RangeSlider('slider-date', [1900, 2025], [1900, 2025]) }}

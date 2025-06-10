@@ -13,7 +13,7 @@
         <div class="search_card">
             <div class="search_card-content">
                 <div class="search_card-head">
-                    <h3 class="title">{{ copy.search.title.en }}</h3>
+                    <h3 class="title">{{ copy.search.title[lang] }}</h3>
                 </div>
                 <div class="search_card-body">
                     <div class="input" focusable="true" tabindex="0">
@@ -30,7 +30,7 @@
                     
                     <div class="search_results">
                         <div class="listitem-group" role="group">
-                            <h3 class="listitem-label">{{ copy.search.recommended_searches.en }}</h3>
+                            <h3 class="listitem-label">{{ copy.search.recommended_searches[lang] }}</h3>
                             <ul class="listitem-list">
                                 {% set recommended_searches = [
                                     { name: "Earth", category: "Trans-Neptunian Object" },

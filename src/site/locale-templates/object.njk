@@ -22,7 +22,7 @@ eleventyComputed:
                 <div class="object_card-heading">
                     <h1 class="object_card-name" id="object-name">2014 UZ224</h1>
                     <div class="object_card-hero">
-                        <img src="" alt="{{ copy.object.hero.alt.en }} 2014 UZ224">
+                        <img src="" alt="{{ copy.object.hero.alt[lang] }} 2014 UZ224">
                     </div>
                     <div class="object_card-category">
 
@@ -35,7 +35,7 @@ eleventyComputed:
 
                 <div class="object_card-content">
                     <div class="object_card-unit" role="group" aria-labelledby="diameter-label">
-                        <h2 class="title" id="diameter-label">{{ copy.object.diameter.en }}</h2>
+                        <h2 class="title" id="diameter-label">{{ copy.object.diameter[lang] }}</h2>
                         <h4 class="value" role="text" aria-describedby="diameter-label">
                             <span class="primary">12742.00km</span>
                             <span class="secondary">7917.51 mi</span>
@@ -49,11 +49,11 @@ eleventyComputed:
                     </div>
 
                     <div class="object_card-unit">
-                        <h2 class="title">{{ copy.object.orbital_elements.title.en }}</h2>
-                        <ul class="orbital_elements-list" role="list" aria-label="{{ copy.object.orbital_elements.label.en }}">
+                        <h2 class="title">{{ copy.object.orbital_elements.title[lang] }}</h2>
+                        <ul class="orbital_elements-list" role="list" aria-label="{{ copy.object.orbital_elements.label[lang] }}">
                             <li class="orbital_elements-item">
                                 <dl class="orbital_elements-data" role="group">
-                                    <dt class="orbital_elements-label" aria-label="{{ copy.object.orbital_elements.periapsis.en }}">ω</dt>
+                                    <dt class="orbital_elements-label" aria-label="{{ copy.object.orbital_elements.periapsis[lang] }}">ω</dt>
                                     <dd class="orbital_elements-value">322.63</dd>
                                 </dl>
                                 <button type="button" class="button_icon xsmall ghost" data-tooltip="This is a tooltip with word wrapping for longer content">
@@ -62,7 +62,7 @@ eleventyComputed:
                             </li>
                             <li class="orbital_elements-item">
                                 <dl class="orbital_elements-data" role="group">
-                                    <dt class="orbital_elements-label" aria-label="{{ copy.object.orbital_elements.longitude.en }}">Ω</dt>
+                                    <dt class="orbital_elements-label" aria-label="{{ copy.object.orbital_elements.longitude[lang] }}">Ω</dt>
                                     <dd class="orbital_elements-value">322.63</dd>
                                 </dl>
                                 <button type="button" class="button_icon xsmall ghost" data-tooltip="This is a tooltip with word wrapping for longer content">
@@ -71,7 +71,7 @@ eleventyComputed:
                             </li>
                             <li class="orbital_elements-item">
                                 <dl class="orbital_elements-data" role="group">
-                                    <dt class="orbital_elements-label" aria-label="{{ copy.object.orbital_elements.anomaly.en }}">v</dt>
+                                    <dt class="orbital_elements-label" aria-label="{{ copy.object.orbital_elements.anomaly[lang] }}">v</dt>
                                     <dd class="orbital_elements-value">322.63</dd>
                                 </dl>
                                 <button type="button" class="button_icon xsmall ghost" data-tooltip="This is a tooltip with word wrapping for longer content">
@@ -82,7 +82,7 @@ eleventyComputed:
                     </div>
 
                     <div class="object_card-unit">
-                        <h2 class="title">{{ copy.object.closest_sun.title.en }}</h2>
+                        <h2 class="title">{{ copy.object.closest_sun.title[lang] }}</h2>
                         <h4 class="value">
                             <time class="primary" datetime="2026-01-03" aria-label="January 3rd, 2026">January 03, 2026</time>
                             <span class="secondary">245 days left</span>
@@ -90,7 +90,7 @@ eleventyComputed:
                     </div>
 
                     <div class="object_card-unit">
-                        <h2 class="title">{{ copy.object.how_far.title.en }}</h2>
+                        <h2 class="title">{{ copy.object.how_far.title[lang] }}</h2>
                         {{ ObjectCardGraph('From the Sun', '1.00au', 70, 100, ['sun']) }}
                         {{ ObjectCardGraph('From the Earth', '1.00au', 100, 100, ['earth']) }}
                     </div>
