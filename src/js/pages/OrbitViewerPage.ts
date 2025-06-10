@@ -23,14 +23,14 @@ class OrbitViewerPage extends DefaultPage {
         super(id, template, dom);
 
 		this.elements = {
-			splash: this.dom.querySelector('.splash'),
-			onboarding: this.dom.querySelector('.onboarding'),
-			wizard: this.dom.querySelector('.wizard'),
-			filters: this.dom.querySelector('.filters'),
-			search: this.dom.querySelector('.search'),
-			toolbar: this.dom.querySelector('.toolbar'),
-			timeMachine: this.dom.querySelector('.timemachine'),
-			mapControls: this.dom.querySelector('.map_controls')
+			splash: document.querySelector('.splash'),
+			onboarding: document.querySelector('.onboarding'),
+			wizard: document.querySelector('.wizard'),
+			filters: document.querySelector('.filters'),
+			search: document.querySelector('.search'),
+			toolbar: document.querySelector('.toolbar'),
+			timeMachine: document.querySelector('.timemachine'),
+			mapControls: document.querySelector('.map_controls')
 		};
 		
 		this.splash = this.elements.splash ? new Splash(this.elements.splash, this) : null;
@@ -41,39 +41,6 @@ class OrbitViewerPage extends DefaultPage {
 		this.toolbar = this.elements.toolbar ? new Toolbar(this.elements.toolbar, this) :  null;
 		this.timeMachine = this.elements.timeMachine ? new TimeMachine(this.elements.timeMachine) :  null;
 		this.mapControls = this.elements.mapControls ? new MapControls(this.elements.mapControls, this) :  null;
-    }
-
-    create() {
-		const toolbarItem = document.querySelectorAll('.toolbar-link');
-		toolbarItem.forEach(el => {
-			el.addEventListener('click', (event) => {
-				event.preventDefault();
-				const openValue = el.getAttribute('data-open');
-				const wasActive = el.classList.contains('active');
-
-				toolbarItem.forEach(item => {
-					if (item !== el) {
-						const itemOpenValue = item.getAttribute('data-open');
-						const itemTarget = document.querySelector(`.${itemOpenValue}`);
-						if (itemTarget) {
-							itemTarget.setAttribute('aria-hidden', 'true');
-						}
-					}
-				});
-
-				toolbarItem.forEach(item => item.classList.remove('active'));
-
-				if (!wasActive) {
-					el.classList.add('active');
-				}
-
-				const target = document.querySelector(`.${openValue}`);
-				if (target) {
-					const isHidden = target.getAttribute('aria-hidden');
-					target.setAttribute('aria-hidden', isHidden === "true" ? "false" : "true");
-				}
-			});
-		});
     }
 
 	showUI() {

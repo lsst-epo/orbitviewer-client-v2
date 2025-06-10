@@ -9,7 +9,11 @@ class TimeMachine extends Layer {
 	timemachineSlider: RangeSlider;
     
     constructor(dom) {
-        super(dom);
+        super(dom, {
+            openClass: 'timemachine--open',
+            closeClass: 'timemachine--close',
+            animationDuration: 500
+        });
 
 		this.dom = dom;
 

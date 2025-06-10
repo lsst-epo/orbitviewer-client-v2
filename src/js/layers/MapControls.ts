@@ -3,17 +3,15 @@ import Layer from "./Layer";
 class MapControls extends Layer {
     orbitviewer: any;
     dom: any;
-    startButtons: any;
 
     constructor(dom, orbitviewer) {
-        super(dom);
+        super(dom, {
+            openClass: 'map_controls--open',
+            closeClass: 'map_controls--close',
+            animationDuration: 500
+        });
         this.dom = dom;
         this.orbitviewer = orbitviewer;
-
-        this.start();
-    }
-
-    start() {
     }
 }
 

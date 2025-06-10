@@ -11,7 +11,12 @@ class Onboarding extends Layer {
     startButtons: any;
 
     constructor(dom, orbitviewer) {
-        super(dom);
+        super(dom, {
+            openClass: 'onboarding--open',
+            closeClass: 'onboarding--close',
+            animationDuration: 500
+        });
+        
         this.dom = dom;
         this.orbitviewer = orbitviewer;
         this.startButtons = this.dom.querySelectorAll('.button_launch');
