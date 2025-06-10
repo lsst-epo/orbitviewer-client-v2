@@ -1,7 +1,12 @@
+import { USE_V2 } from "../core/App";
+import { LoadManager } from "../core/data/LoadManager";
+import { GLOBALS, VISUAL_SETTINGS } from "../core/Globals";
+import { getSimData, getSimDataV2 } from "../core/solar/SolarData";
+import OrbitViewerPage from "../pages/OrbitViewerPage";
 import Layer from "./Layer";
 
 class Onboarding extends Layer {
-    orbitviewer: any;
+    orbitviewer: OrbitViewerPage;
     dom: any;
     startButtons: any;
 
@@ -15,12 +20,32 @@ class Onboarding extends Layer {
     }
 
     start() {
+        const whenReady = () => {
+            this.orbitviewer.showUI();
+            GLOBALS.viewer.goToOrbitViewerMode();
+        }
+
         this.startButtons.forEach((el: Element) => {
             el.addEventListener('click', (event) => {
                 event.preventDefault();
                 this.close();
 
-                this.orbitviewer.showUI();
+                const id = el.getAttribute('data-id');
+                console.log(id);
+
+                if(id !== VISUAL_SETTINGS.current) {
+                    // Load Data
+                    // To-Do: Show loader modal
+                    VISUAL_SETTINGS.current = id;
+                    LoadManager.loadSample(id, (json) => {
+                        const data = USE_V2 ? getSimDataV2(LoadManager.data.sample) : getSimData(LoadManager.data.sample);;
+                        GLOBALS.viewer.setData(data);
+                        //To-Do: close loader
+                        whenReady();
+                    });
+                } else {
+                    whenReady();
+                }
             });
         });
     }
