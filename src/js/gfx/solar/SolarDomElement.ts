@@ -41,6 +41,6 @@ export class SolarDOMElement {
     if(depth > .5 && !this.hovered) this.label.classList.add('disabled');
     else this.label.classList.remove('disabled');
     // console.log(tmp.z);
-    this.dom.style.setProperty('--depth', `${depth}`);
+    // this.dom.style.setProperty('--depth', `${depth}`);
   }
 }
