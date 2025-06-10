@@ -17,6 +17,8 @@ import { CLOCK_SETTINGS, GLOBALS } from "../core/Globals";
 // import { Lensflare, LensflareElement } from 'three/examples/jsm/objects/Lensflare.js';
 import { tLoader } from "./solar/PlanetAssets";
 import { CameraManager } from "./core/CameraManager";
+import { SolarItemUI } from "../layers/SolarItemsUI";
+import { LoadManager } from "../core/data/LoadManager";
 
 export interface FollowTarget {
 	target: InteractiveObject;
@@ -28,7 +30,7 @@ const DEFAULT_CAM_LIMITS = {
 }
 
 export const NEAR = 5000;
-export const FAR = 25000;
+export const FAR = 75000;
 
 const dummy = new Object3D();
 
@@ -49,6 +51,8 @@ export class OrbitViewer extends ThreeLayer {
 	sun:Sun;
 	earth:Planet;
 
+	solarItemsUI:SolarItemUI;
+
 	cameraTarget: FollowTarget = {
 		target: null,
 		alpha: .016
@@ -61,7 +65,7 @@ export class OrbitViewer extends ThreeLayer {
       super(_gl);
       const w = this.gl.rect.width;
       const h = this.gl.rect.height;
-      this.camera = new PerspectiveCamera(35, w/h, .01, 100000);
+      this.camera = new PerspectiveCamera(35, w/h, .01, 500000);
       this.scene.add(this.camera);
       this.params.camera = this.camera;
 
@@ -108,6 +112,8 @@ export class OrbitViewer extends ThreeLayer {
 			// this.sunLightHelper.visible = false;
       // this.scene.add(this.sunLightHelper);
 
+			this.solarItemsUI = new SolarItemUI();
+
       this.ambientLight = new AmbientLight(0xffffff, 0.05);
       this.scene.add(this.ambientLight);
 
@@ -140,7 +146,9 @@ export class OrbitViewer extends ThreeLayer {
 				overwrite: true,
 				duration: 5,
 				ease: 'expo.inOut'
-			})
+			});
+
+			this.solarItemsUI.hide();
 		}
 
 		goToOrbitViewerMode() {
@@ -149,6 +157,8 @@ export class OrbitViewer extends ThreeLayer {
 			gsap.killTweensOf(CLOCK_SETTINGS);
 			CLOCK_SETTINGS.speed = 0;
 			GLOBALS.solarClock.setDate();
+
+			this.solarItemsUI.show();
 		}
 
     hidePaths() {
@@ -161,6 +171,46 @@ export class OrbitViewer extends ThreeLayer {
     	for (const item of this.solarElements) {
 				item.orbitPath.ellipse.visible = true;
      	}
+    }
+
+		createDwarfPlanets(d:Array<OrbitDataElements>) {
+			for(const el of d) {
+        el.tperi = JD2MJD(el.tperi);
+
+				const mel = mapOrbitElements(el);
+        mel.category = 'planets-moons';
+            
+				const planet = new SolarElement(el.id, mel, {
+          color: 0xFA6868
+				});
+
+        // linkSolarElementToPopup(planet, el);
+        // Remove dwarfs form solar items
+        // solarItems = solarItems.filter(e => e.elementID !== el.id)
+
+				this.solarElements.push(planet);
+				this.scene.add(planet);
+				this.scene.add(planet.orbitPath.ellipse);
+
+				this.solarItemsUI.addItem(planet);
+		}
+
+	}
+
+    createSolarItems(d:Array<OrbitDataElements>){
+        for(const el of d) {
+					el.tperi = JD2MJD(el.tperi);            
+          const mel = mapOrbitElements(el);
+          const category = LoadManager.craftData.categories.find(x => x.slug === mel.category);
+					console.log(category);
+					if(category === 'planets-moons') continue;
+          const solarElement = new SolarElement(el.id, mel, {
+            color: category.mainColor
+          });
+          this.solarElements.push(solarElement);
+          this.scene.add(solarElement);
+          this.scene.add(solarElement.orbitPath.ellipse);
+        }
     }
 
     createPlanets(d:Array<OrbitDataElements>) {
@@ -182,6 +232,8 @@ export class OrbitViewer extends ThreeLayer {
         this.scene.add(planet);
         this.scene.add(planet.orbitPath.ellipse);
 
+				this.solarItemsUI.addItem(planet);
+
 				if(el.id === 'earth') {
 					console.log("Houston, Houston: we've found the earth");
 					this.earth = planet;
@@ -192,13 +244,14 @@ export class OrbitViewer extends ThreeLayer {
 
 		// this.followTarget(this.solarElements[7]);
 
-		this.hidePaths();
+		// this.hidePaths();
 	}
 
 	followPlanet(id:PlanetId) {
 		for(const item of this.solarElements) {
 			if(id === item.name) {
 				console.log(`Follow: ${item.data.id}`);
+				this.solarItemsUI.hide();
 				return this.controls.followTarget(item);
 			}
 		}
@@ -206,10 +259,12 @@ export class OrbitViewer extends ThreeLayer {
 
 	releaseCameraTarget() {
 		this.controls.releaseCameraTarget();
+		this.solarItemsUI.show();
 	}
 
 	followSun() {
 		this.controls.followTarget(this.sun);
+		this.solarItemsUI.hide();
 	}
 
     setTarget(target:WebGLRenderTarget)  {
@@ -248,6 +303,8 @@ export class OrbitViewer extends ThreeLayer {
 			if(this.camera.position.distanceTo(this.earth.position) < 100) {
 				GLOBALS.clouds.needsUpdate = true;
 			}
+
+			this.solarItemsUI.update();
     }
 
 		render(): void {

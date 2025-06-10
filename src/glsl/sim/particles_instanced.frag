@@ -34,5 +34,6 @@ void main () {
     vec4 color = (vec4(col, d));
 
     gl_FragColor = color;
-    oGlow = color * .5;
+    // oGlow = color * .5;
+    oGlow = glowBlack;
 }

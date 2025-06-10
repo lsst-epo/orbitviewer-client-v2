@@ -21,7 +21,7 @@ mat4 scale(vec3 s) {
   );
 }
 
-const float size = 1.0;
+const float size = 1.5;
 
 void main () {
     vec4 cP = texture(computedPosition, simUV);

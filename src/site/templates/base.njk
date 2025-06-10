@@ -9,9 +9,20 @@
 	<body>
         <div class="content"></div>
         {{ initSpriteSheet() }}
+
+        <div class="pointer-templates" aria-hidden="true">
+            {{ Pointer(7, 'Planets', 'planets_moons', utils.void) }}
+            {{ Pointer(1, 'Asteroids', 'asteroids', utils.void) }}
+            {{ Pointer(2, 'NEO', 'near_earth', utils.void) }}
+            {{ Pointer(5, 'Comets', 'comets', utils.void) }}
+            {{ Pointer(4, 'Centaurs', 'centaurs', utils.void) }}
+            {{ Pointer(3, 'TNO', 'trans_neptunian', utils.void) }}
+            {{ Pointer(6, 'Interstellar', 'interstellar', utils.void) }}
+            {{ Pointer(8, 'Jupiter Trojans', 'trojans', utils.void) }}
+        </div>
+
         <div class="view">
-            {# {{ Pointer(0, 'Earth', 'planets_moons', '/object', 'left: 30%; top: 50%') }}
-            {{ Pointer(1, '2011 S00000ah', 'asteroids', '/object', 'left: 50%; top: 30%') }} #}
+            <div class="solar-items" aria-hidden="true"></div>
         </div>
 
         {% include 'navigation.njk' %}

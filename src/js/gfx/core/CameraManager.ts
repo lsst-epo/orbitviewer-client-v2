@@ -1,4 +1,4 @@
-import { Euler, PerspectiveCamera } from "three";
+import { Euler, Object3D, PerspectiveCamera, Vector2, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { InteractiveObject } from "../solar/SolarElement";
 import { MathUtils } from "@fils/math";
@@ -12,13 +12,16 @@ export interface FollowTarget {
 
 const EASING = {
   animating: .036,
-  static: .06
+  static: .16
 };
 const ZOOM_EASING = .06;
 
 const DEFAULT_CAM_LIMITS = {
-	minDistance: 24
+	minDistance: 24,
+  maxDistance: 300000
 }
+
+const tmp = new Vector3();
 
 export class CameraManager {
   controls:OrbitControls;
@@ -41,6 +44,7 @@ export class CameraManager {
     // this.controls.enableDamping = true;
     // this.controls.dampingFactor = .096;
     this.controls.minDistance = DEFAULT_CAM_LIMITS.minDistance;
+    this.controls.maxDistance = DEFAULT_CAM_LIMITS.maxDistance;
     this.controls.enabled = false;
     this.controls.dampingFactor = .096;
 
@@ -97,7 +101,7 @@ export class CameraManager {
     this.cameraTarget.target = null;
     this.controls.autoRotate = false;
     this.controls.minDistance = DEFAULT_CAM_LIMITS.minDistance;
-    this.controls.maxDistance = Infinity;
+    this.controls.maxDistance = DEFAULT_CAM_LIMITS.maxDistance;
     this.cameraTarget.isAnimating = true;
     this.controls.enabled = false;
     gsap.to(this.controls.target, {
@@ -122,6 +126,18 @@ export class CameraManager {
       duration: 3,
       ease: 'expo.inOut'
     })
+  }
+
+  getNormalizedScreenCoords(obj:Object3D, target:Vector2) {
+    // Get world position and project
+    obj.getWorldPosition(tmp);
+    tmp.project(this.camera);
+
+    // Convert from NDC [-1, 1] to [0, 1] range
+    const screenX = (tmp.x * 0.5 + 0.5);
+    const screenY = (-tmp.y * 0.5 + 0.5); // Note the negation for Y
+
+    target.set(screenX, screenY);
   }
 
   update() {
