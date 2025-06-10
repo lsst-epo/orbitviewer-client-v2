@@ -139,7 +139,7 @@ export class EllipticalPath {
                 // dashed: true,
                 gapSize: 200,
                 dashSize: 60,
-                fog: true
+                // fog: true
             });
             this.material = mat;
             const curve = new CatmullRomCurve3(this.pts, true);

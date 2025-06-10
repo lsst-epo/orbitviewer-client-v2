@@ -121,7 +121,8 @@ export class App implements NomadRouteListener {
 		const data = USE_V2 ? getSimDataV2(LoadManager.data.sample) : getSimData(LoadManager.data.sample);;
 		this.viewer.setData(data);
 		this.viewer.createPlanets(LoadManager.data.planets);
-		// this.viewer.hidePaths();
+		this.viewer.createDwarfPlanets(LoadManager.data.dwarf_planets);
+		this.viewer.hidePaths();
 		// this.addGUI();
 		console.log(LoadManager.data);
 		console.log(LoadManager.craftData);

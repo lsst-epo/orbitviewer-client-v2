@@ -1,7 +1,7 @@
 {% from "../partials/icons.njk" import icon %}
 
 {% macro Pointer(id, name = 'Name', type = '', url = '', style = '') %}
-<a href="{{ url }}" aria-label="{{ name }} - point of interest" aria-describedby="canvas-pointer-{{ id }}-name" tabindex="0" class="canvas_pointer {{ type }}" style="{{ style }}">
+<a data-id="{{id}}" href="{{ url }}" aria-label="{{ name }} - point of interest" aria-describedby="canvas-pointer-{{ id }}-name" tabindex="0" class="canvas_pointer {{ type }}" style="{{ style }}">
     <span class="canvas_pointer-label">
         <span class="canvas_pointer-icon" aria-hidden="true">
             {{ icon(type) }}
