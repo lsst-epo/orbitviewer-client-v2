@@ -12,7 +12,7 @@
             <div class="filters_card-content">
                 <div class="filters_card-head">
                     <h3 class="title">{{ copy.filters.title[lang] }}</h3>
-                    {{ Button('Reset', 'button secondary small') }}
+                    {{ Button(copy.filters.reset[lang], 'button secondary small') }}
                 </div>
                 <div class="filters_card-body">
                     <div class="filters_card_field">
@@ -20,7 +20,7 @@
                             <span for="" class="label">{{ copy.filters.discoveries[lang] }}</span>
                         </label>
                         <div class="filters_card_field-input">
-                            {{ ToggleGroup('toggle-discoveries', 'large', 'discoveries', ['all', 'vera', 'other'], 'all', true, 'Filter objects by discoverer') }}
+                            {{ ToggleGroup('toggle-discoveries', 'large', 'discoveries', [copy.filters.toggle.all[lang], copy.filters.toggle.rubin[lang], copy.filters.toggle.other[lang]], 'all', true, copy.filters.toggle.aria[lang]) }}
                         </div>
                     </div>
                     

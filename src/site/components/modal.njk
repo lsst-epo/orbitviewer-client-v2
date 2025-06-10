@@ -1,19 +1,21 @@
 {% from "../components/button.njk" import Button %}
 
-{% macro Modal(title = 'Text', description = 'Description') %}
+{% macro Modal() %}
 <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-description" aria-hidden="true">
     <div class="modal_dialog">
         <div class="modal_dialog-body">
-            {% if title %}
-            <h2 class="title" id="modal-title">{{ title }}</h2>
+            {% if copy.modal.title[lang] %}
+            <h2 class="title" id="modal-title">{{ copy.modal.title[lang] }}</h2>
             {% endif %}
-            {% if description %}
-            <h3 class="description" id="modal-description">{{ description }}</h3>
+
+            {% if copy.modal.description[lang] %}
+            <h3 class="description" id="modal-description">{{ copy.modal.description[lang] }}</h3>
             {% endif %}
         </div>
+
         <div class="modal_dialog-foot">
-            {{ Button('Switch to lite mode', 'button primary medium') }}
-            {{ Button('Maybe later', 'button secondary medium') }}
+            {{ Button(copy.modal.action.primary[lang], 'button primary medium') }}
+            {{ Button(copy.modal.action.secondary[lang], 'button secondary medium') }}
         </div>
     </div>
 </div>
