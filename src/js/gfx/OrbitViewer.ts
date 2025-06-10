@@ -71,7 +71,7 @@ export class OrbitViewer extends ThreeLayer {
 
       this.camera.position.y = 5000;
       this.camera.position.z = 10000;
-			this.controls = new CameraManager(this.camera, _gl.dom);
+			this.controls = new CameraManager(this.camera, _gl.renderer.domElement);
       
 			// console.log(this.controls.minDistance, this.controls.maxDistance)
 			// this.controls.autoRotate = true;

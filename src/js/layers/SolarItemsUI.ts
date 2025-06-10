@@ -29,6 +29,7 @@ export class SolarItemUI {
         console.log('Found template');
         const dom = template.cloneNode(true) as HTMLAnchorElement;
         dom.href = `/object/?${el.name}`;
+        // dom.href = `/object/`;
         dom.querySelector('.canvas_pointer-text').textContent = el.name;
         this.dom.appendChild(dom);
         const item = new SolarDOMElement(dom, el);
