@@ -54,6 +54,8 @@
         pointer-events: none;
     }
 
+    opacity: max(.2, calc(1 - var(--depth)));
+
     &.planets_moons { --color: var(--color-planets);}
     &.near_earth { --color: var(--color-near_earth);}
     &.asteroids { --color: var(--color-asteroids);}
@@ -105,5 +107,9 @@
             color: var(--color-link);
             text-shadow: 1px 1px 0 rgba(var(--color-black-rgb), .3);
             white-space: nowrap;
+
+            &.disabled {
+                visibility: hidden;
+            }
         }
 }

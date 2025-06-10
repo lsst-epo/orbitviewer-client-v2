@@ -122,7 +122,7 @@ export class App implements NomadRouteListener {
 		this.viewer.setData(data);
 		this.viewer.createPlanets(LoadManager.data.planets);
 		this.viewer.createDwarfPlanets(LoadManager.data.dwarf_planets);
-		this.viewer.hidePaths();
+		// this.viewer.hidePaths();
 		// this.addGUI();
 		console.log(LoadManager.data);
 		console.log(LoadManager.craftData);

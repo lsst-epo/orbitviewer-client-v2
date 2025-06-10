@@ -15,6 +15,8 @@ const MIN_DISTANCE = {
 };
 const MIN_POINTS = 10;
 
+export const DEFAULT_PATH_ALPHA = .05;
+
 const origin = new Vector3();
 
 /**
@@ -139,6 +141,9 @@ export class EllipticalPath {
                 // dashed: true,
                 gapSize: 200,
                 dashSize: 60,
+                transparent: true,
+                opacity: DEFAULT_PATH_ALPHA,
+                alphaTest: .001
                 // fog: true
             });
             this.material = mat;

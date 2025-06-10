@@ -4,7 +4,8 @@ import { Box3, BufferAttribute, BufferGeometry, ColorRepresentation, Line, LineB
 // import { EllipticalPath } from "./EllipticalPath";
 // import { PlanetOptions, PLANET_GEO } from "./Planet";
 import { calculateOrbitByType, OrbitElements, OrbitType } from "../../core/solar/SolarSystem";
-import { EllipticalPath } from "./EllipticalPath";
+import { DEFAULT_PATH_ALPHA, EllipticalPath } from "./EllipticalPath";
+import gsap from "gsap";
 
 export interface CameraLock {
 	min: number;
@@ -144,9 +145,28 @@ export class SolarElement extends Object3D implements InteractiveObject {
 
         // this.orbitPath.ellipse.visible = this.visible;
     }
+    
+    focus() {
+        gsap.to(this.orbitPath.material, {
+            opacity: 1,
+            overwrite: true,
+            duration: .8,
+            ease: 'cubic.out'
+        })
+    }
+
+    blur() {
+        gsap.to(this.orbitPath.material, {
+            opacity: DEFAULT_PATH_ALPHA,
+            overwrite: true,
+            duration: .8,
+            ease: 'cubic.out'
+        })
+    }
 
     set selected(value:boolean) {
         this._selected = value;
+        this.focus();
         // this.orbitPath.selected = value;
         // this.material.selected = value;
     }

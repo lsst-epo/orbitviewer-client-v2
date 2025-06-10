@@ -1,18 +1,33 @@
-import { Vector2 } from "three";
+import { MathUtils } from "@fils/math";
+import { Vector3 } from "three";
 import { GLOBALS } from "../../core/Globals";
 import { SolarElement } from "./SolarElement";
 
-const tmp:Vector2 = new Vector2();
+const tmp:Vector3 = new Vector3();
 
 export class SolarDOMElement {
+  label:HTMLElement;
+  hovered:boolean = false;
+
   constructor(public dom:HTMLElement, public ref:SolarElement) {
+    this.label = dom.querySelector('.canvas_pointer-text');
+
     dom.onmouseover = () => {
-      ref.orbitPath.ellipse.visible = true;
+      ref.focus();
+      this.hovered = true;
     }
 
     dom.onmouseout = () => {
-      ref.orbitPath.ellipse.visible = false;
+      ref.blur();
+      this.hovered = false;
     }
+
+    // dom.style.setProperty('--depth', '.5');
+  }
+
+  set enabled(value:boolean) {
+    if(value) this.dom.classList.remove('disabled');
+    else this.dom.classList.add('disabled');
   }
 
   update() {
@@ -20,5 +35,12 @@ export class SolarDOMElement {
     // this.dom.style.transform = `translateX(${tmp.x*100}%) translateY(${tmp.y*100}%)`;
     this.dom.style.left = `${tmp.x*100}%`;
     this.dom.style.top = `${tmp.y*100}%`;
+
+    const depth = this.hovered ? 0 : MathUtils.smoothstep(5000, 100000, tmp.z);
+
+    if(depth > .5 && !this.hovered) this.label.classList.add('disabled');
+    else this.label.classList.remove('disabled');
+    // console.log(tmp.z);
+    this.dom.style.setProperty('--depth', `${depth}`);
   }
 }

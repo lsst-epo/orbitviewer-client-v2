@@ -1,8 +1,8 @@
-import { Euler, Object3D, PerspectiveCamera, Vector2, Vector3 } from "three";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-import { InteractiveObject } from "../solar/SolarElement";
 import { MathUtils } from "@fils/math";
 import gsap from "gsap";
+import { Euler, Object3D, PerspectiveCamera, Vector3 } from "three";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import { InteractiveObject } from "../solar/SolarElement";
 
 export interface FollowTarget {
   target: InteractiveObject;
@@ -128,16 +128,18 @@ export class CameraManager {
     })
   }
 
-  getNormalizedScreenCoords(obj:Object3D, target:Vector2) {
+  getNormalizedScreenCoords(obj:Object3D, target:Vector3) {
     // Get world position and project
     obj.getWorldPosition(tmp);
+    const distance = tmp.distanceTo(this.camera.position);
+
     tmp.project(this.camera);
 
     // Convert from NDC [-1, 1] to [0, 1] range
     const screenX = (tmp.x * 0.5 + 0.5);
     const screenY = (-tmp.y * 0.5 + 0.5); // Note the negation for Y
 
-    target.set(screenX, screenY);
+    target.set(screenX, screenY, distance);
   }
 
   update() {
