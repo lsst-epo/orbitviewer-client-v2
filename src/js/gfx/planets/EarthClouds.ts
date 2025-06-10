@@ -25,6 +25,8 @@ const MAT = new ShaderMaterial({
 export class EarthClouds {
   rt:WebGLRenderTarget;
 
+  needsUpdate:boolean = true;
+
   constructor() {
     this.rt = new WebGLRenderTarget(WIDTH, HEIGHT, {
       samples: 1
@@ -36,6 +38,8 @@ export class EarthClouds {
   }
 
   render(rnd:WebGLRenderer) {
+    if(!this.needsUpdate) return;
+    this.needsUpdate = false;
     MAT.uniforms.time.value = GLOBALS.solarClock.time;
     RTUtils.renderToRT(this.rt, rnd, MAT);
     rnd.setRenderTarget(null);

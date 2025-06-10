@@ -7,21 +7,24 @@ import Splash from "../layers/Splash";
 import TimeMachine from "../layers/TimeMachine";
 import Toolbar from "../layers/Toolbar";
 import Wizard from "../layers/Wizard";
+import { GLOBALS, IS_DEV_MODE } from "../core/Globals";
 
 class OrbitViewerPage extends DefaultPage {
-    filters: Filters;
-    search: Search;
-    timeMachine: TimeMachine;
-    wizard: Wizard;
-    splash: Splash;
+  filters: Filters;
+  search: Search;
+  timeMachine: TimeMachine;
+  wizard: Wizard;
+  splash: Splash;
 	onboarding: Onboarding;
 	mapControls: MapControls;
 	toolbar: Toolbar;
 	elements: { splash: Element; onboarding: Element; wizard: Element; filters: Element; search: Element; toolbar: Element; timeMachine: Element; mapControls: Element; };
     
-    constructor(id: string, template: string, dom: HTMLElement) {
-        super(id, template, dom);
+  constructor(id: string, template: string, dom: HTMLElement) {
+    super(id, template, dom);
+  }
 
+	createElements() {
 		this.elements = {
 			splash: document.querySelector('.splash'),
 			onboarding: document.querySelector('.onboarding'),
@@ -32,7 +35,7 @@ class OrbitViewerPage extends DefaultPage {
 			timeMachine: document.querySelector('.timemachine'),
 			mapControls: document.querySelector('.map_controls')
 		};
-		
+
 		this.splash = this.elements.splash ? new Splash(this.elements.splash, this) : null;
 		this.onboarding = this.elements.onboarding ? new Onboarding(this.elements.onboarding, this) : null;		
 		this.wizard = this.elements.wizard ? new Wizard(this.elements.wizard) : null;
@@ -41,7 +44,19 @@ class OrbitViewerPage extends DefaultPage {
 		this.toolbar = this.elements.toolbar ? new Toolbar(this.elements.toolbar, this) :  null;
 		this.timeMachine = this.elements.timeMachine ? new TimeMachine(this.elements.timeMachine) :  null;
 		this.mapControls = this.elements.mapControls ? new MapControls(this.elements.mapControls, this) :  null;
-    }
+	}
+
+	create(): void {
+		this.createElements();
+
+		if(IS_DEV_MODE) {
+			this.splash?.close();
+			GLOBALS.viewer.goToOrbitViewerMode();
+			this.showUI();
+		} else {
+			GLOBALS.viewer.goToLandingMode();
+		}
+	}
 
 	showUI() {
 		this.mapControls.open();

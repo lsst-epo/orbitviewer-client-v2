@@ -126,7 +126,7 @@ export class App implements NomadRouteListener {
 		console.log(LoadManager.data);
 		console.log(LoadManager.craftData);
 
-		this.viewer.goToLandingMode();
+		// this.viewer.goToLandingMode();
 		/* this.viewer.fadeIn();
 
 		gsap.to(CLOCK_SETTINGS, {
