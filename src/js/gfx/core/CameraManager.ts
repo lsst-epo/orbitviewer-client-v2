@@ -45,12 +45,12 @@ export class CameraManager {
     this.controls.dampingFactor = .096;
 
     this.controls.addEventListener('start', () => {
-      console.log('started interaction');
+      // console.log('started interaction');
       this.isInteracting = true;
       this.controls.enableDamping = true;
     });
     this.controls.addEventListener('end', () => {
-      console.log('stopped interaction');
+      // console.log('stopped interaction');
       this.isInteracting = false;
       this.controls.enableDamping = false;
     });
