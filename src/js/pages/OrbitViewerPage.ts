@@ -18,9 +18,12 @@ class OrbitViewerPage extends DefaultPage {
 	mapControls: MapControls;
 	toolbar: Toolbar;
 	elements: { splash: Element; onboarding: Element; wizard: Element; filters: Element; search: Element; toolbar: Element; timeMachine: Element; mapControls: Element; };
+    openLayers: Set<string>;
     
     constructor(id: string, template: string, dom: HTMLElement) {
         super(id, template, dom);
+
+        this.openLayers = new Set();
 
 		this.elements = {
 			splash: document.querySelector('.splash'),
@@ -41,12 +44,59 @@ class OrbitViewerPage extends DefaultPage {
 		this.toolbar = this.elements.toolbar ? new Toolbar(this.elements.toolbar, this) :  null;
 		this.timeMachine = this.elements.timeMachine ? new TimeMachine(this.elements.timeMachine) :  null;
 		this.mapControls = this.elements.mapControls ? new MapControls(this.elements.mapControls, this) :  null;
+
+		if (this.filters) {
+			this.filters.setStateChangeCallback((isVisible) => isVisible ? this.trackLayerOpen('filters') : this.trackLayerClose('filters'));
+		}
+		if (this.search) {
+			this.search.setStateChangeCallback((isVisible) => isVisible ? this.trackLayerOpen('search') : this.trackLayerClose('search'));
+		}
     }
 
 	showUI() {
 		this.mapControls.open();
 		this.timeMachine.open();
 		this.toolbar.open();
+	}
+
+    trackLayerOpen(layerName: string) {
+        this.openLayers.add(layerName);
+        this.notifyToolbar();
+    }
+
+    trackLayerClose(layerName: string) {
+        this.openLayers.delete(layerName);
+        this.notifyToolbar();
+    }
+
+    isLayerOpen(layerName: string): boolean {
+        return this.openLayers.has(layerName);
+    }
+
+    notifyToolbar() {
+        if (this.toolbar) {
+            this.toolbar.updateActiveStates(this.openLayers);
+        }
+    }
+
+	toggleLayer(targetLayer: string) {
+		if (this.isLayerOpen(targetLayer)) {
+			if (this[targetLayer] && this[targetLayer].close) {
+				this[targetLayer].close();
+			}
+			return;
+		}
+		
+		const layersToClose = Array.from(this.openLayers).filter(layer => layer !== targetLayer);
+		layersToClose.forEach(layerName => {
+			if (this[layerName] && this[layerName].close) {
+				this[layerName].close();
+			}
+		});
+		
+		if (this[targetLayer] && this[targetLayer].open) {
+			this[targetLayer].open();
+		}
 	}
 }
 

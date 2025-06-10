@@ -97,7 +97,7 @@
     --font-semibold: 600;
 
     // Transitions
-    --easing-default: cubic-bezier(0.47, 0, 0.23, 1.08); 
+    --easing-default: cubic-bezier(0.47, 0, 0.23, 1.08);
 }
 
 @include media(medium) {

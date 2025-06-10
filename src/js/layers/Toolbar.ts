@@ -23,32 +23,32 @@ class Toolbar extends Layer {
 		toolbarItem.forEach(el => {
 			el.addEventListener('click', (event) => {
 				event.preventDefault();
-				const openValue = el.getAttribute('data-open');
-				const wasActive = el.classList.contains('active');
+				const dataOpen = el.getAttribute('data-open');
 
-				toolbarItem.forEach(item => {
-					if (item !== el) {
-						const itemOpenValue = item.getAttribute('data-open');
-						const itemTarget = document.querySelector(`.${itemOpenValue}`);
-						if (itemTarget) {
-							itemTarget.setAttribute('aria-hidden', 'true');
-						}
+				if(dataOpen === 'objects') {
+					const link = el.getAttribute('href');
+					if (link) {
+						window.location.href = link;
 					}
-				});
-
-				toolbarItem.forEach(item => item.classList.remove('active'));
-
-				if (!wasActive) {
-					el.classList.add('active');
-				}
-
-				const target = document.querySelector(`.${openValue}`);
-				if (target) {
-					const isHidden = target.getAttribute('aria-hidden');
-					target.setAttribute('aria-hidden', isHidden === "true" ? "false" : "true");
+				} else {
+					this.orbitviewer.toggleLayer(dataOpen);
 				}
 			});
 		});
+    }
+
+    updateActiveStates(openLayers: Set<string>) {
+        const toolbarLinks = document.querySelectorAll('.toolbar-link');
+        toolbarLinks.forEach(link => {
+            const dataOpen = link.getAttribute('data-open');
+            if (dataOpen && dataOpen !== 'objects') {
+                if (openLayers.has(dataOpen)) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            }
+        });
     }
 }
 
