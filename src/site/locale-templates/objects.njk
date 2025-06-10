@@ -1,8 +1,17 @@
-{% from '../components/button.njk' import Button %}
-{% from '../components/buttonicon.njk' import ButtonIcon %}
-{% from '../components/togglegroup.njk' import ToggleGroup %}
+---
+layout: base
+pageTemplate: objects
+permalink: "/{{lang}}/objects/"
+eleventyComputed:
+  title: "{{ staticData.title }}"
+  description: "{{ staticData.description }}"
+---
 
-<section class="objects" aria-hidden="true">
+{% from '../../../components/button.njk' import Button %}
+{% from '../../../components/buttonicon.njk' import ButtonIcon %}
+{% from '../../../components/togglegroup.njk' import ToggleGroup %}
+
+<section class="objects" aria-hidden="false">
     <header class="objects-head">
         {{ ButtonIcon('button_icon secondary medium button_close', 'close') }}
     </header>
