@@ -5,7 +5,12 @@ class Search extends Layer {
     closeButton: HTMLElement;
     
     constructor(dom) {
-        super(dom);
+        super(dom, {
+            openClass: 'search--open',
+            closeClass: 'search--close',
+            animationDuration: 500
+        });
+        
         this.dom = dom;
 
         this.closeButton = dom.querySelector('.button_close');

@@ -10,7 +10,7 @@
     display: flex;
     flex-direction: column;
     height: 100%;
-    background: var(--color-backdrop);
+    background: rgba(var(--color-black-rgb), .8);
     backdrop-filter: blur(var(--backdrop-blur));
 
     @include media(medium) {
@@ -87,4 +87,56 @@
                     }
                 }
         }
+    
+    &--open {
+        animation: searchIn 0.3s ease-out forwards;
+    }
+
+    &--close {
+        animation: searchOut 0.3s ease-in forwards;
+    }
+
+    @keyframes searchIn {
+        from {
+            opacity: 0;
+            transform: translateY(48px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @include media(medium) {
+            from {
+                opacity: 0;
+                transform: translateY(24px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    }
+
+    @keyframes searchOut {
+        from {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        to {
+            opacity: 0;
+            transform: translateY(48px);
+        }
+
+        @include media(medium) {
+            from {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateY(24px);
+            }
+        }
+    }
 }

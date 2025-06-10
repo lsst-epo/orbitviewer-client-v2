@@ -4,17 +4,20 @@ class Layer {
     private openClass?: string;
     private closeClass?: string;
     private animationDuration: number;
+    protected onStateChange?: (isVisible: boolean) => void;
 
     constructor(element: HTMLElement, options?: {
         openClass?: string;
         closeClass?: string;
         animationDuration?: number;
+        onStateChange?: (isVisible: boolean) => void;
     }) {
         this.element = element;
         this.visible = this.element.getAttribute('aria-hidden') !== 'true';
         this.openClass = options?.openClass;
         this.closeClass = options?.closeClass;
         this.animationDuration = options?.animationDuration || 300;
+        this.onStateChange = options?.onStateChange;
     }
 
     async open(): Promise<void> {
@@ -28,6 +31,10 @@ class Layer {
             this.element.classList.add(this.openClass);
             
             await new Promise(resolve => setTimeout(resolve, this.animationDuration));
+        }
+
+        if (this.onStateChange) {
+            this.onStateChange(true);
         }
     }
 
@@ -49,6 +56,10 @@ class Layer {
         }
 
         this.element.setAttribute('aria-hidden', 'true');
+
+        if (this.onStateChange) {
+            this.onStateChange(false);
+        }
     }
 
     toggle(): void {
@@ -61,6 +72,10 @@ class Layer {
 
     isVisible(): boolean {
         return this.visible;
+    }
+
+    setStateChangeCallback(callback: (isVisible: boolean) => void) {
+        this.onStateChange = callback;
     }
 }
 
