@@ -16,18 +16,35 @@ const EASING = {
 };
 const ZOOM_EASING = .06;
 
+const ZOOM_SPEED = 100;
+
 const DEFAULT_CAM_LIMITS = {
 	minDistance: 24,
   maxDistance: 300000
 }
 
 const tmp = new Vector3();
+const origin = new Vector3();
+
+export type ShpericalCoords = {
+    radius:number;
+    angle:number;
+    elevation:number;
+}
+
+const sphericalCoords:ShpericalCoords = {
+    radius: 0,
+    angle: 0,
+    elevation: 0
+}
 
 export class CameraManager {
   controls:OrbitControls;
   protected lockedCam:PerspectiveCamera;
 
   isInteracting:boolean = false;
+
+  zoom:number = 0;
 
   cameraTarget: FollowTarget = {
     target: null,
@@ -38,14 +55,13 @@ export class CameraManager {
   constructor(public camera:PerspectiveCamera, public dom:HTMLElement) {
     this.lockedCam = camera.clone();
 
-    this.lockedCam.rotation.set(-0.032853461279161805, 0.16572897571806966, 0.005421777962389163);
-
     this.controls = new OrbitControls(this.lockedCam, dom);
     // this.controls.enableDamping = true;
     // this.controls.dampingFactor = .096;
     this.controls.minDistance = DEFAULT_CAM_LIMITS.minDistance;
     this.controls.maxDistance = DEFAULT_CAM_LIMITS.maxDistance;
     this.controls.enabled = false;
+    this.controls.enablePan = false;
     this.controls.dampingFactor = .096;
 
     this.controls.addEventListener('start', () => {
@@ -68,6 +84,77 @@ export class CameraManager {
     this.lockedCam.rotation.copy(euler);
   }
 
+  private updateCamWithSC(sc:ShpericalCoords) {
+    const x = sc.radius * Math.cos(sc.angle);
+    const y = sc.elevation;
+    const z = sc.radius * Math.sin(sc.angle);
+
+    this.lockedCam.position.set(x,y,z);
+    this.lockedCam.lookAt(origin);
+  }
+
+  zoomBy(d:number) {
+    const dist = this.controls.getDistance();
+    let d2 = d;
+    if(dist + d2 > DEFAULT_CAM_LIMITS.maxDistance) {
+      d2 = DEFAULT_CAM_LIMITS.maxDistance - dist;
+    } else if (dist + d2 < DEFAULT_CAM_LIMITS.minDistance) {
+      d2 = DEFAULT_CAM_LIMITS.minDistance - dist;
+    }
+    this.lockedCam.translateZ(d2);
+    // console.log(dist);
+    // if(dist > DEFAULT_CAM_LIMITS.maxDistance) {
+    //   sphericalCoords.radius = DEFAULT_CAM_LIMITS.maxDistance;
+    //   this.updateCamWithSC(sphericalCoords);
+    // } else if(d < DEFAULT_CAM_LIMITS.maxDistance) {
+    //   sphericalCoords.radius = DEFAULT_CAM_LIMITS.maxDistance;
+    //   this.updateCamWithSC(sphericalCoords);
+    // }
+  }
+
+  private updateSC() {
+    const p = this.lockedCam.position;
+
+    let x = p.x;
+    let y = p.y;
+    let z = p.z;
+
+    const R = Math.sqrt(x*x+z*z);
+    const angle = Math.atan2(z, x);
+
+    sphericalCoords.angle = angle;
+    sphericalCoords.radius = R;
+    sphericalCoords.elevation = y;
+  }
+
+  centerView(duration:number=1, ease:string="cubic.out") {
+    this.controls.enabled = false;
+    this.isInteracting = true;
+    gsap.to(this.controls.target, {
+      x: 0,
+      y: 0,
+      z: 0,
+      overwrite: true,
+      duration,
+      ease,
+      onComplete: () => {
+        this.isInteracting = false;
+        this.cameraTarget.isAnimating = false;
+        this.controls.enabled = true;
+        // console.log('holi9ii')
+      }
+    });
+
+    gsap.to(this.lockedCam.position, {
+      overwrite: true,
+      z: 10000,
+      y: 5000,
+      x: 0,
+      duration,
+      ease
+    })
+  }
+
   followTarget(target:InteractiveObject, autoEnable:boolean=true) {
     gsap.killTweensOf(this.cameraTarget);
     this.cameraTarget.alpha = .036;
@@ -86,7 +173,7 @@ export class CameraManager {
       }
     })
     this.cameraTarget.target = target;
-    this.controls.enablePan = false;
+    // this.controls.enablePan = false;
     this.controls.autoRotate = true;
     this.controls.autoRotateSpeed = .05;
     this.controls.minDistance = target.lockedDistance.min;
@@ -104,28 +191,8 @@ export class CameraManager {
     this.controls.maxDistance = DEFAULT_CAM_LIMITS.maxDistance;
     this.cameraTarget.isAnimating = true;
     this.controls.enabled = false;
-    gsap.to(this.controls.target, {
-      x: 0,
-      y: 0,
-      z: 0,
-      overwrite: true,
-      duration: 3,
-      ease: 'expo.inOut',
-      onComplete: () => {
-        this.cameraTarget.isAnimating = false;
-        this.controls.enabled = true;
-        // console.log('holi9ii')
-      }
-    });
-
-    gsap.to(this.lockedCam.position, {
-      overwrite: true,
-      z: 10000,
-      y: 5000,
-      x: 0,
-      duration: 3,
-      ease: 'expo.inOut'
-    })
+    
+    this.centerView(3, "expo.inOut");
   }
 
   getNormalizedScreenCoords(obj:Object3D, target:Vector3) {
@@ -147,6 +214,10 @@ export class CameraManager {
 			this.controls.target.lerp(this.cameraTarget.target.position, this.cameraTarget.alpha);
     }
 
+    if(Math.abs(this.zoom) > 0) {
+      this.zoomBy(this.zoom * ZOOM_SPEED);
+    }
+
     this.controls.update();
 
     let easing = this.cameraTarget.isAnimating ? EASING.animating : EASING.static;
@@ -155,5 +226,7 @@ export class CameraManager {
     this.camera.position.lerp(this.lockedCam.position, easing);
     this.camera.quaternion.slerp(this.lockedCam.quaternion, easing);
     this.camera.zoom = MathUtils.lerp(this.camera.zoom, this.lockedCam.zoom, ZOOM_EASING);
+
+    this.updateSC();
   }
 }

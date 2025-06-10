@@ -1,8 +1,11 @@
+import { GLOBALS } from "../core/Globals";
 import Layer from "./Layer";
 
 class MapControls extends Layer {
     orbitviewer: any;
     dom: any;
+
+    buttons:NodeListOf<HTMLButtonElement>;
 
     constructor(dom, orbitviewer) {
         super(dom, {
@@ -12,6 +15,40 @@ class MapControls extends Layer {
         });
         this.dom = dom;
         this.orbitviewer = orbitviewer;
+
+        this.buttons = dom.querySelectorAll('button');
+
+        // center
+        this.buttons[0].onclick = () => {
+            GLOBALS.viewer.centerView();
+        }
+
+        const zoomIn = () => {
+            GLOBALS.viewer.controls.zoom = -1;
+        }
+
+        const zoomOut = () => {
+            GLOBALS.viewer.controls.zoom = 1;
+        }
+
+        const releaseZoom = () => {
+            GLOBALS.viewer.controls.zoom = 0;
+        }
+
+        // zoom in
+        this.attachUpDownActions(this.buttons[1], zoomIn, releaseZoom);
+
+        // zoom out
+        this.attachUpDownActions(this.buttons[2], zoomOut, releaseZoom);
+    }
+
+    protected attachUpDownActions(btn:HTMLButtonElement, onDown, onUp) {
+        btn.addEventListener('mousedown', onDown);
+        btn.addEventListener('touchstart', onDown);
+        btn.addEventListener('mouseup', onUp);
+        btn.addEventListener('touchend', onUp);
+        btn.addEventListener('touchcancel', onUp);
+        btn.addEventListener('mouseleave', onUp);
     }
 }
 

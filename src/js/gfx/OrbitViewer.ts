@@ -161,6 +161,10 @@ export class OrbitViewer extends ThreeLayer {
 			this.solarItemsUI.show();
 		}
 
+		centerView() {
+			this.controls.centerView();
+		}
+
     hidePaths() {
     	for (const item of this.solarElements) {
 				item.orbitPath.ellipse.visible = false;
