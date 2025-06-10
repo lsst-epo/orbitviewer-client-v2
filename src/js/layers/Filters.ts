@@ -9,7 +9,11 @@ class Filters extends Layer {
     discoveries: HTMLElement;
     
     constructor(dom) {
-        super(dom);
+        super(dom, {
+            openClass: 'filters--open',
+            closeClass: 'filters--close',
+            animationDuration: 500
+        });
 
         this.distance = dom.querySelector('#slider-distance') as HTMLElement;
         this.date = dom.querySelector('#slider-date') as HTMLElement;

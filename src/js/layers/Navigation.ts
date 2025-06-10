@@ -5,7 +5,12 @@ class Navigation extends Layer {
   button_trigger: any;
   
   constructor(dom) {
-      super(dom);
+      super(dom, {
+            openClass: 'navigation--open',
+            closeClass: 'navigation--close',
+            animationDuration: 500
+        });
+      
       this.dom = dom;
 
       this.button_trigger = document.querySelector('#nav_trigger');
