@@ -36,4 +36,34 @@
             pointer-events: initial;
         }
     }
+
+    &--open {
+        animation: mapControlsIn 0.5s ease-out forwards;
+    }
+
+    &--close {
+        animation: mapControlsOut 0.5s ease-in forwards;
+    }
+
+    @keyframes mapControlsIn {
+        from {
+            opacity: 0;
+            transform: translateX(48px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes mapControlsOut {
+        from {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        to {
+            opacity: 0;
+            transform: translateX(48px);
+        }
+    }
 }

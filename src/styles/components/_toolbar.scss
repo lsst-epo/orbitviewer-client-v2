@@ -91,4 +91,34 @@
                         @include font(caption-regular);
                     }
                 }
+    
+    &--open {
+        animation: toolbarIn 0.5s ease-out forwards;
+    }
+
+    &--close {
+        animation: toolbarOut 0.5s ease-in forwards;
+    }
+
+    @keyframes toolbarIn {
+        from {
+            opacity: 0;
+            transform: translateX(-48px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes toolbarOut {
+        from {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        to {
+            opacity: 0;
+            transform: translateX(-48px);
+        }
+    }
 }

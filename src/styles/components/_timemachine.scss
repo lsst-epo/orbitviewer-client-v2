@@ -84,4 +84,34 @@
     &-body {
         display: none;
     }
+
+    &--open {
+        animation: timeMachineIn 0.5s ease-out forwards;
+    }
+
+    &--close {
+        animation: timeMachineOut 0.5s ease-in forwards;
+    }
+
+    @keyframes timeMachineIn {
+        from {
+            opacity: 0;
+            transform: translateY(48px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes timeMachineOut {
+        from {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        to {
+            opacity: 0;
+            transform: translateY(48px);
+        }
+    }
 }

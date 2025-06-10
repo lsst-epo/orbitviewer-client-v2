@@ -48,7 +48,11 @@
             img {
                 display: block;
                 width: 100%;
-                max-width: 256px;
+                max-width: 176px;
+
+                @include media(small) {
+                    max-width: 256px;
+                }
             }
         }
 
@@ -82,7 +86,7 @@
 
         &-action {
             .button {
-                min-width: 168px;
+                min-width: 192px;
             }
         }
 
