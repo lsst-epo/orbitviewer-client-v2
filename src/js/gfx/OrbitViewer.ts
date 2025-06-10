@@ -242,6 +242,12 @@ export class OrbitViewer extends ThreeLayer {
 			this.sun.update();
 
       this.particles.update(d, this.camera);
+
+			if(!this.earth) return;
+
+			if(this.camera.position.distanceTo(this.earth.position) < 100) {
+				GLOBALS.clouds.needsUpdate = true;
+			}
     }
 
 		render(): void {

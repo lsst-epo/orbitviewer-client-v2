@@ -74,6 +74,7 @@ export class CameraManager {
       delay: 2,
       duration: 2,
       ease: 'expo.inOut',
+      overwrite: true,
       onComplete: () => {
         this.cameraTarget.isAnimating = false;
         this.controls.enabled = autoEnable;
@@ -89,7 +90,10 @@ export class CameraManager {
   }
 
   releaseCameraTarget() {
-    if (!this.cameraTarget.target) return;
+    if (!this.cameraTarget.target) {
+      this.controls.enabled = true;
+      return;
+    }
     this.cameraTarget.target = null;
     this.controls.autoRotate = false;
     this.controls.minDistance = DEFAULT_CAM_LIMITS.minDistance;
@@ -106,6 +110,7 @@ export class CameraManager {
       onComplete: () => {
         this.cameraTarget.isAnimating = false;
         this.controls.enabled = true;
+        // console.log('holi9ii')
       }
     });
 

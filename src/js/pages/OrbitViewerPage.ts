@@ -7,23 +7,28 @@ import Splash from "../layers/Splash";
 import TimeMachine from "../layers/TimeMachine";
 import Toolbar from "../layers/Toolbar";
 import Wizard from "../layers/Wizard";
+import { GLOBALS, IS_DEV_MODE } from "../core/Globals";
+
+const SKIP_ONBOARDING = true;
 
 class OrbitViewerPage extends DefaultPage {
-    filters: Filters;
-    search: Search;
-    timeMachine: TimeMachine;
-    wizard: Wizard;
-    splash: Splash;
+  filters: Filters;
+  search: Search;
+  timeMachine: TimeMachine;
+  wizard: Wizard;
+  splash: Splash;
 	onboarding: Onboarding;
 	mapControls: MapControls;
 	toolbar: Toolbar;
 	elements: { splash: Element; onboarding: Element; wizard: Element; filters: Element; search: Element; toolbar: Element; timeMachine: Element; mapControls: Element; };
-    openLayers: Set<string>;
+	openLayers: Set<string>;
     
-    constructor(id: string, template: string, dom: HTMLElement) {
-        super(id, template, dom);
+  constructor(id: string, template: string, dom: HTMLElement) {
+    super(id, template, dom);
+  }
 
-        this.openLayers = new Set();
+	createElements() {
+		this.openLayers = new Set();
 
 		this.elements = {
 			splash: document.querySelector('.splash'),
@@ -35,7 +40,7 @@ class OrbitViewerPage extends DefaultPage {
 			timeMachine: document.querySelector('.timemachine'),
 			mapControls: document.querySelector('.map_controls')
 		};
-		
+
 		this.splash = this.elements.splash ? new Splash(this.elements.splash, this) : null;
 		this.onboarding = this.elements.onboarding ? new Onboarding(this.elements.onboarding, this) : null;		
 		this.wizard = this.elements.wizard ? new Wizard(this.elements.wizard) : null;
@@ -50,8 +55,20 @@ class OrbitViewerPage extends DefaultPage {
 		}
 		if (this.search) {
 			this.search.setStateChangeCallback((isVisible) => isVisible ? this.trackLayerOpen('search') : this.trackLayerClose('search'));
+        }
+	}
+
+	create(): void {
+		this.createElements();
+
+		if(IS_DEV_MODE && SKIP_ONBOARDING) {
+			this.splash?.close();
+			GLOBALS.viewer.goToOrbitViewerMode();
+			this.showUI();
+		} else {
+			GLOBALS.viewer.goToLandingMode();
 		}
-    }
+	}
 
 	showUI() {
 		this.mapControls.open();
@@ -59,25 +76,25 @@ class OrbitViewerPage extends DefaultPage {
 		this.toolbar.open();
 	}
 
-    trackLayerOpen(layerName: string) {
-        this.openLayers.add(layerName);
-        this.notifyToolbar();
-    }
+	trackLayerOpen(layerName: string) {
+		this.openLayers.add(layerName);
+		this.notifyToolbar();
+	}
 
-    trackLayerClose(layerName: string) {
-        this.openLayers.delete(layerName);
-        this.notifyToolbar();
-    }
+	trackLayerClose(layerName: string) {
+		this.openLayers.delete(layerName);
+		this.notifyToolbar();
+	}
 
-    isLayerOpen(layerName: string): boolean {
-        return this.openLayers.has(layerName);
-    }
+	isLayerOpen(layerName: string): boolean {
+		return this.openLayers.has(layerName);
+	}
 
-    notifyToolbar() {
-        if (this.toolbar) {
-            this.toolbar.updateActiveStates(this.openLayers);
-        }
-    }
+	notifyToolbar() {
+		if (this.toolbar) {
+			this.toolbar.updateActiveStates(this.openLayers);
+		}
+	}
 
 	toggleLayer(targetLayer: string) {
 		if (this.isLayerOpen(targetLayer)) {
