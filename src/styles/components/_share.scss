@@ -6,12 +6,12 @@
 .share {
     position: absolute;
     inset: 0;
-    background: var(--color-backdrop);
     display: flex;
     align-items: flex-start;
     justify-content: center;
     padding: 16px;
     z-index: var(--z-share);
+    background: var(--color-backdrop);
     backdrop-filter: blur(var(--backdrop-blur));
 
     &[aria-hidden=true] {
@@ -102,6 +102,36 @@
                     }
                 }
             } 
+        }
+    }
+
+    &--open {
+        animation: shareIn 0.3s ease-out forwards;
+    }
+
+    &--close {
+        animation: shareOut 0.3s ease-in forwards;
+    }
+
+    @keyframes shareIn {
+        from {
+            opacity: 0;
+            transform: translateY(-48px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes shareOut {
+        from {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        to {
+            opacity: 0;
+            transform: translateY(-48px);
         }
     }
 }

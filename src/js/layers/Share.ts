@@ -9,7 +9,12 @@ class Share extends Layer {
     ratioToggle: HTMLElement;
     
     constructor(dom) {
-        super(dom);
+        super(dom, {
+            openClass: 'share--open',
+            closeClass: 'share--close',
+            animationDuration: 500
+        });
+        
         this.dom = dom;
 
         this.closeButton = dom.querySelector('.button_close');
