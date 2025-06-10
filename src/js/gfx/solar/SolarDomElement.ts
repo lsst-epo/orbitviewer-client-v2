@@ -22,6 +22,10 @@ export class SolarDOMElement {
       this.hovered = false;
     }
 
+    dom.onclick = () => {
+      GLOBALS.nomad.goToPath(`/object/?${ref.name}`);
+    }
+
     // dom.style.setProperty('--depth', '.5');
   }
 

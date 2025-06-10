@@ -6,6 +6,7 @@ import { Fog, Object3D, Scene, WebGLRenderer } from "three";
 import { EarthClouds } from "../gfx/planets/EarthClouds";
 import { Sun } from "../gfx/solar/Sun";
 import { FAR, NEAR, OrbitViewer } from "../gfx/OrbitViewer";
+import { Nomad } from "@fils/nomad";
 
 /**
  * DEV_MODE is injected by esbuild
@@ -80,6 +81,7 @@ export interface Globals {
 	sun:Sun;
 	fog:Fog;
 	viewer:OrbitViewer;
+	nomad:Nomad;
 }
 
 export const GLOBALS:Globals = {
@@ -88,5 +90,6 @@ export const GLOBALS:Globals = {
 	clouds: null,
 	sun: null,
 	fog: new Fog(0x000000, NEAR, NEAR),
-	viewer: null
+	viewer: null,
+	nomad: null
 }

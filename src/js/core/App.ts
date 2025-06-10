@@ -77,6 +77,7 @@ export class App implements NomadRouteListener {
 		})
 
 		nomad.addRouteListener(this);
+		GLOBALS.nomad = nomad;
 
 		this.currentPage = nomad.route.page as DefaultPage;
 	}
