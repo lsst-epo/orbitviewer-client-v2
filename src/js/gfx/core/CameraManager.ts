@@ -27,7 +27,9 @@ const DEFAULT_CAM_LIMITS = {
 }
 
 const tmp = new Vector3();
+const tmp2 = new Vector3();
 const origin = new Vector3();
+const cameraDirection = new Vector3();
 
 export type ShpericalCoords = {
     radius:number;
@@ -208,13 +210,17 @@ export class CameraManager {
     obj.getWorldPosition(tmp);
     const distance = tmp.distanceTo(this.camera.position);
 
+    this.camera.getWorldDirection(cameraDirection);
+    tmp2.copy(tmp).sub(this.camera.position);
+    const isBehindCamera = tmp2.dot(cameraDirection) < 0;
+
     tmp.project(this.camera);
 
     // Convert from NDC [-1, 1] to [0, 1] range
     const screenX = (tmp.x * 0.5 + 0.5);
     const screenY = (-tmp.y * 0.5 + 0.5); // Note the negation for Y
 
-    target.set(screenX, screenY, distance);
+    target.set(screenX, screenY, isBehindCamera ? -1000 : distance);
   }
 
   update() {

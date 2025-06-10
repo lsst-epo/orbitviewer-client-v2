@@ -32,6 +32,8 @@ export class SolarDOMElement {
 
   update() {
     GLOBALS.viewer.controls.getNormalizedScreenCoords(this.ref, tmp);
+    if(tmp.z < 0) return this.enabled = false;
+    this.enabled = true;
     // this.dom.style.transform = `translateX(${tmp.x*100}%) translateY(${tmp.y*100}%)`;
     this.dom.style.left = `${tmp.x*100}%`;
     this.dom.style.top = `${tmp.y*100}%`;
