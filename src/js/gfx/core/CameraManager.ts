@@ -16,7 +16,10 @@ const EASING = {
 };
 const ZOOM_EASING = .06;
 
-const ZOOM_SPEED = 100;
+const ZOOM_SPEED = {
+  min: 1,
+  max: 500
+};
 
 const DEFAULT_CAM_LIMITS = {
 	minDistance: 24,
@@ -95,7 +98,12 @@ export class CameraManager {
 
   zoomBy(d:number) {
     const dist = this.controls.getDistance();
-    let d2 = d;
+    const speed = MathUtils.lerp(
+      ZOOM_SPEED.min,
+      ZOOM_SPEED.max,
+      MathUtils.smoothstep(0, 10000, dist)
+    );
+    let d2 = speed * d;
     if(dist + d2 > DEFAULT_CAM_LIMITS.maxDistance) {
       d2 = DEFAULT_CAM_LIMITS.maxDistance - dist;
     } else if (dist + d2 < DEFAULT_CAM_LIMITS.minDistance) {
@@ -215,7 +223,7 @@ export class CameraManager {
     }
 
     if(Math.abs(this.zoom) > 0) {
-      this.zoomBy(this.zoom * ZOOM_SPEED);
+      this.zoomBy(this.zoom);
     }
 
     this.controls.update();
