@@ -16,6 +16,8 @@ import { SunMagneticField } from "./SunMagneticField";
 const GEO = new SphereGeometry(1, 64, 32);
 const R = SUN_RADIUS * KM2AU * PLANET_SCALE;
 
+const SUN_VISIBLE = false;
+
 export const SUN_SCALE = {
     min: R,
     max: R
@@ -114,6 +116,8 @@ export class Sun extends Object3D implements InteractiveObject {
         // this.add(this.particles.mesh);
 
         GLOBALS.sun = this;
+
+        this.visible = SUN_VISIBLE;
     }
 
     set highlight(value:boolean) {
