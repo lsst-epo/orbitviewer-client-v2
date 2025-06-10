@@ -117,8 +117,10 @@ export class OrbitViewer extends ThreeLayer {
     }
 
 		fadeIn() {
+			if(GLOBALS.fog.far === FAR) return;
 			gsap.to(GLOBALS.fog, {
 				far: FAR,
+				overwrite: true,
 				duration: 5,
 				ease: 'cubic.inOut'
 			});
@@ -135,9 +137,18 @@ export class OrbitViewer extends ThreeLayer {
 
 			gsap.to(CLOCK_SETTINGS, {
 				speed: 100,
+				overwrite: true,
 				duration: 5,
 				ease: 'expo.inOut'
 			})
+		}
+
+		goToOrbitViewerMode() {
+			this.fadeIn();
+			this.controls.releaseCameraTarget();
+			gsap.killTweensOf(CLOCK_SETTINGS);
+			CLOCK_SETTINGS.speed = 0;
+			GLOBALS.solarClock.setDate();
 		}
 
     hidePaths() {

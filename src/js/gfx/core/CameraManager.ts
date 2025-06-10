@@ -10,7 +10,10 @@ export interface FollowTarget {
   isAnimating:boolean;
 }
 
-const EASING = .16;
+const EASING = {
+  animating: .036,
+  static: .06
+};
 const ZOOM_EASING = .06;
 
 const DEFAULT_CAM_LIMITS = {
@@ -20,6 +23,8 @@ const DEFAULT_CAM_LIMITS = {
 export class CameraManager {
   controls:OrbitControls;
   protected lockedCam:PerspectiveCamera;
+
+  isInteracting:boolean = false;
 
   cameraTarget: FollowTarget = {
     target: null,
@@ -37,6 +42,18 @@ export class CameraManager {
     // this.controls.dampingFactor = .096;
     this.controls.minDistance = DEFAULT_CAM_LIMITS.minDistance;
     this.controls.enabled = false;
+    this.controls.dampingFactor = .096;
+
+    this.controls.addEventListener('start', () => {
+      // console.log('started interaction');
+      this.isInteracting = true;
+      this.controls.enableDamping = true;
+    });
+    this.controls.addEventListener('end', () => {
+      // console.log('stopped interaction');
+      this.isInteracting = false;
+      this.controls.enableDamping = false;
+    });
   }
 
   set enableInteraction(value:boolean) {
@@ -109,10 +126,11 @@ export class CameraManager {
 
     this.controls.update();
 
-    const easing = this.cameraTarget.isAnimating ? .06 : EASING;
+    let easing = this.cameraTarget.isAnimating ? EASING.animating : EASING.static;
+    if(this.isInteracting) easing = 1;
 
     this.camera.position.lerp(this.lockedCam.position, easing);
-    this.camera.zoom = MathUtils.lerp(this.camera.zoom, this.lockedCam.zoom, ZOOM_EASING);
     this.camera.quaternion.slerp(this.lockedCam.quaternion, easing);
+    this.camera.zoom = MathUtils.lerp(this.camera.zoom, this.lockedCam.zoom, ZOOM_EASING);
   }
 }

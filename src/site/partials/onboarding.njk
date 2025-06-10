@@ -14,6 +14,7 @@ eleventyComputed:
         <ul class="exploration-list" role="radiogroup" aria-labelledby="onboarding-heading" aria-required="true">
             {% for key, mode in copy.onboarding.mode %}
             {% set recommended = 2 %}
+            {% set ids = ['low', 'mmedium', 'high', 'ultra'] %}
             <li class="exploration-item {% if loop.index0 == recommended %}recommended{% endif %}" role="radio" aria-checked="false" tabindex="0" >
                 <div class="exploration_card">
                     <div class="exploration_card-body">
@@ -27,7 +28,7 @@ eleventyComputed:
                     </div>
                     <div class="exploration_card-foot">
                         {# {{ Button('Launch', 'button secondary medium') }} #}
-                        <a href="/" class="button secondary medium button_launch"><span>Launch</span></a>
+                        <a data-id="{{ids[loop.index0]}}" href="{{utils.void}}" class="button secondary medium button_launch"><span>Launch</span></a>
                     </div>
                 </div>
             </li>
