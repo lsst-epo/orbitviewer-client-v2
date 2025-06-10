@@ -16,7 +16,7 @@ import { SunMagneticField } from "./SunMagneticField";
 const GEO = new SphereGeometry(1, 64, 32);
 const R = SUN_RADIUS * KM2AU * PLANET_SCALE;
 
-const SUN_VISIBLE = false;
+const SUN_VISIBLE = true;
 
 export const SUN_SCALE = {
     min: R,

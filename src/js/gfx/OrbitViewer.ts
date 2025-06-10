@@ -137,6 +137,7 @@ export class OrbitViewer extends ThreeLayer {
 
 			gsap.to(CLOCK_SETTINGS, {
 				speed: 100,
+				overwrite: true,
 				duration: 5,
 				ease: 'expo.inOut'
 			})
@@ -145,6 +146,9 @@ export class OrbitViewer extends ThreeLayer {
 		goToOrbitViewerMode() {
 			this.fadeIn();
 			this.controls.releaseCameraTarget();
+			gsap.killTweensOf(CLOCK_SETTINGS);
+			CLOCK_SETTINGS.speed = 0;
+			GLOBALS.solarClock.setDate();
 		}
 
     hidePaths() {
