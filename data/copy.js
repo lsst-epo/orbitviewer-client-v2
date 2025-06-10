@@ -97,7 +97,7 @@ export default {
             }
         },
         "title": {
-            "en": "Vera C. Rubin’s 3D Orbit Viewer",
+            "en": "Vera C. Rubins 3D Orbit Viewer",
             "es": ""
         },
         "subtitle": {
@@ -273,7 +273,7 @@ export default {
         "action": {
             "en": "Launch",
             "es": ""
-        }
+        },
         "objects": {
             "en": "objects",
             "es": ""
