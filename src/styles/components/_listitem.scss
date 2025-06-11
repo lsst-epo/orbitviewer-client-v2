@@ -30,11 +30,19 @@
 
                     &-link {
                         display: flex;
+                        width: 100%;
                         align-items: center;
                         padding: 12px;
                         gap: 8px;
                         border-radius: var(--corner-medium);
                         color: var(--color-link);
+
+                        .text {
+                            flex: auto;
+                            display: flex;
+                            flex-direction: column;
+                            gap: 4px;
+                        }
 
                         .heading {
                             flex: auto;
@@ -51,21 +59,46 @@
                                 color: var(--color-text-low);
                             }
                         
+                        .details {
+                            display: flex;
+                            gap: 4px;
+                            color: var(--color-text-low);
+                        }
+                        
                         .icon {
                             flex: 0 0 auto;
                             width: 24px;
                             height: 24px;
                             fill: currentColor
                         }
+
+                        .check {
+                            display: none;
+                        }
                     
                     &:hover,
-                    &:focus,
+                    &:focus {
+                        background: rgba(var(--color-white-rgb), .1);
+                    }
+                    
+                    &.active,
                     &:active {
                         background: var(--color-turquoise-800);
                         color: var(--color-turquoise-300);
 
+                        .label {
+                            @include font(body-medium-semi);
+                        }
+
                         .value {
                             color: var(--color-text);
+                        }
+                    }
+
+                    &.active {
+                        .check {
+                            display: block;
+                            fill: var(--color-turquoise-400);
                         }
                     }
                     }

@@ -51,7 +51,7 @@ class TimeMachine extends Layer {
 					]
 				}
 			},
-			minDate: "1900-01-01",
+			// minDate: "1900-01-01",
     	maxDate: "2100-01-01",
 			onChange: function(_, __, instance) {
 				if (instance.timeContainer) {

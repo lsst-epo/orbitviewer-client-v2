@@ -9,7 +9,7 @@ import Toolbar from "../layers/Toolbar";
 import Wizard from "../layers/Wizard";
 import { GLOBALS, IS_DEV_MODE } from "../core/Globals";
 
-const SKIP_ONBOARDING = false;
+const SKIP_ONBOARDING = true;
 
 class OrbitViewerPage extends DefaultPage {
 	filters: Filters;

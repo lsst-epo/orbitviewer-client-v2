@@ -89,4 +89,52 @@
     &[aria-hidden=true] {
         display: none;
     }
+
+    &-content {
+        display: flex;
+        overflow: auto;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
+
+        &_level {
+            flex: 0 0 100%;
+            min-width: 100%;
+
+            & +  & {
+                border-left: solid 1px var(--color-border-strong);
+            }
+
+            &-group {
+                &[aria-hidden=true] {
+                    display: none;
+                }
+            }
+
+                &-head {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 4px;
+                    color: var(--color-text);
+                    border-bottom: solid 1px var(--color-border-strong);
+                    
+                    .icon {
+                        flex: 0 0 auto;
+                        width: 24px;
+                        height: 24px;
+                        fill: var(--color-link);
+                    }
+
+                    .title {
+                        flex: auto;
+                    }
+                }
+
+                &-body {
+                    padding: 12px;
+                }
+        }
 }
