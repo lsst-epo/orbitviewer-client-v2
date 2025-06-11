@@ -52,10 +52,10 @@ export class SolarDOMElement {
 
     const depth = this.hovered ? 0 : MathUtils.smoothstep(5000, 100000, tmp.z);
 
-    const zIndex = Math.round(FAR - tmp.z);
+    const zIndex = this.hovered ? FAR : Math.round(FAR - tmp.z);
     this.dom.style.zIndex = `${zIndex}`;
 
-    const isBehindSun = 
+    // const isBehindSun = 
     
     // if(depth > .5 && !this.hovered) this.label.classList.add('disabled');
     // else this.label.classList.remove('disabled');
