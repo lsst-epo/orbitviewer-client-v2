@@ -101,6 +101,7 @@
             width: var(--size);
             height: var(--size);
             border-radius: calc(var(--size)/2);
+            box-shadow: 0 0 0 2px rgba(var(--color-black-rgb), .2);
             background: var(--color);
 
             .icon {
@@ -113,10 +114,14 @@
             padding: 0 4px;
             background: rgba(var(--color-black-rgb), .5);
             border-radius: var(--corner-medium);
-            @include font(caption-regular-caps);
+            // @include font(caption-regular);
             color: var(--color-link);
             text-shadow: 1px 1px 0 rgba(var(--color-black-rgb), .3);
             white-space: nowrap;
+
+            &::first-letter {
+                text-transform: capitalize;
+            }
 
             &.disabled {
                 visibility: hidden;
