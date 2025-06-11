@@ -1,0 +1,34 @@
+// loader.scss
+
+@use '../base/mixins' as *;
+@use '../base/typography' as *;
+
+.loader {
+    position: absolute;
+    inset: 0;
+    z-index: var(--z-loader);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-backdrop);
+
+    &[aria-hidden=true] {
+        display: none;
+    }
+
+    &-svg {
+        @keyframes loader-rotate {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        
+        animation: loader-rotate 3s linear infinite;
+
+        svg {
+            width: 125px;
+            height: 128px;
+            fill: var(--color-turquoise-400);
+        }
+    }   
+}

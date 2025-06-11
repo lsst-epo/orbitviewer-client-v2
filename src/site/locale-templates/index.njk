@@ -10,9 +10,12 @@ eleventyComputed:
 {% from "../../../partials/icons.njk" import icon %}
 {% from "../../../components/modal.njk" import Modal %}
 {% from "../../../components/toast.njk" import Toast %}
+{% from "../../../components/loader.njk" import Loader %}
 
 {% include 'splash.njk' %}
 {% include 'onboarding.njk' %}
+
+{{ Loader() }}
 
 {% include 'wizard.njk' %}
 
