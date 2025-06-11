@@ -1,6 +1,6 @@
 import { MathUtils } from "@fils/math";
 import gsap from "gsap";
-import { Euler, Object3D, PerspectiveCamera, Vector3 } from "three";
+import { Euler, Object3D, PerspectiveCamera, Raycaster, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { InteractiveObject } from "../solar/SolarElement";
 
@@ -31,6 +31,9 @@ const tmp2 = new Vector3();
 const origin = new Vector3();
 const cameraDirection = new Vector3();
 
+const raycaster = new Raycaster();
+export const camOcluders = [];
+
 export type ShpericalCoords = {
     radius:number;
     angle:number;
@@ -48,6 +51,7 @@ export class CameraManager {
   protected lockedCam:PerspectiveCamera;
 
   isInteracting:boolean = false;
+  lastInteracted:number = 0;
 
   zoom:number = 0;
 
@@ -77,7 +81,8 @@ export class CameraManager {
     this.controls.addEventListener('end', () => {
       // console.log('stopped interaction');
       this.isInteracting = false;
-      this.controls.enableDamping = false;
+      // this.controls.enableDamping = false;
+      this.lastInteracted = Date.now();
     });
   }
 
@@ -205,7 +210,13 @@ export class CameraManager {
     this.centerView(3, "expo.inOut");
   }
 
-  getNormalizedScreenCoords(obj:Object3D, target:Vector3) {
+  /**
+   * Gets x,y normalized screen coordinates of object in range [0..1]
+   * Plus distance to camera and returns if whether is behind the sun (true or not)
+   * @param obj 
+   * @param target 
+   */
+  getNormalizedScreenCoords(obj:Object3D, target:Vector3):boolean {
     // Get world position and project
     obj.getWorldPosition(tmp);
     const distance = tmp.distanceTo(this.camera.position);
@@ -235,7 +246,11 @@ export class CameraManager {
     this.controls.update();
 
     let easing = this.cameraTarget.isAnimating ? EASING.animating : EASING.static;
-    if(this.isInteracting) easing = 1;
+
+    const isInteracting = this.isInteracting || (Date.now() - this.lastInteracted) < 1500;
+    this.controls.enableDamping = isInteracting;
+
+    if(isInteracting) easing = 1;
 
     this.camera.position.lerp(this.lockedCam.position, easing);
     this.camera.quaternion.slerp(this.lockedCam.quaternion, easing);

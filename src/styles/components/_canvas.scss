@@ -26,6 +26,10 @@
 
         &[aria-hidden=true] {
             opacity: 0;
+
+            .canvas-pointer {
+                pointer-events: none;
+            }
         }
     }
 
@@ -48,7 +52,13 @@
     position: absolute;
     z-index: var(--z-pointer);
     pointer-events: all;
-    position: relative;
+    position: absolute;
+
+    scroll-margin: 0;
+
+    &[aria-hidden=true] {
+        display: none;
+    }
 
     &.disabled {
         pointer-events: none;

@@ -59,7 +59,7 @@ export class Sun extends Object3D implements InteractiveObject {
     target:Object3D = this;
     lockedDistance = {
       min: 20,
-      max: 30
+      max: 60
     };
     lockedOffset:Vector3 = new Vector3()
     closeUp: boolean = true;

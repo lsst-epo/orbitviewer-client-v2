@@ -38,6 +38,8 @@ export class App implements NomadRouteListener {
 	orbitViewerPage: OrbitViewerPage;
 
 	constructor() {
+		GLOBALS.lang = document.documentElement.getAttribute('lang');
+
 		initShaders();
 
 		this.gl = new ThreeDOMLayer(document.querySelector('.view'), {

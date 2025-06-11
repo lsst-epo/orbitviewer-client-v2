@@ -14,7 +14,7 @@ uniform float opacity;
 
 #include <desaturate>
 
-const float factor = .75;
+const float factor = .8;
 
 void main () {
     // if(alive < .1) discard;

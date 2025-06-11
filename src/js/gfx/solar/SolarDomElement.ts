@@ -24,7 +24,8 @@ export class SolarDOMElement {
     }
 
     dom.onclick = () => {
-      GLOBALS.nomad.goToPath(`/object/?${ref.name}`);
+      GLOBALS.nomad.goToPath(`/${GLOBALS.lang}/object/?${ref.name}`);
+      GLOBALS.viewer.followSolarElement(ref.name);
     }
 
     // dom.style.setProperty('--depth', '.5');
@@ -35,20 +36,27 @@ export class SolarDOMElement {
     else this.dom.classList.add('disabled');
   }
 
+  set hidden(value:boolean) {
+    this.dom.setAttribute('aria-hidden', value ? 'true' : 'false');
+  }
+
   update() {
     GLOBALS.viewer.controls.getNormalizedScreenCoords(this.ref, tmp);
-    if(tmp.z < 0) return this.enabled = false;
-    this.enabled = true;
-    // this.dom.style.transform = `translateX(${tmp.x*100}%) translateY(${tmp.y*100}%)`;
-    this.dom.style.left = `${tmp.x*100}%`;
-    this.dom.style.top = `${tmp.y*100}%`;
+    if(tmp.z < 0) return this.hidden = true;
+    this.hidden = false;
+    const x = tmp.x * window.innerWidth;
+    const y = tmp.y * window.innerHeight;
+    this.dom.style.transform = `translateX(${x}px) translateY(${y}px)`;
+    // this.dom.style.left = `${tmp.x*100}%`;
+    // this.dom.style.top = `${tmp.y*100}%`;
 
     const depth = this.hovered ? 0 : MathUtils.smoothstep(5000, 100000, tmp.z);
 
     const zIndex = Math.round(FAR - tmp.z);
     this.dom.style.zIndex = `${zIndex}`;
-    // console.log(this.ref.name, zIndex, tmp.z);
 
+    const isBehindSun = 
+    
     // if(depth > .5 && !this.hovered) this.label.classList.add('disabled');
     // else this.label.classList.remove('disabled');
     this.label.style.opacity = `${1-depth}`;

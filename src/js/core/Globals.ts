@@ -82,6 +82,7 @@ export interface Globals {
 	fog:Fog;
 	viewer:OrbitViewer;
 	nomad:Nomad;
+	lang:string;
 }
 
 export const GLOBALS:Globals = {
@@ -91,5 +92,6 @@ export const GLOBALS:Globals = {
 	sun: null,
 	fog: new Fog(0x000000, NEAR, NEAR),
 	viewer: null,
-	nomad: null
+	nomad: null,
+	lang: null
 }
