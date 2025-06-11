@@ -1,12 +1,14 @@
 {% from '../partials/icons.njk' import icon %}
 {% from '../components/rangeslider.njk' import RangeSlider %}
 {% from '../components/button.njk' import Button %}
-{% from '../components/buttonicon.njk' import ButtonIcon %}
 
 <div class="timemachine" role="region" aria-hidden="true">
     <div class="timemachine-head">
         <div class="timemachine_heading">
-            {{ ButtonIcon('button_icon ghost xsmall', 'play') }}
+            <button type="button" class="button_icon ghost xsmall button_play button_play-resume">
+                <span class="icon_wrap-resume">{{ icon('play') }}</span>
+                <span class="icon_wrap-pause">{{ icon('pause') }}</span>
+            </button>
             <div class="timemachine_heading-date">
                 <input type="text" id="myDateInput" aria-label="{{ copy.timemachine.aria[lang] }}">
             </div>
