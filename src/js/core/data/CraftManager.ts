@@ -1,4 +1,4 @@
-import { IS_DEV_MODE } from "../Globals";
+import { GLOBALS, IS_DEV_MODE } from "../Globals";
 
 const LOCAL_TOKEN = "LdTQ3Q1QUtzPec_TNIAmmolWYUaevo3o";
 const PROD_TOKEN = "Ma3vUfBJiY3XXmjerRcBQo5PpE3A0jxU";
@@ -6,6 +6,10 @@ const PROD_TOKEN = "Ma3vUfBJiY3XXmjerRcBQo5PpE3A0jxU";
 const isLocalhost = false;//IS_DEV_MODE;
 const url = isLocalhost ? 'http://localhost:8000' : 'https://orbitviewer-api-dot-skyviewer.uw.r.appspot.com';
 // const url = isLocalhost ? 'http://localhost:8000' : 'https://hasura-688095955960.us-central1.run.app/v1/graphql';
+
+function getLang():string {
+  return GLOBALS.lang === 'en' ? '1' : '2';
+}
 
 export async function getQuery(query = null) {
 
@@ -48,7 +52,7 @@ export async function getQuery(query = null) {
 
 export async function getCategories() {
   /* const query = `{
-  categories(group: "objectTypes", siteId: "1") {
+  categories(group: "objectTypes", siteId: "${getLang()}") {
     ... on objectTypes_Category {
       title
       objectTypeCode
@@ -58,7 +62,7 @@ export async function getCategories() {
 }`; */
 
   const query = `{
-    categories(group: "objectTypes", siteId: "1") {
+    categories(group: "objectTypes", siteId: "${getLang()}") {
       ... on objectTypes_Category {
         title
         mainColor
@@ -79,7 +83,7 @@ export async function getCategories() {
 // -------------------------------
 export async function getAbout() {
   const query = `{
-  entries(section: "about", siteId: "1") {
+  entries(section: "about", siteId: "${getLang()}") {
     ... on about_about_Entry {
       text
     }
@@ -98,7 +102,7 @@ export async function getAbout() {
 // -------------------------------
 export async function getGlobals() {
   const query = `{
-  globalSets(siteId: "1") {
+  globalSets(siteId: "${getLang()}") {
     ... on defaultSEO_GlobalSet {
       seoSiteName
       seoTitle
@@ -125,7 +129,7 @@ export async function getGlobals() {
 // -------------------------------
 export async function getCustomizedOrbits() {
   const query = `{
-  entries(section: "customizeOrbits", siteId: "1") {
+  entries(section: "customizeOrbits", siteId: "${getLang()}") {
     ... on customizeOrbits_customizeOrbits_Entry {
       seoTitle
       seoDescription
@@ -149,7 +153,7 @@ return await getQuery(query);
 // -------------------------------
 export async function getGuidedExperiences() {
   const query = `{
-  entries(section: "guidedExperiences", siteId: "1") {
+  entries(section: "guidedExperiences", siteId: "${getLang()}") {
     ... on guidedExperiences_guidedExperiences_Entry {
       seoTitle
       seoDescription
@@ -167,7 +171,7 @@ export async function getGuidedExperiences() {
 
 export async function getGuidedExperiencesTours() {
   const query = `{
-  entries(section: "guidedExperiencesTours", siteId: "1") {
+  entries(section: "guidedExperiencesTours", siteId: "${getLang()}") {
     ... on guidedExperiencesTours_default_Entry {
       seoTitle
       seoDescription
@@ -218,7 +222,7 @@ export async function getGuidedExperiencesTours() {
 
 export async function getLanding() {
   const query = `{
-  entries(section: "landing", siteId: "1") {
+  entries(section: "landing", siteId: "${getLang()}") {
     ... on landing_landing_Entry {
       seoTitle
       seoDescription
@@ -242,7 +246,7 @@ export async function getLanding() {
 // -------------------------------
 export async function getOrbitViewer() {
   const query = `{
-  entries(section: "orbitViewer", siteId: "1") {
+  entries(section: "orbitViewer", siteId: "${getLang()}") {
     ... on orbitViewer_orbitViewer_Entry {
       seoTitle
       seoDescription
@@ -265,7 +269,7 @@ export async function getOrbitViewer() {
 // -------------------------------
 export async function getSolarItemsInfo() {
   const query = `{
-  entries(section: "elements", siteId: "1") {
+  entries(section: "elements", siteId: "${getLang()}") {
     ... on elements_default_Entry {
       title
       elementID

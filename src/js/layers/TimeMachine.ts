@@ -1,71 +1,120 @@
 import flatpickr from "flatpickr";
 import RangeSlider from "../components/RangeSlider";
 import Layer from "./Layer";
+import { CLOCK_SETTINGS, GLOBALS } from "../core/Globals";
+import { SimpleSlider, SliderListener } from "../components/SimpleSlider";
 
-class TimeMachine extends Layer {
+class TimeMachine extends Layer implements SliderListener {
     slider: HTMLElement;
-    toggleButton: HTMLElement;
-    dom: HTMLElement;
-	timemachineSlider: RangeSlider;
+  	toggleButton: HTMLElement;
+  	timemachineSlider: SimpleSlider;
+
+		liveCheckBox:HTMLInputElement;
+		playPause:HTMLButtonElement;
+
+		flat;
     
-    constructor(dom) {
-        super(dom, {
-            openClass: 'timemachine--open',
-            closeClass: 'timemachine--close',
-            animationDuration: 500
-        });
+    constructor(public dom:HTMLElement) {
+      super(dom, {
+          openClass: 'timemachine--open',
+          closeClass: 'timemachine--close',
+          animationDuration: 500
+      });
 
-		this.dom = dom;
+			this.dom = dom;
+			this.slider = dom.querySelector('#slider-timemachine') as HTMLElement;
+    	this.toggleButton = dom.querySelector('#timemachine-toggle') as HTMLElement;
 
-        this.slider = dom.querySelector('#slider-timemachine') as HTMLElement;
-        this.toggleButton = dom.querySelector('#timemachine-toggle') as HTMLElement;
+			this.timemachineSlider = new SimpleSlider(this.slider, .5);
+			// this.timemachineSlider.units = "hrs/sec"
+			this.timemachineSlider.setMinMax(-CLOCK_SETTINGS.maxSpeed, CLOCK_SETTINGS.maxSpeed);
+			this.timemachineSlider.addListener(this);
 
-		this.timemachineSlider = new RangeSlider(this.slider, {
-			onChange: (values: number[]) => {
-				this.toggleButton.querySelector('span').textContent = values.join(', ');
+			this.liveCheckBox = dom.querySelector('input#live');
+			this.liveCheckBox.onclick = () => {
+				if(this.liveCheckBox.disabled) return;
+				this.liveCheckBox.disabled = true;
+				this.liveCheckBox.checked = true;
+				this.timemachineSlider.value = 0.5;
+				GLOBALS.solarClock.goLive();
 			}
-		});
 
-        this.start();
+			this.playPause = dom.querySelector('button.button_icon');
+			this.playPause.onclick = () => {
+				if(GLOBALS.solarClock.playing) GLOBALS.solarClock.pause();
+				else GLOBALS.solarClock.resume();
+				this.updatePlayPause();
+			}
+
+		// this.timemachineSlider.setRange(-1000, 1000);
+		// this.timemachineSlider.setValues([0, 0]);
+
+		// this.timemachineSlider.setValues([0]);
+      
+			this.start();
     }
 
-    start() {		
-        // Flatpickr Datepicker
-        flatpickr("#myDateInput", {
-			disableMobile: true,
-			position: "above",
-			enableTime: true,
-			dateFormat: "F j, Y H:i",
-			defaultDate: new Date(),
-			locale: {
-				weekdays: {
-					shorthand: ["S", "M", "T", "W", "T", "F", "S"],
-					longhand: [
-						"Sunday",
-						"Monday",
-						"Tuesday",
-						"Wednesday",
-						"Thursday",
-						"Friday",
-						"Saturday"
-					]
-				}
-			},
-			minDate: "1900-01-01",
-    	maxDate: "2100-01-01",
-			onChange: function(_, __, instance) {
-				if (instance.timeContainer) {
-					const timeInputs = instance.timeContainer.querySelectorAll('input');
-					timeInputs.forEach(input => input.blur());
-				}
+		updatePlayPause() {
+			if(GLOBALS.solarClock.playing) {
+				this.playPause.classList.remove('button_play-resume')
+				this.playPause.classList.add('button_play-pause')
+			} else {
+				this.playPause.classList.add('button_play-resume')
+				this.playPause.classList.remove('button_play-pause')
 			}
-		});
+		}
+
+		open(): Promise<void> {
+			return new Promise(resolve => {
+				super.open().then(r => {
+					this.timemachineSlider.update();
+					resolve();
+				})
+			});
+		}
+
+    start() {		
+      // Flatpickr Datepicker
+      this.flat = flatpickr("#myDateInput", {
+				disableMobile: true,
+				position: "above",
+				enableTime: true,
+				dateFormat: "F j, Y H:i",
+				defaultDate: new Date(),
+				locale: {
+					weekdays: {
+						shorthand: ["S", "M", "T", "W", "T", "F", "S"],
+						longhand: [
+							"Sunday",
+							"Monday",
+							"Tuesday",
+							"Wednesday",
+							"Thursday",
+							"Friday",
+							"Saturday"
+						]
+					}
+				},
+				minDate: "1900-01-01",
+    		// maxDate: "2100-01-01",
+				onChange: function(_, __, instance) {
+					if (instance.timeContainer) {
+						const timeInputs = instance.timeContainer.querySelectorAll('input');
+						timeInputs.forEach(input => input.blur());
+					}
+				},
+				onClose: () => {
+					GLOBALS.solarClock.setDate(new Date(this.flat.input.value))
+				}
+			});
 
         // Timemachine toggle
-		this.toggleButton.addEventListener('click', (e) => {
-			e.preventDefault();
-			this.toggle();
-		});
+			this.toggleButton.addEventListener('click', (e) => {
+				e.preventDefault();
+				this.toggle();
+			});
+
+			console.log(this.flat);
     }
 
     toggle() {
@@ -78,6 +127,19 @@ class TimeMachine extends Layer {
 
         this.dom.classList.toggle('collapsed');
     }
+
+		onChange(normalizedValue: number): void {
+			CLOCK_SETTINGS.speed = normalizedValue;
+			GLOBALS.solarClock.resume();
+		}
+
+		update() {
+			if(this.flat && this.flat.isOpen) return;
+			this.flat.setDate(GLOBALS.solarClock.currentDate);
+
+			this.liveCheckBox.disabled = GLOBALS.solarClock.live;
+			this.liveCheckBox.checked = GLOBALS.solarClock.live;
+		}
 }
 
 export default TimeMachine;

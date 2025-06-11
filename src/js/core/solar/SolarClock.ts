@@ -1,6 +1,7 @@
 import { MathUtils } from "@fils/math";
 import { Clock } from "three";
 import { SolarTimeManager } from "./SolarTime";
+import { CLOCK_SETTINGS } from "../Globals";
 
 const HRSPSEC = 60*60*1000;
 
@@ -21,6 +22,8 @@ export class SolarClock {
 
     private todayRef = Date.now() * .001;
 
+    private isLive:boolean = true;
+
     /**
      * 
      * @param clock - internal clock for handling ellapsed time
@@ -31,6 +34,10 @@ export class SolarClock {
         this.iClock.stop();
 
         window['solar'] = this;
+    }
+
+    get live():boolean {
+        return this.isLive;
     }
 
     /**
@@ -126,6 +133,19 @@ export class SolarClock {
         this.iClock.start();
     }
 
+    reset() {
+        this.stop();
+        this.todayRef = Date.now() * .001;
+        CLOCK_SETTINGS.speed = 0;
+        this.targetSpeed = this.speed = 0;
+    }
+
+    goLive() {
+        this.reset();
+        this.start();
+        this.isLive = true;
+    }
+
     /**
      * Updates clock
      * 
@@ -138,11 +158,13 @@ export class SolarClock {
             this.elapsedTime = this.iClock.getElapsedTime();
         }
 
+        if(Math.abs(this.targetSpeed) > 0) this.isLive = false;
+
         if(Math.abs(this.targetSpeed-this.speed) < .01) {
             this.speed = this.targetSpeed;
         } else {
             this.speed = MathUtils.lerp(this.speed, this.targetSpeed, .16);
-        }                
+        }
         
         this.date.setTime(this.date.getTime() + dt * 1000 + this.speed * HRSPSEC * dt);
         

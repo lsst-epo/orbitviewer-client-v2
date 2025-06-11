@@ -78,11 +78,11 @@ class LoadManagerClass {
     private loadCraft(id:string, onLoaded:Function) {
         const onL = cnt => {
             if(cnt.errors) {
-                console.warn('Error. Retrying...');
+                console.warn('Error.');
                 cnt.errors.forEach(error => {
                     console.log(error.message)
                 });
-                this.loadCraft(id, onLoaded);
+                // this.loadCraft(id, onLoaded);
             }
             //@ts-ignore
             // console.log(cnt.data);
@@ -102,17 +102,17 @@ class LoadManagerClass {
             getCategories().then(cnt => {
                 onL(cnt);
             }).catch(e => {
-                console.warn('Error. Retrying...');
+                console.warn('Error');
                 console.log(e);
-                this.loadCraft(id, onLoaded);
+                // this.loadCraft(id, onLoaded);
             });
         } else if(id === 'solar_items') {
             getSolarItemsInfo().then(cnt => {
                 onL(cnt);
             }).catch(e => {
-                console.warn('Error. Retrying...');
+                console.warn('Error');
                 console.log(e);
-                this.loadCraft(id, onLoaded);
+                // this.loadCraft(id, onLoaded);
             });
         }
     }

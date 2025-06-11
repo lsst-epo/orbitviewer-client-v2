@@ -18,6 +18,8 @@ import Navigation from "../layers/Navigation";
 import Share from "../layers/Share";
 import OrbitViewerPage from "../pages/OrbitViewerPage";
 import gsap from "gsap";
+import TimeMachine from "../layers/TimeMachine";
+import MapControls from "../layers/MapControls";
 
 export const solarClock = new SolarClock(new Clock());
 
@@ -35,7 +37,7 @@ export class App implements NomadRouteListener {
 	currentPage: DefaultPage;
 	navigation: Navigation;
 	share: Share;
-	orbitViewerPage: OrbitViewerPage;
+	// orbitViewerPage: OrbitViewerPage;
 
 	constructor() {
 		GLOBALS.lang = document.documentElement.getAttribute('lang');
@@ -53,6 +55,8 @@ export class App implements NomadRouteListener {
 		
 		GLOBALS.clouds = new EarthClouds();
 
+		GLOBALS.timeCtrls = new TimeMachine(document.querySelector('.timemachine'));
+		GLOBALS.mapCtrls = new MapControls(document.querySelector('.map_controls'));
 
 		const navigationDom = document.querySelector('.nav_dropdown');
 		this.navigation = navigationDom ? new Navigation(navigationDom) : null;
@@ -155,6 +159,8 @@ export class App implements NomadRouteListener {
 
 		this.viewer.update(t, d);
 		this.viewer.render();
+
+		GLOBALS.timeCtrls.update();
 
 		this.currentPage?.update();
 

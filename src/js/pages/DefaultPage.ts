@@ -1,5 +1,6 @@
 import { Page } from "@fils/nomad";
 import gsap from "gsap";
+import { GLOBALS } from "../core/Globals";
 
 export class DefaultPage extends Page {
     constructor(id: string, template: string, dom: HTMLElement) {
@@ -13,6 +14,7 @@ export class DefaultPage extends Page {
     update() {}
 
     transitionIn(resolve: any): Promise<void> {
+        GLOBALS.firstPage = false;
         return new Promise<void>((gsapResolve) => {
             gsap.to(this.dom, {
                 autoAlpha: 1,

@@ -2,19 +2,14 @@ import { GLOBALS } from "../core/Globals";
 import Layer from "./Layer";
 
 class MapControls extends Layer {
-    orbitviewer: any;
-    dom: any;
-
     buttons:NodeListOf<HTMLButtonElement>;
 
-    constructor(dom, orbitviewer) {
+    constructor(public dom:HTMLElement) {
         super(dom, {
             openClass: 'map_controls--open',
             closeClass: 'map_controls--close',
             animationDuration: 500
         });
-        this.dom = dom;
-        this.orbitviewer = orbitviewer;
 
         this.buttons = dom.querySelectorAll('button');
 

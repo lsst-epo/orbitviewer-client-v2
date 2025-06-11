@@ -16,7 +16,8 @@ export interface InteractiveObject extends Object3D {
 	selected:boolean;
 	target:Object3D;
 	lockedDistance:CameraLock;
-	// lockedOffset:Vector3;
+	offsetDesktop:Vector3;
+    offsetMobile:Vector3;
 	// closeUp: boolean;
 }
 
@@ -54,6 +55,8 @@ export class SolarElement extends Object3D implements InteractiveObject {
     closeUp: boolean = false;
 
     lockedDistance = { min: 1, max: 10 };
+    offsetDesktop = new Vector3();
+    offsetMobile = new Vector3();
 
     // lockedPosition = {
     //     portrait: {

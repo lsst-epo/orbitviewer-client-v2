@@ -31,6 +31,8 @@ const tmp2 = new Vector3();
 const origin = new Vector3();
 const cameraDirection = new Vector3();
 
+const dummy = new Object3D();
+
 const raycaster = new Raycaster();
 export const camOcluders = [];
 
@@ -175,7 +177,7 @@ export class CameraManager {
     this.cameraTarget.alpha = .036;
     this.cameraTarget.isAnimating = true;
     this.controls.enabled = false;
-    gsap.to(this.cameraTarget, {
+    /* gsap.to(this.cameraTarget, {
       alpha: 1,
       delay: 2,
       duration: 2,
@@ -186,13 +188,38 @@ export class CameraManager {
         this.controls.enabled = autoEnable;
         // console.log(autoEnable);
       }
+    }) */
+    const duration = 3;
+    const ease = "cubic.out";
+    dummy.position.copy(target.position).add(target.offsetDesktop);
+    gsap.to(this.controls.target, {
+      x: dummy.position.x,
+      y: dummy.position.y,
+      z: dummy.position.z,
+      overwrite: true,
+      duration,
+      ease,
+    })
+    gsap.to(this.controls, {
+      overwrite: true,
+      minDistance: target.lockedDistance.min,
+      maxDistance: target.lockedDistance.max,
+      minPolarAngle: Math.PI/2.5,
+      maxPolarAngle: Math.PI/1.5,
+      duration,
+      ease,
+      onComplete: () => {
+        this.controls.autoRotate = true;
+        this.controls.autoRotateSpeed = .05;
+        this.controls.enabled = autoEnable;
+      }
     })
     this.cameraTarget.target = target;
     // this.controls.enablePan = false;
-    this.controls.autoRotate = true;
-    this.controls.autoRotateSpeed = .05;
-    this.controls.minDistance = target.lockedDistance.min;
-    this.controls.maxDistance = target.lockedDistance.max;
+    // this.controls.autoRotate = true;
+    // this.controls.autoRotateSpeed = .05;
+    // this.controls.minDistance = target.lockedDistance.min;
+    // this.controls.maxDistance = target.lockedDistance.max;
   }
 
   releaseCameraTarget() {
@@ -200,8 +227,14 @@ export class CameraManager {
       this.controls.enabled = true;
       return;
     }
+
+    gsap.killTweensOf(this.controls);
+    gsap.killTweensOf(this.controls.target);
+
     this.cameraTarget.target = null;
     this.controls.autoRotate = false;
+    this.controls.minPolarAngle = 0;
+    this.controls.maxPolarAngle = Math.PI;
     this.controls.minDistance = DEFAULT_CAM_LIMITS.minDistance;
     this.controls.maxDistance = DEFAULT_CAM_LIMITS.maxDistance;
     this.cameraTarget.isAnimating = true;
@@ -216,7 +249,7 @@ export class CameraManager {
    * @param obj 
    * @param target 
    */
-  getNormalizedScreenCoords(obj:Object3D, target:Vector3):boolean {
+  getNormalizedScreenCoords(obj:Object3D, target:Vector3) {
     // Get world position and project
     obj.getWorldPosition(tmp);
     const distance = tmp.distanceTo(this.camera.position);
@@ -235,9 +268,9 @@ export class CameraManager {
   }
 
   update() {
-    if(this.cameraTarget.target) {
+    /* if(this.cameraTarget.target) {
 			this.controls.target.lerp(this.cameraTarget.target.position, this.cameraTarget.alpha);
-    }
+    } */
 
     if(Math.abs(this.zoom) > 0) {
       this.zoomBy(this.zoom);
@@ -245,12 +278,12 @@ export class CameraManager {
 
     this.controls.update();
 
-    let easing = this.cameraTarget.isAnimating ? EASING.animating : EASING.static;
+    let easing = 1;//this.cameraTarget.isAnimating ? EASING.animating : EASING.static;
 
-    const isInteracting = this.isInteracting || (Date.now() - this.lastInteracted) < 1500;
+    /* const isInteracting = this.isInteracting || (Date.now() - this.lastInteracted) < 1500;
     this.controls.enableDamping = isInteracting;
 
-    if(isInteracting) easing = 1;
+    if(isInteracting) easing = 1; */
 
     this.camera.position.lerp(this.lockedCam.position, easing);
     this.camera.quaternion.slerp(this.lockedCam.quaternion, easing);

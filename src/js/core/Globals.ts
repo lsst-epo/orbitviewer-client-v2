@@ -7,6 +7,8 @@ import { EarthClouds } from "../gfx/planets/EarthClouds";
 import { Sun } from "../gfx/solar/Sun";
 import { FAR, NEAR, OrbitViewer } from "../gfx/OrbitViewer";
 import { Nomad } from "@fils/nomad";
+import TimeMachine from "../layers/TimeMachine";
+import MapControls from "../layers/MapControls";
 
 /**
  * DEV_MODE is injected by esbuild
@@ -31,7 +33,7 @@ export const CONTROLS = {
 
 export const CLOCK_SETTINGS = {
 	speed: 0,
-    maxSpeed: 1000,
+  maxSpeed: 1000,
 	playing: true,
 	lastElapsedTime: 0,
 	backwards: false,
@@ -83,6 +85,9 @@ export interface Globals {
 	viewer:OrbitViewer;
 	nomad:Nomad;
 	lang:string;
+	timeCtrls:TimeMachine;
+	mapCtrls:MapControls;
+	firstPage:boolean
 }
 
 export const GLOBALS:Globals = {
@@ -93,5 +98,8 @@ export const GLOBALS:Globals = {
 	fog: new Fog(0x000000, NEAR, NEAR),
 	viewer: null,
 	nomad: null,
-	lang: null
+	lang: null,
+	timeCtrls: null,
+	mapCtrls: null,
+	firstPage: false
 }

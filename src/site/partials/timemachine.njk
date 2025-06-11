@@ -5,7 +5,7 @@
 <div class="timemachine" role="region" aria-hidden="true">
     <div class="timemachine-head">
         <div class="timemachine_heading">
-            <button type="button" class="button_icon ghost xsmall button_play button_play-resume">
+            <button type="button" class="button_icon ghost xsmall button_play button_play-pause">
                 <span class="icon_wrap-resume">{{ icon('play') }}</span>
                 <span class="icon_wrap-pause">{{ icon('pause') }}</span>
             </button>
@@ -13,7 +13,7 @@
                 <input type="text" id="myDateInput" aria-label="{{ copy.timemachine.aria[lang] }}">
             </div>
             <label for="live" class="chip active">
-                <input type="checkbox" id="live">
+                <input type="checkbox" id="live" checked disabled>
                 <span>Live</span>
             </label>
         </div>

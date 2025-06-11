@@ -32,14 +32,16 @@ class RangeSlider {
     this.values = options.values || extractedData.values;
     this.minValue = options.minmax?.[0] ?? extractedData.minmax[0];
     this.maxValue = options.minmax?.[1] ?? extractedData.minmax[1];
-    
+
     this.initializeElements();
     this.attachEventListeners();
+
+    this.updateSlider();
     
     // Ensure DOM is ready and has dimensions before positioning
-    requestAnimationFrame(() => {
-      this.updateSlider();
-    });
+    // requestAnimationFrame(() => {
+    //   this.updateSlider();
+    // });
   }
 
   private extractDataFromDOM(): { values: number[]; minmax: [number, number] } {
@@ -294,12 +296,14 @@ class RangeSlider {
     const valueRange = this.maxValue - this.minValue;
     const trackRect = this.track.getBoundingClientRect();
     const trackWidth = trackRect.width;
+
+    console.log('update slader');
     
     // Skip update if track has no width yet (not rendered)
-    if (trackWidth === 0) {
+    /* if (trackWidth === 0) {
       requestAnimationFrame(() => this.updateSlider());
       return;
-    }
+    } */
     
     // Update thumb positions and values
     this.thumbs.forEach((thumb, index) => {

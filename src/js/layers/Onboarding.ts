@@ -27,7 +27,7 @@ class Onboarding extends Layer {
     start() {
         const whenReady = () => {
             this.orbitviewer.showUI();
-            GLOBALS.viewer.goToOrbitViewerMode();
+            GLOBALS.viewer.goToOrbitViewerMode(true);
         }
 
         this.startButtons.forEach((el: Element) => {

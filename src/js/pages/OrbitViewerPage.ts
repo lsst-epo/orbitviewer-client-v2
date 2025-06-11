@@ -14,13 +14,13 @@ const SKIP_ONBOARDING = true;
 class OrbitViewerPage extends DefaultPage {
 	filters: Filters;
 	search: Search;
-	timeMachine: TimeMachine;
+	// timeMachine: TimeMachine;
 	wizard: Wizard;
 	splash: Splash;
 	onboarding: Onboarding;
-	mapControls: MapControls;
+	// mapControls: MapControls;
 	toolbar: Toolbar;
-	elements: { splash: Element; onboarding: Element; wizard: Element; filters: Element; search: Element; toolbar: Element; timeMachine: Element; mapControls: Element; };
+	elements: { splash: Element; onboarding: Element; wizard: Element; filters: Element; search: Element; toolbar: Element; };
 	openLayers: Set<string>;
     
   constructor(id: string, template: string, dom: HTMLElement) {
@@ -37,8 +37,8 @@ class OrbitViewerPage extends DefaultPage {
 			filters: document.querySelector('.filters'),
 			search: document.querySelector('.search'),
 			toolbar: document.querySelector('.toolbar'),
-			timeMachine: document.querySelector('.timemachine'),
-			mapControls: document.querySelector('.map_controls')
+			// timeMachine: document.querySelector('.timemachine'),
+			// mapControls: document.querySelector('.map_controls')
 		};
 
 		this.splash = this.elements.splash ? new Splash(this.elements.splash, this) : null;
@@ -47,8 +47,8 @@ class OrbitViewerPage extends DefaultPage {
 		this.filters = this.elements.filters ? new Filters(this.elements.filters) : null;
 		this.search = this.elements.search ? new Search(this.elements.search) : null;
 		this.toolbar = this.elements.toolbar ? new Toolbar(this.elements.toolbar, this) :  null;
-		this.timeMachine = this.elements.timeMachine ? new TimeMachine(this.elements.timeMachine) :  null;
-		this.mapControls = this.elements.mapControls ? new MapControls(this.elements.mapControls, this) :  null;
+		// this.timeMachine = this.elements.timeMachine ? new TimeMachine(this.elements.timeMachine) :  null;
+		// this.mapControls = this.elements.mapControls ? new MapControls(this.elements.mapControls, this) :  null;
 
 		if (this.filters) {
 			this.filters.setStateChangeCallback((isVisible) => isVisible ? this.trackLayerOpen('filters') : this.trackLayerClose('filters'));
@@ -61,18 +61,22 @@ class OrbitViewerPage extends DefaultPage {
 	create(): void {
 		this.createElements();
 
-		if(IS_DEV_MODE && SKIP_ONBOARDING) {
-			this.splash?.close();
-			GLOBALS.viewer.goToOrbitViewerMode();
-			this.showUI();
+		if(GLOBALS.firstPage) {
+			if(IS_DEV_MODE && SKIP_ONBOARDING) {
+				this.splash?.close();
+				GLOBALS.viewer.goToOrbitViewerMode(true);
+				this.showUI();
+			} else {
+				GLOBALS.viewer.goToLandingMode();
+			}
 		} else {
-			GLOBALS.viewer.goToLandingMode();
+			GLOBALS.viewer.goToOrbitViewerMode();
 		}
 	}
 
 	showUI() {
-		this.mapControls.open();
-		this.timeMachine.open();
+		GLOBALS.mapCtrls.open();
+		GLOBALS.timeCtrls.open();
 		this.toolbar.open();
 	}
 
