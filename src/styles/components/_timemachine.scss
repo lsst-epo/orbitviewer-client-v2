@@ -54,8 +54,29 @@
             gap: 8px;
             padding: 0 8px;
 
-            .button {
+            .button_play {
+                position: relative;
                 flex: 0 0 auto;
+                color: var(--color-turquoise-400);
+
+                .icon_wrap-resume,
+                .icon_wrap-pause {
+                    position: absolute;
+                    display: flex;
+                    transition: opacity .3s ease;
+                }
+
+                &-resume {
+                    .icon_wrap-pause {
+                        opacity: 0;
+                    }
+                }
+
+                &-pause {
+                    .icon_wrap-resume {
+                        opacity: 0;
+                    }
+                }
             }
 
             &-date {
