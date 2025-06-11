@@ -16,7 +16,7 @@ eleventyComputed:
     <div class="object_detail-content">
         <div class="object_card">
             <header class="object_card-head">
-                {{ Button(copy.object.back[lang], 'button ghost medium', 'chevron-left') }}
+                <a href="/{{lang}}/">{{ Button(copy.object.back[lang], 'button ghost medium', 'chevron-left') }}</a>
             </header>
             <div class="object_card-body">
                 <div class="object_card-heading">

@@ -13,26 +13,30 @@ export class DefaultPage extends Page {
     update() {}
 
     transitionIn(resolve: any): Promise<void> {
-        gsap.to(this.dom, {
-            autoAlpha: 1,
-            duration: 1,
-            ease: 'linear'
-        })
-
-        return Promise.resolve().then(resolve);
+        return new Promise<void>((gsapResolve) => {
+            gsap.to(this.dom, {
+                autoAlpha: 1,
+                duration: 1,
+                ease: 'linear',
+                onComplete: () => {
+                    gsapResolve();
+                }
+            })
+        }).then(resolve);
     }
 
     transitionOut(resolve: any): Promise<void> {
-        gsap.to(this.dom, {
-            autoAlpha: 0,
-            duration: 1,
-            ease: 'linear',
-            onComplete: () => {
-              this.dom.remove();
-            }
-        })
-
-        return Promise.resolve().then(resolve);
+        return new Promise<void>((gsapResolve) => {
+            gsap.to(this.dom, {
+                autoAlpha: 0,
+                duration: 1,
+                ease: 'linear',
+                onComplete: () => {
+                    this.dom.remove();
+                    gsapResolve();
+                }
+            })
+        }).then(resolve);
     }
 
     create(): void {}

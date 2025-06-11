@@ -16,7 +16,7 @@ import { CLOCK_SETTINGS, GLOBALS } from "../core/Globals";
 
 // import { Lensflare, LensflareElement } from 'three/examples/jsm/objects/Lensflare.js';
 import { tLoader } from "./solar/PlanetAssets";
-import { CameraManager } from "./core/CameraManager";
+import { CameraManager, camOcluders } from "./core/CameraManager";
 import { SolarItemUI } from "../layers/SolarItemsUI";
 import { LoadManager } from "../core/data/LoadManager";
 
@@ -90,6 +90,7 @@ export class OrbitViewer extends ThreeLayer {
 
 			this.sun = new Sun();
 			this.scene.add(this.sun);
+			camOcluders.push(this.sun);
 
       this.sunLight = new PointLight(0xffffff, 1, 0, 0);
       this.scene.add(this.sunLight);
@@ -249,6 +250,15 @@ export class OrbitViewer extends ThreeLayer {
 		// this.followTarget(this.solarElements[7]);
 
 		// this.hidePaths();
+	}
+
+	followSolarElement(name:string) {
+		for(const el of this.solarElements) {
+			if(el.name === name) {
+				this.solarItemsUI.hide();
+				return this.controls.followTarget(el);
+			}
+		}
 	}
 
 	followPlanet(id:PlanetId) {
