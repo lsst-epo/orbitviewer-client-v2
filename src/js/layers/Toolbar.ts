@@ -19,10 +19,10 @@ class Toolbar extends Layer {
     }
 
     start() {
-        const toolbarItem = document.querySelectorAll('.toolbar-link');
+        const toolbarItem = document.querySelectorAll('.toolbar-link[data-open]');
 		toolbarItem.forEach(el => {
 			el.addEventListener('click', (event) => {
-				event.preventDefault();
+                event.preventDefault();
 				const dataOpen = el.getAttribute('data-open');
 
 				if(dataOpen === 'objects') {
