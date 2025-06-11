@@ -12,7 +12,7 @@ eleventyComputed:
     <h2 class="onboarding-title" id="onboarding-heading">{{ copy.onboarding.title[lang] }}</h2>
     <div class="exploration">
         <ul class="exploration-list" role="radiogroup" aria-labelledby="onboarding-heading" aria-required="true">
-            {% for key, mode in copy.onboarding.mode %}
+            {% for key, mode in copy.exploration %}
             {% set recommended = 2 %}
             {% set ids = ['low', 'mmedium', 'high', 'ultra'] %}
             <li class="exploration-item {% if loop.index0 == recommended %}recommended{% endif %}" role="radio" aria-checked="false" tabindex="0" >
@@ -24,7 +24,7 @@ eleventyComputed:
                         <h3 class="name">{{ mode.name[lang] }}</h3>
                         <h4 class="title">{{ mode.title[lang] }}</h4>
                         <p class="description">{{ mode.description[lang] }}</p>
-                        <p class="count">{{ mode.objects[lang] }}</p>
+                        <p class="count">30,000 {{ copy.core.objects[lang] }}</p>
                     </div>
                     <div class="exploration_card-foot">
                         {# {{ Button('Launch', 'button secondary medium') }} #}

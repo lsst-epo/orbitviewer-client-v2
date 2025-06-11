@@ -27,9 +27,9 @@
                                         <button type="button" class="listitem-link">
                                             <span class="heading">
                                                 {{ icon('language') }}
-                                                <span class="label">{{ copy.navigation.language[lang] }}</span>
+                                                <span class="label">{{ copy.core.languages.label[lang] }}</span>
                                             </span>
-                                            <span class="value" id="language-value">English</span>
+                                            <span class="value" id="language-value">{{ copy.core.languages.english.full }}</span>
                                         </button>
                                     </li>
                                     <li class="listitem-item" role="menuitem" aria-describedby="detail-value">
@@ -38,7 +38,7 @@
                                                 {{ icon('settings') }}
                                                 <span class="label">{{ copy.navigation.exploration[lang] }}</span>
                                             </span>
-                                            <span class="value" id="detail-value">Medium</span>
+                                            <span class="value" id="detail-value">{{ copy.exploration.low.title[lang] }}</span>
                                         </button>
                                     </li>
                                     <li class="listitem-item" role="menuitem">
@@ -53,7 +53,7 @@
                             </li>
 
                             <li class="listitem-group" role="group">
-                                <h3 class="listitem-label">Help</h3>
+                                <h3 class="listitem-label">{{ copy.navigation.help[lang] }}</h3>
                                 <ul class="listitem-list">
                                     <li class="listitem-item" role="menuitem">
                                         <a href="" class="listitem-link">
@@ -79,14 +79,14 @@
                         <div class="nav_dropdown_level-group" data-menu="language" aria-hidden="true">
                             <div class="nav_dropdown_level-head">
                                 {{ ButtonIcon('button_icon medium ghost', 'arrow-left') }}
-                                <h4 class="title">Language</h4>
+                                <h4 class="title">{{ copy.core.languages[lang] }}</h4>
                             </div>
                             <div class="nav_dropdown_level-body">
                                 <ul class="listitem-list">
                                     <li class="listitem-item" role="menuitem">
                                         <a href="" class="listitem-link active">
                                             <span class="heading">
-                                                <span class="label">English</span>
+                                                <span class="label">{{ copy.core.languages.english.full[lang] }}</span>
                                             </span>
                                             {{ icon('check', 'check') }}
                                         </a>
@@ -95,7 +95,7 @@
                                     <li class="listitem-item" role="menuitem">
                                         <a href="" class="listitem-link">
                                             <span class="heading">
-                                                <span class="label">Español</span>
+                                                <span class="label">{{ copy.core.languages.spanish.full[lang] }}</span>
                                             </span>
                                             {{ icon('check', 'check') }}
                                         </a>
@@ -107,39 +107,26 @@
                         <div class="nav_dropdown_level-group" data-menu="exploration" aria-hidden="false">
                             <div class="nav_dropdown_level-head">
                                 {{ ButtonIcon('button_icon medium ghost', 'arrow-left') }}
-                                <h4 class="title">Exploration mode</h4>
+                                <h4 class="title">{{ copy.navigation.exploration[lang] }}</h4>
                             </div>
                             <div class="nav_dropdown_level-body">
                                 <ul class="listitem-list">
+                                    {% for key, mode in copy.exploration %}
                                     <li class="listitem-item" role="menuitem">
-                                        <a href="" class="listitem-link active">
+                                        <a href="" class="listitem-link {% if loop.first %}active{% endif %}">
                                             <span class="text">
                                                 <span class="heading">
-                                                    <span class="label">Mobile optimized</span>
+                                                    <span class="label">{{ mode.title[lang] }}</span>
                                                 </span>
                                                 <span class="details">
-                                                    <span>Mobile</span>
-                                                    <span>16,000 objects</span>
+                                                    <span>{{ mode.name[lang] }}</span>
+                                                    <span>16,000 {{ copy.core.objects[lang] }}</span>
                                                 </span>
                                             </span>
                                             {{ icon('check', 'check') }}
                                         </a>
                                     </li>
-
-                                    <li class="listitem-item" role="menuitem">
-                                        <a href="" class="listitem-link">
-                                            <span class="text">
-                                                <span class="heading">
-                                                    <span class="label">Mobile optimized</span>
-                                                </span>
-                                                <span class="details">
-                                                    <span>Mobile</span>
-                                                    <span>16,000 objects</span>
-                                                </span>
-                                            </span>
-                                            {{ icon('check', 'check') }}
-                                        </a>
-                                    </li>
+                                    {% endfor %}
                                 </ul>
                             </div>
                         </div>

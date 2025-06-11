@@ -1,9 +1,87 @@
 export default {
+    "core": {
+        "languages": {
+            "label": {
+                "en": "languages",
+                "es": ""
+            },
+            "english": {
+                "shorthand": "en",
+                "full": "English"
+            },
+            "spanish": {
+                "shorthand": "es",
+                "full": "Español"
+            }
+        },
+        "objects": {
+            "en": "objects",
+            "es": ""
+        }
+    },
     "logo": {
         "alt": {
             "en": "NSF DOE Rubin Observatory Orbitviewer logo",
             "es": ""
         }
+    },    
+     "exploration": {
+        "low": {
+            "name": {
+                "en": "Mobile",
+                "es": ""
+            },
+            "title": {
+                "en": "Mobile Optimized",
+                "es": ""
+            },
+            "description": {
+                "en": "Perfect for on-the-go exploration with minimal data usage",
+                "es": ""
+            }
+        },
+        "medium": {
+            "name": {
+                "en": "High-end mobiles",
+                "es": ""
+            },
+            "title": {
+                "en": "Core Experience",
+                "es": ""
+            },
+            "description": {
+                "en": "Great performance on most devices with rich visuals",
+                "es": ""
+            }
+        },
+        "high": {
+            "name": {
+                "en": "High-end laptops",
+                "es": ""
+            },
+            "title": {
+                "en": "Detailed discovery",
+                "es": ""
+            },
+            "description": {
+                "en": "Detailed textures and increased object count for deeper exploration",
+                "es": ""
+            }
+        },
+        "extra": {
+            "name": {
+                "en": "Gaming PCs",
+                "es": ""
+            },
+            "title": {
+                "en": "Maximum fidelity",
+                "es": ""
+            },
+            "description": {
+                "en": "Maximum detail with complete celestial catalog for the ultimate experience",
+                "es": ""
+            }
+        },
     },
     "navigation": {
         "aria": {
@@ -111,16 +189,6 @@ export default {
         "discoveries": {
             "en": "Discoveries Unveiled",
             "es": ""
-        },
-        "languages": {
-            "english": {
-                "shorthand": "en",
-                "full": "English"
-            },
-            "spanish": {
-                "shorthand": "es",
-                "full": "Español"
-            }
         }
     },
     "object": {
@@ -208,74 +276,12 @@ export default {
             "en": "Choose your Exploration Mode",
             "es": ""
         },
-        "mode": {
-            "low": {
-                "name": {
-                    "en": "Mobile",
-                    "es": ""
-                },
-                "title": {
-                    "en": "Mobile Optimized",
-                    "es": ""
-                },
-                "description": {
-                    "en": "Perfect for on-the-go exploration with minimal data usage",
-                    "es": ""
-                }
-            },
-            "medium": {
-                "name": {
-                    "en": "High-end mobiles",
-                    "es": ""
-                },
-                "title": {
-                    "en": "Core Experience",
-                    "es": ""
-                },
-                "description": {
-                    "en": "Great performance on most devices with rich visuals",
-                    "es": ""
-                }
-            },
-            "high": {
-                "name": {
-                    "en": "High-end laptops",
-                    "es": ""
-                },
-                "title": {
-                    "en": "Detailed discovery",
-                    "es": ""
-                },
-                "description": {
-                    "en": "Detailed textures and increased object count for deeper exploration",
-                    "es": ""
-                }
-            },
-            "extra": {
-                "name": {
-                    "en": "Gaming PCs",
-                    "es": ""
-                },
-                "title": {
-                    "en": "Maximum fidelity",
-                    "es": ""
-                },
-                "description": {
-                    "en": "Maximum detail with complete celestial catalog for the ultimate experience",
-                    "es": ""
-                }
-            },
-        },
         "recommended": {
             "en": "recommended",
             "es": ""
         },
         "action": {
             "en": "Launch",
-            "es": ""
-        },
-        "objects": {
-            "en": "objects",
             "es": ""
         },
         "info": {
