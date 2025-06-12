@@ -9,12 +9,15 @@ export class SimpleSlider {
   protected track: HTMLElement;
   protected trackRect:DOMRect;
 
+  enabled:boolean = false;
+
   private _onMouseDown;
   private _onTouchStart;
   private _onMouseMove;
   private _onTouchMove;
   private _onMouseUp;
   private _onTouchEnd;
+  private _onKeyDown;
 
   private _anchorMX:number;
   private _anchorX:number; 
@@ -69,6 +72,7 @@ export class SimpleSlider {
     this._onTouchStart = this.onTouchStart.bind(this);
     this._onTouchMove = this.onTouchMove.bind(this);
     this._onTouchEnd = this.onTouchEnd.bind(this);
+    this._onKeyDown = this.onKeyDown.bind(this);
 
     this.thumb.addEventListener('mousedown', this._onMouseDown);
     document.addEventListener('mousemove', this._onMouseMove);
@@ -77,6 +81,8 @@ export class SimpleSlider {
     this.thumb.addEventListener('touchstart', this._onTouchStart);
     document.addEventListener('touchmove', this._onTouchMove);
     document.addEventListener('touchend', this._onTouchEnd);
+
+    document.addEventListener('keydown', this._onKeyDown);
   }
 
   protected removeEventListeners() {
@@ -87,6 +93,8 @@ export class SimpleSlider {
     this.thumb.removeEventListener('touchstart', this._onTouchStart);
     document.removeEventListener('touchmove', this._onTouchMove);
     document.removeEventListener('touchend', this._onTouchEnd);
+
+    document.removeEventListener('keydown', this._onKeyDown);
   }
 
   protected onMouseDown(e:MouseEvent) {
@@ -113,7 +121,27 @@ export class SimpleSlider {
     this.stopDrag();
   }
 
+  protected onKeyDown(e:KeyboardEvent) {
+    if(!this.enabled) return;
+    if(e.key === 'ArrowRight') {
+      this.updateBy(1);
+    } else if(e.key === 'ArrowLeft') {
+      this.updateBy(-1);
+    } 
+  }
+
+  /**
+   * Update Slider by normalized units
+   * @param nD normalized distance
+   */
+  protected updateBy(nD:number) {
+    const d = 1/(this._max - this._min);
+    this._value = MathUtils.clamp(this._value + d * nD, 0, 1);
+    this.updateSlider();
+  }
+
   protected startDrag(x:number) {
+    if(!this.enabled) return;
     if(this.isDragging) return;
     this.isDragging = true;
     this._anchorMX = x;
@@ -121,6 +149,7 @@ export class SimpleSlider {
   }
 
   protected drag(x:number) {
+    if(!this.enabled) return;
     if(!this.isDragging) return;
     const dx = x - this._anchorMX;
     const w = this.trackRect.width;
