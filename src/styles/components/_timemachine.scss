@@ -1,6 +1,7 @@
 // timemachine.scss
 
 @use '../base/mixins' as *;
+@use '../base/typography' as *;
 
 .timemachine {
     --timemachine-head-height: 48px;
@@ -101,7 +102,14 @@
         &-toggle {
             padding: 0 8px;
             border-left: solid 1px var(--color-border);
+
+            .button span {
+                @include font(caption-regular-caps);
+                white-space: nowrap;
+            } 
+
         }
+    
     &-body {
         display: none;
     }
