@@ -22,7 +22,7 @@ export class SolarItemUI {
   addItem(el:SolarElement) {
     const category = el.category;
     const id = CategoryTypeMap[category];
-    console.log(category, id);
+    // console.log(category, id);
 
     for(const template of this.templates) {
       if(parseInt(template.getAttribute('data-id')) === id) {

@@ -158,7 +158,7 @@ export class SolarClock {
             this.elapsedTime = this.iClock.getElapsedTime();
         }
 
-        if(Math.abs(this.targetSpeed) > 0) this.isLive = false;
+        if(Math.abs(this.targetSpeed) > 0 || this.paused) this.isLive = false;
 
         if(Math.abs(this.targetSpeed-this.speed) < .01) {
             this.speed = this.targetSpeed;

@@ -156,7 +156,6 @@ export class OrbitViewer extends ThreeLayer {
 			this.fadeIn();
 			this.controls.releaseCameraTarget();
 			gsap.killTweensOf(CLOCK_SETTINGS);
-			CLOCK_SETTINGS.speed = 0;
 			if(setDate) GLOBALS.solarClock.setDate();
 
 			this.solarItemsUI.show();

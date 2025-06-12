@@ -37,6 +37,7 @@ class TimeMachine extends Layer implements SliderListener {
 				this.liveCheckBox.checked = true;
 				this.timemachineSlider.value = 0.5;
 				GLOBALS.solarClock.goLive();
+				this.updatePlayPause();
 			}
 
 			this.playPause = dom.querySelector('button.button_icon');
@@ -68,6 +69,7 @@ class TimeMachine extends Layer implements SliderListener {
 			return new Promise(resolve => {
 				super.open().then(r => {
 					this.timemachineSlider.update();
+					this.updatePlayPause();
 					resolve();
 				})
 			});
