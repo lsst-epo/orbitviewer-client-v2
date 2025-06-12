@@ -1,8 +1,10 @@
+import SlidingMenu from "../components/SlidingMenu";
 import Layer from "./Layer";
 
 class Navigation extends Layer {
   dom: HTMLElement;
   button_trigger: any;
+  slidingMenu: SlidingMenu;
   
   constructor(dom) {
       super(dom, {
@@ -14,6 +16,8 @@ class Navigation extends Layer {
       this.dom = dom;
 
       this.button_trigger = document.querySelector('#nav_trigger');
+
+      this.slidingMenu = new SlidingMenu('.nav_dropdown');
 
       this.start();
   }

@@ -18,13 +18,13 @@
 
             <div id="nav_dropdown" class="nav_dropdown" aria-hidden="true">
                 <div class="nav_dropdown-content">
-                    <div class="nav_dropdown_level">
+                    <div class="nav_dropdown_level nav_dropdown_level-1">
                         <ul class="listitem-content" role="menu">
                             <li class="listitem-group" role="group">
                                 <h3 class="listitem-label">{{ copy.navigation.settings[lang] }}</h3>
                                 <ul class="listitem-list">
                                     <li class="listitem-item" role="menuitem" aria-describedby="language-value">
-                                        <button type="button" class="listitem-link">
+                                        <button type="button" id="menuitem-languages" class="listitem-link">
                                             <span class="heading">
                                                 {{ icon('language') }}
                                                 <span class="label">{{ copy.core.languages.label[lang] }}</span>
@@ -33,7 +33,7 @@
                                         </button>
                                     </li>
                                     <li class="listitem-item" role="menuitem" aria-describedby="detail-value">
-                                        <button type="button" class="listitem-link">
+                                        <button type="button" id="menuitem-exploration" class="listitem-link">
                                             <span class="heading">
                                                 {{ icon('settings') }}
                                                 <span class="label">{{ copy.navigation.exploration[lang] }}</span>
@@ -75,27 +75,27 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="nav_dropdown_level">
+                    <div class="nav_dropdown_level nav_dropdown_level-2">
                         <div class="nav_dropdown_level-group" data-menu="language" aria-hidden="true">
                             <div class="nav_dropdown_level-head">
-                                {{ ButtonIcon('button_icon medium ghost', 'arrow-left') }}
-                                <h4 class="title">{{ copy.core.languages[lang] }}</h4>
+                                {{ ButtonIcon('button_icon medium ghost button_back', 'arrow-left') }}
+                                <h4 class="title">{{ copy.core.languages.label[lang] }}</h4>
                             </div>
                             <div class="nav_dropdown_level-body">
                                 <ul class="listitem-list">
                                     <li class="listitem-item" role="menuitem">
-                                        <a href="" class="listitem-link active">
+                                        <a href="/en/" class="listitem-link active">
                                             <span class="heading">
-                                                <span class="label">{{ copy.core.languages.english.full[lang] }}</span>
+                                                <span class="label">{{ copy.core.languages.english.full }}</span>
                                             </span>
                                             {{ icon('check', 'check') }}
                                         </a>
                                     </li>
 
                                     <li class="listitem-item" role="menuitem">
-                                        <a href="" class="listitem-link">
+                                        <a href="/es/" class="listitem-link">
                                             <span class="heading">
-                                                <span class="label">{{ copy.core.languages.spanish.full[lang] }}</span>
+                                                <span class="label">{{ copy.core.languages.spanish.full }}</span>
                                             </span>
                                             {{ icon('check', 'check') }}
                                         </a>
@@ -106,25 +106,29 @@
 
                         <div class="nav_dropdown_level-group" data-menu="exploration" aria-hidden="false">
                             <div class="nav_dropdown_level-head">
-                                {{ ButtonIcon('button_icon medium ghost', 'arrow-left') }}
+                                {{ ButtonIcon('button_icon medium ghost button_back', 'arrow-left') }}
                                 <h4 class="title">{{ copy.navigation.exploration[lang] }}</h4>
                             </div>
                             <div class="nav_dropdown_level-body">
                                 <ul class="listitem-list">
                                     {% for key, mode in copy.exploration %}
                                     <li class="listitem-item" role="menuitem">
-                                        <a href="" class="listitem-link {% if loop.first %}active{% endif %}">
-                                            <span class="text">
-                                                <span class="heading">
-                                                    <span class="label">{{ mode.title[lang] }}</span>
+                                        <label class="listitem-field">
+                                            <input type="radio" id="{{ mode.id }}" name="mode">
+                                        
+                                            <span class="listitem-link">
+                                                <span class="text">
+                                                    <span class="heading">
+                                                        <span class="label">{{ mode.title[lang] }}</span>
+                                                    </span>
+                                                    <span class="details">
+                                                        <span>{{ mode.name[lang] }}</span>
+                                                        <span>16,000 {{ copy.core.objects[lang] }}</span>
+                                                    </span>
                                                 </span>
-                                                <span class="details">
-                                                    <span>{{ mode.name[lang] }}</span>
-                                                    <span>16,000 {{ copy.core.objects[lang] }}</span>
-                                                </span>
+                                                {{ icon('check', 'check') }}
                                             </span>
-                                            {{ icon('check', 'check') }}
-                                        </a>
+                                        </label>
                                     </li>
                                     {% endfor %}
                                 </ul>
