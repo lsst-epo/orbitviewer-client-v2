@@ -101,5 +101,5 @@ export const GLOBALS:Globals = {
 	lang: null,
 	timeCtrls: null,
 	mapCtrls: null,
-	firstPage: false
+	firstPage: true
 }
