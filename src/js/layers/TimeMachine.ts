@@ -80,7 +80,7 @@ class TimeMachine extends Layer implements SliderListener {
 				disableMobile: true,
 				position: "above",
 				enableTime: true,
-				dateFormat: "F j, Y H:i",
+				dateFormat: "M j, Y H:i",
 				defaultDate: new Date(),
 				locale: {
 					weekdays: {

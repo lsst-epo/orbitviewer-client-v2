@@ -17,12 +17,6 @@
     }
 
     &-svg {
-        @keyframes loader-rotate {
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-        
         animation: loader-rotate 3s linear infinite;
 
         svg {
@@ -31,4 +25,10 @@
             fill: var(--color-turquoise-400);
         }
     }   
+}
+
+@keyframes loader-rotate {
+    100% {
+        transform: rotate(360deg);
+    }
 }

@@ -28,6 +28,30 @@
 
                 &-item {}
 
+                    &-field {
+                        input[type=radio] {
+                            @include hidden;
+                            
+                            &:checked + .listitem-link {
+                                background: var(--color-turquoise-800);
+                                color: var(--color-turquoise-300);
+
+                                .label {
+                                    @include font(body-medium-semi);
+                                }
+
+                                .value {
+                                    color: var(--color-text);
+                                }
+
+                                .check {
+                                    display: block;
+                                    fill: var(--color-turquoise-400);
+                                }
+                            }
+                        }
+                    } 
+
                     &-link {
                         display: flex;
                         width: 100%;
