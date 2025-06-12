@@ -11,6 +11,7 @@ class TimeMachine extends Layer implements SliderListener {
 
 		liveCheckBox:HTMLInputElement;
 		playPause:HTMLButtonElement;
+		collapsedLabel:HTMLSpanElement;
 
 		flat;
     
@@ -26,7 +27,7 @@ class TimeMachine extends Layer implements SliderListener {
     	this.toggleButton = dom.querySelector('#timemachine-toggle') as HTMLElement;
 
 			this.timemachineSlider = new SimpleSlider(this.slider, .5);
-			// this.timemachineSlider.units = "hrs/sec"
+			this.timemachineSlider.units = "hrs/s"
 			this.timemachineSlider.setMinMax(-CLOCK_SETTINGS.maxSpeed, CLOCK_SETTINGS.maxSpeed);
 			this.timemachineSlider.addListener(this);
 
@@ -47,6 +48,8 @@ class TimeMachine extends Layer implements SliderListener {
 				this.updatePlayPause();
 			}
 
+			this.collapsedLabel = dom.querySelector('button#timemachine-toggle').querySelector('span');
+
 		// this.timemachineSlider.setRange(-1000, 1000);
 		// this.timemachineSlider.setValues([0, 0]);
 
@@ -63,6 +66,10 @@ class TimeMachine extends Layer implements SliderListener {
 				this.playPause.classList.add('button_play-resume')
 				this.playPause.classList.remove('button_play-pause')
 			}
+		}
+
+		updateLabel() {
+			this.collapsedLabel.textContent = `${CLOCK_SETTINGS.speed} hrs/s`
 		}
 
 		open(): Promise<void> {
@@ -133,6 +140,7 @@ class TimeMachine extends Layer implements SliderListener {
 		onChange(normalizedValue: number): void {
 			CLOCK_SETTINGS.speed = normalizedValue;
 			GLOBALS.solarClock.resume();
+			this.updateLabel();
 		}
 
 		update() {
