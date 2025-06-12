@@ -297,7 +297,7 @@ class RangeSlider {
     const trackRect = this.track.getBoundingClientRect();
     const trackWidth = trackRect.width;
 
-    console.log('update slader');
+    // console.log('update slader');
     
     // Skip update if track has no width yet (not rendered)
     /* if (trackWidth === 0) {

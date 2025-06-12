@@ -29,5 +29,7 @@ export class ObjectPage extends DefaultPage {
                 tooltip.show(el, undefined, "center");
             });
         });
+
+        super.create();
     }
 }

@@ -61,6 +61,8 @@ class OrbitViewerPage extends DefaultPage {
 	create(): void {
 		this.createElements();
 
+		console.log(GLOBALS.firstPage);
+
 		if(GLOBALS.firstPage) {
 			if(IS_DEV_MODE && SKIP_ONBOARDING) {
 				this.splash?.close();
@@ -70,8 +72,11 @@ class OrbitViewerPage extends DefaultPage {
 				GLOBALS.viewer.goToLandingMode();
 			}
 		} else {
+			this.splash?.close();
 			GLOBALS.viewer.goToOrbitViewerMode();
 		}
+
+		super.create();
 	}
 
 	showUI() {

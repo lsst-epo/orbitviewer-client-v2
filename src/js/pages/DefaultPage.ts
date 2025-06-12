@@ -14,7 +14,7 @@ export class DefaultPage extends Page {
     update() {}
 
     transitionIn(resolve: any): Promise<void> {
-        GLOBALS.firstPage = false;
+        // GLOBALS.firstPage = false;
         return new Promise<void>((gsapResolve) => {
             gsap.to(this.dom, {
                 autoAlpha: 1,
@@ -41,7 +41,9 @@ export class DefaultPage extends Page {
         }).then(resolve);
     }
 
-    create(): void {}
+    create(): void {
+        GLOBALS.firstPage = false;
+    }
 
     dispose(): void {}
 }

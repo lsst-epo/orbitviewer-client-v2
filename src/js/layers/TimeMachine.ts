@@ -68,6 +68,7 @@ class TimeMachine extends Layer implements SliderListener {
 			return new Promise(resolve => {
 				super.open().then(r => {
 					this.timemachineSlider.update();
+					this.updatePlayPause();
 					resolve();
 				})
 			});
