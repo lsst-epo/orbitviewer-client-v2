@@ -33,8 +33,8 @@ export const PlanetCameraLock:Record<PlanetId,CameraLock> = {
 		max: 25
 	},
 	earth: {
-		min: 15,
-		max: 30
+		min: 17,
+		max: 20
 	},
 	mars: {
 		min: 8,

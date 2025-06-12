@@ -1,4 +1,5 @@
 import Tooltip from "../components/Tooltip";
+import { GLOBALS } from "../core/Globals";
 import { DefaultPage } from "./DefaultPage";
 
 export class ObjectPage extends DefaultPage {
@@ -29,6 +30,14 @@ export class ObjectPage extends DefaultPage {
                 tooltip.show(el, undefined, "center");
             });
         });
+
+        // if(GLOBALS.firstPage) {
+            GLOBALS.timeCtrls.open();
+            GLOBALS.mapCtrls.open();
+            const name = location.search.replace('?', '');
+            // console.log(name);
+            GLOBALS.viewer.followSolarElement(name);
+        // }
 
         super.create();
     }

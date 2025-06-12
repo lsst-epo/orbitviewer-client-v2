@@ -254,6 +254,7 @@ export class OrbitViewer extends ThreeLayer {
 	followSolarElement(name:string) {
 		for(const el of this.solarElements) {
 			if(el.name === name) {
+				this.fadeIn();
 				this.solarItemsUI.hide();
 				return this.controls.followTarget(el);
 			}

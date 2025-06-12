@@ -63,8 +63,6 @@ export class App implements NomadRouteListener {
 
 		const shareDom = document.querySelector('.share');
 		this.share = shareDom ? new Share(shareDom) : null;
-		
-		this.initNomad();
 
 		// this.profiler = new PerformanceProfiler(this.viewer);
 		this.start();
@@ -133,6 +131,8 @@ export class App implements NomadRouteListener {
 		// this.addGUI();
 		console.log(LoadManager.data);
 		console.log(LoadManager.craftData);
+
+		this.initNomad();
 
 		// this.viewer.goToLandingMode();
 		/* this.viewer.fadeIn();

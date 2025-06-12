@@ -62,7 +62,7 @@ export class Planet extends SolarElement {
 	constructor(id: PlanetId, _data: OrbitElements, opts: SolarElementOptions = {}) {
 		super(id, _data, opts);
 
-        this.offsetDesktop.set(-6, 0, 0);
+        this.offsetDesktop.set(-4, 0, 0);
 
         this.initMaterial(opts);
 

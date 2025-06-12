@@ -177,21 +177,9 @@ export class CameraManager {
     this.cameraTarget.alpha = .036;
     this.cameraTarget.isAnimating = true;
     this.controls.enabled = false;
-    /* gsap.to(this.cameraTarget, {
-      alpha: 1,
-      delay: 2,
-      duration: 2,
-      ease: 'expo.inOut',
-      overwrite: true,
-      onComplete: () => {
-        this.cameraTarget.isAnimating = false;
-        this.controls.enabled = autoEnable;
-        // console.log(autoEnable);
-      }
-    }) */
     const duration = 3;
     const ease = "cubic.out";
-    dummy.position.copy(target.position).add(target.offsetDesktop);
+    /* dummy.position.copy(target.position).add(target.offsetDesktop);
     gsap.to(this.controls.target, {
       x: dummy.position.x,
       y: dummy.position.y,
@@ -213,7 +201,7 @@ export class CameraManager {
         this.controls.autoRotateSpeed = .05;
         this.controls.enabled = autoEnable;
       }
-    })
+    }) */
     this.cameraTarget.target = target;
     // this.controls.enablePan = false;
     // this.controls.autoRotate = true;
@@ -268,9 +256,18 @@ export class CameraManager {
   }
 
   update() {
-    /* if(this.cameraTarget.target) {
-			this.controls.target.lerp(this.cameraTarget.target.position, this.cameraTarget.alpha);
-    } */
+    if(this.cameraTarget.target) {
+      const target = this.cameraTarget.target;
+      const easing = this.cameraTarget.alpha
+      dummy.position.copy(target.position).add(target.offsetDesktop);
+			this.controls.target.lerp(dummy.position, easing);
+      this.controls.minDistance = MathUtils.lerp(this.controls.minDistance, target.lockedDistance.min, easing);
+      this.controls.maxDistance = MathUtils.lerp(this.controls.maxDistance, target.lockedDistance.max, easing);
+      this.controls.minPolarAngle = MathUtils.lerp(this.controls.minPolarAngle, Math.PI/2.5, easing);
+      this.controls.maxPolarAngle = MathUtils.lerp(this.controls.maxPolarAngle, Math.PI/1.5, easing);
+      this.controls.minAzimuthAngle = MathUtils.lerp(this.controls.minAzimuthAngle, -Math.PI/4, easing);
+      this.controls.maxAzimuthAngle = MathUtils.lerp(this.controls.maxAzimuthAngle, Math.PI/4, easing);
+    }
 
     if(Math.abs(this.zoom) > 0) {
       this.zoomBy(this.zoom);
