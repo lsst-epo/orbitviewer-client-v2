@@ -1,0 +1,48 @@
+// scene_controls.scss
+
+@use '../base/mixins' as *;
+@use '../base/typography' as *;
+
+.scene_controls {
+    --timemachine-gap: 12px;
+    
+    position: absolute;
+    right: var(--site-margin-large);
+    bottom: calc(var(--toolbar-height) + var(--site-margin-large) + var(--timemachine-gap));
+    left: var(--site-margin-large);
+    z-index: var(--z-scene_controls);
+    display: grid;
+    gap: 12px;
+    grid-template-rows: repeat(2, 1fr);
+    grid-template-columns: 1fr auto;
+
+    @include media(medium) {
+        bottom: var(--site-margin-large);
+    }
+
+    .togglegroup {
+        align-self: flex-end;
+        justify-self: center;
+    }
+
+    .timemachine {
+        grid-row: 2/-1;
+        grid-column: 1/-1;
+
+        @include media(medium) {
+            grid-row: 2/-1;
+            grid-column: 1/2;
+        }
+    }
+
+    .map_controls {
+        grid-row: 1/2;
+        grid-column: 2/-1;
+        align-self: flex-end;
+
+        @include media(medium) {
+            grid-row: 1/-1;
+            grid-column: 2/-1;
+        }
+    }
+}
