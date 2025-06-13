@@ -152,11 +152,11 @@ export class OrbitViewer extends ThreeLayer {
 			this.solarItemsUI.hide();
 		}
 
-		goToOrbitViewerMode(setDate:boolean=false) {
+		goToOrbitViewerMode(goLive:boolean=false) {
 			this.fadeIn();
 			this.controls.releaseCameraTarget();
 			gsap.killTweensOf(CLOCK_SETTINGS);
-			if(setDate) GLOBALS.solarClock.setDate();
+			if(goLive) GLOBALS.solarClock.goLive();
 
 			this.solarItemsUI.show();
 		}

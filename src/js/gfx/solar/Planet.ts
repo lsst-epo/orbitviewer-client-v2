@@ -277,10 +277,10 @@ export const PlanetAtmosphereSettings:Record<PlanetId,AtmosphereSettings> = {
         brightness: 1.5
     },
     uranus: {
-        color1: 0x3333FF,
+        color1: 0x74E6AF,
         color2: 0xeeeeee,
-        fresnelWidth: 6,
-        scale: 1.05,
+        fresnelWidth: 5,
+        scale: 1.02,
         brightness: 1.5
     },
     neptune: {

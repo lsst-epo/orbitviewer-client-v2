@@ -1,6 +1,7 @@
 {% from "../partials/icons.njk" import initSpriteSheet %}
 {% from "../partials/icons.njk" import icon %}
 {% from "../components/pointer.njk" import Pointer %}
+{% from "../components/loader.njk" import Loader %}
 
 <!DOCTYPE html>
 <html lang="{{lang}}">
@@ -42,7 +43,8 @@
                 </div>
             </div>
         </main>
-        
+
+        {{ Loader() }}
 
         <script defer type="module">
             const src = "/bundle/main.js";

@@ -20,6 +20,7 @@ import OrbitViewerPage from "../pages/OrbitViewerPage";
 import gsap from "gsap";
 import TimeMachine from "../layers/TimeMachine";
 import MapControls from "../layers/MapControls";
+import { Loader } from "../layers/Loader";
 
 export const solarClock = new SolarClock(new Clock());
 
@@ -41,6 +42,9 @@ export class App implements NomadRouteListener {
 
 	constructor() {
 		GLOBALS.lang = document.documentElement.getAttribute('lang');
+
+		GLOBALS.loader = new Loader(document.querySelector('.loader'));
+		GLOBALS.loader.show();
 
 		initShaders();
 
@@ -131,6 +135,8 @@ export class App implements NomadRouteListener {
 		// this.addGUI();
 		console.log(LoadManager.data);
 		console.log(LoadManager.craftData);
+
+		GLOBALS.loader.hide();
 
 		this.initNomad();
 
