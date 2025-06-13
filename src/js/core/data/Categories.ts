@@ -31,6 +31,17 @@ export const CategoryTypeMap:Record<SolarCategory, number> = {
 	"jupiter-trojans": 8
 }
 
+export const CSSCategoryMap:Record<number, string> = {
+	1: "asteroids",
+	2: "near_earth",
+	3: "trans_neptunian",
+	4: "centaurs",
+	5: "comets",
+	6: "interstellar",
+	7: "planets",
+	8: "trojans"
+}
+
 export function getCraftCategory(category:SolarCategory) {
 	const categories = LoadManager.craftData.categories;
 	for(const cat of categories) {

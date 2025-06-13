@@ -3,6 +3,7 @@ import { getSolarStaticData } from "../Utils";
 import { getCategories, getSolarItemsInfo } from "./CraftManager";
 import { VISUAL_SETTINGS } from "../Globals";
 import { USE_V2 } from "../App";
+import { CSSCategoryMap } from "./Categories";
 
 const staticURL = "/assets/data/";
 const baseURL = "/assets/data/";
@@ -69,8 +70,11 @@ class LoadManagerClass {
     }
 
     private createCategoryColorMap(cnt) {
+        const root = document.documentElement;
         cnt.data.categories.forEach(entry => {
             entry.threeColor = new Color(entry.mainColor);
+            root.style.setProperty(`--color-${CSSCategoryMap[parseInt(entry.objectTypeCode)]}`, entry.mainColor);
+            // console.log(`--color-${CSSCategoryMap[parseInt(entry.objectTypeCode)]}`, entry.mainColor);
             // console.log(entry);
         })
     }
