@@ -41,10 +41,12 @@ class Onboarding extends Layer {
                 if(id !== VISUAL_SETTINGS.current) {
                     // Load Data
                     // To-Do: Show loader modal
+                    GLOBALS.loader.show();
                     VISUAL_SETTINGS.current = id;
                     LoadManager.loadSample(id, (json) => {
                         const data = USE_V2 ? getSimDataV2(LoadManager.data.sample) : getSimData(LoadManager.data.sample);;
                         GLOBALS.viewer.setData(data);
+                        GLOBALS.loader.hide();
                         //To-Do: close loader
                         whenReady();
                     });

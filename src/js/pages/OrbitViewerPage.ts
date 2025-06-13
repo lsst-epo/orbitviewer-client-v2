@@ -61,7 +61,7 @@ class OrbitViewerPage extends DefaultPage {
 	create(): void {
 		this.createElements();
 
-		console.log(GLOBALS.firstPage);
+		// console.log(GLOBALS.firstPage);
 
 		if(GLOBALS.firstPage) {
 			if(IS_DEV_MODE && SKIP_ONBOARDING) {

@@ -9,6 +9,7 @@ import { FAR, NEAR, OrbitViewer } from "../gfx/OrbitViewer";
 import { Nomad } from "@fils/nomad";
 import TimeMachine from "../layers/TimeMachine";
 import MapControls from "../layers/MapControls";
+import { Loader } from "../layers/Loader";
 
 /**
  * DEV_MODE is injected by esbuild
@@ -87,7 +88,8 @@ export interface Globals {
 	lang:string;
 	timeCtrls:TimeMachine;
 	mapCtrls:MapControls;
-	firstPage:boolean
+	firstPage:boolean;
+	loader:Loader;
 }
 
 export const GLOBALS:Globals = {
@@ -101,5 +103,6 @@ export const GLOBALS:Globals = {
 	lang: null,
 	timeCtrls: null,
 	mapCtrls: null,
-	firstPage: true
+	firstPage: true,
+	loader: null
 }
