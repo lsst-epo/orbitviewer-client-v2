@@ -3,11 +3,6 @@
 @use '../base/mixins' as *;
 
 .map_controls {
-    --timemachine-gap: 12px;
-    
-    // position: absolute;
-    // inset: 0;
-    // z-index: var(--z-map_controls);
     pointer-events: none;
 
     &[aria-hidden=true] {
@@ -15,9 +10,6 @@
     }
     
     &-buttons {
-        // position: absolute;
-        // right: var(--site-margin-large);
-        // bottom: calc(var(--site-margin-large) + var(--toolbar-height) + var(--timemachine-gap)*3 + var(--timemachine-height));
         display: flex;
         flex-direction: column;
         gap: 8px;
