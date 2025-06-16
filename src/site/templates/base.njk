@@ -34,9 +34,9 @@
         <div class="scene_controls">
             {% include 'timemachine.njk' %}            
             {% include 'mapcontrols.njk' %}
-            {% if pageTemplate == 'object' %}
+            {# {% if pageTemplate == 'object' %} #}
                 {{ ToggleGroup('toggle-view', '', 'object_controls', ['orbit', 'object'], 'object', true, 'Object view selector') }}
-            {% endif %}
+            {# {% endif %} #}
         </div>
 
         <main>

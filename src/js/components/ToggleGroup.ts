@@ -1,11 +1,10 @@
 class ToggleGroup {
-    element: any;
     inputs: any[];
     indicator: HTMLDivElement | null;
     callback: ((value: string, element: HTMLElement) => void) | null;
     
-    constructor(element, callback = null) {
-        this.element = typeof element === 'string' ? document.querySelector(element) : element;
+    constructor(public element:HTMLElement, callback = null) {
+        // this.element = typeof element === 'string' ? document.querySelector(element) : element;
         this.indicator = null;
         this.inputs = [];
         this.callback = callback;
