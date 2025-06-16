@@ -10,6 +10,7 @@ import { Nomad } from "@fils/nomad";
 import TimeMachine from "../layers/TimeMachine";
 import MapControls from "../layers/MapControls";
 import { Loader } from "../layers/Loader";
+import ToggleGroup from "../components/ToggleGroup";
 
 /**
  * DEV_MODE is injected by esbuild
@@ -88,6 +89,7 @@ export interface Globals {
 	lang:string;
 	timeCtrls:TimeMachine;
 	mapCtrls:MapControls;
+	objectToggle:ToggleGroup;
 	firstPage:boolean;
 	loader:Loader;
 }
@@ -103,6 +105,7 @@ export const GLOBALS:Globals = {
 	lang: null,
 	timeCtrls: null,
 	mapCtrls: null,
+	objectToggle: null,
 	firstPage: true,
 	loader: null
 }

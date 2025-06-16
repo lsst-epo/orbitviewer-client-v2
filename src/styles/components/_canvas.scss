@@ -27,7 +27,7 @@
         &[aria-hidden=true] {
             opacity: 0;
 
-            .canvas-pointer {
+            .canvas_pointer {
                 pointer-events: none;
             }
         }
@@ -58,6 +58,7 @@
 
     &[aria-hidden=true] {
         display: none;
+        pointer-events: none;
     }
 
     &.disabled {

@@ -18,6 +18,10 @@
         --height: 40px;
     }
 
+    &[aria-hidden=true] {
+        display: none;
+    }
+
     &-indicator {
         position: absolute;
         position: absolute;

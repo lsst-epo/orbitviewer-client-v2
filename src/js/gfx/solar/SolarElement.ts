@@ -54,6 +54,8 @@ export class SolarElement extends Object3D implements InteractiveObject {
     category: string;
     closeUp: boolean = false;
 
+    isPlanet:boolean = false;
+
     lockedDistance = { min: 1, max: 10 };
     offsetDesktop = new Vector3();
     offsetMobile = new Vector3();

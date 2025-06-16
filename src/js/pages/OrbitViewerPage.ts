@@ -24,7 +24,7 @@ class OrbitViewerPage extends DefaultPage {
 	openLayers: Set<string>;
     
   constructor(id: string, template: string, dom: HTMLElement) {
-    super(id, template, dom);
+    super(id, template, dom)
   }
 
 	createElements() {
@@ -75,6 +75,8 @@ class OrbitViewerPage extends DefaultPage {
 			this.splash?.close();
 			GLOBALS.viewer.goToOrbitViewerMode();
 		}
+
+		GLOBALS.objectToggle.hide();
 
 		super.create();
 	}

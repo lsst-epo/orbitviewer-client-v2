@@ -12,13 +12,22 @@ class ToggleGroup {
         this.init();
     }
 
+    show() {
+        this.element.setAttribute('aria-hidden', 'false');
+        this.updateIndicator();
+    }
+
+    hide() {
+        this.element.setAttribute('aria-hidden', 'true');
+    }
+
     init() {
         this.createIndicator();
         this.cacheInputs();
         this.bindEvents();
         
         // Wait until element is visible and has dimensions
-        this.waitForVisibility();
+        // this.waitForVisibility();
     }
 
     waitForVisibility() {
@@ -89,12 +98,5 @@ class ToggleGroup {
         }
     }
 }
-
-// Auto-initialize
-document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.togglegroup').forEach(el => {
-        new ToggleGroup(el);
-    });
-});
 
 export default ToggleGroup;

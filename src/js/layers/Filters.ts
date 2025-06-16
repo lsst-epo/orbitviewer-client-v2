@@ -30,6 +30,7 @@ class Filters extends Layer {
 
         // Togglegroup
 		const discoveriesToggle = new ToggleGroup(this.discoveries);
+        discoveriesToggle.show();
 
 		this.closeButton.addEventListener('click', (e) => {
 			e.preventDefault();

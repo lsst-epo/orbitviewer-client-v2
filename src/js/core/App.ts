@@ -21,6 +21,7 @@ import gsap from "gsap";
 import TimeMachine from "../layers/TimeMachine";
 import MapControls from "../layers/MapControls";
 import { Loader } from "../layers/Loader";
+import ToggleGroup from "../components/ToggleGroup";
 
 export const solarClock = new SolarClock(new Clock());
 
@@ -61,6 +62,7 @@ export class App implements NomadRouteListener {
 
 		GLOBALS.timeCtrls = new TimeMachine(document.querySelector('.timemachine'));
 		GLOBALS.mapCtrls = new MapControls(document.querySelector('.map_controls'));
+		GLOBALS.objectToggle = new ToggleGroup(document.querySelector('#toggle-view'));
 
 		const navigationDom = document.querySelector('.nav_dropdown');
 		this.navigation = navigationDom ? new Navigation(navigationDom) : null;

@@ -5,7 +5,6 @@ import { DefaultPage } from "./DefaultPage";
 
 export class ObjectPage extends DefaultPage {
     infoButtons: NodeListOf<Element>;
-    toggleView: HTMLElement;
     
     constructor(id: string, template: string, dom: HTMLElement) {
         super(id, template, dom);
@@ -21,9 +20,6 @@ export class ObjectPage extends DefaultPage {
         });
 
         this.infoButtons = this.dom.querySelectorAll('.orbital_elements-data .button_icon');
-        this.toggleView = document.querySelector('#toggle-view');
-
-        const viewToggle = new ToggleGroup(this.toggleView);
 
         this.infoButtons.forEach((el: HTMLElement) => {
             
@@ -36,13 +32,14 @@ export class ObjectPage extends DefaultPage {
             });
         });
 
-        // if(GLOBALS.firstPage) {
-            GLOBALS.timeCtrls.open();
-            GLOBALS.mapCtrls.open();
-            const name = location.search.replace('?', '');
-            // console.log(name);
-            GLOBALS.viewer.followSolarElement(name);
-        // }
+        GLOBALS.timeCtrls.open();
+        GLOBALS.mapCtrls.open();
+        const name = location.search.replace('?', '');
+        // console.log(name);
+        const sel = GLOBALS.viewer.followSolarElement(name);
+        if(sel.isPlanet) GLOBALS.objectToggle.show();
+        else GLOBALS.objectToggle.hide();
+        sel.orbitPath.selected = true;
 
         super.create();
     }

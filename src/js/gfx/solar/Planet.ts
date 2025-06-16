@@ -61,6 +61,8 @@ export class Planet extends SolarElement {
 
 	constructor(id: PlanetId, _data: OrbitElements, opts: SolarElementOptions = {}) {
 		super(id, _data, opts);
+        
+        this.isPlanet = true;
 
         this.offsetDesktop.set(-4, 0, 0);
 
