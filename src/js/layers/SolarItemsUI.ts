@@ -28,7 +28,7 @@ export class SolarItemUI {
 
     for(const template of this.templates) {
       if(parseInt(template.getAttribute('data-id')) === id) {
-        console.log('Found template');
+        // console.log('Found template');
         const dom = template.cloneNode(true) as HTMLAnchorElement;
         // dom.href = `/object/?${el.name}`;
         // dom.href = `/object/`;

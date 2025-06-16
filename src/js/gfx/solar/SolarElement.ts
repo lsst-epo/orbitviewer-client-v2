@@ -90,7 +90,7 @@ export class SolarElement extends Object3D implements InteractiveObject {
         lineGeo.setAttribute('position', new BufferAttribute(pos, 3));
         this.sunLine = new Line(lineGeo, L_DUMMY);
 
-        this.orbitPath = new EllipticalPath(_data, scl*.8);
+        this.orbitPath = new EllipticalPath(_data);
 
 
         // this.mesh = new Mesh(PLANET_GEO, this.initMaterial(opts));
@@ -152,6 +152,7 @@ export class SolarElement extends Object3D implements InteractiveObject {
     }
     
     focus() {
+        this.orbitPath.ellipse.visible = true;
         gsap.to(this.orbitPath.material, {
             opacity: 1,
             overwrite: true,
@@ -160,24 +161,33 @@ export class SolarElement extends Object3D implements InteractiveObject {
         })
     }
 
-    blur() {
+    blur(opacity:number=DEFAULT_PATH_ALPHA) {
+        this.orbitPath.ellipse.visible = true;
         gsap.to(this.orbitPath.material, {
-            opacity: DEFAULT_PATH_ALPHA,
+            opacity,
             overwrite: true,
             duration: .8,
-            ease: 'cubic.out'
+            ease: 'cubic.out',
+            onComplete: () => {
+                this.orbitPath.ellipse.visible = opacity > .001;
+            }
         })
     }
 
     set selected(value:boolean) {
         this._selected = value;
-        this.focus();
+        if(this._selected) this.focus();
+        else this.blur();
         // this.orbitPath.selected = value;
         // this.material.selected = value;
     }
 
     get selected():boolean {
         return this._selected;
+    }
+
+    hidePath() {
+        this.blur(0);
     }
 
 }

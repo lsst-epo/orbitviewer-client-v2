@@ -153,6 +153,10 @@ export class OrbitViewer extends ThreeLayer {
 			if(goLive) GLOBALS.solarClock.goLive();
 
 			this.solarItemsUI.show();
+
+			for(const el of this.solarElements) {
+				el.selected = false;
+			}
 		}
 
 		centerView() {
@@ -262,17 +266,11 @@ export class OrbitViewer extends ThreeLayer {
 			if(el.name === name) {
 				this.fadeIn();
 				this.solarItemsUI.hide();
-				return this.controls.followTarget(el);
-			}
-		}
-	}
-
-	followPlanet(id:PlanetId) {
-		for(const item of this.solarElements) {
-			if(id === item.name) {
-				console.log(`Follow: ${item.data.id}`);
-				this.solarItemsUI.hide();
-				return this.controls.followTarget(item);
+				this.controls.followTarget(el);
+				el.selected = true;
+			} else {
+				el.selected = false;
+				el.hidePath();
 			}
 		}
 	}

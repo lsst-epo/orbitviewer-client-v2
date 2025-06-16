@@ -106,6 +106,14 @@ export class Planet extends SolarElement {
         this.rotationSpeed = DEG_TO_RAD * (360 / rt.period);
         this.parent.rotation.z = DEG_TO_RAD * -(rt.axialTilt + _data.i);
 
+        this.orbitPath.setPathOptions({
+            isPlanet: true,
+            planetPosition: this.position,
+            fadeDistance: this.scale.x
+        })
+
+        this.visible = false;
+
     }
 
     initAtmosphere(id:PlanetId) {
@@ -159,6 +167,8 @@ export class Planet extends SolarElement {
         const rt = PlanetRotationMap[this.type] as PlanetRotationData;
         this.mesh.rotation.y = rt.meridian * DEG_TO_RAD + d * this.rotationSpeed;
         this.material.update();
+        // if(!this.orbitPath.material.ref) return;
+        // console.log(this.position === this.orbitPath.material.ref.uniforms.planetPosition.value);
         // calculateOrbitByType(this.data, d-.00000000000000001, OrbitType.Elliptical, this.offsetDesktop);
         // if(!this.hasAtmosphere) return;
         // this.atmosphereMaterial.uniforms.time.value = GLOBALS.solarClock.time;

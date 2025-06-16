@@ -7,7 +7,9 @@ import { SolarTimeManager } from "../../core/solar/SolarTime";
 import { Line2 } from "three/examples/jsm/lines/Line2.js";
 import { LineGeometry } from "three/examples/jsm/lines/LineGeometry.js";
 import { GLOBALS } from "../../core/Globals";
-import { PathMaterial } from "./PathMaterial";
+import { PathMaterial, PathMaterialParameters } from "./PathMaterial";
+import { Planet } from "./Planet";
+import { LineMaterialParameters } from "three/examples/jsm/lines/LineMaterial";
 
 const MIN_DISTANCE = {
     min: .1,
@@ -38,7 +40,7 @@ export class EllipticalPath {
     boundingBox:Box3;
     type:OrbitType;
 
-    constructor(el:OrbitElements, r:number) {
+    constructor(el:OrbitElements, planet:Planet=null) {
         // build path
         const date = new Date();
         const first = new Vector3();
@@ -84,58 +86,19 @@ export class EllipticalPath {
                 }
 
                 dt.push(d-pD);
-                // pD = d;
                 this.pts.push(curr.clone());
             }
 
             const pos = [];
-            // const weight = [];
             let k = 0;
 
             for(const p of this.pts) {
                 pos.push(p.x, p.y, p.z);
-                // weight.push(k++/this.pts.length);
             }
 
-			// console.log(this.pts);
+			this.ellipse = new Group();
 
-            // close
-            const p = this.pts[0];
-            // pos.push(p.x, p.y, p.z);
-            // weight.push(0);
-            // dt.push(0);
-
-            /* if(el.e > .94) {
-                // console.log(this.pts.length, el.a, dist);
-            } */
-
-            // const geo = new BufferGeometry();
-            // geo.setAttribute(
-            //     'position',
-            //     new BufferAttribute(
-            //         new Float32Array(pos),
-            //         3
-            //     )
-            // );
-
-            // geo.setAttribute(
-            //     'weight',
-            //     new BufferAttribute(
-            //         new Float32Array(weight),
-            //         1
-            //     )
-            // );
-
-            // geo.setAttribute(
-            //     'dt',
-            //     new BufferAttribute(
-            //         new Float32Array(dt),
-            //         1
-            //     )
-            // );
-
-            this.ellipse = new Group();
-            const mat = new PathMaterial({
+            const matOptions:LineMaterialParameters = {
                 color: 0x999999,
                 linewidth: 2,
                 // dashed: true,
@@ -143,25 +106,26 @@ export class EllipticalPath {
                 dashSize: 60,
                 transparent: true,
                 opacity: DEFAULT_PATH_ALPHA,
-                alphaTest: .001
-                // fog: true
-            });
+                alphaTest: .001,
+            }
+
+            const pathOpts:PathMaterialParameters = {
+                isPlanet: planet !== null
+            }
+
+            if(planet !== null) {
+                pathOpts.planetPosition = planet.position;
+                pathOpts.fadeDistance = planet.scale.x;
+            }
+
+            const mat = new PathMaterial(matOptions, pathOpts);
             this.material = mat;
             const curve = new CatmullRomCurve3(this.pts, true);
-
-            /* const mat2= new PathMaterial({
-                color: 0x666666,
-                linewidth: 2,
-                // dashed: true,
-                // gapSize: 100,
-                // dashSize: 30,
-                fog: true
-            }); */
 
             const D = curve.getPointAt(0).distanceTo(origin);
             // console.log('~R', D);
             const Dr = MathUtils.smoothstep(330, 1500, D);
-            const nPts = MathUtils.lerp(50, 100, Dr);
+            const nPts = MathUtils.lerp(200, 500, Dr);
 
             const pts = curve.getPoints(Math.round(nPts)*2);
             const positions = [];
@@ -171,22 +135,15 @@ export class EllipticalPath {
                 positions.push(pt.x, pt.y, pt.z);
             }
 
-            // console.log(pts);
-
-			const geo = new LineGeometry();
+            const geo = new LineGeometry();
             geo.setPositions(positions);
 
-            // const l2 = new Line2(geo, mat2);
-            // l2.computeLineDistances();
-			// this.ellipse.add(l2);
+            // console.log(positions);
 
             const l = new Line2(geo, mat);
             l.computeLineDistances();
+            // console.log(l);
 			this.ellipse.add(l);
-
-            // geo.computeBoundingBox();
-            // this.boundingBox = geo.boundingBox;
-
 
         } else {
             this.boundingBox = new Box3(
@@ -198,13 +155,18 @@ export class EllipticalPath {
         }
     }
 
+    setPathOptions(pathOpts:PathMaterialParameters={}) {
+        this.material.setPathOptions(pathOpts);
+    }
+
     update(d:number, target:Vector3, radius:number) {
         if(this.type !== OrbitType.Elliptical) return;
 
-        const ramp = MathUtils.smoothstep(0, 1, Math.sin(GLOBALS.solarClock.time * .5));
+        // const ramp = MathUtils.smoothstep(0, 1, Math.sin(GLOBALS.solarClock.time * .5));
         // console.log(ramp);
+
         // this.material.gapSize = MathUtils.lerp(0, 200, ramp);
-        this.material.dashOffset = GLOBALS.solarClock.time;
+        // this.material.dashOffset = GLOBALS.solarClock.time;
 
         // const mat = this.material;
         // if(mat.shader) {
