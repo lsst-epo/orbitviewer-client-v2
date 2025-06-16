@@ -74,6 +74,7 @@ class OrbitViewerPage extends DefaultPage {
 		} else {
 			this.splash?.close();
 			GLOBALS.viewer.goToOrbitViewerMode();
+			this.showUI();
 		}
 
 		GLOBALS.objectToggle.hide();
