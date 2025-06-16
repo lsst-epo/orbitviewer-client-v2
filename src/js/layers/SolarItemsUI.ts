@@ -2,6 +2,8 @@ import { CategoryTypeMap } from "../core/data/Categories";
 import { SolarDOMElement } from "../gfx/solar/SolarDomElement";
 import { SolarElement } from "../gfx/solar/SolarElement";
 
+let tid;
+
 export class SolarItemUI {
   templates:NodeListOf<HTMLAnchorElement>;
 
@@ -41,12 +43,16 @@ export class SolarItemUI {
 
   show() {
     this.dom.setAttribute('aria-hidden', 'false');
+    clearTimeout(tid);
     this.visible = true;
   }
 
   hide() {
     this.dom.setAttribute('aria-hidden', 'true');
-    this.visible = false;
+    clearTimeout(tid);
+    tid = setTimeout(() => {
+      this.visible = false;
+    }, 2000);
   }
 
   update() {

@@ -35,6 +35,7 @@ export type OrbitDataElements = {
 export type OrbitDataElementsV2 = {
     id?:string;
     fulldesignation:string;
+    mpcdesignation?:string;
     node:number;
     a:number;
     e:number;

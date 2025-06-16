@@ -31,7 +31,7 @@ export function downloadJSON(data, filename, minify = false) {
 export const STATIC_URL = "https://storage.googleapis.com/orbitviewer-data/";
 
 export async function getSolarStaticData(weight:string, isV2:boolean=false) {
-    const url = isV2 ? `${STATIC_URL}mpc_orbits-${weight}-v2.json` : `${STATIC_URL}mpcorbs-${weight}.json`;
+    const url = isV2 ? `${STATIC_URL}mpc_orbits-${weight}-v4.json` : `${STATIC_URL}mpcorbs-${weight}.json`;
     const response = await fetch(url);
     return await response.json();
 }

@@ -1,14 +1,14 @@
-import { Color, ColorRepresentation, DoubleSide, Mesh, MeshPhongMaterial, MeshStandardMaterial, ShaderMaterial, SphereGeometry, TextureLoader, Vector3 } from "three";
+import { Color, ColorRepresentation, DoubleSide, Mesh, ShaderMaterial, SphereGeometry, TextureLoader, Vector3 } from "three";
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 // import { isPortrait } from "../../production/utils/Helpers";
 // import { PlanetMaterial, PlanetMaterialParameters } from "../gfx/PlanetMaterial";
 // import { initMaterial } from "../gfx/ShaderLib";
-import { SolarElement, SolarElementOptions } from "./SolarElement";
-import { cloneOrbitElements, DEG_TO_RAD, KM2AU, OrbitElements } from "../../core/solar/SolarSystem";
-import { PLANET_SCALE, PlanetCameraLock } from "../../core/solar/Planet";
-import { PlanetTextureMap } from "./PlanetAssets";
-import { PlanetMaterial, PlanetMaterialParameters } from "../planets/PlanetMaterial";
 import { GLOBALS } from "../../core/Globals";
+import { PLANET_SCALE, PlanetCameraLock } from "../../core/solar/Planet";
+import { cloneOrbitElements, DEG_TO_RAD, KM2AU, OrbitElements } from "../../core/solar/SolarSystem";
+import { PlanetMaterial, PlanetMaterialParameters } from "../planets/PlanetMaterial";
+import { PlanetTextureMap } from "./PlanetAssets";
+import { SolarElement, SolarElementOptions } from "./SolarElement";
 
 export const PLANET_GEO = new SphereGeometry(1, 64, 32);
 const tLoader = new TextureLoader();
@@ -21,8 +21,8 @@ const gltfLoader = new GLTFLoader();
 //     color: 0xff0000
 // }));
 
-import vertexShader from "../../../glsl/lib/atmosphere.vert";
 import fragmentShader from "../../../glsl/lib/atmosphere.frag";
+import vertexShader from "../../../glsl/lib/atmosphere.vert";
 
 export function getAtmosphereMaterial(color1:ColorRepresentation, color2:ColorRepresentation, fresnelWidth:number=1, brightness:number=1.5):ShaderMaterial {
     return new ShaderMaterial({
@@ -159,6 +159,7 @@ export class Planet extends SolarElement {
         const rt = PlanetRotationMap[this.type] as PlanetRotationData;
         this.mesh.rotation.y = rt.meridian * DEG_TO_RAD + d * this.rotationSpeed;
         this.material.update();
+        // calculateOrbitByType(this.data, d-.00000000000000001, OrbitType.Elliptical, this.offsetDesktop);
         // if(!this.hasAtmosphere) return;
         // this.atmosphereMaterial.uniforms.time.value = GLOBALS.solarClock.time;
     }

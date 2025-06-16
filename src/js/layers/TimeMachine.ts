@@ -70,6 +70,13 @@ class TimeMachine extends Layer implements SliderListener {
 
 		updateLabel() {
 			this.collapsedLabel.textContent = `${CLOCK_SETTINGS.speed} hrs/s`
+			// to-do: fold css class
+			if(CLOCK_SETTINGS.speed === 0){
+
+			} else {
+				
+			}
+
 		}
 
 		open(): Promise<void> {

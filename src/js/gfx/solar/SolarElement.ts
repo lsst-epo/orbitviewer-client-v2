@@ -81,6 +81,8 @@ export class SolarElement extends Object3D implements InteractiveObject {
 
         let scl = .001;
 
+        // console.log(_data);
+
         this.scale.multiplyScalar(scl);
 
         const lineGeo = new BufferGeometry();

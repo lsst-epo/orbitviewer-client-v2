@@ -3,6 +3,7 @@ import { getSolarStaticData } from "../Utils";
 import { getCategories, getSolarItemsInfo } from "./CraftManager";
 import { VISUAL_SETTINGS } from "../Globals";
 import { USE_V2 } from "../App";
+import { CSSCategoryMap } from "./Categories";
 
 const staticURL = "/assets/data/";
 const baseURL = "/assets/data/";
@@ -22,7 +23,7 @@ class LoadManagerClass {
         data: {
             planets: null,
             dwarf_planets: null,
-            solar_items: null,
+            // solar_items: null,
             sample: null
         },
         craftData: {
@@ -30,6 +31,7 @@ class LoadManagerClass {
                 landing: null,
                 about: null,
                 objects: null,
+                solar_items: null,
                 how_to_use: null
             },
             categories: null,
@@ -46,12 +48,12 @@ class LoadManagerClass {
     }
 
     private get coreDataAvailable() {
-        return this.mgr.data.planets && this.mgr.data.dwarf_planets && this.mgr.data.solar_items;
+        return this.mgr.data.planets && this.mgr.data.dwarf_planets;
     }
 
     private get coreCraftDataAvailable() {
         const craft = this.mgr.craftData;
-        return craft.categories && craft.solar_items;// && craft.pages.landing;
+        return craft.categories && craft.solar_items && this.mgr.craftData.solar_items;// && craft.pages.landing;
     }
 
     public get coreLoaded():boolean {
@@ -69,8 +71,11 @@ class LoadManagerClass {
     }
 
     private createCategoryColorMap(cnt) {
+        const root = document.documentElement;
         cnt.data.categories.forEach(entry => {
             entry.threeColor = new Color(entry.mainColor);
+            root.style.setProperty(`--color-${CSSCategoryMap[parseInt(entry.objectTypeCode)]}`, entry.mainColor);
+            // console.log(`--color-${CSSCategoryMap[parseInt(entry.objectTypeCode)]}`, entry.mainColor);
             // console.log(entry);
         })
     }
@@ -127,7 +132,7 @@ class LoadManagerClass {
 
         this.loadData('planets', `${staticURL}${PLANETS}`, onL);
         this.loadData('dwarf_planets', `${staticURL}${DWARF_PLANETS}`, onL);
-        this.loadData('solar_items', `${baseURL}solar-items.json`, onL);
+        // this.loadData('solar_items', `${baseURL}solar-items.json`, onL);
 
         this.loadCraft('categories', onL);
         this.loadCraft('solar_items', onL);
