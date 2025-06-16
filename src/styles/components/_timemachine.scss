@@ -13,7 +13,7 @@
 
     @include media(medium) {
         max-width: var(--timemachine-width);
-        margin: auto;
+        margin: 0 auto;
     }
 
     &[aria-hidden=true] {

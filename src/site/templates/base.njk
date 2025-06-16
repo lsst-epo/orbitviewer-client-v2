@@ -35,7 +35,7 @@
             {% include 'timemachine.njk' %}            
             {% include 'mapcontrols.njk' %}
             {% if pageTemplate == 'object' %}
-                {{ ToggleGroup('object_controls', '', 'object_controls', ['orbit', 'object'], 'object', true, 'Object view selector') }}
+                {{ ToggleGroup('toggle-view', '', 'object_controls', ['orbit', 'object'], 'object', true, 'Object view selector') }}
             {% endif %}
         </div>
 

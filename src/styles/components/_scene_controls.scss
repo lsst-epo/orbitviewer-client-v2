@@ -13,7 +13,7 @@
     z-index: var(--z-scene_controls);
     display: grid;
     gap: 12px;
-    grid-template-rows: repeat(2, 1fr);
+    grid-template-rows: 1fr auto;
     grid-template-columns: 1fr auto;
 
     @include media(medium) {
@@ -22,12 +22,17 @@
 
     .togglegroup {
         align-self: flex-end;
-        justify-self: center;
+        justify-self: flex-start;
+        
+        @include media(medium) {
+            justify-self: center;
+        }
     }
 
     .timemachine {
         grid-row: 2/-1;
         grid-column: 1/-1;
+        align-self: flex-end;
 
         @include media(medium) {
             grid-row: 2/-1;
