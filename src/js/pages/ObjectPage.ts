@@ -11,9 +11,6 @@ export class ObjectPage extends DefaultPage {
         super(id, template, dom);
 
         this.dom = dom;
-
-        this.infoButtons = this.dom.querySelectorAll('.orbital_elements-data .button_icon');
-        this.toggleView = document.querySelector('#toggle-view');
     }
 
     create() {
@@ -22,6 +19,9 @@ export class ObjectPage extends DefaultPage {
             offset: 12,
             maxWidth: 250
         });
+
+        this.infoButtons = this.dom.querySelectorAll('.orbital_elements-data .button_icon');
+        this.toggleView = document.querySelector('#toggle-view');
 
         const viewToggle = new ToggleGroup(this.toggleView);
 

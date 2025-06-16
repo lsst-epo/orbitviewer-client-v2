@@ -9,6 +9,8 @@ export class DefaultPage extends Page {
         gsap.set(dom, {
           autoAlpha: 0,
         })
+
+        document.body.className = `${template}_template`;
     }
 
     update() {}

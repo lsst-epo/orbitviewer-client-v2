@@ -1,4 +1,3 @@
-import { DefaultPage } from "@fils/nomad";
 import Filters from "../layers/Filters";
 import MapControls from "../layers/MapControls";
 import Onboarding from "../layers/Onboarding";
@@ -8,6 +7,7 @@ import TimeMachine from "../layers/TimeMachine";
 import Toolbar from "../layers/Toolbar";
 import Wizard from "../layers/Wizard";
 import { GLOBALS, IS_DEV_MODE } from "../core/Globals";
+import { DefaultPage } from "./DefaultPage";
 
 const SKIP_ONBOARDING = true;
 
