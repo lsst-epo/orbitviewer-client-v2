@@ -1,32 +1,26 @@
 import { ThreeDOMLayer, ThreeLayer } from "@fils/gl-dom";
-import { AmbientLight, Fog, Object3D, PerspectiveCamera, PointLight, PointLightHelper, WebGLRenderTarget } from "three";
-import { OrbitElements } from "../core/solar/SolarSystem";
+import { AmbientLight, Object3D, PerspectiveCamera, PointLight, PointLightHelper, WebGLRenderTarget } from "three";
+import { OrbitElements, SolarCategory } from "../core/solar/SolarSystem";
 import { SolarParticles } from "./solar/SolarParticles";
 
 import gsap from "gsap";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import { CLOCK_SETTINGS, GLOBALS } from "../core/Globals";
 import { PlanetId } from "../core/solar/Planet";
 import { JD2MJD } from "../core/solar/SolarTime";
-import { mapOrbitElements, OrbitDataElements } from "../core/solar/SolarUtils";
+import { mapOrbitElements, mapOrbitElementsV2, OrbitDataElements, OrbitDataElementsV2 } from "../core/solar/SolarUtils";
 import { RubinRenderer } from "./core/RubinRenderer";
 import { Planet } from "./solar/Planet";
 import { InteractiveObject, SolarElement } from "./solar/SolarElement";
 import { Sun } from "./solar/Sun";
-import { CLOCK_SETTINGS, GLOBALS } from "../core/Globals";
 
 // import { Lensflare, LensflareElement } from 'three/examples/jsm/objects/Lensflare.js';
-import { tLoader } from "./solar/PlanetAssets";
-import { CameraManager, camOcluders } from "./core/CameraManager";
-import { SolarItemUI } from "../layers/SolarItemsUI";
 import { LoadManager } from "../core/data/LoadManager";
+import { SolarItemUI } from "../layers/SolarItemsUI";
+import { CameraManager, camOcluders, DEFAULT_CAM_LIMITS } from "./core/CameraManager";
 
 export interface FollowTarget {
 	target: InteractiveObject;
 	alpha: number;
-}
-
-const DEFAULT_CAM_LIMITS = {
-	minDistance: 24
 }
 
 export const NEAR = 5000;
@@ -65,7 +59,7 @@ export class OrbitViewer extends ThreeLayer {
       super(_gl);
       const w = this.gl.rect.width;
       const h = this.gl.rect.height;
-      this.camera = new PerspectiveCamera(35, w/h, .01, 500000);
+      this.camera = new PerspectiveCamera(35, w/h, .01, DEFAULT_CAM_LIMITS.maxDistance);
       this.scene.add(this.camera);
       this.params.camera = this.camera;
 
@@ -188,33 +182,46 @@ export class OrbitViewer extends ThreeLayer {
           color: 0xFA6868
 				});
 
-        // linkSolarElementToPopup(planet, el);
-        // Remove dwarfs form solar items
-        // solarItems = solarItems.filter(e => e.elementID !== el.id)
-
-				this.solarElements.push(planet);
-				this.scene.add(planet);
-				this.scene.add(planet.orbitPath.ellipse);
-
-				this.solarItemsUI.addItem(planet);
+        this.addElementToScene(planet);
 		}
 
 	}
 
-    createSolarItems(d:Array<OrbitDataElements>){
-        for(const el of d) {
-					el.tperi = JD2MJD(el.tperi);            
-          const mel = mapOrbitElements(el);
-          const category = LoadManager.craftData.categories.find(x => x.slug === mel.category);
-					console.log(category);
-					if(category === 'planets-moons') continue;
-          const solarElement = new SolarElement(el.id, mel, {
-            color: category.mainColor
-          });
-          this.solarElements.push(solarElement);
-          this.scene.add(solarElement);
-          this.scene.add(solarElement.orbitPath.ellipse);
-        }
+    createSolarItems(){
+        const solarItems = LoadManager.craftData.solar_items;
+				const sample = LoadManager.data.sample;
+				const len = sample.length;
+
+				for(const el of solarItems) {
+					if(el.title.toLowerCase() === 'sun' && el.elementCategory) {
+						console.log('Add Sun');
+						//to-do: add sun
+					}
+				}
+
+				for(let i=0;i<len;i++) {
+					for(const el of solarItems) {
+						if(el.title.toLowerCase() === 'sun' && el.elementCategory) {
+							continue;
+						} else {
+							const mel = el.elementCategory.length ? el.elementCategory[0] as SolarCategory : null;
+							if(mel === 'planets-moons')  continue;
+							// Look for solar item in sample
+							const sel:OrbitDataElementsV2 = sample[i];
+							// console.log(sel.mpcdesignation, el.elementID, sel.fulldesignation);
+							if(sel.mpcdesignation === el.elementID || sel.fulldesignation === el.elementID) {
+								console.log('Found Solar Item', el.elementID);
+								if(el.elementCategory.length === 0) break;
+								const data = mapOrbitElementsV2(sel);
+								// console.log(data);
+								//Add item...
+								const element = new SolarElement(el.elementID, data);
+								this.addElementToScene(element);
+								break;
+							}
+						}
+					}
+				}
     }
 
     createPlanets(d:Array<OrbitDataElements>) {
@@ -228,15 +235,7 @@ export class OrbitViewer extends ThreeLayer {
 
 				const planet = new Planet(el.id as PlanetId, mel);
 
-      	// linkSolarElementToPopup(planet, el);
-      	// Remove planets form solar items
-      	// solarItems = solarItems.filter(e => e.elementID !== el.id)
-
-				this.solarElements.push(planet);
-        this.scene.add(planet);
-        this.scene.add(planet.orbitPath.ellipse);
-
-				this.solarItemsUI.addItem(planet);
+      	this.addElementToScene(planet);
 
 				if(el.id === 'earth') {
 					console.log("Houston, Houston: we've found the earth");
@@ -249,6 +248,13 @@ export class OrbitViewer extends ThreeLayer {
 		// this.followTarget(this.solarElements[7]);
 
 		// this.hidePaths();
+	}
+
+	protected addElementToScene(element:SolarElement) {
+		this.solarElements.push(element);
+		this.solarItemsUI.addItem(element);
+		this.scene.add(element);
+		this.scene.add(element.orbitPath.ellipse);
 	}
 
 	followSolarElement(name:string) {

@@ -21,9 +21,9 @@ const ZOOM_SPEED = {
   max: 500
 };
 
-const DEFAULT_CAM_LIMITS = {
+export const DEFAULT_CAM_LIMITS = {
 	minDistance: 24,
-  maxDistance: 300000
+  maxDistance: 1500000
 }
 
 const tmp = new Vector3();
@@ -36,7 +36,7 @@ const dummy = new Object3D();
 const raycaster = new Raycaster();
 export const camOcluders = [];
 
-export type ShpericalCoords = {
+/* export type ShpericalCoords = {
     radius:number;
     angle:number;
     elevation:number;
@@ -46,7 +46,7 @@ const sphericalCoords:ShpericalCoords = {
     radius: 0,
     angle: 0,
     elevation: 0
-}
+} */
 
 export class CameraManager {
   controls:OrbitControls;
@@ -96,14 +96,14 @@ export class CameraManager {
     this.lockedCam.rotation.copy(euler);
   }
 
-  private updateCamWithSC(sc:ShpericalCoords) {
+  /* private updateCamWithSC(sc:ShpericalCoords) {
     const x = sc.radius * Math.cos(sc.angle);
     const y = sc.elevation;
     const z = sc.radius * Math.sin(sc.angle);
 
     this.lockedCam.position.set(x,y,z);
     this.lockedCam.lookAt(origin);
-  }
+  } */
 
   zoomBy(d:number) {
     const dist = this.controls.getDistance();
@@ -129,7 +129,7 @@ export class CameraManager {
     // }
   }
 
-  private updateSC() {
+  /* private updateSC() {
     const p = this.lockedCam.position;
 
     let x = p.x;
@@ -142,7 +142,7 @@ export class CameraManager {
     sphericalCoords.angle = angle;
     sphericalCoords.radius = R;
     sphericalCoords.elevation = y;
-  }
+  } */
 
   centerView(duration:number=1, ease:string="cubic.out") {
     this.controls.enabled = false;
@@ -293,6 +293,6 @@ export class CameraManager {
     this.camera.quaternion.slerp(this.lockedCam.quaternion, easing);
     this.camera.zoom = MathUtils.lerp(this.camera.zoom, this.lockedCam.zoom, ZOOM_EASING);
 
-    this.updateSC();
+    // this.updateSC();
   }
 }
