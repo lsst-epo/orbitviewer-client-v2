@@ -24,7 +24,7 @@ export class SolarDOMElement {
     }
 
     dom.onclick = () => {
-      GLOBALS.nomad.goToPath(`/${GLOBALS.lang}/object/?${ref.name}`);
+      GLOBALS.nomad.goToPath(`/${GLOBALS.lang}/object/?${ref.slug}`);
       GLOBALS.viewer.followSolarElement(ref.name);
     }
 

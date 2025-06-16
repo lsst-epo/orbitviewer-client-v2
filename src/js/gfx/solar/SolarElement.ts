@@ -6,6 +6,7 @@ import { Box3, BufferAttribute, BufferGeometry, ColorRepresentation, Line, LineB
 import { calculateOrbitByType, OrbitElements, OrbitType } from "../../core/solar/SolarSystem";
 import { DEFAULT_PATH_ALPHA, EllipticalPath } from "./EllipticalPath";
 import gsap from "gsap";
+import { slugify } from "@fils/utils";
 
 export interface CameraLock {
 	min: number;
@@ -60,6 +61,8 @@ export class SolarElement extends Object3D implements InteractiveObject {
     offsetDesktop = new Vector3();
     offsetMobile = new Vector3();
 
+    slug:string;
+
     // lockedPosition = {
     //     portrait: {
     //         distance: .03,
@@ -79,6 +82,7 @@ export class SolarElement extends Object3D implements InteractiveObject {
         this.data = _data;
         this.type = id;
         this.name = id;
+        this.slug = slugify(id);
         this.category = _data.category;
 
         let scl = .001;
