@@ -1,9 +1,11 @@
+import ToggleGroup from "../components/ToggleGroup";
 import Tooltip from "../components/Tooltip";
 import { GLOBALS } from "../core/Globals";
 import { DefaultPage } from "./DefaultPage";
 
 export class ObjectPage extends DefaultPage {
     infoButtons: NodeListOf<Element>;
+    toggleView: HTMLElement;
     
     constructor(id: string, template: string, dom: HTMLElement) {
         super(id, template, dom);
@@ -11,6 +13,7 @@ export class ObjectPage extends DefaultPage {
         this.dom = dom;
 
         this.infoButtons = this.dom.querySelectorAll('.orbital_elements-data .button_icon');
+        this.toggleView = document.querySelector('#toggle-view');
     }
 
     create() {
@@ -19,6 +22,8 @@ export class ObjectPage extends DefaultPage {
             offset: 12,
             maxWidth: 250
         });
+
+        const viewToggle = new ToggleGroup(this.toggleView);
 
         this.infoButtons.forEach((el: HTMLElement) => {
             

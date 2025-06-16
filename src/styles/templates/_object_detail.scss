@@ -1,14 +1,27 @@
 @use '../base/mixins' as *;
 @use '../base/typography' as *;
 
+.object {
+    &_template {
+        .scene_controls {
+            bottom: calc(40vh + 12px);
+            
+            @include media(medium) {
+                left: 40vw;
+                bottom: var(--site-margin-large);
+            }
+        }
+    }
+}
+
 .object_detail {
     position: absolute;
     inset: 0;
     z-index: var(--z-detail);
     overflow: auto;
     display: grid;
-    grid-template-rows: minmax(50vh, 1fr) 1fr;
-    grid-template-columns: minmax(30vw, 4fr) 6fr;
+    grid-template-rows: 60vh 1fr;
+    grid-template-columns: 40vw 1fr;
     pointer-events: none;
 
     &[aria-hidden=true] {

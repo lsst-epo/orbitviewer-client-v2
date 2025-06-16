@@ -2,12 +2,13 @@
 {% from "../partials/icons.njk" import icon %}
 {% from "../components/pointer.njk" import Pointer %}
 {% from "../components/loader.njk" import Loader %}
+{% from "../components/togglegroup.njk" import ToggleGroup %}
 
 <!DOCTYPE html>
 <html lang="{{lang}}">
 	{% include 'head.njk' %}
 
-	<body>
+	<body class="{{ pageTemplate }}_template">
         <div class="content"></div>
         {{ initSpriteSheet() }}
 
@@ -29,8 +30,14 @@
 
         {% include 'navigation.njk' %}
         {% include 'share.njk' %}
-        {% include 'timemachine.njk' %}
-        {% include 'mapcontrols.njk' %}
+        
+        <div class="scene_controls">
+            {% include 'timemachine.njk' %}            
+            {% include 'mapcontrols.njk' %}
+            {% if pageTemplate == 'object' %}
+                {{ ToggleGroup('toggle-view', '', 'object_controls', ['orbit', 'object'], 'object', true, 'Object view selector') }}
+            {% endif %}
+        </div>
 
         <main>
             <a href="/${{lang}}/" tabindex="1" class="site-logo">

@@ -5,13 +5,7 @@
 
 .timemachine {
     --timemachine-head-height: 48px;
-    --timemachine-gap: 12px;
-    
-    position: absolute;
-    right: var(--site-margin-large);
-    bottom: calc(var(--toolbar-height) + var(--site-margin-large) + var(--timemachine-gap));
-    left: var(--site-margin-large);
-    z-index: var(--z-timemachine);    
+  
     border-radius: var(--corner-large);
 
     @include frozen_glass;
@@ -19,8 +13,7 @@
 
     @include media(medium) {
         max-width: var(--timemachine-width);
-        margin: auto;
-        bottom: var(--site-margin-large);
+        margin: 0 auto;
     }
 
     &[aria-hidden=true] {
