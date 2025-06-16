@@ -39,7 +39,7 @@ export class ObjectPage extends DefaultPage {
         const sel = GLOBALS.viewer.followSolarElement(name);
         if(sel.isPlanet) GLOBALS.objectToggle.show();
         else GLOBALS.objectToggle.hide();
-        // sel.orbitPath.selected = true;
+        sel.orbitPath.selected = true;
 
         super.create();
     }

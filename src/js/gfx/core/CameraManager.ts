@@ -173,6 +173,7 @@ export class CameraManager {
   }
 
   followTarget(target:InteractiveObject, autoEnable:boolean=true) {
+    if(this.cameraTarget.target === target) return;
     gsap.killTweensOf(this.cameraTarget);
     this.cameraTarget.alpha = .036;
     this.cameraTarget.isAnimating = true;

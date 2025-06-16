@@ -26,7 +26,7 @@ export class SolarDOMElement {
     dom.onclick = () => {
       dom.blur();
       GLOBALS.nomad.goToPath(`/${GLOBALS.lang}/object/?${ref.slug}`);
-      GLOBALS.viewer.followSolarElement(ref.name);
+      GLOBALS.viewer.followSolarElement(ref.slug);
     }
 
     // dom.style.setProperty('--depth', '.5');
