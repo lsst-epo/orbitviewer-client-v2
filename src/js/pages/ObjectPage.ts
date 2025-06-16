@@ -23,7 +23,7 @@ export class ObjectPage extends DefaultPage {
             maxWidth: 250
         });
 
-        const discoveriesToggle = new ToggleGroup(this.toggleView);
+        const viewToggle = new ToggleGroup(this.toggleView);
 
         this.infoButtons.forEach((el: HTMLElement) => {
             
