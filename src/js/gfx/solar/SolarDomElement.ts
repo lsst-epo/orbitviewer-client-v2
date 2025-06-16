@@ -26,7 +26,8 @@ export class SolarDOMElement {
     dom.onclick = () => {
       dom.blur();
       GLOBALS.nomad.goToPath(`/${GLOBALS.lang}/object/?${ref.slug}`);
-      GLOBALS.viewer.followSolarElement(ref.slug);
+      const sel = GLOBALS.viewer.getSolarElementBySlug(ref.slug);
+      GLOBALS.viewer.followSolarElement(sel, !sel.isPlanet || GLOBALS.objectToggle.selectedIndex===0);
     }
 
     // dom.style.setProperty('--depth', '.5');

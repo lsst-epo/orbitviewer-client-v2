@@ -77,6 +77,12 @@ class ToggleGroup {
         window.addEventListener('resize', () => this.updateIndicator());
     }
 
+    get selectedIndex():number {
+        for(let i=0;i <this.inputs.length; i++) {
+            if(this.inputs[i].checked) return i;
+        }
+    }
+
     updateIndicator() {
         const checkedInput = this.inputs.find(input => input.checked);
         if (!checkedInput) {

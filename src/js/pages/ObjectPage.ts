@@ -1,10 +1,12 @@
 import ToggleGroup from "../components/ToggleGroup";
 import Tooltip from "../components/Tooltip";
 import { GLOBALS } from "../core/Globals";
+import { SolarElement } from "../gfx/solar/SolarElement";
 import { DefaultPage } from "./DefaultPage";
 
 export class ObjectPage extends DefaultPage {
     infoButtons: NodeListOf<Element>;
+    selectedSolarItem:SolarElement;
     
     constructor(id: string, template: string, dom: HTMLElement) {
         super(id, template, dom);
@@ -34,13 +36,36 @@ export class ObjectPage extends DefaultPage {
 
         GLOBALS.timeCtrls.open();
         GLOBALS.mapCtrls.open();
-        const name = location.search.replace('?', '');
-        // console.log(name);
-        const sel = GLOBALS.viewer.followSolarElement(name);
-        if(sel.isPlanet) GLOBALS.objectToggle.show();
-        else GLOBALS.objectToggle.hide();
-        sel.orbitPath.selected = true;
+        const slug = location.search.replace('?', '');
+        // console.log(slug);
+        const sel = GLOBALS.viewer.getSolarElementBySlug(slug);
+        if(sel === null) {
+            console.warn('No solar item fiund. Redirecting to home...');
+            return GLOBALS.nomad.goToPath(`/${GLOBALS.lang}/`);
+        }
+        this.selectedSolarItem = sel;
+        if(sel.isPlanet) {
+            GLOBALS.objectToggle.show();
+            GLOBALS.viewer.followSolarElement(sel, GLOBALS.objectToggle.selectedIndex===0);
+            GLOBALS.objectToggle.callback = () => {
+                GLOBALS.viewer.followSolarElement(sel, GLOBALS.objectToggle.selectedIndex===0);
+            }
+        }
+        else {
+            GLOBALS.objectToggle.hide();
+            GLOBALS.viewer.followSolarElement(sel, true);
+        }
+
+        // To-Do: Fill in content!
+
+        // console.log(GLOBALS.objectToggle.selectedIndex);
 
         super.create();
+    }
+
+    dispose(): void {
+        // console.log('DISPOSE');
+        super.dispose();
+        GLOBALS.objectToggle.callback = null;
     }
 }

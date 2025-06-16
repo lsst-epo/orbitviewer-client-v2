@@ -145,6 +145,9 @@ export class EllipticalPath {
             // console.log(l);
 			this.ellipse.add(l);
 
+            geo.computeBoundingBox();
+            this.boundingBox = geo.boundingBox;
+
         } else {
             this.boundingBox = new Box3(
                 new Vector3(),

@@ -260,22 +260,44 @@ export class OrbitViewer extends ThreeLayer {
 		this.scene.add(element);
 		this.scene.add(element.orbitPath.ellipse);
 	}
+	
 
-	followSolarElement(slug:string):SolarElement {
-		let sel:SolarElement = null;
+	getSolarElementBySlug(slug:string):SolarElement {
+		for(const el of this.solarElements) {
+			if(el.slug === slug) {
+				return el;
+			}
+		}
+
+		return null;
+	}
+
+	/* followSolarElement(slug:string) {
 		for(const el of this.solarElements) {
 			if(el.slug === slug) {
 				this.fadeIn();
 				this.solarItemsUI.hide();
 				this.controls.followTarget(el);
 				el.selected = true;
-				sel = el;
 			} else {
 				el.selected = false;
 				el.hidePath();
 			}
 		}
-		return sel;
+	} */
+
+	followSolarElement(sel:SolarElement, followOrbit:boolean=false) {
+		if(sel === null) return console.warn('Null Solar Item selected!');
+		console.log('Follow Solar Item with orbit set to', followOrbit);
+		this.fadeIn();
+		this.solarItemsUI.hide();
+		for(const el of this.solarElements) {
+			if(el === sel) continue;
+			el.selected = false;
+			el.hidePath();
+		}
+		sel.selected = true;
+		this.controls.followTarget(sel, followOrbit);
 	}
 
 	releaseCameraTarget() {

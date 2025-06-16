@@ -2,12 +2,13 @@ import { MathUtils } from "@fils/math";
 import gsap from "gsap";
 import { Euler, Object3D, PerspectiveCamera, Raycaster, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-import { InteractiveObject } from "../solar/SolarElement";
+import { InteractiveObject, SolarElement } from "../solar/SolarElement";
 
 export interface FollowTarget {
   target: InteractiveObject;
   alpha: number;
   isAnimating:boolean;
+  orbit:boolean;
 }
 
 const EASING = {
@@ -60,7 +61,8 @@ export class CameraManager {
   cameraTarget: FollowTarget = {
     target: null,
     alpha: .036,
-    isAnimating: false
+    isAnimating: false,
+    orbit: false
   };
 
   constructor(public camera:PerspectiveCamera, public dom:HTMLElement) {
@@ -172,12 +174,14 @@ export class CameraManager {
     })
   }
 
-  followTarget(target:InteractiveObject, autoEnable:boolean=true) {
+  followTarget(target:InteractiveObject, followOrbit:boolean=false) {
+    this.controls.enabled = followOrbit;
+    this.cameraTarget.orbit = followOrbit;
     if(this.cameraTarget.target === target) return;
     gsap.killTweensOf(this.cameraTarget);
     this.cameraTarget.alpha = .036;
     this.cameraTarget.isAnimating = true;
-    this.controls.enabled = false;
+    // this.controls.enabled = followOrbit;
     const duration = 3;
     const ease = "cubic.out";
     /* dummy.position.copy(target.position).add(target.offsetDesktop);
@@ -258,19 +262,41 @@ export class CameraManager {
 
   update() {
     if(this.cameraTarget.target) {
-      const target = this.cameraTarget.target;
+      let target, minD, maxD;
+      if(this.cameraTarget.orbit) {
+        const t = this.cameraTarget.target as SolarElement;
+        if(t.orbitPath) {
+          target = t.orbitPath.ellipse;
+          tmp.copy(t.orbitPath.boundingBox.max).sub(t.orbitPath.boundingBox.min);
+        } else {
+          target = this.cameraTarget.target;
+        }
+      } else {
+        target = this.cameraTarget.target;
+      }
+
+      if(target === this.cameraTarget.target) {
+        minD = target.lockedDistance.min;
+        maxD = target.lockedDistance.max
+      } else {
+        minD = tmp.length() * .75;
+        maxD = tmp.length() * 2;
+      }
+      // const target = this.cameraTarget.target;
       const easing = this.cameraTarget.alpha
       dummy.position.copy(target.position);//.add(target.offsetDesktop);
-      const offset = target.offsetDesktop;
-      dummy.translateX(offset.x);
-      dummy.translateY(offset.y);
+      if(target.offsetDesktop) {
+        const offset = target.offsetDesktop;
+        dummy.translateX(offset.x);
+        dummy.translateY(offset.y);
+      }
 			this.controls.target.lerp(dummy.position, easing);
       
       tmp.copy(target.position).sub(origin).normalize();
       const Azimuth = Math.atan2(tmp.y, tmp.x);
       
-      this.controls.minDistance = MathUtils.lerp(this.controls.minDistance, target.lockedDistance.min, easing);
-      this.controls.maxDistance = MathUtils.lerp(this.controls.maxDistance, target.lockedDistance.max, easing);
+      this.controls.minDistance = MathUtils.lerp(this.controls.minDistance, minD, easing);
+      this.controls.maxDistance = MathUtils.lerp(this.controls.maxDistance, maxD, easing);
       this.controls.minPolarAngle = MathUtils.lerp(this.controls.minPolarAngle, Math.PI/2.5, easing);
       this.controls.maxPolarAngle = MathUtils.lerp(this.controls.maxPolarAngle, Math.PI/1.5, easing);
       this.controls.minAzimuthAngle = MathUtils.lerp(this.controls.minAzimuthAngle, Azimuth, easing);
