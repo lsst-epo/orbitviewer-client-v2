@@ -112,7 +112,7 @@ export class Planet extends SolarElement {
             fadeDistance: this.scale.x
         })
 
-        this.visible = false;
+        // this.visible = false;
 
     }
 
