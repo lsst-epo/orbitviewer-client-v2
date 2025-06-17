@@ -31,7 +31,7 @@ eleventyComputed:
                         <div class="objects_card-body">
                             <h3 class="name">{{ type.name[lang] }}</h3>
                             <p class="description">{{ type.description[lang] }}</p>
-                            <div class="stats">
+                            {# <div class="stats">
                                 <dl class="stats-column">
                                     <dt class="stats-value">{{ type.objects }}</dt>
                                     <dd class="stats-label">{{ copy.objects.total[lang] }}</dd>
@@ -40,7 +40,7 @@ eleventyComputed:
                                     <dt class="stats-value">{{ type.rubin }}</dt>
                                     <dd class="stats-label">{{ copy.objects.detected[lang] }}</dd>
                                 </dl>
-                            </div>
+                            </div> #}
                         </div>
                         <div class="objects_card-foot">
                             <span class="label hidden">{{ copy.objects.hidden[lang] }}</span>
