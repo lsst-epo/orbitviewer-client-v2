@@ -49,7 +49,7 @@ export class App implements NomadRouteListener {
 		GLOBALS.loader = new Loader(document.querySelector('.loader'));
 		GLOBALS.loader.show();
 
-		document.body.style.overflow = 'hidden';
+		// document.body.style.overflow = 'hidden';
 
 		initShaders();
 
