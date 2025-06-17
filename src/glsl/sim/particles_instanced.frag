@@ -14,7 +14,8 @@ uniform float opacity;
 
 #include <desaturate>
 
-const float factor = .8;
+const float factor = .75;
+const float brightness = .4;
 
 void main () {
     // if(alive < .1) discard;
@@ -32,6 +33,8 @@ void main () {
 
     #include <glow_frag_init>
     vec4 color = (vec4(col, d));
+
+    color.rgb *= brightness;
 
     gl_FragColor = color;
     // oGlow = color * .5;
