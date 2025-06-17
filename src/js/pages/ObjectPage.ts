@@ -16,9 +16,9 @@ export class ObjectPage extends DefaultPage {
         super(id, template, dom);
 
         this.section = dom.querySelector('section');
-        gsap.set(this.section, {
-            translateY: '100%'
-        });
+        // gsap.set(this.section, {
+        //     translateY: '100%'
+        // });
 
         // console.log(dom);
     }
@@ -77,7 +77,9 @@ export class ObjectPage extends DefaultPage {
         gsap.set(this.dom, {
             autoAlpha: 1
         });
+        document.body.style.overflow = 'hidden';
         return new Promise<void>(gsapResolve => {
+            // console.log('gsap', this.section);
             gsap.to(this.section, {
                 translateY: '0%',
                 duration: 2,
@@ -85,6 +87,21 @@ export class ObjectPage extends DefaultPage {
                 onComplete: () => {
                     gsapResolve();
                     document.body.style.overflow = 'auto';
+                }
+            })
+        }).then(resolve);
+    }
+
+    transitionOut(resolve: any): Promise<void> {
+        document.body.style.overflow = 'hidden';
+        return new Promise<void>(gsapResolve => {
+            gsap.to(this.section, {
+                translateY: '100%',
+                duration: 2,
+                ease: 'expo.inOut',
+                onComplete: () => {
+                    gsapResolve();
+                    this.dispose();
                 }
             })
         }).then(resolve);
@@ -108,6 +125,8 @@ export class ObjectPage extends DefaultPage {
 
         const els = this.dom.querySelectorAll('li.orbital_elements-item');
         els[0].querySelector('.orbital_elements-value').textContent = `${data.w.toFixed(2)}`;
+        els[1].querySelector('.orbital_elements-value').textContent = `${data.N.toFixed(2)}`;
+        els[2].querySelector('.orbital_elements-value').textContent = `${data.M.toFixed(2)}`;
 
         const tel = this.dom.querySelector('h4#closest-to-sun');
         const time = tel.querySelector('time');
