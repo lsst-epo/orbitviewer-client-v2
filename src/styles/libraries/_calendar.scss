@@ -12,11 +12,19 @@
         box-shadow: initial;
         font-size: 14px;
         border-radius: var(--corner-medium);
+        border: solid 1px var(--color-border-strong);
 
         &.hasTime {
             .flatpickr-time {
                 height: var(--timepicker-height);
                 border-top: solid 1px var(--color-border);
+            }
+        }
+
+        &.arrowBottom {
+            &:before,
+            &:after {
+                content: none;
             }
         }
     }
@@ -129,25 +137,34 @@
         line-height: var(--timepicker-height);
         max-height: var(--timepicker-height);
 
-        input {
-            color: var(--color-link);
-
-            &:hover {
-                background: var(--color-backdrop);
-            }
+        &:after {
+            content: none;
         }
 
-        .numInputWrapper span {
-            &.arrowUp:after {
-                border-bottom-color: var(--color-link);
-            }
+        .numInputWrapper {
+            
+            input {
+                background: transparent;
+                color: var(--color-link);
 
-            &.arrowDown:after {
-                border-top-color: var(--color-link);
+                &:hover {
+                    background: var(--color-backdrop);
+                }
+            }
+            
+            span {
+                &.arrowUp:after {
+                    border-bottom-color: var(--color-link);
+                }
+
+                &.arrowDown:after {
+                    border-top-color: var(--color-link);
+                }
             }
         }
 
         .flatpickr-am-pm {
+            background: transparent !important;
             color: var(--color-link);
             
             &:hover {
