@@ -4,6 +4,7 @@ import { getCategories, getSolarItemsInfo } from "./CraftManager";
 import { VISUAL_SETTINGS } from "../Globals";
 import { USE_V2 } from "../App";
 import { CSSCategoryMap } from "./Categories";
+import { getA } from "./QueryManager";
 
 const staticURL = "/assets/data/";
 const baseURL = "/assets/data/";
@@ -37,6 +38,9 @@ class LoadManagerClass {
             },
             categories: null,
             solar_items: null
+        },
+        hasuraData: {
+            classification_ranges: {}
         }
     }
 
@@ -139,6 +143,11 @@ class LoadManagerClass {
         this.loadCraft('solar_items', onL);
 
         this.loadSample(VISUAL_SETTINGS.current, onL);
+
+        /* getA().then(json => {
+            console.log('LOADED A');
+            console.log(json);
+        }); */
     }
 
     loadSample(profile:string, onLoaded:Function) {
@@ -151,9 +160,9 @@ class LoadManagerClass {
 		});
     }
 
-    getSolarItemInfo(slug:string):Object {
+    getSolarItemInfo(name:string):Object {
         for(const el of this.craftData.solar_items) {
-            if(el.elementID === slug) return el;
+            if(el.elementID === name) return el;
         }
 
         return null;

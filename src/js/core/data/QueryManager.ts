@@ -71,10 +71,13 @@ export async function getA() {
 
 	const url = `${HASURA_URL}/a`;	
 
+	console.log('Loading A...');
+
 	const response = await fetch(url, {
 		headers: {
 			'X-Hasura-Admin-Secret': SECRET_KEY
-		}
+		},
+		 method: "POST",
 	})
 	return await response.json();
 }

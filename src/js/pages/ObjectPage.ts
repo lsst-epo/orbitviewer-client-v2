@@ -66,7 +66,7 @@ export class ObjectPage extends DefaultPage {
         }
 
         // To-Do: Fill in content!
-        const cnt = LoadManager.getSolarItemInfo(slug);
+        const cnt = LoadManager.getSolarItemInfo(sel.name);
         this.fillWithContent(cnt, sel.data);
         // console.log(GLOBALS.objectToggle.selectedIndex);
 
@@ -96,14 +96,17 @@ export class ObjectPage extends DefaultPage {
         document.body.style.overflow = 'hidden';
         return new Promise<void>(gsapResolve => {
             gsap.to(this.section, {
-                translateY: '100%',
+                translateY: '0%',
                 duration: 2,
                 ease: 'expo.inOut',
                 onComplete: () => {
                     gsapResolve();
                     this.dispose();
                 }
-            })
+            });
+            /* gsap.to(this.section, {
+                translateY: '0%'
+            }) */
         }).then(resolve);
     }
 
