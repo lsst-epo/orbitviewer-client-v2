@@ -96,7 +96,7 @@ export class ObjectPage extends DefaultPage {
         document.body.style.overflow = 'hidden';
         return new Promise<void>(gsapResolve => {
             gsap.to(this.section, {
-                translateY: '0%',
+                translateY: '100%',
                 duration: 2,
                 ease: 'expo.inOut',
                 onComplete: () => {
