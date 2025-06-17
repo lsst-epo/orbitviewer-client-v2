@@ -4,5 +4,81 @@
 @use '../base/typography' as *;
 
 .about {
-    
+    position: relative;
+    background: var(--color-bg);
+    z-index: var(--z-static);
+
+    &-section {
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+        padding: 0 16px;
+        background: var(--color-bg);
+
+        @include media(small) {
+            padding: 0 32px;
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 24px;
+        }
+    }
+
+    &_heading {
+        padding-top: var(--header-height);
+        
+        &-content {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            text-align: center;
+
+            @include media(small) {
+                grid-column: 2/12;
+            }
+
+            @include media(medium) {
+                grid-column: 3/11;
+            }
+
+            @include media(large) {
+                grid-column: 4/10;
+            }
+
+            .heading {
+                display: flex;
+                flex-direction: column;
+                gap: 24px;
+            }
+
+            .title {
+                color: var(--color-text-low);
+            }
+
+            .subtitle {
+                color: var(--color-text);
+
+                @include font(headline);
+                @include media(medium) {
+                    @include font(hero);
+                }
+            }
+
+            .description {
+                color: var(--color-text-low);
+            }
+        }
+    }
+
+    &_viewer {
+    }
+
+    &_device {
+    }
+
+    &_observatory {
+    }
+
+    &_credits {
+
+    }
 }
