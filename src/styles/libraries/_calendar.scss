@@ -48,6 +48,12 @@
             svg {
                 fill: var(--color-turquoise-300);
             }
+
+            &.flatpickr-disabled {
+                display: block;
+                opacity: 0.2;
+                cursor: not-allowed;
+            }
         }
 
         .flatpickr-month {
@@ -124,12 +130,17 @@
         &.prevMonthDay,
         &.prevMonthDay:hover,
         &.nextMonthDay,
-        &.nextMonthDay:hover,
-        .flatpickr-disabled,
-        .flatpickr-disabled:hover {
+        &.nextMonthDay:hover {
             background: initial;
             color: var(--color-turquoise-100);
             opacity: .6;
+        }
+
+        &.flatpickr-disabled,
+        &.flatpickr-disabled:hover {
+            background: initial;
+            color: var(--color-turquoise-100);
+            opacity: .2;
         }
     }
 
