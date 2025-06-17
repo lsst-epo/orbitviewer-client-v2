@@ -120,6 +120,10 @@
             &-description {
                 color: var(--color-text-low);
                 @include font(body-large);
+
+                * + * {
+                    margin-top: 1em;
+                }
             }
         
         &-content {
