@@ -22,6 +22,8 @@ import TimeMachine from "../layers/TimeMachine";
 import MapControls from "../layers/MapControls";
 import { Loader } from "../layers/Loader";
 import ToggleGroup from "../components/ToggleGroup";
+import { AboutPage } from "../pages/AboutPage";
+import { HowToUsePage } from "../pages/HowToUsePage";
 
 export const solarClock = new SolarClock(new Clock());
 
@@ -82,7 +84,9 @@ export class App implements NomadRouteListener {
 		}, (id, template, dom) => {
 			if (template === 'objectviewerpage') return new OrbitViewerPage(id, template, dom)
 			if (template === 'objects') return new ObjectsFiltersPage(id, template, dom)
-			else if (template === 'object') return new ObjectPage(id, template, dom)
+			if (template === 'object') return new ObjectPage(id, template, dom)
+			if (template === 'how_to_use') return new HowToUsePage(id, template, dom)
+			if (template === 'about') return new AboutPage(id, template, dom)
 			return new DefaultPage(id, template, dom)
 		})
 
