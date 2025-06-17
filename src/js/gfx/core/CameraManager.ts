@@ -32,6 +32,9 @@ const tmp2 = new Vector3();
 const origin = new Vector3();
 const cameraDirection = new Vector3();
 
+const offset = new Vector3();
+const camPos = new Vector3();
+
 const dummy = new Object3D();
 
 const raycaster = new Raycaster();
@@ -62,7 +65,7 @@ export class CameraManager {
     target: null,
     alpha: .036,
     isAnimating: false,
-    orbit: false
+    orbit: false,
   };
 
   constructor(public camera:PerspectiveCamera, public dom:HTMLElement) {
@@ -148,7 +151,7 @@ export class CameraManager {
 
   centerView(duration:number=1, ease:string="cubic.out") {
     this.controls.enabled = false;
-    this.isInteracting = true;
+    // this.isInteracting = true;
     gsap.to(this.controls.target, {
       x: 0,
       y: 0,
@@ -157,29 +160,34 @@ export class CameraManager {
       duration,
       ease,
       onComplete: () => {
-        this.isInteracting = false;
+        // this.isInteracting = false;
         this.cameraTarget.isAnimating = false;
-        this.controls.enabled = true;
+        // this.controls.enabled = true;
         // console.log('holi9ii')
       }
     });
 
+    camPos.set(0, 5000, 10000);
+
     gsap.to(this.lockedCam.position, {
       overwrite: true,
-      z: 10000,
-      y: 5000,
-      x: 0,
+      z: camPos.x,
+      y: camPos.y,
+      x: camPos.z,
       duration,
-      ease
+      ease,
+      onUpdate: () => {
+        this.controls.enabled = camPos.distanceTo(this.lockedCam.position) < 5;
+      }
     })
   }
 
   followTarget(target:InteractiveObject, followOrbit:boolean=false) {
-    this.controls.enabled = followOrbit;
+    this.controls.enabled = false;//followOrbit;
     this.cameraTarget.orbit = followOrbit;
     if(this.cameraTarget.target === target) return;
     gsap.killTweensOf(this.cameraTarget);
-    this.cameraTarget.alpha = .036;
+    // this.cameraTarget.alpha = .036;
     this.cameraTarget.isAnimating = true;
     // this.controls.enabled = followOrbit;
     const duration = 3;
@@ -228,10 +236,10 @@ export class CameraManager {
     this.controls.autoRotate = false;
     this.controls.minPolarAngle = 0;
     this.controls.maxPolarAngle = Math.PI;
-    this.controls.minDistance = DEFAULT_CAM_LIMITS.minDistance;
-    this.controls.maxDistance = DEFAULT_CAM_LIMITS.maxDistance;
+    // this.controls.minDistance = DEFAULT_CAM_LIMITS.minDistance;
+    // this.controls.maxDistance = DEFAULT_CAM_LIMITS.maxDistance;
     this.cameraTarget.isAnimating = true;
-    this.controls.enabled = false;
+    // this.controls.enabled = false;
     
     this.centerView(3, "expo.inOut");
   }
@@ -261,6 +269,15 @@ export class CameraManager {
   }
 
   update() {
+    // 1. remove offset
+    this.lockedCam.translateX(-offset.x);
+    this.lockedCam.translateY(-offset.y);
+
+    const easing = this.cameraTarget.alpha;
+
+    let d = 0;
+
+    //2. orbit controls
     if(this.cameraTarget.target) {
       let target, minD, maxD;
       if(this.cameraTarget.orbit) {
@@ -278,47 +295,55 @@ export class CameraManager {
       if(target === this.cameraTarget.target) {
         minD = target.lockedDistance.min;
         maxD = target.lockedDistance.max
+        // console.log(minD, maxD);
       } else {
         minD = tmp.length() * .75;
         maxD = tmp.length() * 2;
       }
       // const target = this.cameraTarget.target;
-      const easing = this.cameraTarget.alpha
-      dummy.position.copy(target.position);//.add(target.offsetDesktop);
-      if(target.offsetDesktop) {
-        const offset = target.offsetDesktop;
-        dummy.translateX(offset.x);
-        dummy.translateY(offset.y);
-      }
+      dummy.position.copy(target.position);
 			this.controls.target.lerp(dummy.position, easing);
-      
-      tmp.copy(target.position).sub(origin).normalize();
-      const Azimuth = Math.atan2(tmp.y, tmp.x);
       
       this.controls.minDistance = MathUtils.lerp(this.controls.minDistance, minD, easing);
       this.controls.maxDistance = MathUtils.lerp(this.controls.maxDistance, maxD, easing);
-      this.controls.minPolarAngle = MathUtils.lerp(this.controls.minPolarAngle, Math.PI/2.5, easing);
-      this.controls.maxPolarAngle = MathUtils.lerp(this.controls.maxPolarAngle, Math.PI/1.5, easing);
-      this.controls.minAzimuthAngle = MathUtils.lerp(this.controls.minAzimuthAngle, Azimuth, easing);
-      this.controls.maxAzimuthAngle = MathUtils.lerp(this.controls.maxAzimuthAngle, Azimuth, easing);
+
+      tmp.copy(dummy.position);
+      this.controls.enabled = tmp.distanceTo(this.controls.target) < 1;
+
+      // d += Math.abs(maxD - this.controls.maxDistance)/3;
+      // d += Math.abs(minD - this.controls.minDistance)/3;
+    } else {
+      this.controls.minDistance = MathUtils.lerp(this.controls.minDistance, DEFAULT_CAM_LIMITS.minDistance, easing);
+      this.controls.maxDistance = MathUtils.lerp(this.controls.maxDistance, DEFAULT_CAM_LIMITS.maxDistance, easing);
+
+      // dummy.position.copy(origin);
+
+      // d += Math.abs(DEFAULT_CAM_LIMITS.maxDistance - this.controls.maxDistance)/3;
+      // d += Math.abs(DEFAULT_CAM_LIMITS.minDistance - this.controls.minDistance)/3;
     }
 
+    // this.controls.target.lerp(dummy.position, easing);
+
+    tmp.copy(this.cameraTarget.target ? dummy.position : origin);
+    // d += tmp.distanceTo(this.controls.target)/3;
+    this.controls.enabled = tmp.distanceTo(this.controls.target) < 1;
+
+    //zoom?
     if(Math.abs(this.zoom) > 0) {
       this.zoomBy(this.zoom);
     }
 
     this.controls.update();
 
-    let easing = 1;//this.cameraTarget.isAnimating ? EASING.animating : EASING.static;
+    //3. add offset
+    offset.lerp(this.cameraTarget.target ? this.cameraTarget.target.offsetDesktop : origin, easing);
+    this.lockedCam.translateX(offset.x);
+    this.lockedCam.translateY(offset.y);
 
-    /* const isInteracting = this.isInteracting || (Date.now() - this.lastInteracted) < 1500;
-    this.controls.enableDamping = isInteracting;
-
-    if(isInteracting) easing = 1; */
-
-    this.camera.position.lerp(this.lockedCam.position, easing);
-    this.camera.quaternion.slerp(this.lockedCam.quaternion, easing);
-    this.camera.zoom = MathUtils.lerp(this.camera.zoom, this.lockedCam.zoom, ZOOM_EASING);
+    //4. copy transforms to camera
+    this.camera.position.copy(this.lockedCam.position);
+    this.camera.quaternion.copy(this.lockedCam.quaternion);
+    // this.camera.zoom = MathUtils.lerp(this.camera.zoom, this.lockedCam.zoom, ZOOM_EASING);
 
     // this.updateSC();
   }
