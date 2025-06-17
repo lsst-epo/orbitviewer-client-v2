@@ -1,6 +1,8 @@
-import ToggleGroup from "../components/ToggleGroup";
+import gsap from "gsap";
 import Tooltip from "../components/Tooltip";
+import { LoadManager } from "../core/data/LoadManager";
 import { GLOBALS } from "../core/Globals";
+import { getClosestDateToSun, getDistanceFromEarthNow, getDistanceFromSunNow } from "../core/solar/SolarUtils";
 import { SolarElement } from "../gfx/solar/SolarElement";
 import { DefaultPage } from "./DefaultPage";
 
@@ -11,7 +13,7 @@ export class ObjectPage extends DefaultPage {
     constructor(id: string, template: string, dom: HTMLElement) {
         super(id, template, dom);
 
-        this.dom = dom;
+        // console.log(dom);
     }
 
     create() {
@@ -57,10 +59,63 @@ export class ObjectPage extends DefaultPage {
         }
 
         // To-Do: Fill in content!
-
+        const cnt = LoadManager.getSolarItemInfo(slug);
+        this.fillWithContent(cnt, sel.data);
         // console.log(GLOBALS.objectToggle.selectedIndex);
 
         super.create();
+    }
+
+    /* transitionIn(resolve: any): Promise<void> {
+        return new Promise(gsapResolve => {
+            document.body.style.overflow = 'auto';
+            const section = this.dom.querySelector('section');
+            console.log(section);
+            section.style.transform = 'translateY(0)';
+        }).then(resolve);
+    } */
+
+    fillWithContent(cnt, data) {
+        console.log(cnt);
+        const h1 = this.dom.querySelector('h1#object-name');
+        h1.textContent = cnt.title;
+
+        const text = this.dom.querySelector('.object_card-description');
+        text.innerHTML = cnt.text;
+
+        const d = cnt.elementDiameter;
+        const dm = d / 1.609;
+        const dt = this.dom.querySelector('h4[aria-describedby="diameter-label"]');
+        dt.querySelector('span.primary').textContent = `${d.toFixed(2)}km`;
+        dt.querySelector('span.secondary').textContent = `${dm.toFixed(2)}mi`
+
+        console.log(data);
+
+        const els = this.dom.querySelectorAll('li.orbital_elements-item');
+        els[0].querySelector('.orbital_elements-value').textContent = `${data.w.toFixed(2)}`;
+
+        const tel = this.dom.querySelector('h4#closest-to-sun');
+        const time = tel.querySelector('time');
+        const date = getClosestDateToSun(data);
+        const formattedDate = date.toLocaleDateString(GLOBALS.lang, {
+          year: 'numeric',
+          month: 'long',
+          day: '2-digit'
+        });
+        time.textContent = formattedDate;
+
+        const currentDate = new Date();
+        
+        // Get difference in milliseconds
+        //@ts-ignore
+        const timeDifference = date - currentDate;
+
+        // Convert to days
+        const daysLeft = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+        tel.querySelector('span#days').textContent = `${daysLeft}`;
+
+        this.dom.querySelector('p[aria-describedby="graph-from-the-sun"]').textContent = `${getDistanceFromSunNow(data).toFixed(2)}au`;
+        this.dom.querySelector('p[aria-describedby="graph-from-the-earth"]').textContent = `${getDistanceFromEarthNow(data).toFixed(2)}au`;
     }
 
     dispose(): void {
