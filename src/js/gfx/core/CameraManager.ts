@@ -3,11 +3,13 @@ import gsap from "gsap";
 import { Euler, Object3D, PerspectiveCamera, Raycaster, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { InteractiveObject, SolarElement } from "../solar/SolarElement";
+import { GLOBALS } from "../../core/Globals";
 
 export interface FollowTarget {
   target: InteractiveObject;
   alpha: number;
   isAnimating:boolean;
+  zoomLevel:number;
   orbit:boolean;
 }
 
@@ -64,6 +66,7 @@ export class CameraManager {
   cameraTarget: FollowTarget = {
     target: null,
     alpha: .036,
+    zoomLevel: 0,
     isAnimating: false,
     orbit: false,
   };
@@ -110,28 +113,31 @@ export class CameraManager {
     this.lockedCam.lookAt(origin);
   } */
 
+  get isTarget():boolean {
+    return this.cameraTarget.target !== null;
+  }
+
   zoomBy(d:number) {
-    const dist = this.controls.getDistance();
-    const speed = MathUtils.lerp(
-      ZOOM_SPEED.min,
-      ZOOM_SPEED.max,
-      MathUtils.smoothstep(0, 10000, dist)
-    );
-    let d2 = speed * d;
-    if(dist + d2 > DEFAULT_CAM_LIMITS.maxDistance) {
-      d2 = DEFAULT_CAM_LIMITS.maxDistance - dist;
-    } else if (dist + d2 < DEFAULT_CAM_LIMITS.minDistance) {
-      d2 = DEFAULT_CAM_LIMITS.minDistance - dist;
+    if(!this.isTarget) {
+      const dist = this.controls.getDistance();
+      const speed = MathUtils.lerp(
+        ZOOM_SPEED.min,
+        ZOOM_SPEED.max,
+        MathUtils.smoothstep(0, 10000, dist)
+      );
+      let d2 = speed * d;
+      if(dist + d2 > DEFAULT_CAM_LIMITS.maxDistance) {
+        d2 = DEFAULT_CAM_LIMITS.maxDistance - dist;
+      } else if (dist + d2 < DEFAULT_CAM_LIMITS.minDistance) {
+        d2 = DEFAULT_CAM_LIMITS.minDistance - dist;
+      }
+      this.lockedCam.translateZ(d2);
+    } else {
+      this.cameraTarget.zoomLevel = MathUtils.clamp(this.cameraTarget.zoomLevel - d *.01, 0, 1);
+      // console.log(this.cameraTarget.zoomLevel, offset.z);
+      // const d2 = 
+      // this.lockedCam.translateZ(d2);
     }
-    this.lockedCam.translateZ(d2);
-    // console.log(dist);
-    // if(dist > DEFAULT_CAM_LIMITS.maxDistance) {
-    //   sphericalCoords.radius = DEFAULT_CAM_LIMITS.maxDistance;
-    //   this.updateCamWithSC(sphericalCoords);
-    // } else if(d < DEFAULT_CAM_LIMITS.maxDistance) {
-    //   sphericalCoords.radius = DEFAULT_CAM_LIMITS.maxDistance;
-    //   this.updateCamWithSC(sphericalCoords);
-    // }
   }
 
   /* private updateSC() {
@@ -150,6 +156,9 @@ export class CameraManager {
   } */
 
   centerView(duration:number=1, ease:string="cubic.out") {
+    if(this.isTarget) {
+      return GLOBALS.nomad.goTo(`/${GLOBALS.lang}/`)
+    }
     this.controls.enabled = false;
     // this.isInteracting = true;
     gsap.to(this.controls.target, {
@@ -176,15 +185,17 @@ export class CameraManager {
       x: camPos.z,
       duration,
       ease,
-      onUpdate: () => {
+      /* onUpdate: () => {
+        console.log('fsd', camPos.distanceTo(this.lockedCam.position));
         this.controls.enabled = camPos.distanceTo(this.lockedCam.position) < 5;
-      }
+      } */
     })
   }
 
   followTarget(target:InteractiveObject, followOrbit:boolean=false) {
     this.controls.enabled = false;//followOrbit;
     this.cameraTarget.orbit = followOrbit;
+    this.cameraTarget.zoomLevel = 0;
     if(this.cameraTarget.target === target) return;
     gsap.killTweensOf(this.cameraTarget);
     // this.cameraTarget.alpha = .036;
@@ -232,6 +243,8 @@ export class CameraManager {
     gsap.killTweensOf(this.controls);
     gsap.killTweensOf(this.controls.target);
 
+    offset.copy(origin);
+
     this.cameraTarget.target = null;
     this.controls.autoRotate = false;
     this.controls.minPolarAngle = 0;
@@ -272,13 +285,12 @@ export class CameraManager {
     // 1. remove offset
     this.lockedCam.translateX(-offset.x);
     this.lockedCam.translateY(-offset.y);
+    if(this.isTarget) this.lockedCam.translateZ(-offset.z);
 
     const easing = this.cameraTarget.alpha;
 
-    let d = 0;
-
     //2. orbit controls
-    if(this.cameraTarget.target) {
+    if(this.isTarget) {
       let target, minD, maxD;
       if(this.cameraTarget.orbit) {
         const t = this.cameraTarget.target as SolarElement;
@@ -304,11 +316,11 @@ export class CameraManager {
       dummy.position.copy(target.position);
 			this.controls.target.lerp(dummy.position, easing);
       
-      this.controls.minDistance = MathUtils.lerp(this.controls.minDistance, minD, easing);
+      this.controls.minDistance = MathUtils.lerp(this.controls.minDistance, maxD, easing);
       this.controls.maxDistance = MathUtils.lerp(this.controls.maxDistance, maxD, easing);
 
-      tmp.copy(dummy.position);
-      this.controls.enabled = tmp.distanceTo(this.controls.target) < 1;
+      // tmp.copy(dummy.position);
+      // this.controls.enabled = tmp.distanceTo(this.controls.target) < 1;
 
       // d += Math.abs(maxD - this.controls.maxDistance)/3;
       // d += Math.abs(minD - this.controls.minDistance)/3;
@@ -324,16 +336,23 @@ export class CameraManager {
 
     // this.controls.target.lerp(dummy.position, easing);
 
-    tmp.copy(this.cameraTarget.target ? dummy.position : origin);
+    tmp.copy(this.isTarget ? dummy.position : origin);
     // d += tmp.distanceTo(this.controls.target)/3;
     this.controls.enabled = tmp.distanceTo(this.controls.target) < 1;
 
-    //zoom?
+    this.controls.update();
+
+    //zoom
     if(Math.abs(this.zoom) > 0) {
       this.zoomBy(this.zoom);
     }
 
-    this.controls.update();
+    /* if(this.isTarget) {
+      const tZ = this.cameraTarget.target.lockedDistance.max - this.cameraTarget.target.lockedDistance.min;
+      const dZ = -tZ * this.cameraTarget.zoomLevel;
+      offset.z = dZ;
+      this.lockedCam.translateZ(offset.z);
+    } */
 
     //3. add offset
     offset.lerp(this.cameraTarget.target ? this.cameraTarget.target.offsetDesktop : origin, easing);
