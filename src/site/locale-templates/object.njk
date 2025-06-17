@@ -11,7 +11,7 @@ eleventyComputed:
 {% from '../../../components/button.njk' import Button %}
 {% from '../../../components/object_card_graph.njk' import ObjectCardGraph %}
 
-<section class="object_detail" role="main" aria-labelledby="object-name" aria-hidden="false">
+<section class="object_detail" role="main" aria-labelledby="object-name" aria-hidden="false" style='transform: translateY(100%);'>
     <div class="object_detail-frame" aria-hidden="false"></div>
     <div class="object_detail-content">
         <div class="object_card">
@@ -83,9 +83,9 @@ eleventyComputed:
 
                     <div class="object_card-unit">
                         <h2 class="title">{{ copy.object.closest_sun.title[lang] }}</h2>
-                        <h4 class="value">
+                        <h4 class="value" id="closest-to-sun">
                             <time class="primary" datetime="2026-01-03" aria-label="January 3rd, 2026">January 03, 2026</time>
-                            <span class="secondary">245 {{ copy.object.closest_sun.days_left[lang] }}</span>
+                            <span class="secondary"><span id="days">245</span> {{ copy.object.closest_sun.days_left[lang] }}</span>
                         </h4>
                     </div>
 

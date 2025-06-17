@@ -165,24 +165,24 @@ export const openFileDialog = (accept, callback) => {
 	inputElement.dispatchEvent(new MouseEvent('click'));
 };
 
-export function getClosestDateToSun(data:OrbitDataElements):Date {
+export function getClosestDateToSun(data:OrbitElements):Date {
 
     const d = SolarTimeManager.getMJDonDate(new Date());
-    const mel = mapOrbitElements(data);
-    const M = getMeanAnomaly(mel, d) % 360;
-    const tperi = MJD2JD(d + (360-M) / mel.n);
+    // const mel = mapOrbitElementsV2(data);
+    const M = getMeanAnomaly(data, d) % 360;
+    const tperi = MJD2JD(d + (360-M) / data.n);
 
     return SolarTimeManager.JD2Date(tperi);
 }
 
-export function getDistanceFromSunNow(data:OrbitDataElements): number {
+export function getDistanceFromSunNow(data:OrbitElements): number {
 
     const date = new Date();
     const mjd = SolarTimeManager.getMJDonDate(date);
 
-    const mel = mapOrbitElements(data);
+    // const mel = mapOrbitElements(data);
 
-    calculateOrbit(mel, mjd, tmp1);
+    calculateOrbit(data, mjd, tmp1);
 
     return tmp1.length() / PLANET_SCALE;
 }

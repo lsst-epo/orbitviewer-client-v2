@@ -21,6 +21,7 @@ class LoadManagerClass {
     private mgr = {
         isLoading: false,
         data: {
+            rubinCount: 0,
             planets: null,
             dwarf_planets: null,
             // solar_items: null,
@@ -143,10 +144,19 @@ class LoadManagerClass {
     loadSample(profile:string, onLoaded:Function) {
         getSolarStaticData(profile, USE_V2).then((json) => {
             this.sampleLoaded = true;
-            this.mgr.data.sample = json;
-            onLoaded(json);
+            this.mgr.data.rubinCount = json.rubin_discoveries_count;
+            this.mgr.data.sample = json.mpc_orbits;
+            onLoaded(json.mpc_orbits);
 			// downloadJSON(json, `data-${VISUAL_SETTINGS.current}.json`, true);
 		});
+    }
+
+    getSolarItemInfo(slug:string):Object {
+        for(const el of this.craftData.solar_items) {
+            if(el.elementID === slug) return el;
+        }
+
+        return null;
     }
 }
 

@@ -3,6 +3,8 @@ import chokidar from 'chokidar';
 import { buildCSS, buildJS } from './scripts/build/esbuild.mjs';
 const isProduction = process.env.ELEVENTY_ENV === 'production';
 
+import staticData from './data/staticData.js';
+
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
 
