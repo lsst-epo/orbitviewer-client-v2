@@ -37,6 +37,7 @@ export class DefaultPage extends Page {
                 ease: 'linear',
                 onComplete: () => {
                     this.dom.remove();
+                    document.body.style.overflow = 'auto';
                     gsapResolve();
                 }
             })

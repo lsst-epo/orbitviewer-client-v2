@@ -1,4 +1,5 @@
 import ToggleGroup from "../components/ToggleGroup";
+import { GLOBALS } from "../core/Globals";
 import { DefaultPage } from "./DefaultPage";
 
 export class ObjectsFiltersPage extends DefaultPage {
@@ -18,13 +19,16 @@ export class ObjectsFiltersPage extends DefaultPage {
     create() {
         console.log('create');
 		this.toggles.forEach(element => {
-			const objectsToggle = new ToggleGroup(element);
+			const objectsToggle = new ToggleGroup(element as HTMLElement);
+            objectsToggle.show();
 		});
 
 		this.closeButton.addEventListener('click', (e) => {
 			e.preventDefault();
 			this.close();
 		});
+
+        GLOBALS.viewer.fadeIn();
     }
 
     close() {
