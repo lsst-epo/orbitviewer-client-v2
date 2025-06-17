@@ -74,12 +74,29 @@
         position: relative;
         flex: 0 0 auto;
         padding: 8px 4px;
+        border-bottom: solid 1px var(--color-border);
     }
 
     &-body {
         flex: auto;
         overflow: auto;
         padding: 16px;
+
+        @supports (scrollbar-color: auto) {
+            scrollbar-color: rgba(var(--color-white-rgb),.2) rgba(var(--color-black-rgb),.3);
+        }
+        
+        &::-webkit-scrollbar {
+            max-width: 0.5rem;
+            max-height: 0.5rem;
+            background: transparent;
+        }
+
+        &:hover {
+            &::-webkit-scrollbar-thumb {
+                background: rgba(var(--color-white-rgb),.2);
+            }
+        }
     }
 
         &-heading {
