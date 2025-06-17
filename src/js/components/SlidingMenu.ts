@@ -1,12 +1,12 @@
 interface MenuState {
  currentLevel: 1 | 2;
- language: 'english' | 'spanish';
+//  language: 'english' | 'spanish';
  exploration: 'low' | 'medium' | 'high' | 'ultra';
 }
 
 const menuState: MenuState = {
  currentLevel: 1,
- language: 'english',
+//  language: 'english',
  exploration: 'low'
 };
 
@@ -25,10 +25,10 @@ class SlidingMenu {
  }
 
  private bindEvents() {
-  const itemLanguages = document.querySelector('#menuitem-languages');
-  itemLanguages.addEventListener('click', () => {
-    this.showSubmenu('language');
-  });
+  // const itemLanguages = document.querySelector('#menuitem-languages');
+  // itemLanguages.addEventListener('click', () => {
+  //   this.showSubmenu('language');
+  // });
 
   const itemExploration = document.querySelector('#menuitem-exploration');
   itemExploration.addEventListener('click', () => {
