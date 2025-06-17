@@ -9,9 +9,16 @@ import { DefaultPage } from "./DefaultPage";
 export class ObjectPage extends DefaultPage {
     infoButtons: NodeListOf<Element>;
     selectedSolarItem:SolarElement;
+
+    section:HTMLElement;
     
     constructor(id: string, template: string, dom: HTMLElement) {
         super(id, template, dom);
+
+        this.section = dom.querySelector('section');
+        gsap.set(this.section, {
+            translateY: '100%'
+        });
 
         // console.log(dom);
     }
@@ -66,17 +73,25 @@ export class ObjectPage extends DefaultPage {
         super.create();
     }
 
-    /* transitionIn(resolve: any): Promise<void> {
-        return new Promise(gsapResolve => {
-            document.body.style.overflow = 'auto';
-            const section = this.dom.querySelector('section');
-            console.log(section);
-            section.style.transform = 'translateY(0)';
+    transitionIn(resolve: any): Promise<void> {
+        gsap.set(this.dom, {
+            autoAlpha: 1
+        });
+        return new Promise<void>(gsapResolve => {
+            gsap.to(this.section, {
+                translateY: '0%',
+                duration: 2,
+                ease: 'expo.inOut',
+                onComplete: () => {
+                    gsapResolve();
+                    document.body.style.overflow = 'auto';
+                }
+            })
         }).then(resolve);
-    } */
+    }
 
     fillWithContent(cnt, data) {
-        console.log(cnt);
+        // console.log(cnt);
         const h1 = this.dom.querySelector('h1#object-name');
         h1.textContent = cnt.title;
 
@@ -89,7 +104,7 @@ export class ObjectPage extends DefaultPage {
         dt.querySelector('span.primary').textContent = `${d.toFixed(2)}km`;
         dt.querySelector('span.secondary').textContent = `${dm.toFixed(2)}mi`
 
-        console.log(data);
+        // console.log(data);
 
         const els = this.dom.querySelectorAll('li.orbital_elements-item');
         els[0].querySelector('.orbital_elements-value').textContent = `${data.w.toFixed(2)}`;
