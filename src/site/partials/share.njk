@@ -22,7 +22,18 @@
                     <div class="input">
                         <input type="url" value="https://orbitviewer-client-dot-skyviewer.uw.r.appspot.com/?x=2&y=348" readonly>
                     </div>
-                    {{ Button(copy.share.tabs.copy[lang], 'button primary medium button_copy', 'link') }}
+                    <button type="button" class="button_copy">
+                        <span class="button_copy-content">
+                            <span class="button_copy-active">
+                                {{ icon('check') }}
+                                <span>{{ copy.share.tabs.copied[lang] }}</span>
+                            </span>
+                            <span class="button_copy-default">
+                                {{ icon('download') }}
+                                <span>{{ copy.share.tabs.copy[lang] }}</span>
+                            </span>
+                        </span>
+                    </button>
                 </div>
                 <div class="social_share">
                     <p class="label">{{ copy.share.tabs.share_on[lang] }}</p>
@@ -48,7 +59,17 @@
                     {{ ToggleGroup('toggle-ratio', '', 'aspect_ratio', [copy.share.aspect_ratio.horizontal[lang], copy.share.aspect_ratio.vertical[lang], copy.share.aspect_ratio.square[lang]], copy.share.aspect_ratio.horizontal[lang])}}
                 </div>
                 <div class="screen_capture-actions">
-                    {{ Button(copy.share.download[lang], 'button primary medium', 'download') }}
+                    <button type="button" class="button_download">
+                        <span class="button_download-content">
+                            <span class="button_download-active">
+                                <span>{{ copy.share.generating[lang] }}</span>
+                            </span>
+                            <span class="button_download-default">
+                                {{ icon('download') }}
+                                <span>{{ copy.share.download[lang] }}</span>
+                            </span>
+                        </span>
+                    </button>
                 </div>
             </div>
         </div>
