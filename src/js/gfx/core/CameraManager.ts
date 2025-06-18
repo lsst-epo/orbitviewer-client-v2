@@ -257,34 +257,22 @@ export class CameraManager {
 
     const easing = this.cameraTarget.alpha;
 
+    const t = this.cameraTarget;
+
     //2. orbit controls
     if(this.isTarget) {
-      let target, minD, maxD;
-      if(this.cameraTarget.orbit) {
-        const t = this.cameraTarget.target as SolarElement;
-        if(t.orbitPath) {
-          target = t.orbitPath.ellipse;
-          tmp.copy(t.orbitPath.boundingBox.max).sub(t.orbitPath.boundingBox.min);
-        } else {
-          target = this.cameraTarget.target;
-        }
-      } else {
-        target = this.cameraTarget.target;
-      }
+      let minD, maxD;
+      const t2 = t.target as SolarElement;
 
-      if(target === this.cameraTarget.target) {
-        minD = target.lockedDistance.min;
-        maxD = target.lockedDistance.max
-        // console.log(minD, maxD);
-      } else {
-        minD = tmp.length() * .75;
-        maxD = tmp.length() * 2;
-      }
-      // const target = this.cameraTarget.target;
-      dummy.position.copy(target.position);
+      const dist = !t.orbit ? t2.lockedObjectDistance : t2.lockedOrbitDistance;
+      minD = dist.min;
+      maxD = dist.max;
+
+      // const target = t.target;
+      dummy.position.copy(t.orbit ? t2.orbitPath.ellipse.position : t2.position);
 			this.controls.target.lerp(dummy.position, easing);
 
-      const D = MathUtils.lerp(minD, maxD, 1-this.cameraTarget.zoomLevel);
+      const D = MathUtils.lerp(minD, maxD, 1-t.zoomLevel);
       
       this.controls.minDistance = MathUtils.lerp(this.controls.minDistance, D, easing);
       this.controls.maxDistance = MathUtils.lerp(this.controls.maxDistance, D, easing);
@@ -305,7 +293,12 @@ export class CameraManager {
     }
 
     //3. add offset
-    offset.lerp(this.cameraTarget.target ? this.cameraTarget.target.offsetDesktop : origin, easing);
+    let off = origin;
+    if(this.isTarget) {
+      off = t.orbit ? t.target.offsetOrbit : t.target.offsetObject;
+    }
+
+    offset.lerp(off, easing);
     this.lockedCam.translateX(offset.x);
     this.lockedCam.translateY(offset.y);
 

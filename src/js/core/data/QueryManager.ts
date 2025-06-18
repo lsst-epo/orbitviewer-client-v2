@@ -69,7 +69,7 @@ export async function fetchSolarElements(elements:Array<any>){
 // Filters fetch
 export async function getA() {
 
-	const url = `${HASURA_URL}/a`;	
+	const url = `${HASURA_URL}/a-v2`;	
 
 	console.log('Loading A...');
 

@@ -78,15 +78,6 @@ export class Planet extends SolarElement {
         this.scale.set(scl, scl, scl);
         // correct fresnel
 
-        console.log(id, scl, 1/scl)
-
-        this.lockedDistance = {
-            min: scl * 3,
-            max: scl * 8
-        }
-        
-        this.offsetDesktop.set(-scl, 0, 0);
-
         if(id === 'saturn') {
             // console.log('Houston, we\'ve got Saturn!');
 			gltfLoader.load('/assets/models/ring.glb', (gltf) => {
@@ -118,7 +109,7 @@ export class Planet extends SolarElement {
         })
 
         // this.visible = false;
-
+        this.updateCameraView();
     }
 
     initAtmosphere(id:PlanetId) {
