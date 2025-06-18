@@ -390,19 +390,19 @@ export default {
         },
         "content": {
             "toolbar": {
-                "en": "Lorem ipsum dolor sit amet consectetur. Amet urna sit blandit vel. Aliquam nec sed leo ullamcorper commodo vulputate praesent vitae vel.",
+                "en": "1 Lorem ipsum dolor sit amet consectetur. Amet urna sit blandit vel. Aliquam nec sed leo ullamcorper commodo vulputate praesent vitae vel.",
                 "es": ""
             },
             "time_controls": {
-                "en": "Lorem ipsum dolor sit amet consectetur. Amet urna sit blandit vel. Aliquam nec sed leo ullamcorper commodo vulputate praesent vitae vel.",
+                "en": "2 Lorem ipsum dolor sit amet consectetur. Amet urna sit blandit vel. Aliquam nec sed leo ullamcorper commodo vulputate praesent vitae vel.",
                 "es": ""
             },
             "map_controls": {
-                "en": "Lorem ipsum dolor sit amet consectetur. Amet urna sit blandit vel. Aliquam nec sed leo ullamcorper commodo vulputate praesent vitae vel.",
+                "en": "3 Lorem ipsum dolor sit amet consectetur. Amet urna sit blandit vel. Aliquam nec sed leo ullamcorper commodo vulputate praesent vitae vel.",
                 "es": ""
             },
             "share_menu": {
-                "en": "Lorem ipsum dolor sit amet consectetur. Amet urna sit blandit vel. Aliquam nec sed leo ullamcorper commodo vulputate praesent vitae vel.",
+                "en": "4 Lorem ipsum dolor sit amet consectetur. Amet urna sit blandit vel. Aliquam nec sed leo ullamcorper commodo vulputate praesent vitae vel.",
                 "es": ""
             }
         },

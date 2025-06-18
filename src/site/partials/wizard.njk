@@ -1,23 +1,27 @@
 {% from '../components/button.njk' import Button %}
 
 <section class="wizard" role="dialog" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="wizard-title" aria-describedby="wizard-description">
-    <div class="wizard-mask" aria-hidden="true"></div>
-    <div class="wizard-focus" aria-hidden="true"></div>
+    <div class="wizard-bg"></div>
+    <div class="wizard-mask"></div>
+    <div class="wizard-focus"></div>
     <div class="wizard_tooltip" role="document">
         <div class="wizard_tooltip-body">
             <header class="heading">
                 <h3 id="wizard-title" class="title">{{ copy.wizard.title[lang] }}</h3>
-                <p id="wizard-steps" class="steps" aria-label="{{ copy.wizard.steps.aria[lang] }}">1/4</p>
+                <p id="wizard-steps" class="steps" aria-label="{{ copy.wizard.steps.aria[lang] }}"></p>
             </header>
-            <p id="wizard-description" class="description">{{ copy.wizard.content.toolbar[lang] }}</p>
-            <!-- Add live region for step announcements -->
+            <p id="wizard-description" class="description" data-step="1">{{ copy.wizard.content.toolbar[lang] }}</p>
+            <p class="description" data-step="2">{{ copy.wizard.content.time_controls[lang] }}</p>
+            <p class="description" data-step="3">{{ copy.wizard.content.map_controls[lang] }}</p>
+            <p class="description" data-step="4">{{ copy.wizard.content.share_menu[lang] }}</p>
+            <!-- Add live region for step annoncements -->
             <div aria-live="polite" aria-atomic="true" class="sr-only" id="wizard-announcements"></div>
         </div>
         <div class="wizard_tooltip-foot">
-            {{ Button(copy.wizard.button_group.skip, 'button secondary small') }}
+            {{ Button(copy.wizard.button_group.skip[lang], 'button button-skip secondary small') }}
             <div class="button_group" role="group" aria-label="{{ copy.wizard.button_group.aria[lang] }}">
-                {{ Button(copy.wizard.button_group.previous, 'button ghost small', 'chevron-left') }}
-                {{ Button(copy.wizard.button_group.next, 'button primary small', '', 'chevron-right') }}
+                {{ Button(copy.wizard.button_group.previous[lang], 'button button-previous ghost small', 'chevron-left') }}
+                {{ Button(copy.wizard.button_group.next[lang], 'button button-next primary small', '', 'chevron-right') }}
             </div>
         </div>
     </div>
