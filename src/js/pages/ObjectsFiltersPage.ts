@@ -2,6 +2,7 @@ import gsap from "gsap";
 import ToggleGroup from "../components/ToggleGroup";
 import { GLOBALS } from "../core/Globals";
 import { DefaultPage } from "./DefaultPage";
+import { ObjectsScroller } from "../components/ObjectsScroller";
 
 export class ObjectsFiltersPage extends DefaultPage {
     dom: HTMLElement;
@@ -14,6 +15,8 @@ export class ObjectsFiltersPage extends DefaultPage {
     title:HTMLElement;
     subtitle:HTMLElement;
     controls:HTMLElement;
+
+    scroller: ObjectsScroller;
     
     constructor(id: string, template: string, dom: HTMLElement) {
         super(id, template, dom);
@@ -24,6 +27,19 @@ export class ObjectsFiltersPage extends DefaultPage {
         this.section = dom.querySelector('section');
 
         this.cards = this.section.querySelectorAll('li.objects-item');
+
+        this.scroller = new ObjectsScroller({
+            dom: this.section.querySelector('.objects-list'),
+            snapType: 'direction',
+            nextButtons: [
+                this.section.querySelector('.objects_controls-right'),
+            ],
+            prevButtons: [
+                this.section.querySelector('.objects_controls-left'),
+            ]
+            
+        });
+
         for(let i=0; i<this.cards.length;i ++) {
             gsap.set(this.cards[i], {
                 translateY: '105%'
@@ -63,6 +79,8 @@ export class ObjectsFiltersPage extends DefaultPage {
 		});
 
         GLOBALS.viewer.fadeIn();
+
+        this.scroller.init();
     }
 
     transitionIn(resolve: any): Promise<void> {
@@ -170,6 +188,6 @@ export class ObjectsFiltersPage extends DefaultPage {
     }
 
     close() {
-        
+        this.scroller.destroy();
     }
 }
