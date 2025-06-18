@@ -449,7 +449,7 @@ export default {
             },
             "near_earth_objects": {
                 name: {
-                    "en": "Near Earth Objects",
+                    "en": "Near Earth Objects (NEOs)",
                     "es": ""
                 },
                 description: {
