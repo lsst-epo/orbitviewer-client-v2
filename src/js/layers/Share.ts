@@ -1,12 +1,14 @@
 import Tabs from "../components/Tabs";
 import ToggleGroup from "../components/ToggleGroup";
 import Layer from "./Layer";
+import { copyToClipboard } from "@fils/utils";
 
 class Share extends Layer {
     dom: HTMLElement;
     triggerButton: HTMLElement;
     closeButton: HTMLElement;
     ratioToggle: HTMLElement;
+    copyButton: HTMLElement;
     
     constructor(dom) {
         super(dom, {
@@ -20,6 +22,9 @@ class Share extends Layer {
         this.closeButton = dom.querySelector('.button_close');
         this.triggerButton = document.querySelector('.button_share');
         this.ratioToggle = dom.querySelector('#toggle-ratio');
+        this.copyButton = dom.querySelector('.button_copy');
+
+        console.log(this.copyButton);
 
         this.start();
     }
@@ -34,6 +39,18 @@ class Share extends Layer {
 			e.preventDefault();
 			this.close();
 		});
+
+        this.copyButton.addEventListener('click', (e) => {
+            const input = this.copyButton.closest('div').querySelector('input');
+            if (!input || this.copyButton.classList.contains('copied')) return; // Prevent multiple clicks or if input is not found
+            copyToClipboard(input.value);
+            this.copyButton.classList.add('copied');
+            setTimeout(() => {
+                // TODO: SHOW COPIED THREE SECONDS
+                this.copyButton.classList.remove('copied');
+            }, 3000); // Reset the button after 3 seconds
+            
+        })
         
 		const shareTabs = new Tabs('.share_dialog-body');
 

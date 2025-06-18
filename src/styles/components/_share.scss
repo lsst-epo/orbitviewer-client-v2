@@ -81,6 +81,9 @@
 
                     .button {
                         flex: 0 0 auto;
+                        &.copied {
+                            background-color: red;
+                        }
                     }
                 }
 
