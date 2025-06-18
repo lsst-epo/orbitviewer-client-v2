@@ -82,10 +82,14 @@
 
             &-item {
                 width: 80vw;
-                min-width: 280px;
+                min-width: 320px;
                 flex-shrink: 0;
                 
                 @include media(medium) {
+                    width: 36vw; // width: 20vw;
+                }
+
+                @include media(large) {
                     width: 23vw;
                 }
             }
@@ -120,8 +124,9 @@
                         .name {
                             flex: auto;
                             @include font(body-large);
-
-                            @include media(medium) {
+                            @include ellipsis;
+                            
+                            @include media(large) {
                                 @include font(subtitle-large-regular);
                             }
                         }
