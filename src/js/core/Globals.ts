@@ -20,7 +20,7 @@ export const IS_DEV_MODE = DEV_MODE;
 // export const TARGET = TARGET_MODE;
 
 // export const HASURA_URL = `https://hasura-e3g4rcii3q-uc.a.run.app/api/rest`;
-export const HASURA_URL = `https://hasura-688095955960.us-central1.run.app/v1/rest`;
+export const HASURA_URL = `https://hasura-688095955960.us-central1.run.app/api/rest/`;
 export const HASURA_GRAPHQL = `https://hasura-688095955960.us-central1.run.app/v1/graphql`;
 
 

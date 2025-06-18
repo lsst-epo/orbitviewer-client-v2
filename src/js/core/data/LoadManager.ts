@@ -144,10 +144,10 @@ class LoadManagerClass {
 
         this.loadSample(VISUAL_SETTINGS.current, onL);
 
-        /* getA().then(json => {
+        getA().then(json => {
             console.log('LOADED A');
             console.log(json);
-        }); */
+        });
     }
 
     loadSample(profile:string, onLoaded:Function) {

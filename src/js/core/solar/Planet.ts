@@ -23,41 +23,6 @@ export const PlanetRadiusMap:Record<PlanetId,number> = {
     'neptune': 24620
 }
 
-export const PlanetCameraLock:Record<PlanetId,CameraLock> = {
-	mercury: {
-		min: 5,
-		max: 10
-	},
-	venus: {
-		min: 10,
-		max: 25
-	},
-	earth: {
-		min: 15,
-		max: 25
-	},
-	mars: {
-		min: 8,
-		max: 12
-	},
-	jupiter: {
-		min: 140,
-		max: 230
-	},
-	saturn: {
-		min: 120,
-		max: 300
-	},
-	uranus: {
-		min: 80,
-		max: 200
-	},
-	neptune: {
-		min: 60,
-		max: 150
-	},
-}
-
 export type PlanetRotationData = {
     axialTilt:number;
     period:number;

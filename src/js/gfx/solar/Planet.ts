@@ -4,11 +4,11 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 // import { PlanetMaterial, PlanetMaterialParameters } from "../gfx/PlanetMaterial";
 // import { initMaterial } from "../gfx/ShaderLib";
 import { GLOBALS } from "../../core/Globals";
-import { PLANET_SCALE, PlanetCameraLock } from "../../core/solar/Planet";
+import { PLANET_SCALE } from "../../core/solar/Planet";
 import { cloneOrbitElements, DEG_TO_RAD, KM2AU, OrbitElements } from "../../core/solar/SolarSystem";
 import { PlanetMaterial, PlanetMaterialParameters } from "../planets/PlanetMaterial";
 import { PlanetTextureMap } from "./PlanetAssets";
-import { SolarElement, SolarElementOptions } from "./SolarElement";
+import { CameraLock, SolarElement, SolarElementOptions } from "./SolarElement";
 
 export const PLANET_GEO = new SphereGeometry(1, 64, 32);
 const tLoader = new TextureLoader();
@@ -378,6 +378,42 @@ export const PlanetLockedMapPortrait:Record<PlanetId,CameraLockPosition> = {
         distance: .2,
         offset: new Vector3(0.02, -0.04, 0)
     }
+
+}
+
+export const PlanetCameraLock:Record<PlanetId,CameraLock> = {
+    mercury: {
+        min: 5,
+        max: 10
+    },
+    venus: {
+        min: 10,
+        max: 25
+    },
+    earth: {
+        min: 15,
+        max: 30
+    },
+    mars: {
+        min: 8,
+        max: 12
+    },
+    jupiter: {
+        min: 140,
+        max: 230
+    },
+    saturn: {
+        min: 120,
+        max: 300
+    },
+    uranus: {
+        min: 80,
+        max: 200
+    },
+    neptune: {
+        min: 60,
+        max: 150
+    },
 }
 
 export const PlanetDataMap:Record<PlanetId,OrbitElements> = {
