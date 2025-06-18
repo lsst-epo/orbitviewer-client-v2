@@ -321,7 +321,7 @@ export default {
             }
         },
         "distance": {
-            "en": "Distance",
+            "en": "Distance from Sun",
             "es": ""
         },
         "au": {
