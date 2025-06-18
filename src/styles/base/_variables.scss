@@ -109,3 +109,24 @@
         --header-height: 80px;
     }
 }
+
+:root {
+    --viewport: small;
+    --touch: false;
+    
+    @include media(medium) {
+        --viewport: medium;
+    }
+    
+    @include media(large) {
+        --viewport: large;
+    }
+
+    @include media(xlarge) {
+        --viewport: xlarge;
+    }
+
+    @media (pointer: coarse) {
+        --touch: true;
+    }
+}
