@@ -7,6 +7,9 @@ class Filters extends Layer {
     date: HTMLElement;
     closeButton: HTMLElement;
     discoveries: HTMLElement;
+
+    distanceSlider: RangeSlider;
+    dateSlider: RangeSlider;
     
     constructor(dom) {
         super(dom, {
@@ -25,8 +28,8 @@ class Filters extends Layer {
 
     start() {
         // Slide Range
-		const distanceSlider = new RangeSlider(this.distance);
-		const dateSlider = new RangeSlider(this.date);
+		this.distanceSlider = new RangeSlider(this.distance);
+		this.dateSlider = new RangeSlider(this.date);
 
         // Togglegroup
 		const discoveriesToggle = new ToggleGroup(this.discoveries);
@@ -36,6 +39,11 @@ class Filters extends Layer {
 			e.preventDefault();
 			this.close();
 		});
+    }
+
+    open(): Promise<void> {
+        this.distanceSlider.setValues([0, 100]);
+        return super.open();
     }
 }
 

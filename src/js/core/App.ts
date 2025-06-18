@@ -22,6 +22,7 @@ import TimeMachine from "../layers/TimeMachine";
 import MapControls from "../layers/MapControls";
 import { Loader } from "../layers/Loader";
 import ToggleGroup from "../components/ToggleGroup";
+import { calculateDistanceMap } from "./data/Categories";
 
 export const solarClock = new SolarClock(new Clock());
 
@@ -136,6 +137,7 @@ export class App implements NomadRouteListener {
 		this.viewer.createPlanets(LoadManager.data.planets);
 		this.viewer.createDwarfPlanets(LoadManager.data.dwarf_planets);
 		this.viewer.createSolarItems();
+		calculateDistanceMap();
 		// this.viewer.hidePaths();
 		// this.addGUI();
 		console.log(LoadManager.data);
