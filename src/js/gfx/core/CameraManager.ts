@@ -36,24 +36,15 @@ const dummy = new Object3D();
 const raycaster = new Raycaster();
 export const camOcluders = [];
 
-/* export type ShpericalCoords = {
-    radius:number;
-    angle:number;
-    elevation:number;
+function getDistance(touch1, touch2) {
+  const dx = touch1.clientX - touch2.clientX;
+  const dy = touch1.clientY - touch2.clientY;
+  return Math.sqrt(dx * dx + dy * dy);
 }
-
-const sphericalCoords:ShpericalCoords = {
-    radius: 0,
-    angle: 0,
-    elevation: 0
-} */
 
 export class CameraManager {
   controls:OrbitControls;
   protected lockedCam:PerspectiveCamera;
-
-  isInteracting:boolean = false;
-  lastInteracted:number = 0;
 
   zoom:number = 0;
 
@@ -61,32 +52,76 @@ export class CameraManager {
     target: null,
     alpha: .036,
     zoomLevel: 0,
-    orbit: false,
+    orbit: false
   };
+  
+  isZooming:boolean = false;
+  _onTargetWheel;
+  _onTouchStart;
+  _onTouchMove;
+  _onTouchEnd;
+  anchorPinchDistance:number;
+  isPinching:boolean = false;
 
   constructor(public camera:PerspectiveCamera, public dom:HTMLElement) {
     this.lockedCam = camera.clone();
 
     this.controls = new OrbitControls(this.lockedCam, dom);
-    // this.controls.enableDamping = true;
-    // this.controls.dampingFactor = .096;
+    this.controls.enableDamping = true;
+    this.controls.dampingFactor = .096;
     this.controls.minDistance = DEFAULT_CAM_LIMITS.minDistance;
     this.controls.maxDistance = DEFAULT_CAM_LIMITS.maxDistance;
     this.controls.enabled = false;
     this.controls.enablePan = false;
     this.controls.dampingFactor = .096;
 
-    this.controls.addEventListener('start', () => {
-      // console.log('started interaction');
-      this.isInteracting = true;
-      this.controls.enableDamping = true;
-    });
-    this.controls.addEventListener('end', () => {
-      // console.log('stopped interaction');
-      this.isInteracting = false;
-      // this.controls.enableDamping = false;
-      this.lastInteracted = Date.now();
-    });
+    this._onTargetWheel = this.onTargetWheel.bind(this);
+    this._onTouchStart = this.onTouchStart.bind(this);
+    this._onTouchMove = this.onTouchMove.bind(this);
+    this._onTouchEnd = this.onTouchEnd.bind(this);
+
+    dom.addEventListener('wheel', this._onTargetWheel);
+    dom.addEventListener('touchstart', this._onTouchStart);
+    dom.addEventListener('touchmove', this._onTouchMove);
+    dom.addEventListener('touchend', this._onTouchEnd);
+    dom.addEventListener('touchcancel', this._onTouchEnd);
+  }
+
+  onTargetWheel(event:WheelEvent) {
+    if(!this.isTarget) return;
+    event.preventDefault();
+    this.zoom = event.deltaY * .1;
+    this.isZooming = true;
+  }
+
+  onTouchStart(e:TouchEvent) {
+    if(!this.isTarget) return;
+    if (e.touches.length === 2) {
+      this.anchorPinchDistance = getDistance(e.touches[0], e.touches[1]);
+      this.isPinching = true;
+    } else {
+      this.isPinching = false;
+      this.zoom = 0;
+      this.isZooming = false;
+    }
+  }
+
+  onTouchMove(e:TouchEvent) {
+    if(!this.isTarget) return;
+    if(!this.isPinching) return;
+    e.preventDefault();
+    if (e.touches.length === 2) {
+      this.controls.enabled = false;
+      const d = getDistance(e.touches[0], e.touches[1]) - this.anchorPinchDistance;
+      this.zoom = -d;
+      this.isZooming = true;
+    }
+  }
+
+  onTouchEnd(e:TouchEvent) {
+    if(!this.isTarget) return;
+    this.isPinching = false;
+    this.controls.enabled = true;
   }
 
   set enableInteraction(value:boolean) {
@@ -118,15 +153,21 @@ export class CameraManager {
       this.lockedCam.translateZ(d2);
     } else {
       this.cameraTarget.zoomLevel = MathUtils.clamp(this.cameraTarget.zoomLevel - d *.02, 0, 1);
+      if(this.isZooming) {
+        this.zoom = 0;
+        this.isZooming = false;
+      }
     }
   }
 
   centerView(duration:number=1, ease:string="cubic.out") {
     if(this.isTarget) {
-      return this.cameraTarget.zoomLevel = DEFAULT_TARGET_ZOOM;
+      this.cameraTarget.zoomLevel = DEFAULT_TARGET_ZOOM;
+      return;
     }
     this.controls.enabled = false;
-    // this.isInteracting = true;
+    this.isPinching = false;
+    this.isZooming = false;
     gsap.to(this.controls.target, {
       x: 0,
       y: 0,
@@ -155,6 +196,8 @@ export class CameraManager {
     gsap.killTweensOf(this.lockedCam.position);
     gsap.killTweensOf(this.controls.target);
 
+    this.controls.enableZoom = false;
+
     this.controls.enabled = false;//followOrbit;
     this.cameraTarget.orbit = followOrbit;
     this.cameraTarget.zoomLevel = DEFAULT_TARGET_ZOOM;
@@ -162,13 +205,15 @@ export class CameraManager {
   }
 
   releaseCameraTarget() {
-    if (!this.cameraTarget.target) {
-      this.controls.enabled = true;
+    if (!this.isTarget) {
+      this.controls.enableZoom = true;
       return;
     }
 
     gsap.killTweensOf(this.controls);
     gsap.killTweensOf(this.controls.target);
+    
+    this.controls.enableZoom = true;
 
     offset.copy(origin);
 
@@ -250,7 +295,7 @@ export class CameraManager {
 
     tmp.copy(this.isTarget ? dummy.position : origin);
     // d += tmp.distanceTo(this.controls.target)/3;
-    this.controls.enabled = tmp.distanceTo(this.controls.target) < 1;
+    this.controls.enabled = tmp.distanceTo(this.controls.target) < 1 && !this.isPinching;
 
     this.controls.update();
 
