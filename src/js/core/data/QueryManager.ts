@@ -76,8 +76,7 @@ export async function getA() {
 	const response = await fetch(url, {
 		headers: {
 			'X-Hasura-Admin-Secret': SECRET_KEY
-		},
-		 method: "POST",
+		}
 	})
 	return await response.json();
 }

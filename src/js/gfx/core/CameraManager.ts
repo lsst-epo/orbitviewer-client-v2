@@ -3,26 +3,20 @@ import gsap from "gsap";
 import { Euler, Object3D, PerspectiveCamera, Raycaster, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { InteractiveObject, SolarElement } from "../solar/SolarElement";
-import { GLOBALS } from "../../core/Globals";
 
 export interface FollowTarget {
   target: InteractiveObject;
   alpha: number;
-  isAnimating:boolean;
   zoomLevel:number;
   orbit:boolean;
 }
-
-const EASING = {
-  animating: .036,
-  static: .16
-};
-const ZOOM_EASING = .06;
 
 const ZOOM_SPEED = {
   min: 1,
   max: 500
 };
+
+const DEFAULT_TARGET_ZOOM = .5;
 
 export const DEFAULT_CAM_LIMITS = {
 	minDistance: 24,
@@ -67,7 +61,6 @@ export class CameraManager {
     target: null,
     alpha: .036,
     zoomLevel: 0,
-    isAnimating: false,
     orbit: false,
   };
 
@@ -104,15 +97,6 @@ export class CameraManager {
     this.lockedCam.rotation.copy(euler);
   }
 
-  /* private updateCamWithSC(sc:ShpericalCoords) {
-    const x = sc.radius * Math.cos(sc.angle);
-    const y = sc.elevation;
-    const z = sc.radius * Math.sin(sc.angle);
-
-    this.lockedCam.position.set(x,y,z);
-    this.lockedCam.lookAt(origin);
-  } */
-
   get isTarget():boolean {
     return this.cameraTarget.target !== null;
   }
@@ -133,31 +117,13 @@ export class CameraManager {
       }
       this.lockedCam.translateZ(d2);
     } else {
-      this.cameraTarget.zoomLevel = MathUtils.clamp(this.cameraTarget.zoomLevel - d *.01, 0, 1);
-      // console.log(this.cameraTarget.zoomLevel, offset.z);
-      // const d2 = 
-      // this.lockedCam.translateZ(d2);
+      this.cameraTarget.zoomLevel = MathUtils.clamp(this.cameraTarget.zoomLevel - d *.02, 0, 1);
     }
   }
 
-  /* private updateSC() {
-    const p = this.lockedCam.position;
-
-    let x = p.x;
-    let y = p.y;
-    let z = p.z;
-
-    const R = Math.sqrt(x*x+z*z);
-    const angle = Math.atan2(z, x);
-
-    sphericalCoords.angle = angle;
-    sphericalCoords.radius = R;
-    sphericalCoords.elevation = y;
-  } */
-
   centerView(duration:number=1, ease:string="cubic.out") {
     if(this.isTarget) {
-      return GLOBALS.nomad.goTo(`/${GLOBALS.lang}/`)
+      return this.cameraTarget.zoomLevel = DEFAULT_TARGET_ZOOM;
     }
     this.controls.enabled = false;
     // this.isInteracting = true;
@@ -169,10 +135,7 @@ export class CameraManager {
       duration,
       ease,
       onComplete: () => {
-        // this.isInteracting = false;
-        this.cameraTarget.isAnimating = false;
-        // this.controls.enabled = true;
-        // console.log('holi9ii')
+        
       }
     });
 
@@ -185,53 +148,17 @@ export class CameraManager {
       x: camPos.z,
       duration,
       ease,
-      /* onUpdate: () => {
-        console.log('fsd', camPos.distanceTo(this.lockedCam.position));
-        this.controls.enabled = camPos.distanceTo(this.lockedCam.position) < 5;
-      } */
     })
   }
 
   followTarget(target:InteractiveObject, followOrbit:boolean=false) {
+    gsap.killTweensOf(this.lockedCam.position);
+    gsap.killTweensOf(this.controls.target);
+
     this.controls.enabled = false;//followOrbit;
     this.cameraTarget.orbit = followOrbit;
-    this.cameraTarget.zoomLevel = 0;
-    if(this.cameraTarget.target === target) return;
-    gsap.killTweensOf(this.cameraTarget);
-    // this.cameraTarget.alpha = .036;
-    this.cameraTarget.isAnimating = true;
-    // this.controls.enabled = followOrbit;
-    const duration = 3;
-    const ease = "cubic.out";
-    /* dummy.position.copy(target.position).add(target.offsetDesktop);
-    gsap.to(this.controls.target, {
-      x: dummy.position.x,
-      y: dummy.position.y,
-      z: dummy.position.z,
-      overwrite: true,
-      duration,
-      ease,
-    })
-    gsap.to(this.controls, {
-      overwrite: true,
-      minDistance: target.lockedDistance.min,
-      maxDistance: target.lockedDistance.max,
-      minPolarAngle: Math.PI/2.5,
-      maxPolarAngle: Math.PI/1.5,
-      duration,
-      ease,
-      onComplete: () => {
-        this.controls.autoRotate = true;
-        this.controls.autoRotateSpeed = .05;
-        this.controls.enabled = autoEnable;
-      }
-    }) */
+    this.cameraTarget.zoomLevel = DEFAULT_TARGET_ZOOM;
     this.cameraTarget.target = target;
-    // this.controls.enablePan = false;
-    // this.controls.autoRotate = true;
-    // this.controls.autoRotateSpeed = .05;
-    // this.controls.minDistance = target.lockedDistance.min;
-    // this.controls.maxDistance = target.lockedDistance.max;
   }
 
   releaseCameraTarget() {
@@ -249,10 +176,6 @@ export class CameraManager {
     this.controls.autoRotate = false;
     this.controls.minPolarAngle = 0;
     this.controls.maxPolarAngle = Math.PI;
-    // this.controls.minDistance = DEFAULT_CAM_LIMITS.minDistance;
-    // this.controls.maxDistance = DEFAULT_CAM_LIMITS.maxDistance;
-    this.cameraTarget.isAnimating = true;
-    // this.controls.enabled = false;
     
     this.centerView(3, "expo.inOut");
   }
@@ -315,26 +238,15 @@ export class CameraManager {
       // const target = this.cameraTarget.target;
       dummy.position.copy(target.position);
 			this.controls.target.lerp(dummy.position, easing);
+
+      const D = MathUtils.lerp(minD, maxD, 1-this.cameraTarget.zoomLevel);
       
-      this.controls.minDistance = MathUtils.lerp(this.controls.minDistance, maxD, easing);
-      this.controls.maxDistance = MathUtils.lerp(this.controls.maxDistance, maxD, easing);
-
-      // tmp.copy(dummy.position);
-      // this.controls.enabled = tmp.distanceTo(this.controls.target) < 1;
-
-      // d += Math.abs(maxD - this.controls.maxDistance)/3;
-      // d += Math.abs(minD - this.controls.minDistance)/3;
+      this.controls.minDistance = MathUtils.lerp(this.controls.minDistance, D, easing);
+      this.controls.maxDistance = MathUtils.lerp(this.controls.maxDistance, D, easing);
     } else {
       this.controls.minDistance = MathUtils.lerp(this.controls.minDistance, DEFAULT_CAM_LIMITS.minDistance, easing);
       this.controls.maxDistance = MathUtils.lerp(this.controls.maxDistance, DEFAULT_CAM_LIMITS.maxDistance, easing);
-
-      // dummy.position.copy(origin);
-
-      // d += Math.abs(DEFAULT_CAM_LIMITS.maxDistance - this.controls.maxDistance)/3;
-      // d += Math.abs(DEFAULT_CAM_LIMITS.minDistance - this.controls.minDistance)/3;
     }
-
-    // this.controls.target.lerp(dummy.position, easing);
 
     tmp.copy(this.isTarget ? dummy.position : origin);
     // d += tmp.distanceTo(this.controls.target)/3;
@@ -347,13 +259,6 @@ export class CameraManager {
       this.zoomBy(this.zoom);
     }
 
-    /* if(this.isTarget) {
-      const tZ = this.cameraTarget.target.lockedDistance.max - this.cameraTarget.target.lockedDistance.min;
-      const dZ = -tZ * this.cameraTarget.zoomLevel;
-      offset.z = dZ;
-      this.lockedCam.translateZ(offset.z);
-    } */
-
     //3. add offset
     offset.lerp(this.cameraTarget.target ? this.cameraTarget.target.offsetDesktop : origin, easing);
     this.lockedCam.translateX(offset.x);
@@ -362,7 +267,6 @@ export class CameraManager {
     //4. copy transforms to camera
     this.camera.position.copy(this.lockedCam.position);
     this.camera.quaternion.copy(this.lockedCam.quaternion);
-    // this.camera.zoom = MathUtils.lerp(this.camera.zoom, this.lockedCam.zoom, ZOOM_EASING);
 
     // this.updateSC();
   }
