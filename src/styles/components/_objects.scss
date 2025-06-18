@@ -82,11 +82,15 @@
 
             &-item {
                 width: 80vw;
-                min-width: 280px;
+                min-width: 320px;
                 flex-shrink: 0;
                 
                 @include media(medium) {
-                    width: 20vw;
+                    width: 36vw; // width: 20vw;
+                }
+
+                @include media(large) {
+                    width: 23vw;
                 }
             }
 
@@ -97,7 +101,43 @@
                     border-radius: var(--corner-medium);
                     @include frozen_glass;
                     @include gradient_border;
-                    padding: 4px;
+                    // padding: 4px;
+
+                    &-label {
+                        display: flex;
+                        align-items: center;
+                        gap: 16px;
+                        padding: 8px 16px;
+                        background: var(--color);
+                        border-radius: var(--corner-medium) var(--corner-medium) 0 0;
+                        color: var(--color-text);
+
+                        &.planets_moons { --color: rgba(var(--color-planets-rgb), .3);}
+                        &.near_earth_objects { --color: rgba(var(--color-near_earth-rgb), .3);}
+                        &.asteroids { --color: rgba(var(--color-asteroids-rgb), .3);}
+                        &.comets { --color: rgba(var(--color-comets-rgb), .3);}
+                        &.centaurs { --color: rgba(var(--color-centaurs-rgb), .3);}
+                        &.trans_neptunian_objects { --color: rgba(var(--color-trans_neptunian-rgb), .3);}
+                        &.interstellar_objects { --color: rgba(var(--color-interstellar-rgb), .3);}
+                        &.trojans { --color: rgba(var(--color-trojans-rgb), .3);}
+
+                        .name {
+                            flex: auto;
+                            @include font(body-large);
+                            @include ellipsis;
+                            
+                            @include media(large) {
+                                @include font(subtitle-large-regular);
+                            }
+                        }
+
+                        .icon {
+                            flex: 0 0 auto;
+                            width: 40px;
+                            height: 40px;
+                            fill: currentColor;
+                        }
+                    }
 
                     &-head {
                         position: relative;
@@ -124,8 +164,9 @@
                         display: flex;
                         flex-direction: column;
                         gap: 8px;
-                        padding: 16px;
-                        color: var(--color-text);
+                        padding: 20px 16px; // padding: 16px;
+                        color: var(--color-text-low); // color: var(--color-text); 
+                        line-height: 24px;
 
                         @include media(medium) {
                             padding: 20px 16px;
@@ -138,10 +179,6 @@
                             @include media(medium) {
                                 @include font(title);
                             }
-                        }
-
-                        .description {
-                            line-clamp: 4;
                         }
                         
                         .stats {
