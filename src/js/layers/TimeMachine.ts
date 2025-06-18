@@ -117,8 +117,8 @@ class TimeMachine extends Layer implements SliderListener {
 						]
 					}
 				},
-				minDate: "1900-01-01",
-    		// maxDate: "2100-01-01",
+				minDate: new Date("1900-01-01"),
+    		maxDate: new Date("2100-01-01"),
 				onChange: function(_, __, instance) {
 					if (instance.timeContainer) {
 						const timeInputs = instance.timeContainer.querySelectorAll('input');
