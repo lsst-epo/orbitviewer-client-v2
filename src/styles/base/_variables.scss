@@ -48,13 +48,21 @@
     --color-button-bg-hover: var(--color-turquoise-800);
 
     --color-asteroids: #B1F2EF;
+    --color-asteroids-rgb: 177,242,239;
     --color-near_earth: #986AE1;
+    --color-near_earth-rgb: #986AE1;
     --color-centaurs: #FF6EB4;
+    --color-centaurs-rgb: #FF6EB4;
     --color-comets: #50C878;
+    --color-comets-rgb: #50C878;
     --color-planets: #458DD3;
+    --color-planets-rgb: #458DD3;
     --color-trans_neptunian: #009494;
+    --color-trans_neptunian-rgb: #009494;
     --color-interstellar: #718E3E;
+    --color-interstellar-rgb: #718E3E;
     --color-trojans: #E05858;
+    --color-trojans-rgb: #E05858;
     --color-sun: #FDDA78;
 
     // Layers
@@ -99,18 +107,8 @@
 
     // Transitions
     --easing-default: cubic-bezier(0.47, 0, 0.23, 1.08);
-}
 
-@include media(medium) {
-    :root {
-        --site-margin-small: 24px;
-        --site-margin-large: 32px;
-
-        --header-height: 80px;
-    }
-}
-
-:root {
+    // Devices
     --viewport: small;
     --touch: false;
     
@@ -128,5 +126,14 @@
 
     @media (pointer: coarse) {
         --touch: true;
+    }
+}
+
+@include media(medium) {
+    :root {
+        --site-margin-small: 24px;
+        --site-margin-large: 32px;
+
+        --header-height: 80px;
     }
 }
