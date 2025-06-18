@@ -94,6 +94,7 @@ export interface Globals {
 	objectToggle:ToggleGroup;
 	firstPage:boolean;
 	loader:Loader;
+	getViewport:Function;
 }
 
 export const GLOBALS:Globals = {
@@ -109,5 +110,8 @@ export const GLOBALS:Globals = {
 	mapCtrls: null,
 	objectToggle: null,
 	firstPage: true,
-	loader: null
+	loader: null,
+	getViewport: () => {
+		return getComputedStyle(document.documentElement).getPropertyValue('--viewport');
+	}
 }

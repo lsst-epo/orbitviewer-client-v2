@@ -69,21 +69,74 @@
                     flex-direction: column;
                     gap: 4px;
 
-                    @include media(medium) {
-                        flex-direction: row;
-                    }
-
                     .input {
                         flex: auto;
                         background: linear-gradient(180deg, rgba(var(--color-white-rgb), .11) 0%, rgba(var(--color-white-rgb), .08) 100%);
                         border-radius: var(--corner-medium);
                     }
 
-                    .button {
-                        flex: 0 0 auto;
-                        &.copied {
-                            background-color: red;
+                    .button_copy,
+                    .button_download {
+                        --height: 48px;
+                        --padding: 12px;
+                        --icon: 24px;
+                        
+                        position: relative;
+                        display: flex;
+                        height: var(--height);
+                        overflow: hidden;
+                        border-radius: var(--corner-medium);
+                        text-align: center;
+                        
+                        user-select: none;
+                        @include font(subtitle-small);
+
+                        &-content {
+                            position: absolute;
+                            left: 0;
+                            top: 0;
+                            display: grid;
+                            grid-template-rows: var(--height) var(--height);   
+                            width: 100%;
+                            transform: translateY(-50%);
+                            transition: transform .3s ease;
                         }
+
+                            &-default {
+                                background: var(--color-turquoise-600);
+                                border: solid 1px var(--color-turquoise-600);
+                                color: var(--color-turquoise-100);
+                            }
+
+                            &-active {
+                                background: var(--color-turquoise-800);
+                                border: solid 1px var(--color-turquoise-800);
+                                color: var(--color-turquoise-400);
+                            }
+
+                            &-default,
+                            &-active {
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                gap: 4px;
+                                height: var(--height);
+                                line-height: var(--height);
+                                padding-inline: var(--padding);
+
+                                .icon {
+                                    width: var(--icon);
+                                    height: var(--icon);
+                                    fill: currentColor;
+                                }
+                            }
+                        
+                    &.active {
+                        .button_copy-content,
+                        .button_download-content {
+                            transform: translateY(0);
+                        }
+                    }
                     }
                 }
 

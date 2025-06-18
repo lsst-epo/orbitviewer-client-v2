@@ -145,6 +145,7 @@ export class ObjectsFiltersPage extends DefaultPage {
                 delay: .7,
                 onComplete: () => {
                     gsapResolve();
+                    this.dispose();
                 }
             });
             gsap.to(this.title, {
@@ -175,13 +176,7 @@ export class ObjectsFiltersPage extends DefaultPage {
                     translateY: '110%',
                     ease: 'expo.inOut',
                     duration: 1,
-                    delay: i * .1,
-                    onComplete: () => {
-                        if(i===this.cards.length-1) {
-                            gsapResolve();
-                            document.body.style.overflow = 'auto';
-                        }
-                    }
+                    delay: i * .1
                 });
             }
         }).then(resolve);

@@ -143,6 +143,10 @@ export default {
                 "en": "Copy",
                 "es": ""
             },
+            "copied": {
+                "en": "copied",
+                "es": ""
+            },
             "share_on": {
                 "en": "Share on",
                 "es": ""
@@ -164,6 +168,10 @@ export default {
         },
         "download": {
             "en": "Download image",
+            "es": ""
+        },
+        "generating": {
+            "en": "Generating image",
             "es": ""
         }
     },
@@ -321,7 +329,7 @@ export default {
             }
         },
         "distance": {
-            "en": "Distance",
+            "en": "Distance from Sun",
             "es": ""
         },
         "au": {

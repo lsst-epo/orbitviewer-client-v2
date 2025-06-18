@@ -42,12 +42,12 @@ class Share extends Layer {
 
         this.copyButton.addEventListener('click', (e) => {
             const input = this.copyButton.closest('div').querySelector('input');
-            if (!input || this.copyButton.classList.contains('copied')) return; // Prevent multiple clicks or if input is not found
+            if (!input || this.copyButton.classList.contains('active')) return; // Prevent multiple clicks or if input is not found
             copyToClipboard(input.value);
-            this.copyButton.classList.add('copied');
+            this.copyButton.classList.add('active');
             setTimeout(() => {
-                // TODO: SHOW COPIED THREE SECONDS
-                this.copyButton.classList.remove('copied');
+                // TODO: SHOW Active THREE SECONDS
+                this.copyButton.classList.remove('active');
             }, 3000); // Reset the button after 3 seconds
             
         })

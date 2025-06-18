@@ -62,8 +62,8 @@ export class Sun extends Object3D implements InteractiveObject {
       max: 60
     };
     lockedOffset:Vector3 = new Vector3()
-    offsetDesktop: Vector3 = new Vector3();
-    offsetMobile: Vector3 = new Vector3();
+    offsetObject: Vector3 = new Vector3();
+    offsetOrbit: Vector3 = new Vector3();
     closeUp: boolean = true;
 
     halo:Mesh;

@@ -7,6 +7,7 @@ import { calculateOrbitByType, OrbitElements, OrbitType } from "../../core/solar
 import { DEFAULT_PATH_ALPHA, EllipticalPath } from "./EllipticalPath";
 import gsap from "gsap";
 import { slugify } from "@fils/utils";
+import { GLOBALS } from "../../core/Globals";
 
 export interface CameraLock {
 	min: number;
@@ -16,9 +17,10 @@ export interface CameraLock {
 export interface InteractiveObject extends Object3D {
 	selected:boolean;
 	target:Object3D;
-	lockedDistance:CameraLock;
-	offsetDesktop:Vector3;
-    offsetMobile:Vector3;
+	lockedObjectDistance:CameraLock;
+    lockedOrbitDistance:CameraLock;
+	offsetObject:Vector3;
+    offsetOrbit:Vector3;
 	// closeUp: boolean;
 }
 
@@ -26,6 +28,8 @@ export interface InteractiveObject extends Object3D {
 const L_DUMMY = new LineBasicMaterial({
     color: 0xff0000
 });
+
+const tmp:Vector3 = new Vector3();
 
 export type SolarElementOptions = {
     color?:ColorRepresentation;
@@ -57,9 +61,10 @@ export class SolarElement extends Object3D implements InteractiveObject {
 
     isPlanet:boolean = false;
 
-    lockedDistance = { min: 1, max: 10 };
-    offsetDesktop = new Vector3();
-    offsetMobile = new Vector3();
+    lockedObjectDistance = { min: 1, max: 10 };
+    lockedOrbitDistance = { min: 1, max: 10 };
+    offsetObject = new Vector3();
+    offsetOrbit = new Vector3();
 
     slug:string;
 
@@ -113,6 +118,42 @@ export class SolarElement extends Object3D implements InteractiveObject {
         // this.lockedPosition.landscape.offset.set(0,max.length()+center.y,0);
         // this.lockedPosition.portrait.distance = max.length() * 2;
         // this.lockedPosition.portrait.offset.set(0,-max.length()-1000,0);
+
+        this.updateCameraView();
+    }
+
+    updateCameraView() {
+        const viewport = GLOBALS.getViewport();
+        const scl = this.scale.x;
+        // console.log(viewport);
+
+        const box = this.orbitPath.boundingBox;
+        tmp.copy(box.max).sub(box.min);
+        const R = tmp.length()/2;
+
+        if(viewport === 'small') {
+            this.offsetObject.set(0, -scl*1.5, 0);
+            this.lockedObjectDistance = {
+                min: scl * 5,
+                max: scl * 15
+            }
+            this.offsetOrbit.set(0, -R, 0);
+            this.lockedOrbitDistance = {
+                min: R * 5,
+                max: R * 15
+            }
+        } else {
+            this.offsetObject.set(-scl, 0, 0);
+            this.lockedObjectDistance = {
+                min: scl * 3,
+                max: scl * 8
+            }
+            this.offsetOrbit.set(-R, 0, 0);
+            this.lockedOrbitDistance = {
+                min: R * 2,
+                max: R * 10
+            }
+        }
     }
 
     initMaterial(opts:SolarElementOptions = {}){
