@@ -6,8 +6,7 @@ import { Color } from "three";
 import { GLOBALS } from "../Globals";
 import { getDistanceFromEarthNow, mapOrbitElementsV2, OrbitDataElements, OrbitDataElementsV2 } from "../solar/SolarUtils";
 import { LoadManager } from "./LoadManager";
-
-export type SolarCategory = 'trans-neptunian-objects'|'near-earth-objects'|'interstellar-objects'|'comets'|'centaurs'|'asteroids'|'planets-moons'|'jupiter-trojans';
+import { SolarCategory } from "../solar/SolarSystem";
 
 /**
  * Sorted by priority (lowest index in the array holds higher priority)
@@ -59,8 +58,8 @@ export function getCraftCategory(category:SolarCategory) {
 	const categories = LoadManager.craftData.categories;
 	if(categories === null) return {
 		title: 'Category',
-		mainColor: "#fff",
-		threeColor: new Color("#fff"),
+		mainColor: "#b1f2ef",
+		threeColor: new Color("#b1f2ef"),
 		objectTypeCode: `${CategoryTypeMap[category]}`
 	};
 	for(const cat of categories) {

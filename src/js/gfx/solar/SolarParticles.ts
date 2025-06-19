@@ -53,6 +53,8 @@ export class SolarParticles {
     sim:GPUSim;
     quality:SimQuality;
 
+    filtered:boolean[];
+
     constructor(){}
 
     init(renderer:WebGLRenderer){
@@ -105,6 +107,16 @@ export class SolarParticles {
                 1
             )
         );
+
+        this.filtered = [];
+        for(let i=0; i<count; i++) this.filtered.push(false);
+    }
+
+    /**
+     * Updates filter states of particles & dims out filtered ones
+     */
+    updateFilterState() {
+
     }
 
     /**

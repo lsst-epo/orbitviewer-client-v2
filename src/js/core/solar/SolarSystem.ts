@@ -8,7 +8,7 @@ import { Vector3 } from "three";
 import { PlanetId, PLANET_SCALE } from "./Planet";
 import { PlanetDataMap } from "./SolarUtils";
 
-export type SolarCategory = 'trans-neptunian-objects'|'near-earth-objects'|'interstellar-objects'|'comets'|'centaurs'|'asteroids'|'planets-moons';
+export type SolarCategory = 'trans-neptunian-objects'|'near-earth-objects'|'interstellar-objects'|'comets'|'centaurs'|'asteroids'|'planets-moons'|'jupiter-trojans';
 
 export const DEG_TO_RAD = Math.PI / 180;
 export const E_CONVERGE_MAX_ITERATIONS = 10;
