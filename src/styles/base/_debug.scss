@@ -1,0 +1,19 @@
+@use '../base/mixins' as *;
+
+body {
+    position: relative;
+    color: red;
+
+    &:after {
+        content: var(--viewport);
+        position: fixed;
+        right: 5px;
+        bottom: 5px;
+        padding: 0 5px;
+        border-radius: 2px;
+        background: rgba(255,0,0,.15);
+        font-family:'Courier New', Courier, monospace;
+        font-size: 12px;
+        z-index: 99999;
+    }
+}

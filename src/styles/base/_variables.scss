@@ -110,23 +110,27 @@
     --easing-default: cubic-bezier(0.47, 0, 0.23, 1.08);
 
     // Devices
-    --viewport: small;
-    --touch: false;
+    --viewport: 'xsmall';
+    --touch: 'false';
+
+    @include media(small) {
+        --viewport: 'small';
+    }
     
     @include media(medium) {
-        --viewport: medium;
+        --viewport: 'medium';
     }
     
     @include media(large) {
-        --viewport: large;
+        --viewport: 'large';
     }
 
     @include media(xlarge) {
-        --viewport: xlarge;
+        --viewport: 'xlarge';
     }
 
     @media (pointer: coarse) {
-        --touch: true;
+        --touch: 'true';
     }
 }
 
