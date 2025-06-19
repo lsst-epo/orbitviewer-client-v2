@@ -3,6 +3,7 @@
 @use './base/variables';
 @use './base/fonts';
 @use './base/typography';
+@use './base/debug';
 
 // Debug
 // @use './components/debug/terminal';
@@ -38,6 +39,8 @@
 @use './templates/onboarding';
 @use './templates/splash';
 @use './templates/object_detail';
+@use './templates/about';
+@use './templates/how_to_use';
 
 @use '../../node_modules/flatpickr/dist/flatpickr.css';
 @use './libraries/calendar';

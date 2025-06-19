@@ -19,6 +19,7 @@ $font-styles: (
     "subtitle-large-semi": (24, 32, get-font-weight("semibold"), 0, false),
     "subtitle-large-regular": (24, 32, get-font-weight("regular"), 0, false),
     "subtitle-small": (20, 24, get-font-weight("semibold"), 0, false),
+    "body-xlarge": (20, 32, get-font-weight("regular"), 0, false),
     "body-large": (18, 24, get-font-weight("regular"), 0, false),
     "body-medium-semi": (16, 20, get-font-weight("semibold"), 0, false),
     "body-medium-regular": (16, 20, get-font-weight("regular"), 0, false),
@@ -72,7 +73,6 @@ body {
     font-variation-settings:
         "wdth" 100,
         "YTLC" 500;
-    color: red;
 
     @include font(body-medium-regular);
 }

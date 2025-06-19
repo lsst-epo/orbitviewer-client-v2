@@ -4,7 +4,7 @@
 @use '../base/typography' as *;
 
 .loader {
-    position: absolute;
+    position: fixed;
     inset: 0;
     z-index: var(--z-loader);
     display: flex;
