@@ -6,3 +6,5 @@ in vec3 vPosO;
 uniform vec3 planetPosition;
 uniform float fadeDistance;
 uniform bool isPlanet;
+
+#include <desaturate>
