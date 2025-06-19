@@ -44,6 +44,8 @@ class Filters extends Layer {
             this.distance,
             {
                 label: '{{value}} au',
+                values: [20, 80],
+                minmax: [0, 120],
                 onChange: (values) => {
                     console.log('Distance slider values:', values);
                 }

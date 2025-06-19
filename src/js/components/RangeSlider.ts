@@ -44,11 +44,6 @@ class RangeSlider {
     this.attachEventListeners();
 
     this.updateSlider();
-    
-    // Ensure DOM is ready and has dimensions before positioning
-    // requestAnimationFrame(() => {
-    //   this.updateSlider();
-    // });
   }
 
   private extractDataFromDOM(): { values: number[]; minmax: [number, number] } {
@@ -122,7 +117,9 @@ class RangeSlider {
     const minLabel = this.container.querySelector('.rangeslider-labels .min') as HTMLElement;
     const maxLabel = this.container.querySelector('.rangeslider-labels .max') as HTMLElement;
     this.labels = { min: minLabel, max: maxLabel };
-    
+    this.labels.min.textContent = this.getLabelFromValue(this.minValue);
+    this.labels.max.textContent = this.getLabelFromValue(this.maxValue);
+
     // Set initial aria attributes
     this.thumbs.forEach((thumb, index) => {
       thumb.setAttribute('aria-valuemin', this.minValue.toString());
