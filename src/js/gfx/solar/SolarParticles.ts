@@ -149,7 +149,7 @@ export class SolarParticles {
      */
     set highlighted(value:boolean) {
         const u = MAT.uniforms;
-        gsap.to(u.opacity, {value: value ? 1 : .2, duration: 2, overwrite: true});
+        gsap.to(u.opacity, {value: value ? 1 : .1, duration: 2, overwrite: true});
     }
 
     /**
