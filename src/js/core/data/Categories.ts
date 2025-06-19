@@ -2,6 +2,7 @@
  * Categories related data
  */
 
+import { Color } from "three";
 import { GLOBALS } from "../Globals";
 import { OrbitDataElements, OrbitDataElementsV2 } from "../solar/SolarUtils";
 import { LoadManager } from "./LoadManager";
@@ -56,6 +57,12 @@ export const CSSCategoryMap:Record<number, string> = {
 
 export function getCraftCategory(category:SolarCategory) {
 	const categories = LoadManager.craftData.categories;
+	if(categories === null) return {
+		title: 'Category',
+		mainColor: "#fff",
+		threeColor: new Color("#fff"),
+		objectTypeCode: `${CategoryTypeMap[category]}`
+	};
 	for(const cat of categories) {
 		const type = parseInt(cat.objectTypeCode);
 		if(type === CategoryTypeMap[category]) return cat;
