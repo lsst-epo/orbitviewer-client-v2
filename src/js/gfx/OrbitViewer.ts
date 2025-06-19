@@ -129,7 +129,7 @@ export class OrbitViewer extends ThreeLayer {
 
 		goToLandingMode() {
 			this.fadeIn();
-			this.controls.followTarget(this.sun, true);
+			this.controls.followTarget(this.sun, false);
 			
 			// dummy.lookAt(this.earth.position);
 			// dummy.updateMatrix();
