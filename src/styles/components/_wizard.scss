@@ -80,6 +80,10 @@
                 transform: none;
             }
         }
+        .wizard-bg,
+        .wizard-focus {  
+            border-radius: calc(var(--wizard-width) * 0.5);
+        }
     }
 
      &[aria-step="4"] {
@@ -93,6 +97,10 @@
                 top: 86px;
                 transform: none;
             }
+        }
+        .wizard-bg,
+        .wizard-focus {  
+            border-radius: calc(var(--wizard-height) * 0.5);
         }
     }
 
