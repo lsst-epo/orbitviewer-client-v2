@@ -4,7 +4,7 @@ import { GLOBALS } from "../core/Globals";
 import { DefaultPage } from "./DefaultPage";
 import { ObjectsScroller } from "../components/ObjectsScroller";
 import { SolarCategory } from "../core/solar/SolarSystem";
-import { FilterToggle } from "../components/FilterToggle";
+// import { FilterToggle } from "../components/FilterToggle";
 import { UserFilters } from "../core/solar/SolarUtils";
 
 const catSort:SolarCategory[] = [
@@ -47,14 +47,12 @@ export class ObjectsFiltersPage extends DefaultPage {
 
         this.scroller = new ObjectsScroller({
             dom: this.section.querySelector('.objects-list'),
-            snapType: 'direction',
             nextButtons: [
                 this.section.querySelector('.objects_controls-right'),
             ],
             prevButtons: [
                 this.section.querySelector('.objects_controls-left'),
             ]
-            
         });
 
         for(let i=0; i<this.cards.length;i ++) {
@@ -114,6 +112,10 @@ export class ObjectsFiltersPage extends DefaultPage {
         for(const cat in map) {
             this.inputs[catSort.indexOf(cat as SolarCategory)].selectedIndex = map[cat] ? 1 : 0;
         }
+    }
+
+    update() {
+        this.scroller.update();
     }
 
     transitionIn(resolve: any): Promise<void> {
