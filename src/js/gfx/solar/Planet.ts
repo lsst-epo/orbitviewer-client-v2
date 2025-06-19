@@ -117,7 +117,7 @@ export class Planet extends SolarElement {
 
     updateFilters(): void {
         super.updateFilters();
-        this.mesh.visible = this.active;
+        this.mesh.visible = this.enabled;
     }
 
     initAtmosphere(id:PlanetId) {

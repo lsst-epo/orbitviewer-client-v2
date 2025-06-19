@@ -132,6 +132,20 @@ export class SolarElement extends Object3D implements InteractiveObject {
         if(!this._active) return;
 
         // 2. check other filters
+        const dMap = UserFilters.distanceRange;
+        this.enabled = this.data.a >= dMap.min && this.data.a <= dMap.max;
+
+        if(!this._active) return;
+
+        // 3. discovered by
+        const by = UserFilters.discoveredBy;
+        if(by === 1) {
+            // rubin
+            this.enabled = this.data.rubin_discovery === true;
+        } else if(by === 2) {
+            // non rubin
+            this.enabled = this.data.rubin_discovery !== true;
+        }
 
         if(this._active) this.blur();
     }

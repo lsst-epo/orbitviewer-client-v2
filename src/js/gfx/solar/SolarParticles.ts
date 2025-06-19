@@ -7,22 +7,20 @@
  */
 
 // import { RTUtils } from "@fils/gfx";
-import { BufferAttribute, BufferGeometry, Color, InstancedBufferAttribute, InstancedMesh, PerspectiveCamera, Points, ShaderMaterial, SphereGeometry, WebGLRenderer } from "three";
+import { Color, InstancedBufferAttribute, InstancedMesh, PerspectiveCamera, ShaderMaterial, SphereGeometry, WebGLRenderer } from "three";
 import { GLOBALS, GPU_SIM_SIZES, VISUAL_SETTINGS } from "../../core/Globals";
 import { OrbitElements } from "../../core/solar/SolarSystem";
 import { GPUSim, SimQuality } from "./GPUSim";
 
-import { Random } from "@fils/math";
 
 import { gsap } from 'gsap';
 // import { CategoryColorMap } from "../../core/data/Categories";
 
 import fragmentShader from '../../../glsl/sim/particles_instanced.frag';
 import vertexShader from '../../../glsl/sim/particles_instanced.vert';
-import { LoadManager } from "../../core/data/LoadManager";
-import { getCraftCategory } from "../../core/data/Categories";
-import { FAR, NEAR } from "../OrbitViewer";
+import { CategoryCounters, getCraftCategory } from "../../core/data/Categories";
 import { UserFilters } from "../../core/solar/SolarUtils";
+import { FAR, NEAR } from "../OrbitViewer";
 
 const MAT = new ShaderMaterial({
     vertexShader,
@@ -117,16 +115,34 @@ export class SolarParticles {
      * Updates filter states of particles & dims out filtered ones
      */
     updateFilterState() {
-        // 1. Update categopries
         const catMap = UserFilters.categories;
+        const dMap = UserFilters.distanceRange;
         for(let i=0;i<this._data.length; i++) {
             const d = this._data[i];
-            // console.log(d.category);
+            // 1. Update categopries
             this.filtered[i] = !catMap[d.category];
+            if(this.filtered[i]) continue;
+            
+            // 2. distance from sun
+            const isIn = d.a >= dMap.min && d.a <= dMap.max;
+            // console.log(isIn);
+            this.filtered[i] = !isIn;
+            if(this.filtered[i]) continue;
+
+            //3. date range (coming soon)
+
+            //4. discovered by
+            const by = UserFilters.discoveredBy;
+            if(by === 0) continue;
+            if(by === 1) {
+                // rubin
+                this.filtered[i] = !d.rubin_discovery;
+            } else {
+                // non rubin
+                this.filtered[i] = d.rubin_discovery;
+            }
         }
-
-        // 2. Upate rest of the filters only for unfiltered items
-
+        
         // 3. Update buffer attribute
         const attr = this.mesh.geometry.attributes.filterValue;
         const arr = attr.array;
@@ -159,6 +175,7 @@ export class SolarParticles {
         for(let i=0; i<count; i++) {
             const el = this._data[i];
             // console.log(el.category);
+            CategoryCounters[el.category]++;
             const categoryData = getCraftCategory(el.category);
             const color:Color = categoryData.threeColor;
             this.mesh.setColorAt(i, color);

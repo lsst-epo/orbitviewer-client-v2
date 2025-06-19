@@ -23,10 +23,11 @@ class SEngine {
         const items = [];
         const q = query.toLowerCase();
         const data = LoadManager.data;
+        const craftData = LoadManager.craftData;
 
         this.searchInArray(q, data.planets, items);
         this.searchInArray(q, data.dwarf_planets, items);
-        this.searchInArray(q, data.solar_items, items);
+        this.searchInArray(q, craftData.solar_items, items);
         this.searchInArray(q, data.sample, items);
 
         return items;

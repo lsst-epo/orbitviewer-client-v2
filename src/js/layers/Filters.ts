@@ -1,6 +1,7 @@
 import RangeSlider from "../components/RangeSlider";
 import ToggleGroup from "../components/ToggleGroup";
 import { CategoryFilters } from "../core/data/Categories";
+import { GLOBALS } from "../core/Globals";
 import { UserFilters } from "../core/solar/SolarUtils";
 import Layer from "./Layer";
 
@@ -35,8 +36,10 @@ class Filters extends Layer {
         // Togglegroup
 		this.discoveriesToggle = new ToggleGroup(
             this.discoveries,
-            (value) => {
-                console.log('Discoveries toggle value:', value);
+            (value, index) => {
+                // console.log('Discoveries toggle value:', value, index);
+                UserFilters.discoveredBy = index;
+                GLOBALS.viewer.filtersUpdated();
             }
         );
         this.discoveriesToggle.show();
@@ -47,9 +50,10 @@ class Filters extends Layer {
             {
                 label: '{{value}} au',
                 onChange: (values) => {
-                    console.log('Distance slider values:', values);
+                    // console.log('Distance slider values:', values);
                     UserFilters.distanceRange.min = values[0];
                     UserFilters.distanceRange.max = values[1];
+                    GLOBALS.viewer.filtersUpdated();
                 },
                 values: [
                     UserFilters.distanceRange.min,
@@ -64,11 +68,11 @@ class Filters extends Layer {
 
         // this.distanceSlider.setValues([CategoryFilters.a.totals.min, CategoryFilters.a.totals.max]);
 
-		this.dateSlider = new RangeSlider(
+		/* this.dateSlider = new RangeSlider(
             this.date,
             {
                 onChange: (values) => {
-                    console.log('Date slider values:', values);
+                    // console.log('Date slider values:', values);
                 },
                 values: [
                     UserFilters.dateRange.min,
@@ -79,7 +83,7 @@ class Filters extends Layer {
                     2100
                 ]
             }
-        );
+        ); */
 
 		this.closeButton.addEventListener('click', (e) => {
 			e.preventDefault();
@@ -95,7 +99,7 @@ class Filters extends Layer {
     }
 
     open(): Promise<void> {
-        // this.distanceSlider.setValues([0, 100]);
+        this.distanceSlider.setRange(CategoryFilters.a.totals.min, CategoryFilters.a.totals.max);
         return super.open();
     }
 }
