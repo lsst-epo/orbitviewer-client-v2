@@ -49,6 +49,7 @@ class Navigation extends Layer {
 
   updateExplorationState () {
     const inputs = this.exploration.querySelectorAll('input');
+    console.log('MENU', VISUAL_SETTINGS.current);
     for(const i of inputs) {
       i.checked = VISUAL_SETTINGS.current === i.getAttribute('id');
     }
