@@ -215,8 +215,9 @@ export class OrbitViewer extends ThreeLayer {
 							// console.log(sel.mpcdesignation, el.elementID, sel.fulldesignation);
 							if(sel.mpcdesignation === el.elementID || sel.fulldesignation === el.elementID) {
 								console.log('Found Solar Item', el.elementID);
-								if(el.elementCategory.length === 0) break;
 								const data = mapOrbitElementsV2(sel);
+								// console.log(data.category);
+								if(!data) break;
 								// console.log(data);
 								//Add item...
 								const element = new SolarElement(el.elementID, data);

@@ -43,9 +43,9 @@ eleventyComputed:
                     </div>
                     
                     <div class="object_card-unit">
-                        {{ ObjectCardGraph('Average distance from the Sun', 'Semi-major axis (a)', 20, 100, ['sun', 'stars']) }}
-                        {{ ObjectCardGraph('Deviation from a circular orbit', 'Eccentricity (e)', 50, 100, ['eccentricity-low', 'eccentricity-high']) }}
-                        {{ ObjectCardGraph('Angle of orbit', 'Inclination (i)', 10, 100, ['inclination-low', 'inclination-high']) }}
+                        {{ ObjectCardGraph('sliderA', 'Average distance from the Sun', 'Semi-major axis (a)', 20, 100, ['sun', 'stars']) }}
+                        {{ ObjectCardGraph('sliderE', 'Deviation from a circular orbit', 'Eccentricity (e)', 50, 100, ['eccentricity-low', 'eccentricity-high']) }}
+                        {{ ObjectCardGraph('sliderI', 'Angle of orbit', 'Inclination (i)', 10, 100, ['inclination-low', 'inclination-high']) }}
                     </div>
 
                     <div class="object_card-unit">
@@ -91,8 +91,8 @@ eleventyComputed:
 
                     <div class="object_card-unit">
                         <h2 class="title">{{ copy.object.how_far.title[lang] }}</h2>
-                        {{ ObjectCardGraph(copy.object.how_far.from_sun[lang], '1.00au', 70, 100, ['sun']) }}
-                        {{ ObjectCardGraph(copy.object.how_far.from_earth[lang], '1.00au', 100, 100, ['earth']) }}
+                        {{ ObjectCardGraph('sliderFarSun', copy.object.how_far.from_sun[lang], '1.00au', 70, 100, ['sun']) }}
+                        {{ ObjectCardGraph('sliderFarEarth', copy.object.how_far.from_earth[lang], '1.00au', 100, 100, ['earth']) }}
                     </div>
                 </div>
             </div>

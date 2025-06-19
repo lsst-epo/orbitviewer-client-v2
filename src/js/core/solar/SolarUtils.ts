@@ -4,13 +4,24 @@
 
 import { Vector3 } from "three";
 import { getCategory } from "../data/Categories";
-import { PlanetDataMap, PLANET_SCALE } from "./Planet";
+import { PLANET_SCALE, PlanetId } from "./Planet";
 import { calculateOrbit, EPOCH, getMeanAnomaly, OrbitElements, OrbitType, SolarCategory } from "./SolarSystem";
 import { MJD2JD, SolarTimeManager } from "./SolarTime";
 import { Random } from "@fils/math";
 
 const tmp1 = new Vector3();
 const tmp2 = new Vector3();
+
+export const PlanetDataMap:Record<PlanetId,OrbitElements> = {
+    earth: null,
+    mercury: null,
+    venus: null,
+    mars: null,
+    jupiter: null,
+    saturn: null,
+    uranus: null,
+    neptune: null
+}
 
 export type OrbitDataElements = {
     id?:string;
@@ -187,14 +198,14 @@ export function getDistanceFromSunNow(data:OrbitElements): number {
     return tmp1.length() / PLANET_SCALE;
 }
 
-export function getDistanceFromEarthNow(data:OrbitDataElements): number {
+export function getDistanceFromEarthNow(data:OrbitElements): number {
 
     const date = new Date();
     const mjd = SolarTimeManager.getMJDonDate(date);
 
-    const mel = mapOrbitElements(data);
+    // const mel = mapOrbitElements(data);
 
-    calculateOrbit(mel, mjd, tmp1);
+    calculateOrbit(data, mjd, tmp1);
 
     const earthData = PlanetDataMap.earth;
 
