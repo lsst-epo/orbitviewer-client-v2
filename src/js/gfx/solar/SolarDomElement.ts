@@ -43,6 +43,7 @@ export class SolarDOMElement {
   }
 
   update() {
+    if(!this.ref.enabled) return this.hidden = true;
     GLOBALS.viewer.controls.getNormalizedScreenCoords(this.ref, tmp);
     if(tmp.z < 0) return this.hidden = true;
     this.hidden = false;

@@ -217,6 +217,19 @@ export function getDistanceFromEarthNow(data:OrbitElements): number {
 }
 
 
-export const ObjectFilters = {
-    
+export interface ObjectFilters {
+    categories:Record<SolarCategory, boolean>;
+}
+
+export const UserFilters:ObjectFilters = {
+    categories: {
+        "planets-moons": true,
+        'asteroids': true,
+        'comets': true,
+        'centaurs': true,
+        'interstellar-objects': true,
+        'near-earth-objects': true,
+        'trans-neptunian-objects': true,
+        'jupiter-trojans': true
+    }
 }
