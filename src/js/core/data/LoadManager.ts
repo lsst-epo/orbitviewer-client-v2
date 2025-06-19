@@ -1,9 +1,9 @@
 import { Color } from "three";
-import { getSolarStaticData } from "../Utils";
-import { getCategories, getSolarItemsInfo } from "./CraftManager";
-import { VISUAL_SETTINGS } from "../Globals";
 import { USE_V2 } from "../App";
+import { VISUAL_SETTINGS } from "../Globals";
+import { getSolarStaticData } from "../Utils";
 import { CSSCategoryMap } from "./Categories";
+import { getCategories, getSolarItemsInfo } from "./CraftManager";
 import { getA } from "./QueryManager";
 
 const staticURL = "/assets/data/";
@@ -158,6 +158,13 @@ class LoadManagerClass {
             console.log(this.mgr.hasuraData.classification_ranges);
             onL();
         });
+
+        /* getE().then(json => {
+            // this.mgr.hasuraData.classification_ranges = json.classification_ranges_v2;
+            // console.log(this.mgr.hasuraData.classification_ranges);
+            // onL();
+            console.log(json);
+        }); */
     }
 
     loadSample(profile:string, onLoaded:Function) {

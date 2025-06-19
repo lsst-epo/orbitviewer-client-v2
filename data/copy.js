@@ -68,7 +68,7 @@ export default {
                 "es": ""
             }
         },
-        "extra": {
+        "ultra": {
             "name": {
                 "en": "Gaming PCs",
                 "es": ""

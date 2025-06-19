@@ -6,10 +6,12 @@ class Filters extends Layer {
     distance: HTMLElement;
     date: HTMLElement;
     closeButton: HTMLElement;
+    resetButton: HTMLElement;
     discoveries: HTMLElement;
 
     distanceSlider: RangeSlider;
     dateSlider: RangeSlider;
+    discoveriesToggle: ToggleGroup;
     
     constructor(dom) {
         super(dom, {
@@ -22,27 +24,56 @@ class Filters extends Layer {
         this.date = dom.querySelector('#slider-date') as HTMLElement;
         this.discoveries = dom.querySelector('#toggle-discoveries');
 		this.closeButton = dom.querySelector('.filters-head .button_icon') as HTMLElement;
+        this.resetButton = dom.querySelector('.button-reset') as HTMLElement;
 
         this.start();
     }
 
     start() {
-        // Slide Range
-		this.distanceSlider = new RangeSlider(this.distance);
-		this.dateSlider = new RangeSlider(this.date);
-
         // Togglegroup
-		const discoveriesToggle = new ToggleGroup(this.discoveries);
-        discoveriesToggle.show();
+		this.discoveriesToggle = new ToggleGroup(
+            this.discoveries,
+            (value) => {
+                console.log('Discoveries toggle value:', value);
+            }
+        );
+        this.discoveriesToggle.show();
+
+        // Sliders
+		this.distanceSlider = new RangeSlider(
+            this.distance,
+            {
+                label: '{{value}} au',
+                onChange: (values) => {
+                    console.log('Distance slider values:', values);
+                }
+            }
+        );
+
+		this.dateSlider = new RangeSlider(
+            this.date,
+            {
+                onChange: (values) => {
+                    console.log('Date slider values:', values);
+                }
+            }
+        );
 
 		this.closeButton.addEventListener('click', (e) => {
 			e.preventDefault();
 			this.close();
 		});
+
+        this.resetButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.distanceSlider.reset();
+            this.dateSlider.reset();
+            this.discoveriesToggle.reset();
+        })
     }
 
     open(): Promise<void> {
-        this.distanceSlider.setValues([0, 100]);
+        // this.distanceSlider.setValues([0, 100]);
         return super.open();
     }
 }

@@ -5,6 +5,9 @@ import { GLOBALS } from "../core/Globals";
 import { getClosestDateToSun, getDistanceFromEarthNow, getDistanceFromSunNow } from "../core/solar/SolarUtils";
 import { SolarElement } from "../gfx/solar/SolarElement";
 import { DefaultPage } from "./DefaultPage";
+import { CategoryFilters, DistanceFromEarth } from "../core/data/Categories";
+import { MathUtils } from "@fils/math";
+import { OrbitElements, SolarCategory } from "../core/solar/SolarSystem";
 
 export class ObjectPage extends DefaultPage {
     infoButtons: NodeListOf<Element>;
@@ -110,10 +113,39 @@ export class ObjectPage extends DefaultPage {
         }).then(resolve);
     }
 
+    private mapSlider(slider:HTMLElement, data:OrbitElements, prop:string) {
+        const ranges = CategoryFilters;
+        const catID = data.category;
+        const rangeA = ranges[prop][catID];
+        slider.style.width = `${MathUtils.smoothstep(rangeA.min, rangeA.max, data.a)*100}%`;
+    }
+
+    private mapSliderWithValue(slider:HTMLElement, catID:SolarCategory, prop:string, value:number) {
+        const ranges = CategoryFilters;
+        const rangeA = ranges[prop][catID];
+        slider.style.width = `${MathUtils.smoothstep(rangeA.min, rangeA.max, value)*100}%`;
+    }
+
     fillWithContent(cnt, data) {
         // console.log(cnt);
         const h1 = this.dom.querySelector('h1#object-name');
         h1.textContent = cnt.title;
+
+        const ranges = CategoryFilters;
+        const catID = data.category;
+        // console.log(catID);
+
+        // Map sliders
+        const sliderA = this.dom.querySelector('#sliderA') as HTMLElement;
+        this.mapSlider(sliderA, data, 'a');
+
+        const sliderE = this.dom.querySelector('#sliderE') as HTMLElement;
+        this.mapSlider(sliderE, data, 'e');
+
+        const sliderI = this.dom.querySelector('#sliderI') as HTMLElement;
+        this.mapSlider(sliderI, data, 'i');
+
+        // Set Contents
 
         const text = this.dom.querySelector('.object_card-description');
         text.innerHTML = cnt.text;
@@ -151,8 +183,18 @@ export class ObjectPage extends DefaultPage {
         const daysLeft = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
         tel.querySelector('span#days').textContent = `${daysLeft}`;
 
-        this.dom.querySelector('p[aria-describedby="graph-from-the-sun"]').textContent = `${getDistanceFromSunNow(data).toFixed(2)}au`;
-        this.dom.querySelector('p[aria-describedby="graph-from-the-earth"]').textContent = `${getDistanceFromEarthNow(data).toFixed(2)}au`;
+        // How far from the sun?
+        const fS = getDistanceFromSunNow(data);
+        const sliderFarSun = this.dom.querySelector('#sliderFarSun') as HTMLElement;
+        this.mapSliderWithValue(sliderFarSun, catID, 'a', fS);
+        this.dom.querySelector('p[aria-describedby="graph-from-the-sun"]').textContent = `${fS.toFixed(2)}au`;
+        
+        // How far from Earth?
+        const dEn = getDistanceFromEarthNow(data);
+        this.dom.querySelector('p[aria-describedby="graph-from-the-earth"]').textContent = `${dEn.toFixed(2)}au`;
+        const sliderFarEarth = this.dom.querySelector('#sliderFarEarth') as HTMLElement;
+        const map = DistanceFromEarth[catID];
+        sliderFarEarth.style.width = `${MathUtils.smoothstep(map.min, map.max, dEn)*100}%`;
     }
 
     dispose(): void {

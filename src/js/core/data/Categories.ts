@@ -4,10 +4,9 @@
 
 import { Color } from "three";
 import { GLOBALS } from "../Globals";
-import { OrbitDataElements, OrbitDataElementsV2 } from "../solar/SolarUtils";
+import { getDistanceFromEarthNow, mapOrbitElementsV2, OrbitDataElements, OrbitDataElementsV2 } from "../solar/SolarUtils";
 import { LoadManager } from "./LoadManager";
-
-export type SolarCategory = 'trans-neptunian-objects'|'near-earth-objects'|'interstellar-objects'|'comets'|'centaurs'|'asteroids'|'planets-moons'|'jupiter-trojans';
+import { SolarCategory } from "../solar/SolarSystem";
 
 /**
  * Sorted by priority (lowest index in the array holds higher priority)
@@ -59,8 +58,8 @@ export function getCraftCategory(category:SolarCategory) {
 	const categories = LoadManager.craftData.categories;
 	if(categories === null) return {
 		title: 'Category',
-		mainColor: "#fff",
-		threeColor: new Color("#fff"),
+		mainColor: "#b1f2ef",
+		threeColor: new Color("#b1f2ef"),
 		objectTypeCode: `${CategoryTypeMap[category]}`
 	};
 	for(const cat of categories) {
@@ -111,52 +110,76 @@ export const CategoryColorMap:Record<SolarCategory,Color> = {
 	'trans-neptunian-objects':  getCategoryColor('trans-neptunian-objects')
 } */
 
-export const CategoriesMinMaxA = {
-	'totals': {
-		min: 0,
-		max: 0
-	},
-	'planets-moons': {
-		min: 0,
-		max: 0
-	},
-	'asteroids': {
-		min: 0,
-		max: 0
-	},
-	'centaurs': {
-		min: 0,
-		max: 0
-	},
-	'comets': {
-		min: 0,
-		max: 0
-	},
-	'interstellar-objects': {
-		min: 0,
-		max: 0
-	},
-	'near-earth-objects': {
-		min: 0,
-		max: 0
-	},
-	'trans-neptunian-objects': {
-		min: 0,
-		max: 0
-	},
-	'jupiter-trojans': {
-		min: 0,
-		max: 0
+export interface FilterRange {
+	min:number;
+	max:number;
+}
+
+export type CategoryPropertyRangeMap = Record<SolarCategory|'totals', FilterRange>;
+
+export interface CategoryRangeMap {
+	a:CategoryPropertyRangeMap;
+	e:CategoryPropertyRangeMap;
+	i:CategoryPropertyRangeMap;
+}
+
+function getEmptyPropertyRange():CategoryPropertyRangeMap {
+	const p = {
+		'totals': {
+			min: Infinity,
+			max: -Infinity
+		},
+		'planets-moons': {
+			min: Infinity,
+			max: -Infinity
+		},
+		'asteroids': {
+			min: Infinity,
+			max: -Infinity
+		},
+		'centaurs': {
+			min: Infinity,
+			max: -Infinity
+		},
+		'comets': {
+			min: Infinity,
+			max: -Infinity
+		},
+		'interstellar-objects': {
+			min: Infinity,
+			max: -Infinity
+		},
+		'near-earth-objects': {
+			min: Infinity,
+			max: -Infinity
+		},
+		'trans-neptunian-objects': {
+			min: Infinity,
+			max: -Infinity
+		},
+		'jupiter-trojans': {
+			min: Infinity,
+			max: -Infinity
+		}
 	}
+
+	return p;
+}
+
+export const CategoryFilters:CategoryRangeMap = {
+	a: getEmptyPropertyRange(),
+	e: getEmptyPropertyRange(),
+	i: getEmptyPropertyRange()
 }
 
 export function calculateDistanceMap() {
+	const map = CategoryFilters.a;
 	const data = LoadManager.hasuraData.classification_ranges;
 	for(const d of data) {
-		const type = d.object_type[0];
+		const type = d.object_type[0] === 7 ? 5 : d.object_type[0];
 		const cat = TypeCategoryMap[type];
 		const range = d.observed_range_type;
-		CategoriesMinMaxA[cat][range] = d.observed_value;
+		map[cat][range] = d.observed_value;
 	}
 
 	// compute planets
@@ -168,19 +191,66 @@ export function calculateDistanceMap() {
 		}
 	}
 
-	CategoriesMinMaxA['planets-moons'].min = min;
-	CategoriesMinMaxA['planets-moons'].max = max;
+	map['planets-moons'].min = min;
+	map['planets-moons'].max = max;
 
 	// compute totals
 	min=100000000000000000000000;max=0;
-	for(const key in CategoriesMinMaxA) {
+	for(const key in map) {
 		if(key === 'totals') continue;
-		min = Math.min(min, CategoriesMinMaxA[key].min);
-		max = Math.max(max, CategoriesMinMaxA[key].max);
+		min = Math.min(min, map[key].min);
+		max = Math.max(max, map[key].max);
 	}
 
-	CategoriesMinMaxA['totals'].min = min;
-	CategoriesMinMaxA['totals'].max = max;
+	map['totals'].min = min;
+	map['totals'].max = max;
 
-	console.log(CategoriesMinMaxA);
+	// console.log(map);
+}
+
+export function calculatePropRange(prop:string) {
+	const map = CategoryFilters[prop];
+	const data = LoadManager.data.sample;
+
+	// Compute Solar Categories first
+	for(const d of data) {
+		const mel = mapOrbitElementsV2(d);
+		const cid = mel.category;
+		map[cid].min = Math.min(map[cid].min, mel[prop]);
+		map[cid].max = Math.max(map[cid].max, mel[prop]);
+	}
+
+	// Compute planets
+	const cid = 'planets-moons';
+	for(const sel of GLOBALS.viewer.solarElements) {
+		if(sel.isPlanet) {
+			map[cid].min = Math.min(map[cid].min, sel.data[prop]);
+			map[cid].max = Math.max(map[cid].max, sel.data[prop]);
+		}
+	}
+
+	// compute totals
+	
+	for(const key in map) {
+		if(key === 'totals') continue;
+		map['totals'].min = Math.min(map[key].min, map['totals'].min);
+		map['totals'].max = Math.max(map[key].max, map['totals'].max);
+	}
+}
+
+export const DistanceFromEarth:CategoryPropertyRangeMap = getEmptyPropertyRange();
+
+export function calculateEarthTodayDistanceMap() {
+	// planets and moons
+	const map = DistanceFromEarth['planets-moons'];
+	for(const sel of GLOBALS.viewer.solarElements) {
+		if(sel.isPlanet) {
+			const d = getDistanceFromEarthNow(sel.data);
+			// console.log(d);
+			map.min = Math.min(map.min, d);
+			map.max = Math.max(map.max, d);
+		}
+	}
+
+	// console.log(map);
 }

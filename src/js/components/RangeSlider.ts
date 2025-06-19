@@ -1,6 +1,7 @@
 interface RangeSliderOptions {
   values?: number[];
   minmax?: [number, number];
+  label?: string;
   onChange?: (values: number[]) => void;
   onDragStart?: (thumbIndex: number) => void;
   onDragEnd?: (thumbIndex: number) => void;
@@ -15,21 +16,27 @@ class RangeSlider {
   private labels: { min: HTMLElement; max: HTMLElement };
   
   private values: number[];
+  private initValues: number[] = [];
   private minValue: number;
   private maxValue: number;
+  private label: string = '{{value}}';
   private isDragging: boolean = false;
   private activeThumbIndex: number = -1;
   private trackRect: DOMRect | null = null;
   
   private options: RangeSliderOptions;
 
+  private resizeObserver: ResizeObserver | null = null;
+
   constructor(container: HTMLElement, options: RangeSliderOptions = {}) {
     this.container = container;
     this.options = options;
+    this.label = options.label || this.label;
     
     // Extract values and minmax from DOM if not provided in options
     const extractedData = this.extractDataFromDOM();
     this.values = options.values || extractedData.values;
+    this.initValues = [...this.values]; // Store initial values for reset
     this.minValue = options.minmax?.[0] ?? extractedData.minmax[0];
     this.maxValue = options.minmax?.[1] ?? extractedData.minmax[1];
 
@@ -125,6 +132,19 @@ class RangeSlider {
   }
 
   private attachEventListeners(): void {
+    // Resize observer to handle dynamic resizing of the container
+    this.resizeObserver = new ResizeObserver(entries => {
+      for (let entry of entries) {
+        const { width, height } = entry.contentRect;
+        if (width > 0 && height > 0) {
+          this.trackRect = this.track.getBoundingClientRect();
+          this.updateSlider();
+        }
+      }
+    });
+
+    this.resizeObserver.observe(this.container);
+
     // Mouse events for each thumb
     this.thumbs.forEach((thumb, index) => {
       thumb.addEventListener('mousedown', (e) => this.handleMouseDown(e, index));
@@ -161,7 +181,6 @@ class RangeSlider {
   private startDrag(thumbIndex: number): void {
     this.isDragging = true;
     this.activeThumbIndex = thumbIndex;
-    this.trackRect = this.track.getBoundingClientRect();
     this.thumbs[thumbIndex].focus();
   }
 
@@ -196,14 +215,14 @@ class RangeSlider {
     }
     this.isDragging = false;
     this.activeThumbIndex = -1;
-    this.trackRect = null;
+    // this.trackRect = null;
   }
 
   private handleTrackClick(event: MouseEvent): void {
     if (this.isDragging) return;
     
     const clickPosition = event.clientX;
-    const trackRect = this.track.getBoundingClientRect();
+    const { trackRect } = this;
     const percentage = (clickPosition - trackRect.left) / trackRect.width;
     const newValue = this.minValue + (percentage * (this.maxValue - this.minValue));
     
@@ -292,13 +311,19 @@ class RangeSlider {
     return Math.round(value);
   }
 
+  private getLabelFromValue(value: number): string {
+    // Replace {{value}} with the actual value in the label
+    return this.label.replace('{{value}}', value.toString());
+  }
+
   private updateSlider(): void {
     const valueRange = this.maxValue - this.minValue;
-    const trackRect = this.track.getBoundingClientRect();
-    const trackWidth = trackRect.width;
+    const trackWidth = this.trackRect?.width || 0;
 
-    // console.log('update slader');
-    
+    if (trackWidth === 0) return; // Skip update if track width is zero
+
+    // console.log('update slider');
+
     // Skip update if track has no width yet (not rendered)
     /* if (trackWidth === 0) {
       requestAnimationFrame(() => this.updateSlider());
@@ -314,7 +339,7 @@ class RangeSlider {
         thumb.setAttribute('aria-valuenow', this.values[index].toString());
         
         if (this.valueDisplays[index]) {
-          this.valueDisplays[index].textContent = Math.round(this.values[index]).toString();
+          this.valueDisplays[index].textContent = this.getLabelFromValue(Math.round(this.values[index]));
         }
       }
     });
@@ -344,11 +369,18 @@ class RangeSlider {
     return [...this.values];
   }
 
+  public reset(): void {
+    this.values = [...this.initValues];
+    this.updateSlider();
+    this.options.onChange?.(this.values);
+  }
+
   public setValues(newValues: number[]): void {
     this.values = newValues.map(value => 
       Math.max(this.minValue, Math.min(this.maxValue, value))
     );
     this.updateSlider();
+    this.options.onChange?.(this.values);
   }
 
   public setRange(min: number, max: number): void {
@@ -379,6 +411,8 @@ class RangeSlider {
     document.removeEventListener('mouseup', this.handleMouseUp.bind(this));
     document.removeEventListener('touchmove', this.handleTouchMove.bind(this));
     document.removeEventListener('touchend', this.handleTouchEnd.bind(this));
+    this.resizeObserver.unobserve(this.container);
+    this.resizeObserver.disconnect();
   }
 }
 

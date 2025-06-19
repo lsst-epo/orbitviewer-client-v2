@@ -11,6 +11,7 @@ import TimeMachine from "../layers/TimeMachine";
 import MapControls from "../layers/MapControls";
 import { Loader } from "../layers/Loader";
 import ToggleGroup from "../components/ToggleGroup";
+import Navigation from "../layers/Navigation";
 
 /**
  * DEV_MODE is injected by esbuild
@@ -20,7 +21,7 @@ export const IS_DEV_MODE = DEV_MODE;
 // export const TARGET = TARGET_MODE;
 
 // export const HASURA_URL = `https://hasura-e3g4rcii3q-uc.a.run.app/api/rest`;
-export const HASURA_URL = `https://hasura-688095955960.us-central1.run.app/api/rest/`;
+export const HASURA_URL = `https://hasura-688095955960.us-central1.run.app/api/rest`;
 export const HASURA_GRAPHQL = `https://hasura-688095955960.us-central1.run.app/v1/graphql`;
 
 
@@ -95,6 +96,7 @@ export interface Globals {
 	firstPage:boolean;
 	loader:Loader;
 	getViewport:Function;
+	navigation:Navigation;
 }
 
 export const GLOBALS:Globals = {
@@ -111,6 +113,7 @@ export const GLOBALS:Globals = {
 	objectToggle: null,
 	firstPage: true,
 	loader: null,
+	navigation: null,
 	getViewport: () => {
 		return getComputedStyle(document.documentElement).getPropertyValue('--viewport');
 	}
