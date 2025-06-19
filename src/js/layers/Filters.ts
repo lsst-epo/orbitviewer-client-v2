@@ -28,7 +28,7 @@ class Filters extends Layer {
 
     start() {
         // Slide Range
-		this.distanceSlider = new RangeSlider(this.distance);
+		this.distanceSlider = new RangeSlider(this.distance, { label: '{{value}} au' });
 		this.dateSlider = new RangeSlider(this.date);
 
         // Togglegroup
@@ -42,7 +42,7 @@ class Filters extends Layer {
     }
 
     open(): Promise<void> {
-        this.distanceSlider.setValues([0, 100]);
+        // this.distanceSlider.setValues([0, 100]);
         return super.open();
     }
 }
