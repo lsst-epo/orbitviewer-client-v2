@@ -24,6 +24,7 @@ import { Loader } from "../layers/Loader";
 import ToggleGroup from "../components/ToggleGroup";
 import { calculateDistanceMap, calculateEarthTodayDistanceMap, calculatePropRange, CategoryCounters, CategoryFilters } from "./data/Categories";
 import { UserFilters } from "./solar/SolarUtils";
+import { AboutPage } from "../pages/AboutPage";
 
 export const solarClock = new SolarClock(new Clock());
 
@@ -83,11 +84,12 @@ export class App implements NomadRouteListener {
 	
 	initNomad() {
 		const nomad = new Nomad({
-			replace: false
+			replace: false,
 		}, (id, template, dom) => {
 			if (template === 'objectviewerpage') return new OrbitViewerPage(id, template, dom)
 			if (template === 'objects') return new ObjectsFiltersPage(id, template, dom)
 			else if (template === 'object') return new ObjectPage(id, template, dom)
+			else if (template === 'about') return new AboutPage(id, template, dom)
 			return new DefaultPage(id, template, dom)
 		})
 

@@ -21,7 +21,7 @@ export class DefaultPage extends Page {
 
     transitionOut(resolve: any): Promise<void> {
         return new Promise<void>((res) => {
-            this.dispose();
+            this.dom.remove();
             res();
         }).then(resolve);
     }
@@ -31,6 +31,6 @@ export class DefaultPage extends Page {
     }
 
     dispose(): void {
-        this.dom.remove();
+        // this.dom.remove();
     }
 }

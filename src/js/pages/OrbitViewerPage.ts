@@ -94,6 +94,7 @@ class OrbitViewerPage extends DefaultPage {
 		p.setAttribute('aria-label', `${total.toLocaleString()} discoveries`);
 
 		return new Promise<void>(gsapResolve => {
+			gsapResolve();
 			gsap.to(n, {
 				value: total,
 				ease: 'expo.inOut',
@@ -103,7 +104,7 @@ class OrbitViewerPage extends DefaultPage {
 					p.textContent = nr.toLocaleString();
 				},
 				onComplete: () => {
-					gsapResolve();
+					// gsapResolve();
 				}
 			})
 		}).then(resolve);

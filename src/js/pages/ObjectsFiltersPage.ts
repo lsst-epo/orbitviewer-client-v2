@@ -112,7 +112,8 @@ export class ObjectsFiltersPage extends DefaultPage {
 
 		this.closeButton.addEventListener('click', (e) => {
 			e.preventDefault();
-			this.close();
+			// this.close();
+            GLOBALS.nomad.goToPath(`/${GLOBALS.lang}/`);
 		});
 
         GLOBALS.viewer.fadeIn();
@@ -134,9 +135,7 @@ export class ObjectsFiltersPage extends DefaultPage {
     }
 
     transitionIn(resolve: any): Promise<void> {
-        gsap.set(this.dom, {
-            autoAlpha: 1
-        });
+        GLOBALS.viewer.paused = true;
 
         gsap.to(this.section, {
             autoAlpha: 1,
@@ -145,6 +144,7 @@ export class ObjectsFiltersPage extends DefaultPage {
         });
 
         return new Promise<void>(gsapResolve => {
+            gsapResolve();
             for(let i=0; i<this.cards.length;i ++) {
                 gsap.to(this.cards[i], {
                     translateY: '0%',
@@ -153,7 +153,6 @@ export class ObjectsFiltersPage extends DefaultPage {
                     delay: i * .1,
                     onComplete: () => {
                         if(i===this.cards.length-1) {
-                            gsapResolve();
                             document.body.style.overflow = 'auto';
                         }
                     }
@@ -186,16 +185,17 @@ export class ObjectsFiltersPage extends DefaultPage {
     }
 
     transitionOut(resolve: any): Promise<void> {
+        GLOBALS.viewer.paused = false;
         document.body.style.overflow = 'hidden';
         return new Promise<void>(gsapResolve => {
+            gsapResolve();
             gsap.to(this.section, {
                 autoAlpha: 0,
                 ease: 'cubic.out',
                 duration: 1,
                 delay: .7,
                 onComplete: () => {
-                    gsapResolve();
-                    this.dispose();
+                    this.dom.remove();
                 }
             });
             gsap.to(this.title, {
@@ -232,7 +232,8 @@ export class ObjectsFiltersPage extends DefaultPage {
         }).then(resolve);
     }
 
-    close() {
+    dispose() {
+        super.dispose();
         this.scroller.destroy();
     }
 }

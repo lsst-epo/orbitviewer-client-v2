@@ -1,3 +1,4 @@
+import { GLOBALS } from "../core/Globals";
 import { DefaultPage } from "./DefaultPage";
 
 export class AboutPage extends DefaultPage {
@@ -10,6 +11,18 @@ export class AboutPage extends DefaultPage {
     }
 
     create() {
+        
+    }
+
+    transitionIn(resolve: any): Promise<void> {
+        // document.body.style.overflow = 'auto';
+        GLOBALS.viewer.paused = true;
+        return super.transitionIn(resolve);
+    }
+
+    transitionOut(resolve: any): Promise<void> {
+        GLOBALS.viewer.paused = false;
+        return super.transitionOut(resolve);
     }
 
     close() {

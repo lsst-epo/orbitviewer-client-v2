@@ -56,6 +56,8 @@ export class OrbitViewer extends ThreeLayer {
 	vfx:RubinRenderer;
 	useVFX:boolean = true;
 
+	paused:boolean = false;
+
     constructor(_gl:ThreeDOMLayer) {
       super(_gl);
       const w = this.gl.rect.width;
@@ -197,7 +199,7 @@ export class OrbitViewer extends ThreeLayer {
 	filtersUpdated() {
 		// 0. Update totals
 		updateTotals();
-		
+
 		// 1. update particles
 		this.particles.updateFilterState();
 		
@@ -375,6 +377,7 @@ export class OrbitViewer extends ThreeLayer {
     }
 
 		render(): void {
+			if(this.paused) return;
 			if(this.useVFX) this.vfx.render(this.scene, this.camera);
 			else super.render();
 		}

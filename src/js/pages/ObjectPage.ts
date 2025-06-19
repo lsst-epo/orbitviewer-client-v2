@@ -83,12 +83,12 @@ export class ObjectPage extends DefaultPage {
         document.body.style.overflow = 'hidden';
         return new Promise<void>(gsapResolve => {
             // console.log('gsap', this.section);
+            gsapResolve();
             gsap.to(this.section, {
                 translateY: '0%',
                 duration: 2,
                 ease: 'expo.inOut',
                 onComplete: () => {
-                    gsapResolve();
                     document.body.style.overflow = 'auto';
                 }
             })
@@ -98,13 +98,13 @@ export class ObjectPage extends DefaultPage {
     transitionOut(resolve: any): Promise<void> {
         document.body.style.overflow = 'hidden';
         return new Promise<void>(gsapResolve => {
+            gsapResolve();
             gsap.to(this.section, {
                 translateY: '100%',
                 duration: 2,
                 ease: 'expo.inOut',
                 onComplete: () => {
-                    gsapResolve();
-                    this.dispose();
+                    this.dom.remove();
                 }
             });
             /* gsap.to(this.section, {
@@ -198,7 +198,7 @@ export class ObjectPage extends DefaultPage {
     }
 
     dispose(): void {
-        // console.log('DISPOSE');
+        console.log('DISPOSE');
         super.dispose();
         GLOBALS.objectToggle.callback = null;
     }
