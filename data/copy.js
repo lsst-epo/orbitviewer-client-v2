@@ -430,6 +430,10 @@ export default {
             "next": {
                 "en": "Next",
                 "es": ""
+            },
+            "finish": {
+                "en": "Finish",
+                "es": ""
             }
         }
     },

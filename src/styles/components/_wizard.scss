@@ -44,23 +44,25 @@
 
     &[aria-step="1"] {
         .wizard_tooltip {
-            left: var(--site-margin-large);
-            bottom: 94px;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 101px;
             @include media(medium) {
-                left: 140px;
+                left: 143px;
                 top: 110px;
                 bottom: auto;
+                transform: none;
             }
         }
     }
     
     &[aria-step="2"] {
         .wizard_tooltip {
-            left: var(--site-margin-large);
-            bottom: 226px;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 232px;
             @include media(medium) {
-                left: 50%;
-                bottom: 170px;
+                bottom: 172px;
                 transform: translateX(calc(-50% - 26px));
             }
         }
@@ -68,22 +70,28 @@
 
     &[aria-step="3"] {
         .wizard_tooltip {
-            right: var(--site-margin-large);
+            left: 50%;
+            transform: translateX(-50%);
             bottom: 380px;
             @include media(medium) {
+                left: auto;
                 right: calc(var(--site-margin-large) - 8px);
-                bottom: 236px;
+                bottom: 232px;
+                transform: none;
             }
         }
     }
 
      &[aria-step="4"] {
         .wizard_tooltip {
-            right: var(--site-margin-large);
+            left: 50%;
+            transform: translateX(-50%);
             top: 76px;
             @include media(medium) {
+                left: auto;
                 right: calc(var(--site-margin-small) - 8px);
-                top: 90px;
+                top: 86px;
+                transform: none;
             }
         }
     }
@@ -131,7 +139,7 @@
         position: absolute;
         z-index: 3;
         
-        width: calc(100% - var(--site-margin-large) * 2);
+        width: calc(100% - var(--site-margin-large) * 2 + 10px);
         border-radius: var(--corner-medium);
         pointer-events: all;
         
@@ -177,6 +185,11 @@
             .button_group {
                 display: flex;
                 gap: 8px;
+                button {
+                    &.disabled {
+                        display: none;
+                    }
+                }
             }
 
         }

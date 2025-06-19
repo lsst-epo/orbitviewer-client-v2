@@ -22,9 +22,10 @@ class Wizard extends Layer {
 
     stepIndicator: HTMLElement;
     
-    nextButton: HTMLElement;
-    prevButton: HTMLElement;
-    skipButton: HTMLElement;
+    nextButton: HTMLButtonElement;
+    prevButton: HTMLButtonElement;
+    skipButton: HTMLButtonElement;
+    finishButton: HTMLButtonElement;
 
     maxSteps: number = 4; // Total number of steps in the wizard
 
@@ -50,7 +51,10 @@ class Wizard extends Layer {
         
         this.nextButton = dom.querySelector('.button-next');
         this.prevButton = dom.querySelector('.button-previous');
+        this.disableButton(this.prevButton); // Disable previous button on first step
         this.skipButton = dom.querySelector('.button-skip');
+        this.finishButton = dom.querySelector('.button-finish');
+        this.disableButton(this.finishButton);
 
         const skipped = window.localStorage.getItem('wizardSkipped');
         !skipped && this.start();
@@ -63,6 +67,8 @@ class Wizard extends Layer {
             this.open();
         }, 800); // Delay to allow DOM animations to complete
     }
+
+    
 
     onStepChange() {
         gsap.to(this.bg, { opacity: 1, duration: 0.3, ease: 'power1.out' })
@@ -89,6 +95,20 @@ class Wizard extends Layer {
         this.updateCSSVariables();
         this.dom.setAttribute('aria-step', step);
         this.stepIndicator.textContent = `${step}/${this.maxSteps}`;
+
+        if (this.step === 1) {
+            this.disableButton(this.prevButton);
+        } else {
+            this.enableButton(this.prevButton);
+        }
+
+        if (this.step === this.maxSteps) {
+            this.disableButton(this.nextButton);
+            this.enableButton(this.finishButton);
+        } else {
+            this.enableButton(this.nextButton);
+            this.disableButton(this.finishButton);
+        }
         
         this.dom.querySelectorAll('.description').forEach((el, i) => {
             i + 1 === this.step
@@ -101,7 +121,7 @@ class Wizard extends Layer {
         if (this.active) {
             const { dataset } = this.active;
             const offset = dataset.wizardOffset !== undefined;
-            const offsetValue = offset ? 8 : 0;
+            const offsetValue = offset ? 6 : 0;
             const bounding = this.active.getBoundingClientRect();
             const x = `${bounding.left - offsetValue}px`;
             const y = `${bounding.top - offsetValue}px`;
@@ -124,6 +144,18 @@ class Wizard extends Layer {
         }
     }
 
+    disableButton(button: HTMLButtonElement) {
+        button.tabIndex = -1; // Remove button from tab order
+        button.setAttribute('disabled', 'true');
+        button.classList.add('disabled');
+    }
+
+    enableButton(button: HTMLButtonElement) {
+        button.tabIndex = 0; // Restore button to tab order
+        button.removeAttribute('disabled');
+        button.classList.remove('disabled');
+    }
+
     addEventListeners() {
         this.nextButton.addEventListener('click', (e) => {
             e.preventDefault();
@@ -136,6 +168,11 @@ class Wizard extends Layer {
         });
 
         this.skipButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.skip();
+        });
+
+        this.finishButton.addEventListener('click', (e) => {
             e.preventDefault();
             this.skip();
         });
