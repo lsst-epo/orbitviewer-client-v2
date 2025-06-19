@@ -306,6 +306,10 @@ export default {
             "en": "Reset",
             "es": ""
         },
+        "apply": {
+            "en": "Apply filters",
+            "es": ""
+        },
         "discoveries": {
             "en": "Discoveries",
             "es": ""
