@@ -135,6 +135,7 @@ export class OrbitViewer extends ThreeLayer {
 			// dummy.updateMatrix();
 			dummy.rotation.set(-3.0288209992191786, -1.018007295096466, -3.045504707405481);
 			this.controls.setRotation(dummy.rotation);
+			this.particles.highlighted = true;
 
 			gsap.to(CLOCK_SETTINGS, {
 				speed: 100,
@@ -149,6 +150,7 @@ export class OrbitViewer extends ThreeLayer {
 		goToOrbitViewerMode(goLive:boolean=false) {
 			this.fadeIn();
 			this.controls.releaseCameraTarget();
+			this.particles.highlighted = true;
 			gsap.killTweensOf(CLOCK_SETTINGS);
 			if(goLive) GLOBALS.solarClock.goLive();
 
@@ -299,6 +301,7 @@ export class OrbitViewer extends ThreeLayer {
 		}
 		sel.selected = true;
 		this.controls.followTarget(sel, followOrbit);
+		this.particles.highlighted = false;
 	}
 
 	releaseCameraTarget() {

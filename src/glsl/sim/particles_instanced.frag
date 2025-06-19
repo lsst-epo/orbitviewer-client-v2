@@ -8,6 +8,7 @@ in float depth;
 in vec3 vColor;
 in vec3 vPosition;
 in vec3 vNormal;
+in float vFilter;
 uniform float opacity;
 
 #include <glow_pars_frag>
@@ -22,7 +23,7 @@ void main () {
 
     // d *= mix(.2, 1., 1.0-d);
 
-    float d = (1.0 - depth);
+    float d = (1.0 - depth) * opacity * vFilter;
 
     /* vec4 map = texture(map, uv);
     float alpha = texture(alphaMap, uv).r; */

@@ -215,3 +215,8 @@ export function getDistanceFromEarthNow(data:OrbitElements): number {
 
     return tmp2.distanceTo(tmp1) / PLANET_SCALE;
 }
+
+
+export const ObjectFilters = {
+    
+}
