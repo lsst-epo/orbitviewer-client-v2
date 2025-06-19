@@ -11,6 +11,7 @@ import TimeMachine from "../layers/TimeMachine";
 import MapControls from "../layers/MapControls";
 import { Loader } from "../layers/Loader";
 import ToggleGroup from "../components/ToggleGroup";
+import Navigation from "../layers/Navigation";
 
 /**
  * DEV_MODE is injected by esbuild
@@ -95,6 +96,7 @@ export interface Globals {
 	firstPage:boolean;
 	loader:Loader;
 	getViewport:Function;
+	navigation:Navigation;
 }
 
 export const GLOBALS:Globals = {
@@ -111,6 +113,7 @@ export const GLOBALS:Globals = {
 	objectToggle: null,
 	firstPage: true,
 	loader: null,
+	navigation: null,
 	getViewport: () => {
 		return getComputedStyle(document.documentElement).getPropertyValue('--viewport');
 	}

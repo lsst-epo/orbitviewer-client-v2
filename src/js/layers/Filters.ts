@@ -6,10 +6,12 @@ class Filters extends Layer {
     distance: HTMLElement;
     date: HTMLElement;
     closeButton: HTMLElement;
+    resetButton: HTMLElement;
     discoveries: HTMLElement;
 
     distanceSlider: RangeSlider;
     dateSlider: RangeSlider;
+    discoveriesToggle: ToggleGroup;
     
     constructor(dom) {
         super(dom, {
@@ -22,12 +24,22 @@ class Filters extends Layer {
         this.date = dom.querySelector('#slider-date') as HTMLElement;
         this.discoveries = dom.querySelector('#toggle-discoveries');
 		this.closeButton = dom.querySelector('.filters-head .button_icon') as HTMLElement;
+        this.resetButton = dom.querySelector('.button-reset') as HTMLElement;
 
         this.start();
     }
 
     start() {
-        // Slide Range
+        // Togglegroup
+		this.discoveriesToggle = new ToggleGroup(
+            this.discoveries,
+            (value) => {
+                console.log('Discoveries toggle value:', value);
+            }
+        );
+        this.discoveriesToggle.show();
+
+        // Sliders
 		this.distanceSlider = new RangeSlider(
             this.distance,
             {
@@ -37,6 +49,7 @@ class Filters extends Layer {
                 }
             }
         );
+
 		this.dateSlider = new RangeSlider(
             this.date,
             {
@@ -46,14 +59,17 @@ class Filters extends Layer {
             }
         );
 
-        // Togglegroup
-		const discoveriesToggle = new ToggleGroup(this.discoveries);
-        discoveriesToggle.show();
-
 		this.closeButton.addEventListener('click', (e) => {
 			e.preventDefault();
 			this.close();
 		});
+
+        this.resetButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.distanceSlider.reset();
+            this.dateSlider.reset();
+            this.discoveriesToggle.reset();
+        })
     }
 
     open(): Promise<void> {

@@ -69,6 +69,7 @@ export class App implements NomadRouteListener {
 
 		const navigationDom = document.querySelector('.nav_dropdown');
 		this.navigation = navigationDom ? new Navigation(navigationDom) : null;
+		GLOBALS.navigation = this.navigation;
 
 		const shareDom = document.querySelector('.share');
 		this.share = shareDom ? new Share(shareDom) : null;

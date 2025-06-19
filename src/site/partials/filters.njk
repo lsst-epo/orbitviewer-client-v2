@@ -12,7 +12,7 @@
             <div class="filters_card-content">
                 <div class="filters_card-head">
                     <h3 class="title">{{ copy.filters.title[lang] }}</h3>
-                    {{ Button(copy.filters.reset[lang], 'button secondary small') }}
+                    {{ Button(copy.filters.reset[lang], 'button button-reset secondary small') }}
                 </div>
                 <div class="filters_card-body">
                     <div class="filters_card_field">
@@ -20,7 +20,7 @@
                             <span for="" class="label">{{ copy.filters.discoveries[lang] }}</span>
                         </label>
                         <div class="filters_card_field-input">
-                            {{ ToggleGroup('toggle-discoveries', 'large', 'discoveries', [copy.filters.toggle.all[lang], copy.filters.toggle.rubin[lang], copy.filters.toggle.other[lang]], 'all', true, copy.filters.toggle.aria[lang]) }}
+                            {{ ToggleGroup('toggle-discoveries', 'large', 'discoveries', [copy.filters.toggle.all[lang], copy.filters.toggle.rubin[lang], copy.filters.toggle.other[lang]], 'All', true, copy.filters.toggle.aria[lang]) }}
                         </div>
                     </div>
                     
@@ -30,7 +30,7 @@
                             <span class="helper">{{ copy.filters.au[lang] }}</span>
                         </label>
                         <div class="filters_card_field-input">
-                            {{ RangeSlider('slider-distance', [0, 100], [0, 100]) }}
+                            {{ RangeSlider('slider-distance', [20, 80], [0, 100]) }}
                         </div>
                     </div>
 
