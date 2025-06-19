@@ -153,11 +153,11 @@
         @include frozen_glass;
         @include gradient_border;
 
+        padding: 12px;
+
         @include media(medium) {
             width: 382px;
         }
-
-        padding: 12px;
 
         &-body {
             .heading {

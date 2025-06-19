@@ -38,7 +38,7 @@ export class ObjectsFiltersPage extends DefaultPage {
     constructor(id: string, template: string, dom: HTMLElement) {
         super(id, template, dom);
 
-        this.toggles = dom.querySelectorAll('.objects_card .togglegroup');
+        this.toggles = dom.querySelectorAll('.objects_card .objects_card-foot');
         this.closeButton = dom.querySelector('.button_close');
 
         this.section = dom.querySelector('section');
@@ -86,12 +86,27 @@ export class ObjectsFiltersPage extends DefaultPage {
         const map = UserFilters.categories;
 
 		this.toggles.forEach(element => {
-			const objectsToggle = new ToggleGroup(element as HTMLElement, (value:string, index:number) => {
+            const toggleElement = element.querySelector('.togglegroup') as HTMLElement;
+            const labelElements = element.querySelectorAll('.label') as NodeListOf<HTMLElement>;
+            
+			const objectsToggle = new ToggleGroup(toggleElement, (value:string, index:number) => {
+                labelElements.forEach((label, i) => {
+                    label.classList.toggle('active', i === index);
+                })
                 map[catSort[this.inputs.indexOf(objectsToggle)]] = index == 1;
                 // console.log(map);
                 GLOBALS.viewer.filtersUpdated();
             });
             objectsToggle.show();
+            labelElements.forEach((label, index) => {
+                label.onclick = (e) => {
+                    const target = e.target as HTMLElement;
+                    const { dataset } = target;
+                    const index = parseInt(dataset.index || '0', 10);
+                    if (isNaN(index)) return;
+                    objectsToggle.setIndex(index);
+                }
+            })
             this.inputs.push(objectsToggle);
 		});
 

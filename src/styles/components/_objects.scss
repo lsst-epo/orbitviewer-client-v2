@@ -224,14 +224,15 @@
                         padding: 24px;
                         gap: 16px;
                         border-top: solid 1px var(--color-border);
-
-                        .label {
-                            color: var(--color-text);
-                            @include font(body-medium-semi);
-                        
-                        &.hidden {
-                            color: var(--color-text-low);
+                        span {
+                            cursor: pointer;
                         }
+                        .label {
+                            color: var(--color-text-low);
+                            @include font(body-medium-semi);
+                            &.active {
+                                color: var(--color-text);
+                            }
                         }
                     }
                 }

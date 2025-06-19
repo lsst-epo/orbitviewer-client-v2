@@ -125,24 +125,19 @@ export class ObjectsScroller {
 
   update() {
     if (!this.active) return; // Skip updates if not active
-    this.current = this.clampCurrent(this.current)
+    this.current += (this.target - this.current) * 0.1; // Smooth scrolling effect
+    if (Math.abs(this.current - this.target) < 0.1) {
+      this.current = this.target; // Snap to target if close enough
+    }
     this.dom.style.transform = `translateX(${-this.current}px)`;
     this.scrollPoint = this.current < 100 ? 'start' : (this.current >= this.bounding - 100 ? 'end' : 'middle');
   }
 
-  onWheel(event: WheelEvent) {
-    event.preventDefault();
-    const { deltaY, deltaX } = event;
+  onWheel(e: WheelEvent) {
+    e.preventDefault();
+    const { deltaY, deltaX } = e;
     const delta = Math.abs(deltaY) > Math.abs(deltaX) ? deltaY : deltaX;
     this.target = this.clampTarget(this.target + delta);
-  }
-
-  clampCurrent(value: number): number {
-    let _value = value;
-    if (Math.abs(_value - this.target) < .1) 
-      return this.target;
-    _value += (this.target - _value) * 0.1; // Smooth scrolling effect
-    return _value;
   }
 
   clampTarget(value) {
@@ -192,7 +187,9 @@ export class ObjectsScroller {
     e.preventDefault();
     const target = e.target as HTMLElement;
     const { left } = target.getBoundingClientRect();
-    this.target = this.clampTarget(this.current + left - window.innerWidth * 0.5);
+    const request = this.clampTarget(this.current + left - window.innerWidth * 0.5);
+    if (Math.abs(this.target - request) < 100) return; // No significant change
+    this.target = request;
   }
 
   reset() {
@@ -218,7 +215,7 @@ export class ObjectsScroller {
     })
     this.nextButtons.forEach(button => button.addEventListener('click', this._next));
     this.prevButtons.forEach(button => button.addEventListener('click', this._prev));
-    this.dom.addEventListener('wheel', this._onWheel, { passive: false });
+    window.addEventListener('wheel', this._onWheel, { passive: false });
     const inputs = this.dom.querySelectorAll('input');
     inputs.forEach(input=> input.addEventListener('focus', this._onFocus));
   }
@@ -227,7 +224,7 @@ export class ObjectsScroller {
     this.toucher.destroy();
     this.nextButtons.forEach(button => button.removeEventListener('click', this._next));
     this.prevButtons.forEach(button => button.removeEventListener('click', this._prev));
-    this.dom.removeEventListener('wheel', this._onWheel);
+    window.removeEventListener('wheel', this._onWheel);
     const inputs = this.dom.querySelectorAll('input');
     inputs.forEach(input=> input.removeEventListener('focus', this._onFocus));
   }

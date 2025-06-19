@@ -82,10 +82,7 @@ class ToggleGroup {
 
             input.onclick = () => {
                 const index = this.inputs.indexOf(input);
-                this.selectedIndex = index;
-                // console.log(this.selectedIndex);
-                this.updateIndicator();
-                if(this.callback) this.callback(input.value, index)
+                this.setIndex(index);
             }
         });
         
@@ -102,6 +99,13 @@ class ToggleGroup {
         for(let i=0;i <this.inputs.length; i++) {
             this.inputs[i].checked = i === k;
         }
+    }
+
+    setIndex(index: number) {
+        this.selectedIndex = index;
+        this.updateIndicator();
+        if (this.callback) this.callback(this.inputs[index].value, index);
+        if (document.activeElement !== this.inputs[index]) this.inputs[index].focus();
     }
 
     updateIndicator() {
