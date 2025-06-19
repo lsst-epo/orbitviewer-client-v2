@@ -1,5 +1,7 @@
 import RangeSlider from "../components/RangeSlider";
 import ToggleGroup from "../components/ToggleGroup";
+import { CategoryFilters } from "../core/data/Categories";
+import { UserFilters } from "../core/solar/SolarUtils";
 import Layer from "./Layer";
 
 class Filters extends Layer {
@@ -48,16 +50,34 @@ class Filters extends Layer {
                 minmax: [0, 120],
                 onChange: (values) => {
                     console.log('Distance slider values:', values);
-                }
+                },
+                values: [
+                    CategoryFilters.a.totals.min,
+                    CategoryFilters.a.totals.max
+                ],
+                minmax: [
+                    CategoryFilters.a.totals.min,
+                    CategoryFilters.a.totals.max
+                ]
             }
         );
+
+        // this.distanceSlider.setValues([CategoryFilters.a.totals.min, CategoryFilters.a.totals.max]);
 
 		this.dateSlider = new RangeSlider(
             this.date,
             {
                 onChange: (values) => {
                     console.log('Date slider values:', values);
-                }
+                },
+                values: [
+                    UserFilters.dateRange.min,
+                    UserFilters.dateRange.max
+                ],
+                minmax: [
+                    1900,
+                    2100
+                ]
             }
         );
 
