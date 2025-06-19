@@ -135,6 +135,7 @@ export class OrbitViewer extends ThreeLayer {
 			// dummy.updateMatrix();
 			dummy.rotation.set(-3.0288209992191786, -1.018007295096466, -3.045504707405481);
 			this.controls.setRotation(dummy.rotation);
+			this.particles.highlighted = true;
 
 			gsap.to(CLOCK_SETTINGS, {
 				speed: 100,
@@ -149,6 +150,7 @@ export class OrbitViewer extends ThreeLayer {
 		goToOrbitViewerMode(goLive:boolean=false) {
 			this.fadeIn();
 			this.controls.releaseCameraTarget();
+			this.particles.highlighted = true;
 			gsap.killTweensOf(CLOCK_SETTINGS);
 			if(goLive) GLOBALS.solarClock.goLive();
 
@@ -215,8 +217,9 @@ export class OrbitViewer extends ThreeLayer {
 							// console.log(sel.mpcdesignation, el.elementID, sel.fulldesignation);
 							if(sel.mpcdesignation === el.elementID || sel.fulldesignation === el.elementID) {
 								console.log('Found Solar Item', el.elementID);
-								if(el.elementCategory.length === 0) break;
 								const data = mapOrbitElementsV2(sel);
+								// console.log(data.category);
+								if(!data) break;
 								// console.log(data);
 								//Add item...
 								const element = new SolarElement(el.elementID, data);
@@ -298,6 +301,7 @@ export class OrbitViewer extends ThreeLayer {
 		}
 		sel.selected = true;
 		this.controls.followTarget(sel, followOrbit);
+		this.particles.highlighted = false;
 	}
 
 	releaseCameraTarget() {

@@ -5,7 +5,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 // import { initMaterial } from "../gfx/ShaderLib";
 import { GLOBALS } from "../../core/Globals";
 import { PLANET_SCALE } from "../../core/solar/Planet";
-import { cloneOrbitElements, DEG_TO_RAD, KM2AU, OrbitElements } from "../../core/solar/SolarSystem";
+import { DEG_TO_RAD, KM2AU, OrbitElements } from "../../core/solar/SolarSystem";
 import { PlanetMaterial, PlanetMaterialParameters } from "../planets/PlanetMaterial";
 import { PlanetTextureMap } from "./PlanetAssets";
 import { SolarElement, SolarElementOptions } from "./SolarElement";
@@ -23,6 +23,7 @@ const gltfLoader = new GLTFLoader();
 
 import fragmentShader from "../../../glsl/lib/atmosphere.frag";
 import vertexShader from "../../../glsl/lib/atmosphere.vert";
+import { PlanetDataMap } from "../../core/solar/SolarUtils";
 
 export function getAtmosphereMaterial(color1:ColorRepresentation, color2:ColorRepresentation, fresnelWidth:number=1, brightness:number=1.5):ShaderMaterial {
     return new ShaderMaterial({
@@ -72,8 +73,10 @@ export class Planet extends SolarElement {
 
 		this.closeUp = true;
 
+        PlanetDataMap[id] = this.data;
+
         // console.log(PlanetRadiusMap[this.type] * KM2AU);
-        PlanetDataMap[this.type] = cloneOrbitElements(_data);
+        // PlanetDataMap[this.type] = cloneOrbitElements(_data);
         const scl = PlanetRadiusMap[this.type] * KM2AU * PLANET_SCALE * 100;
         this.scale.set(scl, scl, scl);
         // correct fresnel
@@ -302,15 +305,4 @@ export const PlanetAtmosphereSettings:Record<PlanetId,AtmosphereSettings> = {
 export type CameraLockPosition = {
     distance: number;
     offset: Vector3;
-}
-
-export const PlanetDataMap:Record<PlanetId,OrbitElements> = {
-    earth: null,
-    mercury: null,
-    venus: null,
-    mars: null,
-    jupiter: null,
-    saturn: null,
-    uranus: null,
-    neptune: null
 }

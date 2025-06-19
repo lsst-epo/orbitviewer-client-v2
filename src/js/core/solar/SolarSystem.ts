@@ -5,7 +5,8 @@
  */
 
 import { Vector3 } from "three";
-import { PlanetDataMap, PlanetId, PLANET_SCALE } from "./Planet";
+import { PlanetId, PLANET_SCALE } from "./Planet";
+import { PlanetDataMap } from "./SolarUtils";
 
 export type SolarCategory = 'trans-neptunian-objects'|'near-earth-objects'|'interstellar-objects'|'comets'|'centaurs'|'asteroids'|'planets-moons';
 
