@@ -45,12 +45,7 @@ class Filters extends Layer {
 		this.distanceSlider = new RangeSlider(
             this.distance,
             {
-                label: '{{value}} au',
-                values: [20, 80],
-                minmax: [0, 120],
-                onChange: (values) => {
-                    console.log('Distance slider values:', values);
-                },
+                label: '{{value}}K',
                 values: [
                     CategoryFilters.a.totals.min,
                     CategoryFilters.a.totals.max
@@ -58,7 +53,10 @@ class Filters extends Layer {
                 minmax: [
                     CategoryFilters.a.totals.min,
                     CategoryFilters.a.totals.max
-                ]
+                ],
+                onChange: (values) => {
+                    console.log('Distance slider values:', values);
+                },
             }
         );
 
