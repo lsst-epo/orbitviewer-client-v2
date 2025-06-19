@@ -10,4 +10,4 @@ oGlow = glowBlack;
   alpha *= pD;
 } */
 
-if(alpha < .01) discard;
+if(alpha < .001) discard;

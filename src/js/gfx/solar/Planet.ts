@@ -4,7 +4,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 // import { PlanetMaterial, PlanetMaterialParameters } from "../gfx/PlanetMaterial";
 // import { initMaterial } from "../gfx/ShaderLib";
 import { GLOBALS } from "../../core/Globals";
-import { PLANET_SCALE, PlanetCameraLock } from "../../core/solar/Planet";
+import { PLANET_SCALE } from "../../core/solar/Planet";
 import { cloneOrbitElements, DEG_TO_RAD, KM2AU, OrbitElements } from "../../core/solar/SolarSystem";
 import { PlanetMaterial, PlanetMaterialParameters } from "../planets/PlanetMaterial";
 import { PlanetTextureMap } from "./PlanetAssets";
@@ -64,8 +64,6 @@ export class Planet extends SolarElement {
         
         this.isPlanet = true;
 
-        this.offsetDesktop.set(-4, 0, 0);
-
         this.initMaterial(opts);
 
 		this.mesh = new Mesh(PLANET_GEO, this.material);
@@ -73,10 +71,6 @@ export class Planet extends SolarElement {
 		this.parent.add(this.mesh);
 
 		this.closeUp = true;
-
-		if (PlanetCameraLock[id]) {
-			this.lockedDistance = PlanetCameraLock[id];
-		}
 
         // console.log(PlanetRadiusMap[this.type] * KM2AU);
         PlanetDataMap[this.type] = cloneOrbitElements(_data);
@@ -115,7 +109,7 @@ export class Planet extends SolarElement {
         })
 
         // this.visible = false;
-
+        this.updateCameraView();
     }
 
     initAtmosphere(id:PlanetId) {
@@ -308,76 +302,6 @@ export const PlanetAtmosphereSettings:Record<PlanetId,AtmosphereSettings> = {
 export type CameraLockPosition = {
     distance: number;
     offset: Vector3;
-}
-
-export const PlanetLockedMap:Record<PlanetId,CameraLockPosition> = {
-    mercury: {
-        distance: .015,
-        offset: new Vector3(.0015, .0015, 0) // Ok
-    },
-    venus: {
-        distance: .033,
-        offset: new Vector3(.001, .0025, 0) // OK
-    },
-    earth: {
-        distance: .03,
-        offset: new Vector3(.0025, .005, 0) // Ok
-    },
-    mars: {
-        distance: .02,
-        offset: new Vector3(.005, .0025, 0) // Ok
-    },
-    jupiter: {
-        distance: .5,
-        offset: new Vector3(-.05, .06, 0) // Ok
-    },
-    saturn: {
-        distance: .35,
-        offset: new Vector3(-.025, -.04, 0) // Ok
-    },
-    uranus: {
-        distance: .15,
-        offset: new Vector3(-.01, .02, 0) // ok
-    },
-    neptune: {
-        distance: .15,
-        offset: new Vector3(-.009, .02, 0)
-    }
-}
-
-export const PlanetLockedMapPortrait:Record<PlanetId,CameraLockPosition> = {
-    mercury: {
-        distance: .025,
-        offset: new Vector3(0, -0.005, 0)
-    },
-    venus: {
-        distance: .038,
-        offset: new Vector3(0, -0.005, 0)
-    },
-    earth: {
-        distance: .038,
-        offset: new Vector3(0, -0.005, 0)
-    },
-    mars: {
-        distance: .03,
-        offset: new Vector3(0, -0.005, 0)
-    },
-    jupiter: {
-        distance: .45,
-        offset: new Vector3(0, -0.07, 0)
-    },
-    saturn: {
-        distance: .5,
-        offset: new Vector3(0, -0.08, 0)
-    },
-    uranus: {
-        distance: .2,
-        offset: new Vector3(0, -0.03, 0)
-    },
-    neptune: {
-        distance: .2,
-        offset: new Vector3(0.02, -0.04, 0)
-    }
 }
 
 export const PlanetDataMap:Record<PlanetId,OrbitElements> = {

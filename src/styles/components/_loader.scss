@@ -11,6 +11,7 @@
     align-items: center;
     justify-content: center;
     background: var(--color-backdrop);
+    backdrop-filter: blur(var(--backdrop-blur));
 
     &[aria-hidden=true] {
         display: none;

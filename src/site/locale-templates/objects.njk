@@ -7,11 +7,12 @@ eleventyComputed:
   description: "{{ staticData.description }}"
 ---
 
+{% from '../../../partials/icons.njk' import icon %}
 {% from '../../../components/button.njk' import Button %}
 {% from '../../../components/buttonicon.njk' import ButtonIcon %}
 {% from '../../../components/togglegroup.njk' import ToggleGroup %}
 
-<section class="objects" aria-hidden="false">
+<section class="objects" aria-hidden="false" style="opacity: 0;">
     <header class="objects-head">
         {{ ButtonIcon('button_icon secondary medium button_close', 'close') }}
     </header>
@@ -25,13 +26,17 @@ eleventyComputed:
                 {% for key, type in copy.objects.types %}
                 <li class="objects-item">
                     <div class="objects_card">
-                        <div class="objects_card-head">
-                            <img src="/assets/images/sample/Planets_and_Moons.png" alt="">
-                        </div>
-                        <div class="objects_card-body">
+                        <div class="objects_card-label {{ key }}">
                             <h3 class="name">{{ type.name[lang] }}</h3>
+                            {{ icon(key) }}
+                        </div>
+                        {# <div class="objects_card-head">
+                            <img src="/assets/images/sample/Planets_and_Moons.png" alt="">
+                        </div> #}
+                        <div class="objects_card-body">
+                            {# <h3 class="name">{{ type.name[lang] }}</h3> #}
                             <p class="description">{{ type.description[lang] }}</p>
-                            <div class="stats">
+                            {# <div class="stats">
                                 <dl class="stats-column">
                                     <dt class="stats-value">{{ type.objects }}</dt>
                                     <dd class="stats-label">{{ copy.objects.total[lang] }}</dd>
@@ -40,7 +45,7 @@ eleventyComputed:
                                     <dt class="stats-value">{{ type.rubin }}</dt>
                                     <dd class="stats-label">{{ copy.objects.detected[lang] }}</dd>
                                 </dl>
-                            </div>
+                            </div> #}
                         </div>
                         <div class="objects_card-foot">
                             <span class="label hidden">{{ copy.objects.hidden[lang] }}</span>

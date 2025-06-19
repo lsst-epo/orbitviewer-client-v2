@@ -315,8 +315,11 @@ export class OrbitViewer extends ThreeLayer {
     }
 
     setSize(width: number, height: number): void {
-        this.camera.aspect = width/height;
-        this.camera.updateProjectionMatrix();
+        super.setSize(width, height);
+				for(const sel of this.solarElements) {
+					sel.updateCameraView();
+				}
+
     }
 
     setData(data:OrbitElements[]) {

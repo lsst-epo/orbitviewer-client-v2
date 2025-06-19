@@ -27,7 +27,9 @@ eleventyComputed:
 
 <section class="about-section about_viewer">
   <div class="about_viewer-hero">
-    <img src="/assets/images/about/about-viewer-large.png" alt="">
+    <div class="img_wrap">
+      <img src="/assets/images/about/about-viewer-large.png" alt="">
+    </div>
   </div>
   <div class="about_viewer-text">
     <p>Orbitviewer — powered by real data from the Minor Planet Center — is designed to showcase the incredible number of Solar System objects revealed by Rubin Observatory. In just one year of operations, Rubin will reveal more objects in our Solar System than humans have discovered in the past 150 years. As Rubin’s decade-long Legacy Survey of Space and Time (LSST) gets underway, Orbitviewer will help you explore and contextualize the millions of discoveries from Rubin.</p>
@@ -52,15 +54,31 @@ eleventyComputed:
   </div>
 </section>
 
-<section class="about-section about_observatory">
-  <div class="about_observatory-content">
-    <p class="invite">We invite you to dive in and explore as Rubin Observatory reveals millions of new objects in our Solar System — revolutionizing what we know about our cosmic neighborhood, from what’s in it to how we got here.</p>
-    <h2 class="title">NSF-DOE Rubin’s Observatory</h2>
-    <div class="description">
-      <p>This data visualization is a product of NSF–DOE Vera C. Rubin Observatory. This groundbreaking new observatory, located on Cerro Pachón in Chile, will revolutionize the way we explore the cosmos. Using an 8.4-meter telescope and the largest camera ever built, Rubin will repeatedly scan the sky for 10 years and create the greatest cosmic movie ever made. To learn more about the observatory and its science, visit rubinobservatory.org. </p>
-      <p>NSF–DOE Vera C. Rubin Observatory is jointly funded by the U.S. National Science Foundation and the U.S. Department of Energy’s Office of Science. Rubin Observatory is a joint Program of NSF NOIRLab and DOE’s SLAC National Accelerator Laboratory.</p>
+<section class="about_observatory">
+    <div class="about_observatory-head">
+      <p class="invite">We invite you to dive in and explore as Rubin Observatory reveals millions of new objects in our Solar System — revolutionizing what we know about our cosmic neighborhood, from what’s in it to how we got here.</p>
+      <h2 class="title">NSF-DOE Rubin’s Observatory</h2>
+      <div class="bg">
+        <div class="img_wrap">
+            <picture>
+              <source srcset="/assets/images/about/about-observatory-large.png" media="(min-width: 1024px)">
+              <source srcset="/assets/images/about/about-observatory-medium.png" media="(min-width: 768px)">
+              <img src="/assets/images/about/about-observatory-small.png" alt="">
+            </picture>
+        </div>
+      </div>
     </div>
-  </div>
+    <div class="about_observatory-body">
+      <div class="content">
+        <div class="text">
+          <p>This data visualization is a product of NSF–DOE Vera C. Rubin Observatory. This groundbreaking new observatory, located on Cerro Pachón in Chile, will revolutionize the way we explore the cosmos. Using an 8.4-meter telescope and the largest camera ever built, Rubin will repeatedly scan the sky for 10 years and create the greatest cosmic movie ever made. To learn more about the observatory and its science, visit rubinobservatory.org. </p>
+          <p>NSF–DOE Vera C. Rubin Observatory is jointly funded by the U.S. National Science Foundation and the U.S. Department of Energy’s Office of Science. Rubin Observatory is a joint Program of NSF NOIRLab and DOE’s SLAC National Accelerator Laboratory.</p>
+        </div>
+        <div class="logos">
+          <img src="/assets/images/rubin-nsf-doe-row.png" alt="">
+        </div>
+      </div>
+    </div>
 </section>
 
 <section class="about-section about_credits">

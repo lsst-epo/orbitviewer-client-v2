@@ -2,6 +2,8 @@
  * Categories related data
  */
 
+import { Color } from "three";
+import { GLOBALS } from "../Globals";
 import { OrbitDataElements, OrbitDataElementsV2 } from "../solar/SolarUtils";
 import { LoadManager } from "./LoadManager";
 
@@ -31,6 +33,17 @@ export const CategoryTypeMap:Record<SolarCategory, number> = {
 	"jupiter-trojans": 8
 }
 
+export const TypeCategoryMap:Record<number,SolarCategory> = {
+	1: "asteroids",
+	2: "near-earth-objects",
+	3: "trans-neptunian-objects",
+	4: "centaurs",
+	5: "comets",
+	6: "interstellar-objects",
+	7: "planets-moons",
+	8: "jupiter-trojans"
+}
+
 export const CSSCategoryMap:Record<number, string> = {
 	1: "asteroids",
 	2: "near_earth",
@@ -44,6 +57,12 @@ export const CSSCategoryMap:Record<number, string> = {
 
 export function getCraftCategory(category:SolarCategory) {
 	const categories = LoadManager.craftData.categories;
+	if(categories === null) return {
+		title: 'Category',
+		mainColor: "#fff",
+		threeColor: new Color("#fff"),
+		objectTypeCode: `${CategoryTypeMap[category]}`
+	};
 	for(const cat of categories) {
 		const type = parseInt(cat.objectTypeCode);
 		if(type === CategoryTypeMap[category]) return cat;
@@ -92,8 +111,8 @@ export const CategoryColorMap:Record<SolarCategory,Color> = {
 	'trans-neptunian-objects':  getCategoryColor('trans-neptunian-objects')
 } */
 
-/* export const CategoriesMinMaxA = {
-	'total': {
+export const CategoriesMinMaxA = {
+	'totals': {
 		min: 0,
 		max: 0
 	},
@@ -124,79 +143,44 @@ export const CategoryColorMap:Record<SolarCategory,Color> = {
 	'trans-neptunian-objects': {
 		min: 0,
 		max: 0
+	},
+	'jupiter-trojans': {
+		min: 0,
+		max: 0
 	}
-} */
+}
 
-// Filters fetch
-/* export async function getA() {
+export function calculateDistanceMap() {
+	const data = LoadManager.hasuraData.classification_ranges;
+	for(const d of data) {
+		const type = d.object_type[0];
+		const cat = TypeCategoryMap[type];
+		const range = d.observed_range_type;
+		CategoriesMinMaxA[cat][range] = d.observed_value;
+	}
 
-	const url = `${HASURA_URL}/a`;
-
-	const response = await fetch(url, {
-		headers: {
-			'X-Hasura-Admin-Secret': '_qfq_tMbyR4brJ@KHCzuJRU7'
+	// compute planets
+	let min=100000000000000000000000,max=0;
+	for(const sel of GLOBALS.viewer.solarElements) {
+		if(sel.isPlanet) {
+			min = Math.min(min, sel.data.a);
+			max = Math.max(min, sel.data.a);
 		}
-	})
-	return await response.json();
-}
-
-export async function getMinMaxAByCategory () {
-
-	console.log('Loading "A"...');
-
-	const data = await getA();
-
-	const find = (type, range) => {
-		const d = data.classification_ranges.find(x => {
-			if(x.observed_object_type === type && x.observed_range_type === range) return x;
-		})
-		return d.observed_value;
-	}
-
-	CategoriesMinMaxA['asteroids'].min = find('asteroid', 'min');
-	CategoriesMinMaxA['asteroids'].max = find('asteroid', 'max');
-
-	CategoriesMinMaxA['centaurs'].min = find('centaur', 'min');
-	CategoriesMinMaxA['centaurs'].max = find('centaur', 'max');
-
-	CategoriesMinMaxA['comets'].min = find('comet', 'min');
-	CategoriesMinMaxA['comets'].max = find('comet', 'max');
-
-	CategoriesMinMaxA['near-earth-objects'].min = find('neo', 'min');
-	CategoriesMinMaxA['near-earth-objects'].max = find('neo', 'max');
-
-	CategoriesMinMaxA['trans-neptunian-objects'].min = find('tno', 'min');
-	CategoriesMinMaxA['trans-neptunian-objects'].max = find('tno', 'max');
-
-	let min = 10000;
-	let max = 0;
-	for(const key in CategoriesMinMaxA){
-		const item = CategoriesMinMaxA[key];
-		min = min < item.min ? min : item.min;
-		max = max > item.max ? max : item.max;
-	}
-
-	CategoriesMinMaxA['total'].min = min;
-	CategoriesMinMaxA['total'].max = max;
-
-	distance.min = min;
-	distance.max = max;
-
-	distance.search.min = min;
-	distance.search.max = max;
-
-}
-
-export const getMinMaxPlanetsA = (d:Array<OrbitDataElements>) => {
-
-	let min = 10000;
-	let max = 0;
-	for(const el of d){
-		min = el.a < min ? el.a : min;
-		max = el.a > max ? el.a : max;
 	}
 
 	CategoriesMinMaxA['planets-moons'].min = min;
 	CategoriesMinMaxA['planets-moons'].max = max;
 
-} */
+	// compute totals
+	min=100000000000000000000000;max=0;
+	for(const key in CategoriesMinMaxA) {
+		if(key === 'totals') continue;
+		min = Math.min(min, CategoriesMinMaxA[key].min);
+		max = Math.max(max, CategoriesMinMaxA[key].max);
+	}
+
+	CategoriesMinMaxA['totals'].min = min;
+	CategoriesMinMaxA['totals'].max = max;
+
+	console.log(CategoriesMinMaxA);
+}

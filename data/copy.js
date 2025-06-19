@@ -143,6 +143,10 @@ export default {
                 "en": "Copy",
                 "es": ""
             },
+            "copied": {
+                "en": "copied",
+                "es": ""
+            },
             "share_on": {
                 "en": "Share on",
                 "es": ""
@@ -164,6 +168,10 @@ export default {
         },
         "download": {
             "en": "Download image",
+            "es": ""
+        },
+        "generating": {
+            "en": "Generating image",
             "es": ""
         }
     },
@@ -321,7 +329,7 @@ export default {
             }
         },
         "distance": {
-            "en": "Distance",
+            "en": "Distance from Sun",
             "es": ""
         },
         "au": {
@@ -437,11 +445,11 @@ export default {
         "types": {
             "planets_moons": {
                 name: {
-                    "en": "Planets & Moons",
+                    "en": "Planets",
                     "es": "",
                 },
                 description: {
-                    "en": "The foundational bodies of our solar system, from rocky inner planets to gas giants. Includes Earth and over 200 moons orbiting various planets.",
+                    "en": "The eight planets orbit the Sun in mostly circular paths and are either primarily rocky or primarily gaseous. Inner planets (like Earth and Mars) are solid and small, while outer planets (like Jupiter and Neptune) are large and gaseous or icy.",
                     "es": ""
                 },
                 objects: "40K",
@@ -449,11 +457,11 @@ export default {
             },
             "near_earth_objects": {
                 name: {
-                    "en": "Near Earth Objects",
+                    "en": "Near Earth Objects (NEOs)",
                     "es": ""
                 },
                 description: {
-                    "en": "Asteroids and comets that pass close to Earth's orbit, some potentially hazardous. These objects are carefully tracked as they can occasionally pose risks to our planet.",
+                    "en": "NEOs are asteroids or comets with orbits that bring them close to Earth's orbit. Most are harmless, but scientists track them closely to monitor any potential impact risks. Their orbits can shift over time due to gravitational nudges from planets or the Sun.",
                     "es": ""
                 },
                 objects: "40K",
@@ -461,11 +469,11 @@ export default {
             },
             "asteroids": {
                 name: {
-                    "en": "Asteroids",
+                    "en": "Main Belt Asteroids",
                     "es": ""
                 },
                 description: {
-                    "en": "Rocky bodies primarily orbiting between Mars and Jupiter in the main asteroid belt. Millions of these objects exist, ranging from dust-sized particles to dwarf planets.",
+                    "en": "These rocky bodies orbit the Sun between Mars and Jupiter, forming the asteroid belt. They range from dust-sized fragments to dwarf planet-sized objects like Ceres. The asteroid belt is leftover debris from the early Solar System that never formed into a planet.",
                     "es": ""
                 },
                 objects: "40K",
@@ -477,7 +485,7 @@ export default {
                     "es": ""
                 },
                 description: {
-                    "en": "Icy bodies with distinctive tails that become visible when they approach the Sun. They originate from the outer solar system and follow highly elliptical orbits.",
+                    "en": "Comets are icy bodies from the outer Solar System that develop glowing comas and tails of outgassing material when they approach the Sun. Their orbits can be short and frequent or long and distant, taking thousands of years to return.",
                     "es": ""
                 },
                 objects: "40K",
@@ -489,7 +497,7 @@ export default {
                     "es": ""
                 },
                 description: {
-                    "en": "Mysterious objects that share characteristics of both asteroids and comets. They occupy unstable orbits between Jupiter and Neptune, crossing planetary paths.",
+                    "en": "Centaurs orbit between Jupiter and Neptune and sometimes have traits of both asteroids and comets. They're thought to be short-lived, unstable objects because of their close encounters with the much stronger gravity of the gas giant planets. Their chaotic orbits make them fascinating objects to study.",
                     "es": ""
                 },
                 objects: "40K",
@@ -501,7 +509,7 @@ export default {
                     "es": ""
                 },
                 description: {
-                    "en": "Icy bodies orbiting beyond Neptune in the outer reaches of our solar system. Includes Pluto and thousands of similar objects in the Kuiper Belt and scattered disc.",
+                    "en": "TNOs orbit the Sun beyond Neptune. They include dwarf planets like Pluto and Eris, along with millions of smaller objects. These distant, cold worlds are some of the most primitive in the Solar System, with orbits and surfaces that still preserve clues about its earliest days.",
                     "es": ""
                 },
                 objects: "40K",
@@ -513,11 +521,21 @@ export default {
                     "es": ""
                 },
                 description: {
-                    "en": "Rare visitors from beyond our solar system passing through on hyperbolic trajectories. Only a handful have been detected, offering glimpses of other stellar neighborhoods.",
+                    "en": "These are rare visitors from outside our Solar System, passing through on open-ended, hyperbolic paths so fast that they’re not bound by the Sun’s gravity. Unlike asteroids and comets that orbit the Sun, interstellar objects only pass through once, never to return. 'Oumuamua (2017) and Borisov (2019) are the only confirmed examples so far.",
                     "es": ""
                 },
                 objects: "40K",
                 rubin: "30K"
+            },
+            "trojans": {
+                name: {
+                    "en": "Trojans",
+                    "es": ""
+                },
+                description: {
+                    "en": "Trojans are asteroids that share a planet’s orbit, clustering around gravitationally stable points ahead of or behind the planet (called Lagrange points). Most known Trojans share orbits with Jupiter, but Neptune and even Earth have a few. Their unique orbits make them long-term Solar System residents and tracers of gravitational interactions with the planets.",
+                    "es": ""
+                }
             }
         },
         "total": {

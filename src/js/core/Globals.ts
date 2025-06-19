@@ -19,7 +19,9 @@ import ToggleGroup from "../components/ToggleGroup";
 export const IS_DEV_MODE = DEV_MODE;
 // export const TARGET = TARGET_MODE;
 
-export const HASURA_URL = `https://hasura-e3g4rcii3q-uc.a.run.app/api/rest`;
+// export const HASURA_URL = `https://hasura-e3g4rcii3q-uc.a.run.app/api/rest`;
+export const HASURA_URL = `https://hasura-688095955960.us-central1.run.app/api/rest/`;
+export const HASURA_GRAPHQL = `https://hasura-688095955960.us-central1.run.app/v1/graphql`;
 
 
 export const PATHS = {
@@ -92,6 +94,7 @@ export interface Globals {
 	objectToggle:ToggleGroup;
 	firstPage:boolean;
 	loader:Loader;
+	getViewport:Function;
 }
 
 export const GLOBALS:Globals = {
@@ -107,5 +110,8 @@ export const GLOBALS:Globals = {
 	mapCtrls: null,
 	objectToggle: null,
 	firstPage: true,
-	loader: null
+	loader: null,
+	getViewport: () => {
+		return getComputedStyle(document.documentElement).getPropertyValue('--viewport');
+	}
 }

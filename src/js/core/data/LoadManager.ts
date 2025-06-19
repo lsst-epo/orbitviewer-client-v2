@@ -4,6 +4,7 @@ import { getCategories, getSolarItemsInfo } from "./CraftManager";
 import { VISUAL_SETTINGS } from "../Globals";
 import { USE_V2 } from "../App";
 import { CSSCategoryMap } from "./Categories";
+import { getA } from "./QueryManager";
 
 const staticURL = "/assets/data/";
 const baseURL = "/assets/data/";
@@ -37,6 +38,9 @@ class LoadManagerClass {
             },
             categories: null,
             solar_items: null
+        },
+        hasuraData: {
+            classification_ranges: null
         }
     }
 
@@ -48,17 +52,26 @@ class LoadManagerClass {
         return this.mgr.craftData;
     }
 
+    get hasuraData() {
+        return this.mgr.hasuraData;
+    }
+
     private get coreDataAvailable() {
         return this.mgr.data.planets && this.mgr.data.dwarf_planets;
     }
 
+    private get hasuraDataAvailable() {
+        return this.mgr.hasuraData.classification_ranges;
+    }
+
     private get coreCraftDataAvailable() {
         const craft = this.mgr.craftData;
-        return craft.categories && craft.solar_items && this.mgr.craftData.solar_items;// && craft.pages.landing;
+        // return craft.categories && craft.solar_items && this.mgr.craftData.solar_items;// && craft.pages.landing;
+        return craft.solar_items && this.mgr.craftData.solar_items;// && craft.pages.landing;
     }
 
     public get coreLoaded():boolean {
-        return this.coreDataAvailable && this.coreCraftDataAvailable && this.sampleLoaded;
+        return this.coreDataAvailable && this.coreCraftDataAvailable && this.sampleLoaded && this.hasuraDataAvailable;
     }
 
     private loadData(id:string, url:string, onLoaded:Function) {
@@ -139,6 +152,12 @@ class LoadManagerClass {
         this.loadCraft('solar_items', onL);
 
         this.loadSample(VISUAL_SETTINGS.current, onL);
+
+        getA().then(json => {
+            this.mgr.hasuraData.classification_ranges = json.classification_ranges_v2;
+            console.log(this.mgr.hasuraData.classification_ranges);
+            onL();
+        });
     }
 
     loadSample(profile:string, onLoaded:Function) {
@@ -151,9 +170,9 @@ class LoadManagerClass {
 		});
     }
 
-    getSolarItemInfo(slug:string):Object {
+    getSolarItemInfo(name:string):Object {
         for(const el of this.craftData.solar_items) {
-            if(el.elementID === slug) return el;
+            if(el.elementID === name) return el;
         }
 
         return null;

@@ -20,10 +20,11 @@ export class DefaultPage extends Page {
         return new Promise<void>((gsapResolve) => {
             gsap.to(this.dom, {
                 autoAlpha: 1,
-                duration: 1,
+                duration: 2,
                 ease: 'linear',
                 onComplete: () => {
                     gsapResolve();
+                    document.body.style.overflow = 'auto';
                 }
             })
         }).then(resolve);
@@ -36,8 +37,8 @@ export class DefaultPage extends Page {
                 duration: 1,
                 ease: 'linear',
                 onComplete: () => {
-                    this.dom.remove();
-                    document.body.style.overflow = 'auto';
+                    this.dispose();
+                    // document.body.style.overflow = 'auto';
                     gsapResolve();
                 }
             })
@@ -48,5 +49,7 @@ export class DefaultPage extends Page {
         GLOBALS.firstPage = false;
     }
 
-    dispose(): void {}
+    dispose(): void {
+        this.dom.remove();
+    }
 }
