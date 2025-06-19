@@ -193,6 +193,16 @@ export class OrbitViewer extends ThreeLayer {
 
 	}
 
+	filtersUpdated() {
+		// 1. update particles
+		this.particles.updateFilterState();
+		
+		// 2. update solar elements
+		for(const sel of this.solarElements) {
+			sel.updateFilters();
+		}
+	}
+
     createSolarItems(){
         const solarItems = LoadManager.craftData.solar_items;
 				const sample = LoadManager.data.sample;

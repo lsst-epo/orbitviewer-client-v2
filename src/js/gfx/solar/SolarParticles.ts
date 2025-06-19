@@ -22,6 +22,7 @@ import vertexShader from '../../../glsl/sim/particles_instanced.vert';
 import { LoadManager } from "../../core/data/LoadManager";
 import { getCraftCategory } from "../../core/data/Categories";
 import { FAR, NEAR } from "../OrbitViewer";
+import { UserFilters } from "../../core/solar/SolarUtils";
 
 const MAT = new ShaderMaterial({
     vertexShader,
@@ -116,7 +117,24 @@ export class SolarParticles {
      * Updates filter states of particles & dims out filtered ones
      */
     updateFilterState() {
+        // 1. Update categopries
+        const catMap = UserFilters.categories;
+        for(let i=0;i<this._data.length; i++) {
+            const d = this._data[i];
+            // console.log(d.category);
+            this.filtered[i] = !catMap[d.category];
+        }
 
+        // 2. Upate rest of the filters only for unfiltered items
+
+        // 3. Update buffer attribute
+        const attr = this.mesh.geometry.attributes.filterValue;
+        const arr = attr.array;
+        for(let i=0;i<this._data.length; i++) {
+            arr[i] = this.filtered[i] ? .1 : 1;
+        }
+
+        attr.needsUpdate = true;
     }
 
     /**

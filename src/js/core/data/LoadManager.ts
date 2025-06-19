@@ -66,8 +66,8 @@ class LoadManagerClass {
 
     private get coreCraftDataAvailable() {
         const craft = this.mgr.craftData;
-        // return craft.categories && craft.solar_items && this.mgr.craftData.solar_items;// && craft.pages.landing;
-        return craft.solar_items && this.mgr.craftData.solar_items;// && craft.pages.landing;
+        return craft.categories && craft.solar_items && this.mgr.craftData.solar_items;// && craft.pages.landing;
+        // return craft.solar_items && this.mgr.craftData.solar_items;// && craft.pages.landing;
     }
 
     public get coreLoaded():boolean {

@@ -3,6 +3,20 @@ import ToggleGroup from "../components/ToggleGroup";
 import { GLOBALS } from "../core/Globals";
 import { DefaultPage } from "./DefaultPage";
 import { ObjectsScroller } from "../components/ObjectsScroller";
+import { SolarCategory } from "../core/solar/SolarSystem";
+import { FilterToggle } from "../components/FilterToggle";
+import { UserFilters } from "../core/solar/SolarUtils";
+
+const catSort:SolarCategory[] = [
+    'planets-moons',
+    'near-earth-objects',
+    'asteroids',
+    'comets',
+    'centaurs',
+    'trans-neptunian-objects',
+    'interstellar-objects',
+    'jupiter-trojans'
+];
 
 export class ObjectsFiltersPage extends DefaultPage {
     dom: HTMLElement;
@@ -17,6 +31,9 @@ export class ObjectsFiltersPage extends DefaultPage {
     controls:HTMLElement;
 
     scroller: ObjectsScroller;
+
+    // inputs:FilterToggle[] = [];
+    inputs:ToggleGroup[] = [];
     
     constructor(id: string, template: string, dom: HTMLElement) {
         super(id, template, dom);
@@ -67,10 +84,17 @@ export class ObjectsFiltersPage extends DefaultPage {
     }
 
     create() {
-        console.log('create');
+        // console.log('create');
+        const map = UserFilters.categories;
+
 		this.toggles.forEach(element => {
-			const objectsToggle = new ToggleGroup(element as HTMLElement);
+			const objectsToggle = new ToggleGroup(element as HTMLElement, (value:string, index:number) => {
+                map[catSort[this.inputs.indexOf(objectsToggle)]] = index == 1;
+                // console.log(map);
+                GLOBALS.viewer.filtersUpdated();
+            });
             objectsToggle.show();
+            this.inputs.push(objectsToggle);
 		});
 
 		this.closeButton.addEventListener('click', (e) => {
@@ -81,6 +105,15 @@ export class ObjectsFiltersPage extends DefaultPage {
         GLOBALS.viewer.fadeIn();
 
         this.scroller.init();
+
+        this.updateInputValues();
+    }
+
+    updateInputValues() {
+        const map = UserFilters.categories;
+        for(const cat in map) {
+            this.inputs[catSort.indexOf(cat as SolarCategory)].selectedIndex = map[cat] ? 1 : 0;
+        }
     }
 
     transitionIn(resolve: any): Promise<void> {
