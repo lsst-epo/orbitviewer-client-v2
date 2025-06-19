@@ -131,6 +131,7 @@ export class ObjectsScroller {
   }
 
   onWheel(event: WheelEvent) {
+    event.preventDefault();
     const { deltaY, deltaX } = event;
     const delta = Math.abs(deltaY) > Math.abs(deltaX) ? deltaY : deltaX;
     this.target = this.clampTarget(this.target + delta);
