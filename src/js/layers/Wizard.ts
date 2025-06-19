@@ -27,6 +27,8 @@ class Wizard extends Layer {
     skipButton: HTMLButtonElement;
     finishButton: HTMLButtonElement;
 
+    inTransition: boolean = false; // Prevent multiple transitions
+
     maxSteps: number = 4; // Total number of steps in the wizard
 
     #step: number = 1; // Current step, starts at 1
@@ -71,6 +73,7 @@ class Wizard extends Layer {
     
 
     onStepChange() {
+        this.inTransition = true;
         gsap.to(this.bg, { opacity: 1, duration: 0.3, ease: 'power1.out' })
         gsap.to([this.focus, this.tooltip], {
             opacity: 0,
@@ -79,6 +82,7 @@ class Wizard extends Layer {
             onComplete: () => {
                 this.updateDom();
                 requestAnimationFrame(() => {
+                    this.inTransition = false;
                     gsap.to(this.bg, { opacity: 0 });
                     gsap.to(this.focus, { opacity: 1 });
                     gsap.to(this.tooltip, { opacity: 1 })
@@ -119,14 +123,12 @@ class Wizard extends Layer {
 
     updateCSSVariables() {  
         if (this.active) {
-            const { dataset } = this.active;
-            const offset = dataset.wizardOffset !== undefined;
-            const offsetValue = offset ? 6 : 0;
+            const offset = 6;
             const bounding = this.active.getBoundingClientRect();
-            const x = `${bounding.left - offsetValue}px`;
-            const y = `${bounding.top - offsetValue}px`;
-            const width = `${bounding.width + offsetValue * 2}px`;
-            const height = `${bounding.height + offsetValue * 2}px`;
+            const x = `${bounding.left - offset}px`;
+            const y = `${bounding.top - offset}px`;
+            const width = `${bounding.width + offset * 2}px`;
+            const height = `${bounding.height + offset * 2}px`;
             this.dom.style.setProperty('--wizard-x', x);
             this.dom.style.setProperty('--wizard-y', y);
             this.dom.style.setProperty('--wizard-width', width);
@@ -159,11 +161,13 @@ class Wizard extends Layer {
     addEventListeners() {
         this.nextButton.addEventListener('click', (e) => {
             e.preventDefault();
+            if (this.inTransition) return; // Prevent multiple clicks during transition
             this.step === this.maxSteps ? this.skip() : this.step++;
         });
 
         this.prevButton.addEventListener('click', (e) => {
             e.preventDefault();
+            if (this.inTransition) return; // Prevent multiple clicks during transition
             if (this.step > 1) this.step--;
         });
 

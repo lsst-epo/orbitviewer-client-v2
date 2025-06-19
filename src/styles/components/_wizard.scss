@@ -105,8 +105,7 @@
         background-color: var(--color-backdrop);
         will-change: opacity;
         opacity: 0;
-        border-radius: var(--wizard-corner);
-        
+        border-radius: calc(var(--wizard-corner) + 3px);
     }
 
     &-mask {
@@ -132,7 +131,7 @@
         width: var(--wizard-width);
         height: var(--wizard-height);
         border: solid 2px var(--color-turquoise-400);
-        border-radius: var(--wizard-corner);
+        border-radius: calc(var(--wizard-corner) + 3px);
     }
 
     &_tooltip {
@@ -188,6 +187,9 @@
                 button {
                     &.disabled {
                         display: none;
+                    }
+                    &:last-child {
+                        min-width: 104px;
                     }
                 }
             }
