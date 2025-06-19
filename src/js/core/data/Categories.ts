@@ -247,11 +247,11 @@ export function calculateEarthTodayDistanceMap() {
 	for(const sel of GLOBALS.viewer.solarElements) {
 		if(sel.isPlanet) {
 			const d = getDistanceFromEarthNow(sel.data);
-			console.log(d);
+			// console.log(d);
 			map.min = Math.min(map.min, d);
 			map.max = Math.max(map.max, d);
 		}
 	}
 
-	console.log(map);
+	// console.log(map);
 }
