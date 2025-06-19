@@ -48,9 +48,9 @@ eleventyComputed:
                             </div> #}
                         </div>
                         <div class="objects_card-foot">
-                            <span class="label hidden">{{ copy.objects.hidden[lang] }}</span>
+                            <span class="label" data-index="0">{{ copy.objects.hidden[lang] }}</span>
                             {{ ToggleGroup('toggle-object-' ~ loop.index0, '', 'toggle-object-' ~ loop.index0, [false, true], true, false) }}
-                            <span class="label">{{ copy.objects.visible[lang] }}</span>
+                            <span class="label active" data-index="1">{{ copy.objects.visible[lang] }}</span>
                         </div>
                     </div>
                 </li>

@@ -4,7 +4,7 @@
 
 import { Color } from "three";
 import { GLOBALS } from "../Globals";
-import { getDistanceFromEarthNow, mapOrbitElementsV2, OrbitDataElements, OrbitDataElementsV2 } from "../solar/SolarUtils";
+import { getDistanceFromEarthNow, mapOrbitElementsV2, OrbitDataElements, OrbitDataElementsV2, UserFilters } from "../solar/SolarUtils";
 import { LoadManager } from "./LoadManager";
 import { SolarCategory } from "../solar/SolarSystem";
 
@@ -52,6 +52,24 @@ export const CSSCategoryMap:Record<number, string> = {
 	6: "interstellar",
 	7: "planets",
 	8: "trojans"
+}
+
+export const CategoryCounters:Record<SolarCategory, number> = {
+	"planets-moons": 0,
+	'asteroids': 0,
+	'comets': 0,
+	'centaurs': 0,
+	'interstellar-objects': 0,
+	'near-earth-objects': 0,
+	'trans-neptunian-objects': 0,
+	'jupiter-trojans': 0
+}
+
+export function resetSolarCategoryCounters() {
+	for(const type in CategoryCounters) {
+		if (type === "planets-moons") continue;
+		CategoryCounters[type] = 0;
+	}
 }
 
 export function getCraftCategory(category:SolarCategory) {
@@ -229,10 +247,25 @@ export function calculatePropRange(prop:string) {
 		}
 	}
 
-	// compute totals
 	
+}
+
+export function updateTotals() {
+	computePropertyTotals('a');
+	computePropertyTotals('e');
+	computePropertyTotals('i');
+}
+
+export function computePropertyTotals(prop:string) {
+	const map = CategoryFilters[prop];
+	map['totals'].min = Infinity;
+	map['totals'].max = -Infinity;
+
+	// compute totals
 	for(const key in map) {
 		if(key === 'totals') continue;
+		if(CategoryCounters[key] === 0) continue;
+		if(!UserFilters.categories[key]) continue;
 		map['totals'].min = Math.min(map[key].min, map['totals'].min);
 		map['totals'].max = Math.max(map[key].max, map['totals'].max);
 	}

@@ -30,18 +30,21 @@
                             <span class="helper">{{ copy.filters.au[lang] }}</span>
                         </label>
                         <div class="filters_card_field-input">
-                            {{ RangeSlider('slider-distance', [20, 80], [0, 100]) }}
+                            {{ RangeSlider('slider-distance', [0, 100], [0, 100]) }}
                         </div>
                     </div>
 
-                    <div class="filters_card_field">
+                    {# <div class="filters_card_field">
                         <label class="filters_card_field-label">
                             <span for="" class="label">{{ copy.filters.discovery[lang] }}</span>
                         </label>
                         <div class="filters_card_field-input">
                             {{ RangeSlider('slider-date', [1900, 2025], [1900, 2025]) }}
                         </div>
-                    </div>
+                    </div> #}
+                </div>
+                <div class="filters_card-foot">
+                    {{ Button(copy.filters.apply[lang], 'button button-apply primary medium') }}
                 </div>
             </div>
         </div>

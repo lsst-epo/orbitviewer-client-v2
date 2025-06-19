@@ -10,7 +10,7 @@
     display: flex;
     flex-direction: column;
     background: rgba(var(--color-black-rgb), .8);
-    backdrop-filter: blur(var(--backdrop-blur));
+    // backdrop-filter: blur(var(--backdrop-blur));
 
     @include media(medium) {
         inset: initial;
@@ -18,7 +18,7 @@
         left: 140px;
         width: 384px;
         background: initial;
-        backdrop-filter: initial;
+        // backdrop-filter: initial;
     }
 
     &[aria-hidden=true] {
@@ -41,6 +41,8 @@
     }
 
         &_card {
+            position: relative;
+            height: 100%;
             border-radius: var(--corner-large);
 
             @include media(medium) {
@@ -49,10 +51,18 @@
             }
 
             &-content {
-                padding: 16px;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                padding: 16px 16px 32px;
+
+                @include media(medium) {
+                    padding: 16px;
+                }
             }
 
                 &-head {
+                    flex: 0 0 auto;
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
@@ -63,7 +73,9 @@
                     }
                 }
 
-                &-body {}
+                &-body {
+                    flex: auto;
+                }
 
                     &_field {
                         display: flex;
@@ -98,6 +110,18 @@
                             }
                         }
                     }
+                
+                &-foot {
+                    flex: 0 0 auto;
+                    
+                    @include media(medium) {
+                        display: none;
+                    }
+                    
+                    .button {
+                        width: 100%;
+                    }
+                } 
         }
     
     &--open {

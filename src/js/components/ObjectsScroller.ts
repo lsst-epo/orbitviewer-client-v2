@@ -1,27 +1,31 @@
 
+import { GLOBALS } from "../core/Globals";
 import { Toucher, type PanParams } from "../core/Toucher";
 
 let _to;
-type SnapType = 'none' | 'closest' | 'direction';
 type ScrollPoint = 'start' | 'middle' | 'end';
 
 export class ObjectsScroller {
   dom: HTMLElement;
   children: NodeListOf<HTMLElement>;
+  
   nextButtons: HTMLElement[];
   prevButtons: HTMLElement[];
 
-  snapType: SnapType = 'none';
   snaps: number[] = [];
   
   index: number = 0;
-  paddingLeft: number = 0;
   bounding: number = 0;
+  offset: number = 0;
+  target: number = 0;
+  current: number = 0;
 
-  toucher: Toucher = new Toucher({ preventLeft: true, preventRight: true });
+  toucher: Toucher = new Toucher({ prevent: true });
   
   toucherInit: number = 0;
   wheelInit: number = -1; // -1 means no wheel interaction yet
+
+  domResizeObserver: ResizeObserver;
 
   _prev: () => void = this.prev.bind(this);
   _next: () => void = this.next.bind(this);
@@ -29,10 +33,18 @@ export class ObjectsScroller {
   _onPanStart: () => void = this.onPanStart.bind(this);
   _onPanMove: (e: PanParams) => void = this.onPanMove.bind(this);
   _onPanEnd: (e: PanParams) => void = this.onPanEnd.bind(this);
+  
+  _onFocus: (e: FocusEvent) => void = this.onFocus.bind(this);
 
-  _onResize: () => void = this.onResize.bind(this);
   _onWheel: (event: WheelEvent) => void = this.onWheel.bind(this);
-  _onScroll: () => void = this.onScroll.bind(this);
+
+  #active: boolean = false;
+  get active() { return this.#active }
+  set active(value: boolean) {
+    if (value === this.#active) return; // prevent unnecessary updates
+    this.#active = value;
+    this.onActiveChange();
+  }
 
   #scrollPoint: ScrollPoint = 'start';
   get scrollPoint() { return this.#scrollPoint }
@@ -42,112 +54,96 @@ export class ObjectsScroller {
       this.onScrollPointChange(value);
   }
   
-  constructor(params: { dom: HTMLElement, snapType?: SnapType, nextButtons?: HTMLElement[], prevButtons?: HTMLElement[] }) {
-    const { dom, snapType, nextButtons, prevButtons } = params;
+  constructor(params: { dom: HTMLElement, nextButtons?: HTMLElement[], prevButtons?: HTMLElement[] }) {
+    const { dom, nextButtons, prevButtons } = params;
 
     if (!dom) {
       throw new Error('ObjectsScroller requires a valid DOM element.');
     }
 
     this.dom = dom;
-    this.snapType = snapType || this.snapType;
     this.children = this.dom.querySelectorAll('.objects-item');
     this.nextButtons = nextButtons || [];
     this.prevButtons = prevButtons || [];
+
+
   }
 
   init() {
-    requestAnimationFrame(() => {
-      this.setSize();
-      this.onScrollPointChange(this.scrollPoint);
+    this.domResizeObserver = new ResizeObserver(entries => {
+      for (let entry of entries) {
+        const { width, height } = entry.contentRect;
+        if (width > 0 && height > 0) this.setSize();
+      }
     });
-    this.addEventListeners();
+    this.domResizeObserver.observe(this.dom);
+
+    this.setSize();
+    this.onScrollPointChange(this.scrollPoint);
   }
 
   getCurrentIndex(): number {
-    const { scrollLeft } = this.dom;
+    const ref = this.current
     const closest = this.snaps.reduce((prev, curr) =>
-      Math.abs(curr - scrollLeft) < Math.abs(prev - scrollLeft) ? curr : prev
+      Math.abs(curr - ref) < Math.abs(prev - ref) ? curr : prev
     );
     return this.snaps.indexOf(closest);
   }
 
   next() {
     this.index = this.getCurrentIndex();
-    const snap = this.snaps[this.index + 1] || this.bounding;
-    this.index = Math.min(this.index + 1, this.snaps.length - 1);
-    this.dom.scrollTo({ left: snap, behavior: 'smooth' });
+    const snap = Math.min(this.snaps[this.index + 1] || this.bounding, this.bounding);
+    this.target = snap;
   }
 
   prev() {
     this.index = this.getCurrentIndex();
-    const snap = this.snaps[this.index - 1] || 0;
-    this.index = Math.max(0, this.index - 1);
-    this.dom.scrollTo({ left: snap, behavior: 'smooth' });
-  }
-
-  snap(dir?: 'next' | 'prev') {
-    if (this.snapType === 'closest') {
-      this.snapToClosestChild();
-    } else if (this.snapType === 'direction' && dir) {
-        dir === 'next' ? this.next() : this.prev();
-    }
-  }
-
-  snapToClosestChild() {
-    const { scrollLeft } = this.dom;
-    const closest = this.snaps.reduce((prev, curr) =>
-      Math.abs(curr - scrollLeft) < Math.abs(prev - scrollLeft) ? curr : prev
-    );
-    this.index = this.snaps.indexOf(closest);
-    const left = Math.min(closest, this.bounding);
-    this.dom.scrollTo({ left, behavior: 'smooth' });
+    const snap = Math.max(this.snaps[this.index - 1] || 0, 0);
+    this.target = snap;
   }
 
   updateSnaps() {
-    const { scrollLeft } = this.dom;
+    const ref = this.current;
     for (let i = 0; i < this.children.length; i++) {
       const child = this.children[i];
       const rect = child.getBoundingClientRect();
-      this.snaps[i] = Math.max(0, rect.left + scrollLeft - this.paddingLeft);
+      this.snaps[i] = Math.max(0, rect.left + ref - this.offset);
     }
   }
 
   setSize() {
     const styles = getComputedStyle(this.dom);
-    this.paddingLeft = parseFloat(styles.paddingLeft);
-
+    this.offset = parseFloat(styles.paddingLeft);
     this.updateSnaps();
-    
-    this.bounding = this.dom.scrollWidth - window.innerWidth;
+    const lastSnap = this.snaps[this.snaps.length - 1];
+    const lastChild = this.children[this.children.length - 1];
+    this.bounding = lastSnap + lastChild.offsetWidth + this.offset * 2 - window.innerWidth;
+    this.target = this.current = this.clampTarget(this.current);
+    const isMobile = GLOBALS.getViewport() === 'small'; // Replace with actual mobile detection logic
+    this.active = !isMobile; // Disable on mobile by default
   }
 
-  onResize() {
-    clearTimeout(_to);
-    _to = setTimeout(() => {
-      this.setSize();
-      this.snapToClosestChild();
-    }, 100);
-  }
-
-  onWheel(event: WheelEvent) {
-    const { deltaY, deltaX } = event;
-    if (this.wheelInit === -1) this.wheelInit = this.dom.scrollLeft;
-    if (Math.abs(deltaX) < Math.abs(deltaY)) {
-      event.preventDefault();
-      this.dom.scrollLeft += deltaY;
+  update() {
+    if (!this.active) return; // Skip updates if not active
+    this.current += (this.target - this.current) * 0.1; // Smooth scrolling effect
+    if (Math.abs(this.current - this.target) < 0.1) {
+      this.current = this.target; // Snap to target if close enough
     }
-    clearTimeout(_to);
-    _to = setTimeout(() => {
-      const dir = this.wheelInit - this.dom.scrollLeft;
-      dir !== 0 && this.snap(dir < 0 ? 'next' : 'prev');
-      this.wheelInit = -1; // Reset wheel interaction
-    }, 250);
+    this.dom.style.transform = `translateX(${-this.current}px)`;
+    this.scrollPoint = this.current < 100 ? 'start' : (this.current >= this.bounding - 100 ? 'end' : 'middle');
   }
 
-  onScroll() {
-    const { scrollLeft } = this.dom;
-    this.scrollPoint = scrollLeft === 0 ? 'start' : (scrollLeft >= this.bounding ? 'end' : 'middle');
+  onWheel(e: WheelEvent) {
+    e.preventDefault();
+    const { deltaY, deltaX } = e;
+    const delta = Math.abs(deltaY) > Math.abs(deltaX) ? deltaY : deltaX;
+    this.target = this.clampTarget(this.target + delta);
+  }
+
+  clampTarget(value) {
+    if (value < 0) return 0;
+    if (value > this.bounding) return this.bounding;
+    return value;
   }
 
   onScrollPointChange(value: ScrollPoint) {
@@ -176,19 +172,38 @@ export class ObjectsScroller {
   }
 
   onPanStart() {
-    this.toucherInit = this.dom.scrollLeft;
+    this.target = this.toucherInit = this.current;
   }
 
   onPanMove(e: PanParams) {
     const { xDiff, yDiff } = e;
     if (Math.abs(xDiff) < Math.abs(yDiff)) return; // Ignore vertical pan
-    this.dom.scrollLeft = this.toucherInit + xDiff;
+    this.target = this.clampTarget(this.toucherInit + xDiff);
   }
 
-  onPanEnd(e: PanParams) {
-    const { xDiff, yDiff } = e;
-    if (Math.abs(xDiff) < Math.abs(yDiff) || Math.abs(xDiff) < 4) return; // Ignore vertical pan and small horizontal pans / "clicks"
-    this.snap(xDiff > 0 ? 'next' : 'prev');
+  onPanEnd(e: PanParams) {}
+
+  onFocus(e: FocusEvent) {
+    e.preventDefault();
+    const target = e.target as HTMLElement;
+    const { left } = target.getBoundingClientRect();
+    const request = this.clampTarget(this.current + left - window.innerWidth * 0.5);
+    if (Math.abs(this.target - request) < 100) return; // No significant change
+    this.target = request;
+  }
+
+  reset() {
+    this.target = this.current = 0;
+    this.dom.style.transform = 'none';
+  }
+
+  onActiveChange() {
+    console.log('Active state changed:', this.active);
+    if (this.active) this.addEventListeners();
+    else {
+      this.reset();
+      this.removeEventListeners();
+    }
   }
 
   addEventListeners() {
@@ -200,21 +215,23 @@ export class ObjectsScroller {
     })
     this.nextButtons.forEach(button => button.addEventListener('click', this._next));
     this.prevButtons.forEach(button => button.addEventListener('click', this._prev));
-    this.dom.addEventListener('scroll', this._onScroll);
-    this.dom.addEventListener('wheel', this._onWheel, { passive: false });
-    window.addEventListener('resize', this._onResize);
+    window.addEventListener('wheel', this._onWheel, { passive: false });
+    const inputs = this.dom.querySelectorAll('input');
+    inputs.forEach(input=> input.addEventListener('focus', this._onFocus));
   }
 
   removeEventListeners() {
     this.toucher.destroy();
     this.nextButtons.forEach(button => button.removeEventListener('click', this._next));
     this.prevButtons.forEach(button => button.removeEventListener('click', this._prev));
-    this.dom.removeEventListener('scroll', this._onScroll);
-    this.dom.removeEventListener('wheel', this._onWheel);
-    window.removeEventListener('resize', this._onResize);
+    window.removeEventListener('wheel', this._onWheel);
+    const inputs = this.dom.querySelectorAll('input');
+    inputs.forEach(input=> input.removeEventListener('focus', this._onFocus));
   }
 
   destroy() {
     this.removeEventListeners();
+    this.domResizeObserver && this.domResizeObserver.unobserve(this.dom);
+    this.domResizeObserver.disconnect();
   }
 }

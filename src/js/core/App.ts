@@ -22,7 +22,8 @@ import TimeMachine from "../layers/TimeMachine";
 import MapControls from "../layers/MapControls";
 import { Loader } from "../layers/Loader";
 import ToggleGroup from "../components/ToggleGroup";
-import { calculateDistanceMap, calculateEarthTodayDistanceMap, calculatePropRange, CategoryFilters } from "./data/Categories";
+import { calculateDistanceMap, calculateEarthTodayDistanceMap, calculatePropRange, CategoryCounters, CategoryFilters } from "./data/Categories";
+import { UserFilters } from "./solar/SolarUtils";
 
 export const solarClock = new SolarClock(new Clock());
 
@@ -137,6 +138,9 @@ export class App implements NomadRouteListener {
 		this.viewer.setData(data);
 		this.viewer.createPlanets(LoadManager.data.planets);
 		this.viewer.createDwarfPlanets(LoadManager.data.dwarf_planets);
+
+		CategoryCounters['planets-moons'] = LoadManager.data.planets.length + LoadManager.data.dwarf_planets.length;
+
 		this.viewer.createSolarItems();
 		
 		calculateDistanceMap();
@@ -147,6 +151,9 @@ export class App implements NomadRouteListener {
 		// this.addGUI();
 		console.log(LoadManager.data);
 		console.log(LoadManager.craftData);
+
+		UserFilters.distanceRange.min = CategoryFilters.a.totals.min;
+		UserFilters.distanceRange.max = CategoryFilters.a.totals.max;
 
 		console.log(CategoryFilters);
 

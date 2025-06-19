@@ -6,10 +6,6 @@ export class DefaultPage extends Page {
     constructor(id: string, template: string, dom: HTMLElement) {
         super(id, template, dom);
 
-        gsap.set(dom, {
-          autoAlpha: 0,
-        })
-
         document.body.className = `${template}_template`;
     }
 
@@ -17,31 +13,16 @@ export class DefaultPage extends Page {
 
     transitionIn(resolve: any): Promise<void> {
         // GLOBALS.firstPage = false;
-        return new Promise<void>((gsapResolve) => {
-            gsap.to(this.dom, {
-                autoAlpha: 1,
-                duration: 2,
-                ease: 'linear',
-                onComplete: () => {
-                    gsapResolve();
-                    document.body.style.overflow = 'auto';
-                }
-            })
+        return new Promise<void>((res) => {
+            res();
+            document.body.style.overflow = 'auto';
         }).then(resolve);
     }
 
     transitionOut(resolve: any): Promise<void> {
-        return new Promise<void>((gsapResolve) => {
-            gsap.to(this.dom, {
-                autoAlpha: 0,
-                duration: 1,
-                ease: 'linear',
-                onComplete: () => {
-                    this.dispose();
-                    // document.body.style.overflow = 'auto';
-                    gsapResolve();
-                }
-            })
+        return new Promise<void>((res) => {
+            this.dispose();
+            res();
         }).then(resolve);
     }
 

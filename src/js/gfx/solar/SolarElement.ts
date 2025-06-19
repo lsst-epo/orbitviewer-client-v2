@@ -8,6 +8,7 @@ import { DEFAULT_PATH_ALPHA, EllipticalPath } from "./EllipticalPath";
 import gsap from "gsap";
 import { slugify } from "@fils/utils";
 import { GLOBALS } from "../../core/Globals";
+import { UserFilters } from "../../core/solar/SolarUtils";
 
 export interface CameraLock {
 	min: number;
@@ -52,7 +53,7 @@ export class SolarElement extends Object3D implements InteractiveObject {
     // mesh:Mesh;
     data:OrbitElements;
     orbitPath:EllipticalPath;
-    private _selected:boolean = false;
+    protected _selected:boolean = false;
     // material:MeshPhongMaterial;
     target:Object3D;
 	type: string;
@@ -67,6 +68,8 @@ export class SolarElement extends Object3D implements InteractiveObject {
     offsetOrbit = new Vector3();
 
     slug:string;
+
+    protected _active:boolean = true;
 
     // lockedPosition = {
     //     portrait: {
@@ -120,6 +123,41 @@ export class SolarElement extends Object3D implements InteractiveObject {
         // this.lockedPosition.portrait.offset.set(0,-max.length()-1000,0);
 
         this.updateCameraView();
+    }
+
+    updateFilters() {
+        // 1. check category
+        const cMap = UserFilters.categories;
+        this.enabled = cMap[this.data.category];
+        if(!this._active) return;
+
+        // 2. check other filters
+        const dMap = UserFilters.distanceRange;
+        this.enabled = this.data.a >= dMap.min && this.data.a <= dMap.max;
+
+        if(!this._active) return;
+
+        // 3. discovered by
+        const by = UserFilters.discoveredBy;
+        if(by === 1) {
+            // rubin
+            this.enabled = this.data.rubin_discovery === true;
+        } else if(by === 2) {
+            // non rubin
+            this.enabled = this.data.rubin_discovery !== true;
+        }
+
+        if(this._active) this.blur();
+    }
+
+    set enabled(value:boolean) {
+        this._active = value;
+        // this.parent.visible = value;
+        this.orbitPath.ellipse.visible = value;
+    }
+
+    get enabled():boolean {
+        return this._active;
     }
 
     updateCameraView() {
@@ -199,6 +237,7 @@ export class SolarElement extends Object3D implements InteractiveObject {
     }
     
     focus() {
+        if(!this._active) return;
         this.orbitPath.ellipse.visible = true;
         gsap.to(this.orbitPath.material, {
             opacity: 1,
@@ -209,6 +248,7 @@ export class SolarElement extends Object3D implements InteractiveObject {
     }
 
     blur(opacity:number=DEFAULT_PATH_ALPHA) {
+        if(!this._active) return;
         this.orbitPath.ellipse.visible = true;
         gsap.to(this.orbitPath.material, {
             opacity,
@@ -222,6 +262,7 @@ export class SolarElement extends Object3D implements InteractiveObject {
     }
 
     set selected(value:boolean) {
+        if(!this._active) return;
         this._selected = value;
         if(this._selected) this.focus();
         else this.blur();

@@ -8,8 +8,10 @@ import Toolbar from "../layers/Toolbar";
 import Wizard from "../layers/Wizard";
 import { GLOBALS, IS_DEV_MODE } from "../core/Globals";
 import { DefaultPage } from "./DefaultPage";
+import { LoadManager } from "../core/data/LoadManager";
+import gsap from "gsap";
 
-const SKIP_ONBOARDING = true;
+const SKIP_ONBOARDING = false;
 
 class OrbitViewerPage extends DefaultPage {
 	filters: Filters;
@@ -80,6 +82,31 @@ class OrbitViewerPage extends DefaultPage {
 		GLOBALS.objectToggle.hide();
 
 		super.create();
+	}
+
+	transitionIn(resolve: any): Promise<void> {
+		const total = LoadManager.data.rubinCount;
+		const n = {
+			value: Math.max(0, total-2000)
+		}
+
+		const p = this.dom.querySelector("p.value");
+		p.setAttribute('aria-label', `${total.toLocaleString()} discoveries`);
+
+		return new Promise<void>(gsapResolve => {
+			gsap.to(n, {
+				value: total,
+				ease: 'expo.inOut',
+				duration: 3,
+				onUpdate: () => {
+					const nr = Math.round(n.value);
+					p.textContent = nr.toLocaleString();
+				},
+				onComplete: () => {
+					gsapResolve();
+				}
+			})
+		}).then(resolve);
 	}
 
 	showUI() {

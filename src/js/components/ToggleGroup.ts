@@ -1,16 +1,16 @@
 class ToggleGroup {
-    inputs: any[];
+    inputs: HTMLInputElement[] = [];
     initValue: string | null = null;
     indicator: HTMLDivElement | null;
     resizeObserver: ResizeObserver | null = null;
-    callback: ((value: string, element: HTMLElement) => void) | null;
+    callback: ((value: string, index: number) => void) | null;
     
     constructor(public element:HTMLElement, callback = null) {
         // this.element = typeof element === 'string' ? document.querySelector(element) : element;
         this.indicator = null;
         this.inputs = [];
         this.callback = callback;
-        
+
         this.init();
     }
 
@@ -50,10 +50,11 @@ class ToggleGroup {
         if (this.initValue) {
             const input = this.inputs.find(input => input.value === this.initValue);
             if (input) {
-                input.checked = true;
+                const index = this.inputs.indexOf(input);
+                this.selectedIndex = index;
                 this.updateIndicator();
                 if (this.callback && input.checked) {
-                    this.callback(input.value, input);
+                    this.callback(input.value, index);
                 }
             }
         }
@@ -72,12 +73,17 @@ class ToggleGroup {
         this.resizeObserver.observe(this.element);
 
         this.inputs.forEach(input => {
-            input.addEventListener('change', () => {
+            /* input.addEventListener('change', () => {
                 this.updateIndicator();
                 if (this.callback && input.checked) {
                     this.callback(input.value, input);
                 }
-            });
+            }); */
+
+            input.onclick = () => {
+                const index = this.inputs.indexOf(input);
+                this.setIndex(index);
+            }
         });
         
         window.addEventListener('resize', () => this.updateIndicator());
@@ -89,6 +95,19 @@ class ToggleGroup {
         }
     }
 
+    set selectedIndex(k:number) {
+        for(let i=0;i <this.inputs.length; i++) {
+            this.inputs[i].checked = i === k;
+        }
+    }
+
+    setIndex(index: number) {
+        this.selectedIndex = index;
+        this.updateIndicator();
+        if (this.callback) this.callback(this.inputs[index].value, index);
+        if (document.activeElement !== this.inputs[index]) this.inputs[index].focus();
+    }
+
     updateIndicator() {
         const checkedInput = this.inputs.find(input => input.checked);
         if (!checkedInput) {
@@ -97,7 +116,7 @@ class ToggleGroup {
         }
 
         const label = checkedInput.closest('label');
-        const item = label.closest('.togglegroup-item');
+        const item = label.closest('.togglegroup-item') as HTMLElement;
         
         const width = label.offsetWidth;
         const left = item.offsetLeft;

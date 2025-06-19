@@ -17,6 +17,7 @@ import { Sun } from "./solar/Sun";
 import { LoadManager } from "../core/data/LoadManager";
 import { SolarItemUI } from "../layers/SolarItemsUI";
 import { CameraManager, camOcluders, DEFAULT_CAM_LIMITS } from "./core/CameraManager";
+import { CategoryCounters, resetSolarCategoryCounters, updateTotals } from "../core/data/Categories";
 
 export interface FollowTarget {
 	target: InteractiveObject;
@@ -193,6 +194,19 @@ export class OrbitViewer extends ThreeLayer {
 
 	}
 
+	filtersUpdated() {
+		// 0. Update totals
+		updateTotals();
+		
+		// 1. update particles
+		this.particles.updateFilterState();
+		
+		// 2. update solar elements
+		for(const sel of this.solarElements) {
+			sel.updateFilters();
+		}
+	}
+
     createSolarItems(){
         const solarItems = LoadManager.craftData.solar_items;
 				const sample = LoadManager.data.sample;
@@ -327,9 +341,12 @@ export class OrbitViewer extends ThreeLayer {
     }
 
     setData(data:OrbitElements[]) {
+				resetSolarCategoryCounters();
         this.scene.remove(this.particles.mesh);
         this.particles.data = data;
         this.scene.add(this.particles.mesh);
+
+				console.log(CategoryCounters);
     }
 
     /**

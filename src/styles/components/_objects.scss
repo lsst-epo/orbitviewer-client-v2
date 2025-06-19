@@ -64,7 +64,10 @@
 
     &-mask {
         width: 100%;
-        overflow: hidden;
+        overflow-x: auto;
+        @include media(medium) {
+            overflow: hidden;
+        }
     }
 
         &-list {
@@ -73,7 +76,15 @@
             display: flex;
             gap: 12px;
             padding: 0 var(--site-margin-large);
+            will-change: transform;
+
             overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-padding-left: var(--site-margin-large);
+
+            @include media(medium) {
+                overflow-x: visible;
+            }
 
             &::-webkit-scrollbar {
                 display: none;
@@ -84,6 +95,9 @@
                 width: 80vw;
                 min-width: 320px;
                 flex-shrink: 0;
+
+                scroll-snap-align: start;
+                
                 
                 @include media(medium) {
                     width: 36vw; // width: 20vw;
@@ -210,14 +224,15 @@
                         padding: 24px;
                         gap: 16px;
                         border-top: solid 1px var(--color-border);
-
-                        .label {
-                            color: var(--color-text);
-                            @include font(body-medium-semi);
-                        
-                        &.hidden {
-                            color: var(--color-text-low);
+                        span {
+                            cursor: pointer;
                         }
+                        .label {
+                            color: var(--color-text-low);
+                            @include font(body-medium-semi);
+                            &.active {
+                                color: var(--color-text);
+                            }
                         }
                     }
                 }

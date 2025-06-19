@@ -115,6 +115,11 @@ export class Planet extends SolarElement {
         this.updateCameraView();
     }
 
+    updateFilters(): void {
+        super.updateFilters();
+        this.mesh.visible = this.enabled;
+    }
+
     initAtmosphere(id:PlanetId) {
         const opts = PlanetAtmosphereSettings[id];
         this.atmosphereMaterial = getAtmosphereMaterial(opts.color1, opts.color2, opts.fresnelWidth * PLANET_SCALE / 1000, opts.brightness);

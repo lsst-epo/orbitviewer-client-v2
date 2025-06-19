@@ -4,34 +4,132 @@
 @use '../base/typography' as *;
 
 .wizard {
-    --wizard-x: 24px;
-    --wizard-y: 24px;
-    --wizard-width: 104px;
-    --wizard-height: 267px;
+    --wizard-x: 0px;
+    --wizard-y: 0px;
+    --wizard-width: 0px;
+    --wizard-height: 0px;
     --wizard-corner: var(--corner-large);
 
     position: absolute;
     inset: 0;
     z-index: var(--z-wizard);
-    pointer-events: none;
+    overflow: hidden;
+    
+    opacity: 1;
+    will-change: opacity;
+    transition: opacity .4s ease-in-out, display .4s allow-discrete;
+    display: block;
 
-    &[aria-hidden=true] {
+    @starting-style {
+        &[aria-hidden="false"] {
+            opacity: 0;
+        }
+    }
+
+    &[aria-hidden="true"] {
+        opacity: 0;
         display: none;
+    }
+
+    &[aria-step="1"] [data-step="1"],
+    &[aria-step="2"] [data-step="2"],
+    &[aria-step="3"] [data-step="3"],
+    &[aria-step="4"] [data-step="4"] {
+        display: block;
+    }
+
+    [data-step] {
+        display: none;
+    }
+
+    &[aria-step="1"] {
+        .wizard_tooltip {
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 101px;
+            @include media(medium) {
+                left: 143px;
+                top: 110px;
+                bottom: auto;
+                transform: none;
+            }
+        }
+    }
+    
+    &[aria-step="2"] {
+        .wizard_tooltip {
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 232px;
+            @include media(medium) {
+                bottom: 172px;
+                transform: translateX(calc(-50% - 26px));
+            }
+        }
+    }
+
+    &[aria-step="3"] {
+        .wizard_tooltip {
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 380px;
+            @include media(medium) {
+                left: auto;
+                right: calc(var(--site-margin-large) - 8px);
+                bottom: 232px;
+                transform: none;
+            }
+        }
+        .wizard-bg,
+        .wizard-focus {  
+            border-radius: calc(var(--wizard-width) * 0.5);
+        }
+    }
+
+     &[aria-step="4"] {
+        .wizard_tooltip {
+            left: 50%;
+            transform: translateX(-50%);
+            top: 76px;
+            @include media(medium) {
+                left: auto;
+                right: calc(var(--site-margin-small) - 8px);
+                top: 86px;
+                transform: none;
+            }
+        }
+        .wizard-bg,
+        .wizard-focus {  
+            border-radius: calc(var(--wizard-height) * 0.5);
+        }
+    }
+
+    &-bg {
+        position: absolute;
+        inset: var(--wizard-y) 0 0 var(--wizard-x);
+        width: var(--wizard-width);
+        height: var(--wizard-height);
+        z-index: 0;
+        background-color: var(--color-backdrop);
+        will-change: opacity;
+        opacity: 0;
+        border-radius: calc(var(--wizard-corner) + 3px);
     }
 
     &-mask {
         position: absolute;
         inset: 0;
         z-index: 1;
-        overflow: auto;
-        background: var(--color-backdrop);
-        mask: 
-        radial-gradient(var(--wizard-corner) at var(--wizard-corner) var(--wizard-corner), transparent var(--wizard-corner), white var(--wizard-corner)) 
-        var(--wizard-x) var(--wizard-y) / var(--wizard-width) var(--wizard-height) 
-        no-repeat,
-        linear-gradient(black, black);
-        mask-composite: subtract;
+
+        mask: linear-gradient(black, black), linear-gradient(white, white);
+        mask-composite: exclude;
         -webkit-mask-composite: xor;
+
+        mask-position: 0 0, var(--wizard-x) var(--wizard-y);
+        mask-size: 100% 100%, var(--wizard-width) var(--wizard-height);
+        mask-repeat: no-repeat;
+
+        background: rgba(0, 0, 0, 0.6);
     }
 
     &-focus {
@@ -41,15 +139,14 @@
         width: var(--wizard-width);
         height: var(--wizard-height);
         border: solid 2px var(--color-turquoise-400);
-        border-radius: var(--wizard-corner);
+        border-radius: calc(var(--wizard-corner) + 3px);
     }
 
     &_tooltip {
         position: absolute;
-        left: 140px;
-        top: 111px;
         z-index: 3;
-        width: 384px;
+        
+        width: calc(100% - var(--site-margin-large) * 2 + 10px);
         border-radius: var(--corner-medium);
         pointer-events: all;
         
@@ -57,6 +154,10 @@
         @include gradient_border;
 
         padding: 12px;
+
+        @include media(medium) {
+            width: 382px;
+        }
 
         &-body {
             .heading {
@@ -91,6 +192,14 @@
             .button_group {
                 display: flex;
                 gap: 8px;
+                button {
+                    &.disabled {
+                        display: none;
+                    }
+                    &:last-child {
+                        min-width: 104px;
+                    }
+                }
             }
 
         }

@@ -3,6 +3,20 @@ import ToggleGroup from "../components/ToggleGroup";
 import { GLOBALS } from "../core/Globals";
 import { DefaultPage } from "./DefaultPage";
 import { ObjectsScroller } from "../components/ObjectsScroller";
+import { SolarCategory } from "../core/solar/SolarSystem";
+// import { FilterToggle } from "../components/FilterToggle";
+import { UserFilters } from "../core/solar/SolarUtils";
+
+const catSort:SolarCategory[] = [
+    'planets-moons',
+    'near-earth-objects',
+    'asteroids',
+    'comets',
+    'centaurs',
+    'trans-neptunian-objects',
+    'interstellar-objects',
+    'jupiter-trojans'
+];
 
 export class ObjectsFiltersPage extends DefaultPage {
     dom: HTMLElement;
@@ -17,11 +31,14 @@ export class ObjectsFiltersPage extends DefaultPage {
     controls:HTMLElement;
 
     scroller: ObjectsScroller;
+
+    // inputs:FilterToggle[] = [];
+    inputs:ToggleGroup[] = [];
     
     constructor(id: string, template: string, dom: HTMLElement) {
         super(id, template, dom);
 
-        this.toggles = dom.querySelectorAll('.objects_card .togglegroup');
+        this.toggles = dom.querySelectorAll('.objects_card .objects_card-foot');
         this.closeButton = dom.querySelector('.button_close');
 
         this.section = dom.querySelector('section');
@@ -30,14 +47,12 @@ export class ObjectsFiltersPage extends DefaultPage {
 
         this.scroller = new ObjectsScroller({
             dom: this.section.querySelector('.objects-list'),
-            snapType: 'direction',
             nextButtons: [
                 this.section.querySelector('.objects_controls-right'),
             ],
             prevButtons: [
                 this.section.querySelector('.objects_controls-left'),
             ]
-            
         });
 
         for(let i=0; i<this.cards.length;i ++) {
@@ -67,10 +82,32 @@ export class ObjectsFiltersPage extends DefaultPage {
     }
 
     create() {
-        console.log('create');
+        // console.log('create');
+        const map = UserFilters.categories;
+
 		this.toggles.forEach(element => {
-			const objectsToggle = new ToggleGroup(element as HTMLElement);
+            const toggleElement = element.querySelector('.togglegroup') as HTMLElement;
+            const labelElements = element.querySelectorAll('.label') as NodeListOf<HTMLElement>;
+            
+			const objectsToggle = new ToggleGroup(toggleElement, (value:string, index:number) => {
+                labelElements.forEach((label, i) => {
+                    label.classList.toggle('active', i === index);
+                })
+                map[catSort[this.inputs.indexOf(objectsToggle)]] = index == 1;
+                // console.log(map);
+                GLOBALS.viewer.filtersUpdated();
+            });
             objectsToggle.show();
+            labelElements.forEach((label, index) => {
+                label.onclick = (e) => {
+                    const target = e.target as HTMLElement;
+                    const { dataset } = target;
+                    const index = parseInt(dataset.index || '0', 10);
+                    if (isNaN(index)) return;
+                    objectsToggle.setIndex(index);
+                }
+            })
+            this.inputs.push(objectsToggle);
 		});
 
 		this.closeButton.addEventListener('click', (e) => {
@@ -81,6 +118,19 @@ export class ObjectsFiltersPage extends DefaultPage {
         GLOBALS.viewer.fadeIn();
 
         this.scroller.init();
+
+        this.updateInputValues();
+    }
+
+    updateInputValues() {
+        const map = UserFilters.categories;
+        for(const cat in map) {
+            this.inputs[catSort.indexOf(cat as SolarCategory)].selectedIndex = map[cat] ? 1 : 0;
+        }
+    }
+
+    update() {
+        this.scroller.update();
     }
 
     transitionIn(resolve: any): Promise<void> {

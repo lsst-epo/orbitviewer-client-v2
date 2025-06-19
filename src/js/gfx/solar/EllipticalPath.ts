@@ -1,5 +1,5 @@
 import { MathUtils } from "@fils/math";
-import { Box3, CatmullRomCurve3, Group, Object3D, Vector3 } from "three";
+import { Box3, CatmullRomCurve3, Color, Group, Object3D, Vector3 } from "three";
 
 import { calculateOrbitByType, OrbitElements, OrbitType } from "../../core/solar/SolarSystem";
 import { SolarTimeManager } from "../../core/solar/SolarTime";
@@ -10,6 +10,7 @@ import { GLOBALS } from "../../core/Globals";
 import { PathMaterial, PathMaterialParameters } from "./PathMaterial";
 import { Planet } from "./Planet";
 import { LineMaterialParameters } from "three/examples/jsm/lines/LineMaterial";
+import { getCraftCategory } from "../../core/data/Categories";
 
 const MIN_DISTANCE = {
     min: .1,
@@ -98,9 +99,11 @@ export class EllipticalPath {
 
 			this.ellipse = new Group();
 
+            const cat = getCraftCategory(el.category);
+
             const matOptions:LineMaterialParameters = {
-                color: 0x999999,
-                linewidth: 2,
+                color: new Color(cat.mainColor),
+                linewidth: 1,
                 // dashed: true,
                 gapSize: 200,
                 dashSize: 60,

@@ -190,11 +190,11 @@ export class ObjectPage extends DefaultPage {
         this.dom.querySelector('p[aria-describedby="graph-from-the-sun"]').textContent = `${fS.toFixed(2)}au`;
         
         // How far from Earth?
-        const dEn = getDistanceFromEarthNow(data);
+        /* const dEn = getDistanceFromEarthNow(data);
         this.dom.querySelector('p[aria-describedby="graph-from-the-earth"]').textContent = `${dEn.toFixed(2)}au`;
         const sliderFarEarth = this.dom.querySelector('#sliderFarEarth') as HTMLElement;
         const map = DistanceFromEarth[catID];
-        sliderFarEarth.style.width = `${MathUtils.smoothstep(map.min, map.max, dEn)*100}%`;
+        sliderFarEarth.style.width = `${MathUtils.smoothstep(map.min, map.max, dEn)*100}%`; */
     }
 
     dispose(): void {
