@@ -130,6 +130,9 @@ export class SolarElement extends Object3D implements InteractiveObject {
         const cMap = UserFilters.categories;
         this.enabled = cMap[this.data.category];
         if(!this._active) return;
+        
+        const dMap = UserFilters.distanceRange;
+        this.enabled = this.data.a >= dMap.min && this.data.a <= dMap.max;
 
         // 2. check other filters
 

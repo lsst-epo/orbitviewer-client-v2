@@ -117,16 +117,19 @@ export class SolarParticles {
      * Updates filter states of particles & dims out filtered ones
      */
     updateFilterState() {
-        // 1. Update categopries
         const catMap = UserFilters.categories;
+        const dMap = UserFilters.distanceRange;
         for(let i=0;i<this._data.length; i++) {
             const d = this._data[i];
-            // console.log(d.category);
+            // 1. Update categopries
             this.filtered[i] = !catMap[d.category];
+            if(this.filtered[i]) continue;
+            // 2. distance from sun
+            const isIn = d.a >= dMap.min && d.a <= dMap.max;
+            // console.log(isIn);
+            this.filtered[i] = !isIn;
         }
-
-        // 2. Upate rest of the filters only for unfiltered items
-
+        
         // 3. Update buffer attribute
         const attr = this.mesh.geometry.attributes.filterValue;
         const arr = attr.array;

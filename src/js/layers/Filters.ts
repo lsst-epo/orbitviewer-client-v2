@@ -1,6 +1,7 @@
 import RangeSlider from "../components/RangeSlider";
 import ToggleGroup from "../components/ToggleGroup";
 import { CategoryFilters } from "../core/data/Categories";
+import { GLOBALS } from "../core/Globals";
 import { UserFilters } from "../core/solar/SolarUtils";
 import Layer from "./Layer";
 
@@ -47,9 +48,10 @@ class Filters extends Layer {
             {
                 label: '{{value}} au',
                 onChange: (values) => {
-                    console.log('Distance slider values:', values);
+                    // console.log('Distance slider values:', values);
                     UserFilters.distanceRange.min = values[0];
                     UserFilters.distanceRange.max = values[1];
+                    GLOBALS.viewer.filtersUpdated();
                 },
                 values: [
                     UserFilters.distanceRange.min,
@@ -68,7 +70,7 @@ class Filters extends Layer {
             this.date,
             {
                 onChange: (values) => {
-                    console.log('Date slider values:', values);
+                    // console.log('Date slider values:', values);
                 },
                 values: [
                     UserFilters.dateRange.min,
