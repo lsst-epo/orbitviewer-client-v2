@@ -177,6 +177,11 @@
             .button_group {
                 display: flex;
                 gap: 8px;
+                button {
+                    &.disabled {
+                        display: none;
+                    }
+                }
             }
 
         }
