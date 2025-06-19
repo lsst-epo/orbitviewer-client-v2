@@ -1,6 +1,8 @@
 class ToggleGroup {
     inputs: any[];
+    initValue: string | null = null;
     indicator: HTMLDivElement | null;
+    resizeObserver: ResizeObserver | null = null;
     callback: ((value: string, element: HTMLElement) => void) | null;
     
     constructor(public element:HTMLElement, callback = null) {
@@ -25,30 +27,6 @@ class ToggleGroup {
         this.createIndicator();
         this.cacheInputs();
         this.bindEvents();
-        
-        // Wait until element is visible and has dimensions
-        // this.waitForVisibility();
-    }
-
-    waitForVisibility() {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting && (entry.target as HTMLElement).offsetWidth > 0) {
-                    this.updateIndicator();
-                    observer.unobserve(entry.target);
-                }
-            });
-        });
-        
-        observer.observe(this.element);
-        
-        // Fallback: also try after a longer delay
-        setTimeout(() => {
-            if (this.element.offsetWidth > 0) {
-                this.updateIndicator();
-                observer.unobserve(this.element);
-            }
-        }, 100);
     }
 
     createIndicator() {
@@ -62,9 +40,37 @@ class ToggleGroup {
 
     cacheInputs() {
         this.inputs = Array.from(this.element.querySelectorAll('input[type="radio"]'));
+        const checkedInput = this.inputs.find(input => input.checked);
+        if (checkedInput) {
+           this.initValue = checkedInput.value;
+        }
+    }
+
+    reset() {
+        if (this.initValue) {
+            const input = this.inputs.find(input => input.value === this.initValue);
+            if (input) {
+                input.checked = true;
+                this.updateIndicator();
+                if (this.callback && input.checked) {
+                    this.callback(input.value, input);
+                }
+            }
+        }
     }
 
     bindEvents() {
+        this.resizeObserver = new ResizeObserver(entries => {
+            for (let entry of entries) {
+                const { width, height } = entry.contentRect;
+                if (width > 0 && height > 0) {
+                    this.updateIndicator();
+                }
+            }
+        });
+
+        this.resizeObserver.observe(this.element);
+
         this.inputs.forEach(input => {
             input.addEventListener('change', () => {
                 this.updateIndicator();

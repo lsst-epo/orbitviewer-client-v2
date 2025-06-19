@@ -16,6 +16,7 @@ class RangeSlider {
   private labels: { min: HTMLElement; max: HTMLElement };
   
   private values: number[];
+  private initValues: number[] = [];
   private minValue: number;
   private maxValue: number;
   private label: string = '{{value}}';
@@ -35,6 +36,7 @@ class RangeSlider {
     // Extract values and minmax from DOM if not provided in options
     const extractedData = this.extractDataFromDOM();
     this.values = options.values || extractedData.values;
+    this.initValues = [...this.values]; // Store initial values for reset
     this.minValue = options.minmax?.[0] ?? extractedData.minmax[0];
     this.maxValue = options.minmax?.[1] ?? extractedData.minmax[1];
 
@@ -367,11 +369,18 @@ class RangeSlider {
     return [...this.values];
   }
 
+  public reset(): void {
+    this.values = [...this.initValues];
+    this.updateSlider();
+    this.options.onChange?.(this.values);
+  }
+
   public setValues(newValues: number[]): void {
     this.values = newValues.map(value => 
       Math.max(this.minValue, Math.min(this.maxValue, value))
     );
     this.updateSlider();
+    this.options.onChange?.(this.values);
   }
 
   public setRange(min: number, max: number): void {
