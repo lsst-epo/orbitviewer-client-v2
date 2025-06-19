@@ -216,9 +216,12 @@ export function getDistanceFromEarthNow(data:OrbitElements): number {
     return tmp2.distanceTo(tmp1) / PLANET_SCALE;
 }
 
+type Range = {min:number, max:number};
 
 export interface ObjectFilters {
     categories:Record<SolarCategory, boolean>;
+    distanceRange:Range,
+    dateRange:Range
 }
 
 export const UserFilters:ObjectFilters = {
@@ -231,5 +234,13 @@ export const UserFilters:ObjectFilters = {
         'near-earth-objects': true,
         'trans-neptunian-objects': true,
         'jupiter-trojans': true
+    },
+    distanceRange: {
+        min: -Infinity,
+        max: Infinity
+    },
+    dateRange: {
+        min: 1900,
+        max: 2100
     }
 }
