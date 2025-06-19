@@ -127,7 +127,7 @@ export class ObjectsScroller {
     if (!this.active) return; // Skip updates if not active
     this.current = this.clampCurrent(this.current)
     this.dom.style.transform = `translateX(${-this.current}px)`;
-    this.scrollPoint = this.current === 0 ? 'start' : (this.current >= this.bounding ? 'end' : 'middle');
+    this.scrollPoint = this.current < 100 ? 'start' : (this.current >= this.bounding - 100 ? 'end' : 'middle');
   }
 
   onWheel(event: WheelEvent) {
