@@ -131,6 +131,7 @@ export class ObjectsScroller {
   }
 
   onWheel(event: WheelEvent) {
+    event.preventDefault();
     const { deltaY, deltaX } = event;
     const delta = Math.abs(deltaY) > Math.abs(deltaX) ? deltaY : deltaX;
     this.target = this.clampTarget(this.target + delta);
@@ -217,7 +218,7 @@ export class ObjectsScroller {
     })
     this.nextButtons.forEach(button => button.addEventListener('click', this._next));
     this.prevButtons.forEach(button => button.addEventListener('click', this._prev));
-    this.dom.addEventListener('wheel', this._onWheel, { passive: true });
+    this.dom.addEventListener('wheel', this._onWheel, { passive: false });
     const inputs = this.dom.querySelectorAll('input');
     inputs.forEach(input=> input.addEventListener('focus', this._onFocus));
   }
