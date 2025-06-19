@@ -36,8 +36,10 @@ class Filters extends Layer {
         // Togglegroup
 		this.discoveriesToggle = new ToggleGroup(
             this.discoveries,
-            (value) => {
-                console.log('Discoveries toggle value:', value);
+            (value, index) => {
+                // console.log('Discoveries toggle value:', value, index);
+                UserFilters.discoveredBy = index;
+                GLOBALS.viewer.filtersUpdated();
             }
         );
         this.discoveriesToggle.show();

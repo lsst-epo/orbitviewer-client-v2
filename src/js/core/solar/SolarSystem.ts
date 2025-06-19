@@ -40,6 +40,7 @@ export type OrbitElements = {
     epoch:number;
     type:OrbitType;
     category:SolarCategory;
+    rubin_discovery:boolean;
 }
 
 export enum OrbitType {
@@ -67,7 +68,8 @@ export function cloneOrbitElements(src:OrbitElements):OrbitElements {
         Tp: src.Tp,
         epoch: src.epoch,
         type: src.type,
-        category: src.category
+        category: src.category,
+        rubin_discovery: src.rubin_discovery
     }
 }
 

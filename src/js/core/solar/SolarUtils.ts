@@ -62,6 +62,7 @@ export type OrbitDataElementsV2 = {
     peri_time?:number;
     argperi:number;
 	object_type: number[];
+    rubin_discovery:boolean;
 }
 
 export function getRandomElementsArray(len:number):OrbitDataElements[] {
@@ -122,7 +123,8 @@ export function mapOrbitElements(dEl:OrbitDataElements):OrbitElements {
         Tp: dEl.tperi,
         epoch: dEl.epoch != undefined ? dEl.epoch : EPOCH,
         type: getOrbitType(dEl),
-        category: getCategory(dEl) as SolarCategory
+        category: getCategory(dEl) as SolarCategory,
+        rubin_discovery: false
     }
     return el;
 }
@@ -146,7 +148,8 @@ export function mapOrbitElementsV2(dEl:OrbitDataElementsV2):OrbitElements {
         Tp: dEl.peri_time,
         epoch: dEl.epoch_mjd != undefined ? dEl.epoch_mjd : EPOCH,
         type: getOrbitType(dEl),
-        category: getCategory(dEl) as SolarCategory
+        category: getCategory(dEl) as SolarCategory,
+        rubin_discovery: dEl.rubin_discovery === true
     }
     return el;
 }
@@ -221,7 +224,8 @@ type Range = {min:number, max:number};
 export interface ObjectFilters {
     categories:Record<SolarCategory, boolean>;
     distanceRange:Range,
-    dateRange:Range
+    dateRange:Range,
+    discoveredBy:0|1|2 // all, rubin, other
 }
 
 export const UserFilters:ObjectFilters = {
@@ -242,5 +246,6 @@ export const UserFilters:ObjectFilters = {
     dateRange: {
         min: 1900,
         max: 2100
-    }
+    },
+    discoveredBy: 0
 }

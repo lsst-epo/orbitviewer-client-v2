@@ -122,10 +122,25 @@ export class SolarParticles {
             // 1. Update categopries
             this.filtered[i] = !catMap[d.category];
             if(this.filtered[i]) continue;
+            
             // 2. distance from sun
             const isIn = d.a >= dMap.min && d.a <= dMap.max;
             // console.log(isIn);
             this.filtered[i] = !isIn;
+            if(this.filtered[i]) continue;
+
+            //3. date range (coming soon)
+
+            //4. discovered by
+            const by = UserFilters.discoveredBy;
+            if(by === 0) continue;
+            if(by === 1) {
+                // rubin
+                this.filtered[i] = !d.rubin_discovery;
+            } else {
+                // non rubin
+                this.filtered[i] = d.rubin_discovery;
+            }
         }
         
         // 3. Update buffer attribute
