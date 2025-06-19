@@ -7,22 +7,20 @@
  */
 
 // import { RTUtils } from "@fils/gfx";
-import { BufferAttribute, BufferGeometry, Color, InstancedBufferAttribute, InstancedMesh, PerspectiveCamera, Points, ShaderMaterial, SphereGeometry, WebGLRenderer } from "three";
+import { Color, InstancedBufferAttribute, InstancedMesh, PerspectiveCamera, ShaderMaterial, SphereGeometry, WebGLRenderer } from "three";
 import { GLOBALS, GPU_SIM_SIZES, VISUAL_SETTINGS } from "../../core/Globals";
 import { OrbitElements } from "../../core/solar/SolarSystem";
 import { GPUSim, SimQuality } from "./GPUSim";
 
-import { Random } from "@fils/math";
 
 import { gsap } from 'gsap';
 // import { CategoryColorMap } from "../../core/data/Categories";
 
 import fragmentShader from '../../../glsl/sim/particles_instanced.frag';
 import vertexShader from '../../../glsl/sim/particles_instanced.vert';
-import { LoadManager } from "../../core/data/LoadManager";
-import { getCraftCategory } from "../../core/data/Categories";
-import { FAR, NEAR } from "../OrbitViewer";
+import { CategoryCounters, getCraftCategory } from "../../core/data/Categories";
 import { UserFilters } from "../../core/solar/SolarUtils";
+import { FAR, NEAR } from "../OrbitViewer";
 
 const MAT = new ShaderMaterial({
     vertexShader,
@@ -162,6 +160,7 @@ export class SolarParticles {
         for(let i=0; i<count; i++) {
             const el = this._data[i];
             // console.log(el.category);
+            CategoryCounters[el.category]++;
             const categoryData = getCraftCategory(el.category);
             const color:Color = categoryData.threeColor;
             this.mesh.setColorAt(i, color);

@@ -247,7 +247,7 @@ class RangeSlider {
     ));
     
     let newValue = this.minValue + (percentage * (this.maxValue - this.minValue));
-    newValue = this.roundToStep(newValue);
+    newValue = newValue;//this.roundToStep(newValue);
     
     // Constrain values to prevent thumbs from crossing
     if (this.values.length === 2) {

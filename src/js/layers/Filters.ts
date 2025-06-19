@@ -66,7 +66,7 @@ class Filters extends Layer {
 
         // this.distanceSlider.setValues([CategoryFilters.a.totals.min, CategoryFilters.a.totals.max]);
 
-		this.dateSlider = new RangeSlider(
+		/* this.dateSlider = new RangeSlider(
             this.date,
             {
                 onChange: (values) => {
@@ -81,7 +81,7 @@ class Filters extends Layer {
                     2100
                 ]
             }
-        );
+        ); */
 
 		this.closeButton.addEventListener('click', (e) => {
 			e.preventDefault();
@@ -97,7 +97,7 @@ class Filters extends Layer {
     }
 
     open(): Promise<void> {
-        // this.distanceSlider.setValues([0, 100]);
+        this.distanceSlider.setRange(CategoryFilters.a.totals.min, CategoryFilters.a.totals.max);
         return super.open();
     }
 }
