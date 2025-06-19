@@ -6,7 +6,14 @@ let _to;
 class Wizard extends Layer {
     dom: HTMLElement;
 
-    active: HTMLElement;
+    #active: HTMLElement;
+    get active() { return this.#active }
+    set active(value: HTMLElement) {
+        if (value === this.#active) return; // prevent unnecessary updates
+        this.onActiveChange(this.#active, value);
+        this.#active = value;
+    }
+    activeResizeObserver: ResizeObserver | null = null;
     
     bg: HTMLElement;
     mask: HTMLElement;
@@ -28,8 +35,6 @@ class Wizard extends Layer {
         this.#step = value;
         this.onStepChange();
     }
-
-    _onResize: (e: Event) => void = this.onResize.bind(this);
 
     constructor(dom) {
         super(dom);
@@ -60,15 +65,17 @@ class Wizard extends Layer {
     }
 
     onStepChange() {
-        gsap.to(this.bg, { opacity: 1 })
+        gsap.to(this.bg, { opacity: 1, duration: 0.3, ease: 'power1.out' })
         gsap.to([this.focus, this.tooltip], {
             opacity: 0,
+            duration: 0.3,
+            ease: 'power1.out',
             onComplete: () => {
                 this.updateDom();
                 requestAnimationFrame(() => {
                     gsap.to(this.bg, { opacity: 0 });
                     gsap.to(this.focus, { opacity: 1 });
-                    gsap.to(this.tooltip, { opacity: 1, delay: 0.2 })
+                    gsap.to(this.tooltip, { opacity: 1 })
                 });
             }
         })
@@ -79,7 +86,7 @@ class Wizard extends Layer {
         this.active = document.querySelector(
             `[data-wizard-step="${step}"]`
         );
-        this.updateCSS();
+        this.updateCSSVariables();
         this.dom.setAttribute('aria-step', step);
         this.stepIndicator.textContent = `${step}/${this.maxSteps}`;
         
@@ -90,7 +97,7 @@ class Wizard extends Layer {
         });
     }
 
-    updateCSS() {  
+    updateCSSVariables() {  
         if (this.active) {
             const { dataset } = this.active;
             const offset = dataset.wizardOffset !== undefined;
@@ -107,13 +114,14 @@ class Wizard extends Layer {
         }
     }
 
-    onResize() {
-        clearTimeout(_to);
-        _to = setTimeout(() => {
-            requestAnimationFrame(() => {
-                this.updateCSS();
-            });
-        }, 100);
+    onActiveChange(oldActive: HTMLElement, newActive: HTMLElement) {
+        if (oldActive) {
+            this.activeResizeObserver.unobserve(oldActive);
+        }
+        if (newActive) {
+            this.activeResizeObserver.observe(newActive);
+            this.updateCSSVariables();
+        }
     }
 
     addEventListeners() {
@@ -132,11 +140,25 @@ class Wizard extends Layer {
             this.skip();
         });
 
-        window.addEventListener('resize', this._onResize);
+        this.activeResizeObserver = new ResizeObserver(entries => {
+            for (let entry of entries) {
+                const { width, height } = entry.contentRect;
+                if (width > 0 && height > 0) {
+                    this.updateCSSVariables();
+                }
+            }
+        });
+
+        if (this.active) {
+            this.activeResizeObserver.observe(this.active);
+        }
     }
 
     removeEventListeners() {
-        window.removeEventListener('resize', this._onResize);
+        if (this.activeResizeObserver) {
+            if (this.active) this.activeResizeObserver.unobserve(this.active);
+            this.activeResizeObserver.disconnect();
+        }
     }
 
     skip() {

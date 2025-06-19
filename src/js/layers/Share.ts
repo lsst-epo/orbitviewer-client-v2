@@ -24,8 +24,6 @@ class Share extends Layer {
         this.ratioToggle = dom.querySelector('#toggle-ratio');
         this.copyButton = dom.querySelector('.button_copy');
 
-        console.log(this.copyButton);
-
         this.start();
     }
 
