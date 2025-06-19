@@ -28,8 +28,23 @@ class Filters extends Layer {
 
     start() {
         // Slide Range
-		this.distanceSlider = new RangeSlider(this.distance, { label: '{{value}} au' });
-		this.dateSlider = new RangeSlider(this.date);
+		this.distanceSlider = new RangeSlider(
+            this.distance,
+            {
+                label: '{{value}} au',
+                onChange: (values) => {
+                    console.log('Distance slider values:', values);
+                }
+            }
+        );
+		this.dateSlider = new RangeSlider(
+            this.date,
+            {
+                onChange: (values) => {
+                    console.log('Date slider values:', values);
+                }
+            }
+        );
 
         // Togglegroup
 		const discoveriesToggle = new ToggleGroup(this.discoveries);
