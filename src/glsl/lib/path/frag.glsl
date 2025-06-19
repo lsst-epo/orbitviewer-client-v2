@@ -12,4 +12,4 @@ oGlow = glowBlack;
 
 if(alpha < .001) discard;
 
-diffuseColor.rgb = generic_desaturate(diffuseColor.rgb, 1.0 - opacity);
+diffuseColor.rgb = generic_desaturate(diffuseColor.rgb, max(1.0 - opacity, .2));
