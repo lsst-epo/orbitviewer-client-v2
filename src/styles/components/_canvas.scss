@@ -68,12 +68,12 @@
     // opacity: max(.2, calc(1 - var(--depth)));
 
     &.planets_moons { --color: var(--color-planets);}
-    &.near_earth { --color: var(--color-near_earth);}
+    &.near_earth_objects { --color: var(--color-near_earth);}
     &.asteroids { --color: var(--color-asteroids);}
     &.comets { --color: var(--color-comets);}
     &.centaurs { --color: var(--color-centaurs);}
-    &.trans_neptunian { --color: var(--color-trans_neptunian);}
-    &.interstellar { --color: var(--color-interstellar);}
+    &.trans_neptunian_objects { --color: var(--color-trans_neptunian);}
+    &.interstellar_objects { --color: var(--color-interstellar);}
     &.trojans { --color: var(--color-trojans);}
     
     &-label {

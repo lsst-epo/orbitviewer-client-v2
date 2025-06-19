@@ -45,7 +45,7 @@ export class PathMaterial extends LineMaterial {
 
     let fs = parameters.fragmentShader;
     fs = fs.replace('#include <clipping_planes_pars_fragment>', pars_frag);
-    fs = fs.replace('#include <premultiplied_alpha_fragment>', frag);
+    fs = fs.replace('#include <color_fragment>', frag);
 
     parameters.fragmentShader = fs;
     parameters.vertexShader = vs;

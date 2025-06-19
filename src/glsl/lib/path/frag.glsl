@@ -1,6 +1,6 @@
-oGlow = glowBlack;
+#include <color_fragment>
 
-#include <premultiplied_alpha_fragment>
+oGlow = glowBlack;
 
 /* if(isPlanet) {
   float D = distance(vPosO.xyz, planetPosition);
@@ -11,3 +11,5 @@ oGlow = glowBlack;
 } */
 
 if(alpha < .001) discard;
+
+diffuseColor.rgb = generic_desaturate(diffuseColor.rgb, 1.0 - opacity);
