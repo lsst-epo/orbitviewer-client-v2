@@ -40,7 +40,7 @@ class LoadManagerClass {
             solar_items: null
         },
         hasuraData: {
-            classification_ranges: {}
+            classification_ranges: null
         }
     }
 
@@ -52,17 +52,26 @@ class LoadManagerClass {
         return this.mgr.craftData;
     }
 
+    get hasuraData() {
+        return this.mgr.hasuraData;
+    }
+
     private get coreDataAvailable() {
         return this.mgr.data.planets && this.mgr.data.dwarf_planets;
     }
 
+    private get hasuraDataAvailable() {
+        return this.mgr.hasuraData.classification_ranges;
+    }
+
     private get coreCraftDataAvailable() {
         const craft = this.mgr.craftData;
-        return craft.categories && craft.solar_items && this.mgr.craftData.solar_items;// && craft.pages.landing;
+        // return craft.categories && craft.solar_items && this.mgr.craftData.solar_items;// && craft.pages.landing;
+        return craft.solar_items && this.mgr.craftData.solar_items;// && craft.pages.landing;
     }
 
     public get coreLoaded():boolean {
-        return this.coreDataAvailable && this.coreCraftDataAvailable && this.sampleLoaded;
+        return this.coreDataAvailable && this.coreCraftDataAvailable && this.sampleLoaded && this.hasuraDataAvailable;
     }
 
     private loadData(id:string, url:string, onLoaded:Function) {
@@ -145,8 +154,9 @@ class LoadManagerClass {
         this.loadSample(VISUAL_SETTINGS.current, onL);
 
         getA().then(json => {
-            console.log('LOADED A');
-            console.log(json);
+            this.mgr.hasuraData.classification_ranges = json.classification_ranges_v2;
+            console.log(this.mgr.hasuraData.classification_ranges);
+            onL();
         });
     }
 

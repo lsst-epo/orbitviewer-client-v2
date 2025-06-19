@@ -8,7 +8,7 @@ import { PLANET_SCALE } from "../../core/solar/Planet";
 import { cloneOrbitElements, DEG_TO_RAD, KM2AU, OrbitElements } from "../../core/solar/SolarSystem";
 import { PlanetMaterial, PlanetMaterialParameters } from "../planets/PlanetMaterial";
 import { PlanetTextureMap } from "./PlanetAssets";
-import { CameraLock, SolarElement, SolarElementOptions } from "./SolarElement";
+import { SolarElement, SolarElementOptions } from "./SolarElement";
 
 export const PLANET_GEO = new SphereGeometry(1, 64, 32);
 const tLoader = new TextureLoader();

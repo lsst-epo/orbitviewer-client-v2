@@ -20,7 +20,7 @@ const DEFAULT_TARGET_ZOOM = .5;
 
 export const DEFAULT_CAM_LIMITS = {
 	minDistance: 24,
-  maxDistance: 1500000
+  maxDistance: 2000000
 }
 
 const tmp = new Vector3();
@@ -195,6 +195,12 @@ export class CameraManager {
   followTarget(target:InteractiveObject, followOrbit:boolean=false) {
     gsap.killTweensOf(this.lockedCam.position);
     gsap.killTweensOf(this.controls.target);
+
+    const t = target as SolarElement;
+    if(t.orbitPath) {
+      if(followOrbit) t.selected = true;
+      else t.blur(.003);
+    }
 
     this.controls.enableZoom = false;
 
