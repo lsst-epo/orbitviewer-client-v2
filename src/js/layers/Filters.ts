@@ -48,10 +48,12 @@ class Filters extends Layer {
                 label: '{{value}} au',
                 onChange: (values) => {
                     console.log('Distance slider values:', values);
+                    UserFilters.distanceRange.min = values[0];
+                    UserFilters.distanceRange.max = values[1];
                 },
                 values: [
-                    CategoryFilters.a.totals.min,
-                    CategoryFilters.a.totals.max
+                    UserFilters.distanceRange.min,
+                    UserFilters.distanceRange.max
                 ],
                 minmax: [
                     CategoryFilters.a.totals.min,
