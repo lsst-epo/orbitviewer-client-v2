@@ -1,6 +1,6 @@
 {% from '../partials/icons.njk' import icon %}
 
-{% macro ObjectCardGraph(title, info, currentValue, maxValue, icons=[]) %}
+{% macro ObjectCardGraph(sliderID, title, info, currentValue, maxValue, icons=[]) %}
     <div class="object_card_graph">
         <div class="object_card_graph-head">
             <h3 class="label" id="graph-{{ title | slug }}">{{ title }}</h3>
@@ -20,7 +20,7 @@
                     aria-valuemin="0" 
                     aria-valuemax="{{ maxValue }}"
                     aria-labelledby="graph-{{ title | slug }}">
-                   <div class="progress-pre" style="width: {{ (currentValue / maxValue * 100) }}%">
+                   <div id="{{sliderID}}" class="progress-pre" style="width: {{ (currentValue / maxValue * 100) }}%">
                         <div class="thumb" aria-hidden="true"></div>
                     </div>
                     <div class="progress-post" aria-hidden="true"></div>

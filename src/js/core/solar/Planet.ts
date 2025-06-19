@@ -71,14 +71,3 @@ export const PlanetRotationMap:Record<PlanetId, PlanetRotationData> = {
         meridian: 249.978
     }
 }
-
-export const PlanetDataMap:Record<PlanetId,OrbitElements> = {
-    earth: null,
-    mercury: null,
-    venus: null,
-    mars: null,
-    jupiter: null,
-    saturn: null,
-    uranus: null,
-    neptune: null
-}

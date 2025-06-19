@@ -2,12 +2,14 @@ precision highp float;
 
 uniform sampler2D computedPosition;
 attribute vec2 simUV;
+attribute float filterValue;
 
 out float alive;
 out vec3 vColor;
 out float depth;
 out vec3 vNormal;
 out vec3 vPosition;
+out float vFilter;
 
 uniform float near;
 uniform float far;
@@ -27,9 +29,8 @@ void main () {
     vec4 cP = texture(computedPosition, simUV);
     alive = cP.a;
 
-    // vColor = color;
     vColor = instanceColor;
-    // vColor = vec3(1.);
+    vFilter = filterValue;
 
     vNormal = normalize(mat3(modelMatrix) * normal);
 

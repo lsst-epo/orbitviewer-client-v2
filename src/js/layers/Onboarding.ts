@@ -47,7 +47,6 @@ class Onboarding extends Layer {
                         const data = USE_V2 ? getSimDataV2(LoadManager.data.sample) : getSimData(LoadManager.data.sample);;
                         GLOBALS.viewer.setData(data);
                         GLOBALS.loader.hide();
-                        //To-Do: close loader
                         whenReady();
                     });
                 } else {
