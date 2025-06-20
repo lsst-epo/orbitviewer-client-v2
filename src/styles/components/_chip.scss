@@ -4,30 +4,72 @@
 @use '../base/typography' as *;
 
 .chip {
-    span {
-        position: relative;
-        display: block;
-        border-radius: 26px;
-        color: var(--color-text);
-        text-transform: uppercase;
-        text-align: center;
-        @include frozen_glass;
-        @include gradient_border;
-        @include font(caption-regular-caps);
+    display: inline-flex;
+    align-items: center;
+    
+    &.default {
+        .chip-text {
+            @include frozen_glass;
+            @include gradient_border;
+            padding: 2px 8px;
+            border-radius: 26px;
+            @include font(caption-regular-caps);
+            color: var(--color-text);
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+    }
+
+    &.object_type {
+        --bg: rgba(var(--color-white-rgb), .2);
+        --color: var(--color-text);
+
         padding: 2px 8px;
+        border-radius: 26px;
+        background: var(--bg);
+        color: var(--color);
+
+        @each $type, $color in (
+            planets_moons: planets,
+            near_earth_objects: near_earth,
+            asteroids: asteroids,
+            comets: comets,
+            centaurs: centaurs,
+            trans_neptunian_objects: trans_neptunian,
+            interstellar_objects: interstellar,
+            trojans: trojans
+        ) {
+            &.#{$type} {
+            --bg: rgba(var(--color-#{$color}-rgb), .2);
+            --color: var(--color-#{$color});
+            }
+        }
+
+        .icon {
+            fill: currentColor;
+        }
+    }
+    
+    &-icon {
+        width: 24px;
+        height: 24px;
+    }
+    
+    &-text {
+        display: block;        
+        text-align: center;       
         user-select: none;
-        white-space: nowrap;
-        cursor: pointer;
+        white-space: nowrap;        
     }
 
     input[type=checkbox] {
         @include hidden;
 
-        &:focus-visible + span {
+        &:focus-visible + .chip-text {
             outline: auto;
         }
         
-        &:checked + span{
+        &:checked + .chip-text {
             background: var(--color-turquoise-800);
             backdrop-filter: initial;
             color: var(--color-turquoise-300);

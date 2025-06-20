@@ -80,6 +80,15 @@ export class SolarClock {
         return !this.paused && this.started;
     }
 
+
+    /**
+     * 
+     * @returns true if the clock is in edge, false otherwise
+     */
+    get isInEdge():boolean {
+        return this.date.getTime() >= this.edge2.getTime();
+    }
+
     /**
      * Starts internal clock
      * 

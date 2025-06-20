@@ -204,6 +204,10 @@ export default {
             "en": "Orbit viewer",
             "es": ""
         },
+        "designation": {
+            "en": "Designation",
+            "es": ""
+        },
         "hero": {
             "alt": {
                 "en": "Astronomical image of",

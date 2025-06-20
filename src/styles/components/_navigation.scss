@@ -13,15 +13,14 @@
     align-items: center;
     justify-content: center;
     padding: 5px;
-    width: 87px;
-    height: 40px;
 
     @include media(medium) {
-        padding: 12px 9px;
-    } 
+        padding: 16px 12px;
 
-    .logo {
-        width: 100%;
+        .logo {
+            width: 72px;
+            height: 44px;
+        }
     }
 }
 
