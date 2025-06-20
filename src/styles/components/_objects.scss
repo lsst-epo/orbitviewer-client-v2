@@ -76,19 +76,15 @@
             display: flex;
             gap: 12px;
             padding: 0 var(--site-margin-large);
-            will-change: transform;
-
             overflow-x: auto;
             scroll-snap-type: x mandatory;
             scroll-padding-left: var(--site-margin-large);
+            will-change: transform;
+            @include scrollbar-hidden;
 
             @include media(medium) {
                 overflow-x: visible;
             }
-
-            &::-webkit-scrollbar {
-                display: none;
-            }  
         }
 
             &-item {

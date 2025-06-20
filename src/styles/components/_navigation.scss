@@ -92,13 +92,11 @@
     &-content {
         display: flex;
         transition: height .5s ease, transform .5s ease;
+        @include scrollbar-hidden;
+        @include scrollbar-custom;
 
         &.show-level-2 {
             transform: translateX(-100%);
-        }
-
-        &::-webkit-scrollbar {
-            display: none;
         }
     }
 

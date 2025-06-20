@@ -21,6 +21,37 @@
   text-overflow: ellipsis;
 }
 
+@mixin scrollbar-hidden {
+  &::-webkit-scrollbar {
+      display: none;
+  }
+}
+
+@mixin scrollbar-custom {
+  --thumb: rgba(var(--color-white-rgb),.5);
+  --track: rgba(var(--color-black-rgb),.3);
+  
+  @supports (scrollbar-color: auto) {
+    scrollbar-color: var(--thumb) var(--track);
+  }
+  
+  &::-webkit-scrollbar {
+    max-width: 0.5rem;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--thumb);
+
+    &:hover {
+      background: rgba(var(--color-white-rgb),.5); 
+    }
+  }
+
+  &::-webkit-scrollbar-track {
+    background: var(--track);
+  }
+}
+
 @mixin hidden { 
     border: 0;
     padding: 0;
