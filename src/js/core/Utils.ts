@@ -1,3 +1,4 @@
+import { MathUtils } from "@fils/math";
 import { CLOCK_SETTINGS, GLOBALS } from "./Globals";
 import { UserFilters } from "./solar/SolarUtils";
 
@@ -103,6 +104,7 @@ export function parseURL() {
   const params = GLOBALS.urlParams();
 
   let cp = null, cq = null;
+  let clockChanged = false;
 
   for(const p of params) {
     if(p.key === 'db') {
@@ -128,11 +130,19 @@ export function parseURL() {
       const parts = p.value.split('T');
       const date = new Date(`${parts[0]}T${parts[1].replaceAll('-', ':')}`);
       GLOBALS.solarClock.setDate(date);
+      clockChanged = true;
     }
     if(p.key === 'ts') {
       const speed = parseFloat(p.value);
-      console.log(speed);
-      CLOCK_SETTINGS.speed = speed;
+      // console.log(speed);
+      setTimeout(() => {
+        CLOCK_SETTINGS.speed = speed;
+        clockChanged = true;
+        GLOBALS.solarClock.resume();
+        GLOBALS.timeCtrls.timemachineSlider.value = MathUtils.smoothstep(-CLOCK_SETTINGS.maxSpeed, CLOCK_SETTINGS.maxSpeed, speed);
+      }, 1000);
+      // GLOBALS.solarClock.hoursPerSec = speed;
+      // GLOBALS.solarClock.start();
     }
   }
 
@@ -141,8 +151,8 @@ export function parseURL() {
   GLOBALS.viewer.filtersUpdated();
 
   if(cp != null && cq != null) {
-    console.log(cp);
-    console.log(cq);
+    // console.log(cp);
+    // console.log(cq);
     GLOBALS.viewer.controls.animateCameraFromURLParams(cp, cq);
   }
 }
