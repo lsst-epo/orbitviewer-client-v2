@@ -47,6 +47,7 @@ const defaultPos = new Vector3(0, 5000, 10000);
 export class CameraManager {
   controls:OrbitControls;
   protected lockedCam:PerspectiveCamera;
+  isAnimating:boolean=false;
 
   zoom:number = 0;
 
@@ -263,58 +264,93 @@ export class CameraManager {
     target.set(screenX, screenY, isBehindCamera ? -1000 : distance);
   }
 
+  animateCameraFromURLParams(p:string, q:string) {
+    if(this.cameraTarget.target) return;
+    // console.log('HAHSDHAHDASH')
+    this.controls.enabled = false;
+    this.isAnimating = true;
+    const ease = 'expo.inOut';
+    const duration = 2;
+    const pp = p.split("_");
+    const qp = q.split("_");
+    gsap.to(this.lockedCam.position, {
+      overwrite: true,
+      x: parseFloat(pp[0]),
+      y: parseFloat(pp[1]),
+      z: parseFloat(pp[2]),
+      ease,
+      duration,
+      onComplete: () => {
+        this.controls.enabled = true;
+        this.isAnimating = false;
+      }
+    })
+    gsap.to(this.lockedCam.quaternion, {
+      overwrite: true,
+      x: parseFloat(qp[0]),
+      y: parseFloat(qp[1]),
+      z: parseFloat(qp[2]),
+      w: parseFloat(qp[3]),
+      ease,
+      duration
+    })
+  }
+
   update() {
-    // 1. remove offset
-    this.lockedCam.translateX(-offset.x);
-    this.lockedCam.translateY(-offset.y);
-    if(this.isTarget) this.lockedCam.translateZ(-offset.z);
+    if(!this.isAnimating) {
+      // 1. remove offset
+      this.lockedCam.translateX(-offset.x);
+      this.lockedCam.translateY(-offset.y);
+      if(this.isTarget) this.lockedCam.translateZ(-offset.z);
 
-    const easing = this.cameraTarget.alpha;
+      const easing = this.cameraTarget.alpha;
 
-    const t = this.cameraTarget;
+      const t = this.cameraTarget;
 
-    //2. orbit controls
-    if(this.isTarget) {
-      let minD, maxD;
-      const t2 = t.target as SolarElement;
+      //2. orbit controls
+      if(this.isTarget) {
+        let minD, maxD;
+        const t2 = t.target as SolarElement;
 
-      const dist = !t.orbit ? t2.lockedObjectDistance : t2.lockedOrbitDistance;
-      minD = dist.min;
-      maxD = dist.max;
+        const dist = !t.orbit ? t2.lockedObjectDistance : t2.lockedOrbitDistance;
+        minD = dist.min;
+        maxD = dist.max;
 
-      // const target = t.target;
-      dummy.position.copy(t.orbit ? t2.orbitPath.ellipse.position : t2.position);
-			this.controls.target.lerp(dummy.position, easing);
+        // const target = t.target;
+        dummy.position.copy(t.orbit ? t2.orbitPath.ellipse.position : t2.position);
+        this.controls.target.lerp(dummy.position, easing);
 
-      const D = MathUtils.lerp(minD, maxD, 1-t.zoomLevel);
+        const D = MathUtils.lerp(minD, maxD, 1-t.zoomLevel);
+
+        this.controls.minDistance = MathUtils.lerp(this.controls.minDistance, D, easing);
+        this.controls.maxDistance = MathUtils.lerp(this.controls.maxDistance, D, easing);
+      } else {
+        this.controls.minDistance = MathUtils.lerp(this.controls.minDistance, DEFAULT_CAM_LIMITS.minDistance, easing);
+        this.controls.maxDistance = MathUtils.lerp(this.controls.maxDistance, DEFAULT_CAM_LIMITS.maxDistance, easing);
+      }
+
+      tmp.copy(this.isTarget ? dummy.position : origin);
+      // d += tmp.distanceTo(this.controls.target)/3;
+      this.controls.enabled = tmp.distanceTo(this.controls.target) < 1 && !this.isPinching;
+
+      this.controls.update();
+
+      //zoom
+      if(Math.abs(this.zoom) > 0) {
+        this.zoomBy(this.zoom);
+      }
+
+      //3. add offset
+      let off = origin;
+      if(this.isTarget) {
+        off = t.orbit ? t.target.offsetOrbit : t.target.offsetObject;
+      }
+
+      offset.lerp(off, easing);
+      this.lockedCam.translateX(offset.x);
+      this.lockedCam.translateY(offset.y);
       
-      this.controls.minDistance = MathUtils.lerp(this.controls.minDistance, D, easing);
-      this.controls.maxDistance = MathUtils.lerp(this.controls.maxDistance, D, easing);
-    } else {
-      this.controls.minDistance = MathUtils.lerp(this.controls.minDistance, DEFAULT_CAM_LIMITS.minDistance, easing);
-      this.controls.maxDistance = MathUtils.lerp(this.controls.maxDistance, DEFAULT_CAM_LIMITS.maxDistance, easing);
     }
-
-    tmp.copy(this.isTarget ? dummy.position : origin);
-    // d += tmp.distanceTo(this.controls.target)/3;
-    this.controls.enabled = tmp.distanceTo(this.controls.target) < 1 && !this.isPinching;
-
-    this.controls.update();
-
-    //zoom
-    if(Math.abs(this.zoom) > 0) {
-      this.zoomBy(this.zoom);
-    }
-
-    //3. add offset
-    let off = origin;
-    if(this.isTarget) {
-      off = t.orbit ? t.target.offsetOrbit : t.target.offsetObject;
-    }
-
-    offset.lerp(off, easing);
-    this.lockedCam.translateX(offset.x);
-    this.lockedCam.translateY(offset.y);
 
     //4. copy transforms to camera
     this.camera.position.copy(this.lockedCam.position);

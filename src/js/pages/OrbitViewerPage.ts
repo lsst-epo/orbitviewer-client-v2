@@ -11,8 +11,9 @@ import { DefaultPage } from "./DefaultPage";
 import { LoadManager } from "../core/data/LoadManager";
 import gsap from "gsap";
 import Toast from "../layers/Toast";
+import { parseURL } from "../core/Utils";
 
-const SKIP_ONBOARDING = true;
+const SKIP_ONBOARDING = false;
 
 class OrbitViewerPage extends DefaultPage {
 	filters: Filters;
@@ -70,10 +71,12 @@ class OrbitViewerPage extends DefaultPage {
 		// console.log(GLOBALS.firstPage);
 
 		if(GLOBALS.firstPage) {
-			if(IS_DEV_MODE && SKIP_ONBOARDING) {
+			const params = GLOBALS.urlParams();
+			if((IS_DEV_MODE && SKIP_ONBOARDING) || (params.length > 0)) {
 				this.splash?.close();
 				GLOBALS.viewer.goToOrbitViewerMode(true);
 				this.showUI();
+				parseURL();
 			} else {
 				GLOBALS.viewer.goToLandingMode();
 			}

@@ -7,24 +7,23 @@ import { CLOCK_SETTINGS, GLOBALS } from "./Globals";
 import { SolarClock } from "./solar/SolarClock";
 import { getSimData, getSimDataV2 } from "./solar/SolarData";
 
-import Stats from "three/examples/jsm/libs/stats.module.js";
-import { EarthClouds } from "../gfx/planets/EarthClouds";
-import { LoadManager } from "./data/LoadManager";
-import { DefaultPage } from "../pages/DefaultPage";
 import { Nomad, NomadRoute, NomadRouteListener } from "@fils/nomad";
-import { ObjectsFiltersPage } from "../pages/ObjectsFiltersPage";
-import { ObjectPage } from "../pages/ObjectPage";
+import Stats from "three/examples/jsm/libs/stats.module.js";
+import ToggleGroup from "../components/ToggleGroup";
+import { EarthClouds } from "../gfx/planets/EarthClouds";
+import { Loader } from "../layers/Loader";
+import MapControls from "../layers/MapControls";
 import Navigation from "../layers/Navigation";
 import Share from "../layers/Share";
-import OrbitViewerPage from "../pages/OrbitViewerPage";
-import gsap from "gsap";
 import TimeMachine from "../layers/TimeMachine";
-import MapControls from "../layers/MapControls";
-import { Loader } from "../layers/Loader";
-import ToggleGroup from "../components/ToggleGroup";
-import { calculateDistanceMap, calculateEarthTodayDistanceMap, calculatePropRange, CategoryCounters, CategoryFilters } from "./data/Categories";
-import { UserFilters } from "./solar/SolarUtils";
+import { DefaultPage } from "../pages/DefaultPage";
+import { ObjectPage } from "../pages/ObjectPage";
+import { ObjectsFiltersPage } from "../pages/ObjectsFiltersPage";
+import OrbitViewerPage from "../pages/OrbitViewerPage";
 import { ScrollingPage } from "../pages/ScrollingPage";
+import { calculateDistanceMap, calculateEarthTodayDistanceMap, calculatePropRange, CategoryCounters, CategoryFilters } from "./data/Categories";
+import { LoadManager } from "./data/LoadManager";
+import { UserFilters } from "./solar/SolarUtils";
 
 export const solarClock = new SolarClock(new Clock());
 
