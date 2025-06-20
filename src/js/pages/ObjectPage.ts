@@ -8,6 +8,7 @@ import { DefaultPage } from "./DefaultPage";
 import { CategoryFilters, DistanceFromEarth } from "../core/data/Categories";
 import { MathUtils } from "@fils/math";
 import { OrbitElements, SolarCategory } from "../core/solar/SolarSystem";
+import TooltipDialog from "../components/TooltipDialog";
 
 export class ObjectPage extends DefaultPage {
     infoButtons: NodeListOf<Element>;
@@ -27,23 +28,33 @@ export class ObjectPage extends DefaultPage {
     }
 
     create() {
-        const tooltip = new Tooltip({
-            autoDismissDelay: 3000,
-            offset: 12,
-            maxWidth: 250
-        });
-
-        this.infoButtons = this.dom.querySelectorAll('.orbital_elements-data .button_icon');
+        this.infoButtons = this.dom.querySelectorAll('[data-tooltip]');
 
         this.infoButtons.forEach((el: HTMLElement) => {
+            let _to;
+            let _active = false;
             
-            el.addEventListener('mouseleave', () => {
-                tooltip.hide();
+            const tooltip = new TooltipDialog({
+                dom: el,
+                text: 'Holaaa!'
             });
 
-            el.addEventListener('mouseenter', () => {
-                tooltip.show(el, undefined, "center");
-            });
+            el.onmouseenter = el.onclick = (e: Event) => {
+                const {type} = e
+                if (!_active) tooltip.create();
+                _active = true;
+                if (type === 'click') {
+                    clearTimeout(_to);
+                    _to = setTimeout(() => {
+                        _active = false;
+                        tooltip.dispose();
+                    }, 2000);
+                }
+            } 
+            el.onmouseleave = () => {
+                _active = false;
+                tooltip.dispose();
+            }
         });
 
         GLOBALS.timeCtrls.open();

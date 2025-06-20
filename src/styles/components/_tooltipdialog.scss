@@ -1,0 +1,13 @@
+.tooltip-dialog {
+    position: absolute;
+    z-index: var(--z-tooltip-dialog);
+    border: 1px solid red;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    transform: translateY(-100%);
+    
+    &.visible {
+        opacity: 1;
+    }
+}
