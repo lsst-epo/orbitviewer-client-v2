@@ -28,29 +28,34 @@ export class ObjectPage extends DefaultPage {
     }
 
     create() {
-        this.infoButtons = this.dom.querySelectorAll('[data-tooltip]');
+        this.infoButtons = this.dom.querySelectorAll('.orbital_elements-item');
 
-        this.infoButtons.forEach((el: HTMLElement) => {
+        this.infoButtons.forEach((dom: HTMLElement, index: number) => {
             let _to;
             let _active = false;
-            
-            const tooltip = new TooltipDialog({
-                dom: el,
-                text: 'Holaaa!'
-            });
+            let alignment : 'left' | 'center' | 'right' = 'left';
+            const { isMobile } = GLOBALS;
+            if (index === 1) alignment = isMobile() ? 'right' : 'center';
+            else if (index === 2) alignment = 'right';
+            const el = dom.querySelector('[data-tooltip]') as HTMLElement;
+            const text = el.getAttribute('data-tooltip');
+            const tooltip = new TooltipDialog({ dom, text, alignment });
 
             el.onmouseenter = el.onclick = (e: Event) => {
                 const {type} = e
-                if (!_active) tooltip.create();
-                _active = true;
-                if (type === 'click') {
-                    clearTimeout(_to);
-                    _to = setTimeout(() => {
-                        _active = false;
-                        tooltip.dispose();
-                    }, 2000);
+                if (!_active) {
+                    _active = true;
+                    tooltip.create();
+                    if (type === 'click') {
+                        clearTimeout(_to);
+                        _to = setTimeout(() => {
+                            _active = false;
+                            tooltip.dispose();
+                        }, 2000);
+                    }
                 }
-            } 
+            }
+
             el.onmouseleave = () => {
                 _active = false;
                 tooltip.dispose();

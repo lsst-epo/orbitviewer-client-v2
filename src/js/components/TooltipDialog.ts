@@ -5,6 +5,8 @@ interface TooltipDialogOptions {
     auto?: boolean
 }
 
+let _to;
+
 class TooltipDialog {
     private id: string;
     dom: HTMLElement;
@@ -21,14 +23,17 @@ class TooltipDialog {
     }
 
     create() {
+        clearTimeout(_to);
         this.dialog = document.createElement('div');
         this.dialog.id = `tooltip-dialog-${this.id}`;
         this.dialog.classList.add('tooltip-dialog');
         this.dialog.classList.add(`tooltip-dialog-${this.alignment}`);
-        const { top, left } = this.dom.getBoundingClientRect();
+        const { top, left, width } = this.dom.getBoundingClientRect();
         const { scrollTop, scrollLeft } = document.documentElement;
-        this.dialog.style.top = `${top + scrollTop}px`;
-        this.dialog.style.left = `${left + scrollLeft}px`;
+        const offsetY = 16;
+        const offsetX = this.alignment === 'center' ? width / 2 : this.alignment === 'right' ? width : 0;
+        this.dialog.style.top = `${top - offsetY + scrollTop}px`;
+        this.dialog.style.left = `${left + offsetX + scrollLeft}px`;
         this.dialog.innerHTML = `<div class="tooltip-dialog-content">${this.text}</div>`;
         document.body.appendChild(this.dialog);
         requestAnimationFrame(() => {
@@ -39,7 +44,7 @@ class TooltipDialog {
     dispose() {
         this.dialog.classList.remove('visible');
         const animationDuration = parseFloat(getComputedStyle(this.dialog).transitionDuration || '0') * 1000; // Convert to milliseconds
-        setTimeout(() => {
+        _to = setTimeout(() => {
             this.dialog.remove();
         }, animationDuration);
     }

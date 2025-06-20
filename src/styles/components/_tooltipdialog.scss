@@ -1,13 +1,58 @@
 .tooltip-dialog {
     position: absolute;
     z-index: var(--z-tooltip-dialog);
-    border: 1px solid red;
+    border: 1px solid var(--color-turquoise-500);
+    background-color: var(--color-turquoise-800);
     pointer-events: none;
     opacity: 0;
     transition: opacity 0.3s ease-in-out;
     transform: translateY(-100%);
-    
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 12px;
+    min-width: 150px;
+    border-radius: var(--corner-medium);
+
     &.visible {
         opacity: 1;
+    }
+
+    &-left {
+        &::after {
+            left: 40PX;
+        }
+    }
+
+    &-center {
+        transform: translate(-50%, -100%);
+        &::after {
+            left: 50%;
+        }
+    }
+
+    &-right {
+        transform: translate(-100%, -100%);
+        &::after {
+            right: 4PX;
+        }
+    }
+
+    &-content {
+        color: var(--color-turquoise-200);
+    }
+    
+    &::after {
+        content: '';
+        position: absolute;
+        top: 100%;
+        width: 12px;
+        height: 12px;
+        border-left: 1px solid var(--color-turquoise-500);
+        border-bottom: 1px solid var(--color-turquoise-500);
+        background-color: var(--color-turquoise-800);
+        transform-origin: center;
+        transform: rotate(-45deg) translate(-50%, calc(-100% - 1px));
+        border-bottom-left-radius: 4px;
     }
 }
