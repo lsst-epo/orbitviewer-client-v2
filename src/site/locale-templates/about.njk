@@ -39,7 +39,7 @@ eleventyComputed:
 <section class="about-section about_device">
   <div class="about_device-hero">
     <div class="device">
-      <p class="count">500,000 objects</p>
+      <p class="count" data-label="{value} objects">50,000 objects</p>
       <div class="mask ratio-21-9">
         <div class="img_wrap">
           <img src="/assets/images/about/about-viewer-large.png" class="img-ratio-21-9" alt="">
@@ -50,10 +50,10 @@ eleventyComputed:
       </div>
     </div>
     <nav class="tab_list">
-      <a href="" role="tab" aria-selected="true">Gaming Pcs</a>
-      <a href="" role="tab">High-end laptops</a>
-      <a href="" role="tab">High-end mobiles</a>
-      <a href="" role="tab">Mobiles</a>
+      <button role="tab" data-ratio="21-9" data-objects="50000" aria-selected="true">Gaming Pcs</button>
+      <button role="tab" data-ratio="16-9" data-objects="20000">High-end laptops</button>
+      <button role="tab" data-ratio="9-16" data-objects="2000">High-end mobiles</button>
+      <button role="tab" data-ratio="2-3" data-objects="1">Mobiles</button>
     </nav>
   </div>
   <div class="about_device-text">
