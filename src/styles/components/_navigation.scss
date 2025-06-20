@@ -35,8 +35,9 @@
     justify-content: flex-end;
     pointer-events: none;
 
-    &.has-gradient {
-        background: linear-gradient(180deg, rgba(var(--color-black-rgb), 1) 33%, rgba(var(--color-black-rgb), 0) 100%);
+    &.sticky {
+        backdrop-filter: blur(12px);
+        border-bottom: solid 1px var(--color-border);
     }
 
     &-buttons {
