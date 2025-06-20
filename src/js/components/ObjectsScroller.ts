@@ -3,7 +3,7 @@ import { GLOBALS } from "../core/Globals";
 import { Toucher, type PanParams } from "../core/Toucher";
 
 let _to;
-type ScrollPoint = 'start' | 'middle' | 'end';
+type ScrollPoint = 'start' | 'middle' | 'end' | 'none';
 
 export class ObjectsScroller {
   dom: HTMLElement;
@@ -62,14 +62,12 @@ export class ObjectsScroller {
     }
 
     this.dom = dom;
-    this.children = this.dom.querySelectorAll('.objects-item');
     this.nextButtons = nextButtons || [];
     this.prevButtons = prevButtons || [];
-
-
   }
 
   init() {
+    this.children = this.dom.querySelectorAll('.objects-item');
     this.domResizeObserver = new ResizeObserver(entries => {
       for (let entry of entries) {
         const { width, height } = entry.contentRect;
@@ -117,9 +115,9 @@ export class ObjectsScroller {
     this.updateSnaps();
     const lastSnap = this.snaps[this.snaps.length - 1];
     const lastChild = this.children[this.children.length - 1];
-    this.bounding = lastSnap + lastChild.offsetWidth + this.offset * 2 - window.innerWidth;
+    this.bounding = Math.max(0, lastSnap + lastChild.offsetWidth + this.offset * 2 - window.innerWidth);
     this.target = this.current = this.clampTarget(this.current);
-    this.active = !GLOBALS.isMobile(); // Disable on mobile by default
+    this.active = !GLOBALS.isMobile() && this.bounding > 0; // Disable on mobile by default
   }
 
   update() {
@@ -129,7 +127,10 @@ export class ObjectsScroller {
       this.current = this.target; // Snap to target if close enough
     }
     this.dom.style.transform = `translateX(${-this.current}px)`;
-    this.scrollPoint = this.current < 100 ? 'start' : (this.current >= this.bounding - 100 ? 'end' : 'middle');
+    if (this.bounding === 0) this.scrollPoint = 'none';
+    else if (this.current < 100) this.scrollPoint = 'start';
+    else if (this.current > this.bounding - 100) this.scrollPoint = 'end';
+    else this.scrollPoint = 'middle';
   }
 
   onWheel(e: WheelEvent) {
@@ -146,19 +147,21 @@ export class ObjectsScroller {
   }
 
   onScrollPointChange(value: ScrollPoint) {
-    if (value === 'start') {
+    if (value === 'start' || value === 'none') {
       this.prevButtons.forEach(button => {
         button.ariaDisabled = 'true';
         button.tabIndex = -1;
         button.classList.add('disabled')
       });
-    } else if (value === 'end') {
+    } 
+    if (value === 'end' || value === 'none') {
       this.nextButtons.forEach(button => {
         button.ariaDisabled = 'true';
         button.tabIndex = -1;
         button.classList.add('disabled')
       });
-    } else if (value === 'middle') {
+    } 
+    if (value === 'middle') {
       [
         ...this.prevButtons,
         ...this.nextButtons
