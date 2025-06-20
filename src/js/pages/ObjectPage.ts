@@ -146,6 +146,9 @@ export class ObjectPage extends DefaultPage {
         const h1 = this.dom.querySelector('h1#object-name');
         h1.textContent = cnt.title;
 
+        // full designation
+        this.dom.querySelector('.object_card-designation').querySelector('.value').textContent = data.fulldesignation;
+
         const ranges = CategoryFilters;
         const catID = data.category;
         // console.log(catID);
@@ -217,6 +220,9 @@ export class ObjectPage extends DefaultPage {
         const h1 = this.dom.querySelector('h1#object-name');
         h1.textContent = data.fulldesignation;
 
+        // full designation
+        this.dom.querySelector('.object_card-designation').remove();
+
         const ranges = CategoryFilters;
         const catID = data.category;
         // console.log(catID);
@@ -243,6 +249,12 @@ export class ObjectPage extends DefaultPage {
         dt.querySelector('span.secondary').textContent = `${dm.toFixed(2)}mi`
 
         // console.log(data);
+        if(data.a === null || data.N === null || data.M === null) {
+            console.warn('Data corrupt. Redirecting back home...');
+            return setTimeout(()=>{
+                GLOBALS.nomad.goToPath(`/${GLOBALS.lang}/`);
+            }, 200);
+        }
 
         const els = this.dom.querySelectorAll('li.orbital_elements-item');
         els[0].querySelector('.orbital_elements-value').textContent = `${data.w.toFixed(2)}`;
