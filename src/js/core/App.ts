@@ -143,7 +143,7 @@ export class App implements NomadRouteListener {
 
 		this.viewer.createSolarItems();
 		
-		calculateDistanceMap();
+		calculatePropRange('a');
 		calculatePropRange('e');
 		calculatePropRange('i');
 		calculateEarthTodayDistanceMap();

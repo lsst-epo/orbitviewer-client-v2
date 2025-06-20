@@ -80,3 +80,17 @@ export async function getA() {
 	})
 	return await response.json();
 }
+
+export async function getClassificationRanges() {
+
+	const url = `${HASURA_URL}/classification_ranges_v2`;	
+
+	console.log('Loading Classification Ranges...');
+
+	const response = await fetch(url, {
+		headers: {
+			'X-Hasura-Admin-Secret': SECRET_KEY
+		}
+	})
+	return await response.json();
+}

@@ -205,7 +205,7 @@ export function calculateDistanceMap() {
 	const map = CategoryFilters.a;
 	const data = LoadManager.hasuraData.classification_ranges;
 	for(const d of data) {
-		const type = d.object_type[0] === 7 ? 5 : d.object_type[0];
+		const type = d.object_type[0];
 		const cat = TypeCategoryMap[type];
 		const range = d.observed_range_type;
 		map[cat][range] = d.observed_value;
@@ -239,14 +239,25 @@ export function calculateDistanceMap() {
 
 export function calculatePropRange(prop:string) {
 	const map = CategoryFilters[prop];
-	const data = LoadManager.data.sample;
+	if(LoadManager.hasuraData.classification_ranges) {
+		const data = LoadManager.hasuraData.classification_ranges;
+		for(const d of data) {
+			if(d.observed_property !== prop) continue;
+			const type = d.object_type[0];
+			const cat = TypeCategoryMap[type];
+			const range = d.observed_range_type;
+			map[cat][range] = d.observed_value;
+		}
+	} else {
+		const data = LoadManager.data.sample;
 
-	// Compute Solar Categories first
-	for(const d of data) {
-		const mel = mapOrbitElementsV2(d);
-		const cid = mel.category;
-		map[cid].min = Math.min(map[cid].min, mel[prop]);
-		map[cid].max = Math.max(map[cid].max, mel[prop]);
+		// Compute Solar Categories first
+		for(const d of data) {
+			const mel = mapOrbitElementsV2(d);
+			const cid = mel.category;
+			map[cid].min = Math.min(map[cid].min, mel[prop]);
+			map[cid].max = Math.max(map[cid].max, mel[prop]);
+		}
 	}
 
 	// Compute planets

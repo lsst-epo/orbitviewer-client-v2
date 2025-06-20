@@ -1,4 +1,4 @@
-import { GLOBALS } from "./Globals";
+import { CLOCK_SETTINGS, GLOBALS } from "./Globals";
 import { UserFilters } from "./solar/SolarUtils";
 
 export function downloadJSON(data, filename, minify = false) {
@@ -120,6 +120,19 @@ export function parseURL() {
     }
     if(p.key === 'cq') {
       cq = p.value;
+    }
+
+    if(p.key == 'd') {
+      // date
+      console.log(p.value);
+      const parts = p.value.split('T');
+      const date = new Date(`${parts[0]}T${parts[1].replaceAll('-', ':')}`);
+      GLOBALS.solarClock.setDate(date);
+    }
+    if(p.key === 'ts') {
+      const speed = parseFloat(p.value);
+      console.log(speed);
+      CLOCK_SETTINGS.speed = speed;
     }
   }
 
