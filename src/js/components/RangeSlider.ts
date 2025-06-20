@@ -404,7 +404,12 @@ class RangeSlider {
     });
     
     // Constrain current values to new range
-    this.initValues = this.values = [this.minValue, this.maxValue]
+    this.values = this.values.map(value => 
+      Math.max(min, Math.min(max, value))
+    );
+
+    // Reset initial values
+    this.initValues = [this.minValue, this.maxValue]
 
     this.updateSlider();
     this.options.onChange?.(this.values);
