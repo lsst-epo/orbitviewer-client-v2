@@ -8,6 +8,7 @@ class Search extends Layer {
         super(dom, {
             openClass: 'search--open',
             closeClass: 'search--close',
+            closingClasses: ['out'],
             animationDuration: 500
         });
         

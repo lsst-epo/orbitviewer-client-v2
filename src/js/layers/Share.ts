@@ -22,6 +22,7 @@ class Share extends Layer {
         super(dom, {
             openClass: 'share--open',
             closeClass: 'share--close',
+            closingClasses: ['out'],
             animationDuration: 500
         });
         

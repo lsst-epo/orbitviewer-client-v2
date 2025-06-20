@@ -3,12 +3,14 @@ class Layer {
     private element: HTMLElement;
     private openClass?: string;
     private closeClass?: string;
+    private closingClasses: string[];
     private animationDuration: number;
     protected onStateChange?: (isVisible: boolean) => void;
 
     constructor(element: HTMLElement, options?: {
         openClass?: string;
         closeClass?: string;
+        closingClasses?: string[];
         animationDuration?: number;
         onStateChange?: (isVisible: boolean) => void;
     }) {
@@ -16,6 +18,7 @@ class Layer {
         this.visible = this.element.getAttribute('aria-hidden') !== 'true';
         this.openClass = options?.openClass;
         this.closeClass = options?.closeClass;
+        this.closingClasses = options?.closingClasses || [];
         this.animationDuration = options?.animationDuration || 300;
         this.onStateChange = options?.onStateChange;
     }
@@ -23,7 +26,20 @@ class Layer {
     async open(): Promise<void> {
         this.visible = true;
         this.element.setAttribute('aria-hidden', 'false');
-        
+
+        if (this.closingClasses.length > 0) {
+            requestAnimationFrame(()=>{
+                document.onclick = (e: MouseEvent) => {
+                    if (!this.visible) return;
+                    const target = e.target as HTMLElement;
+                    if (
+                        !this.element.contains(target) ||
+                        this.closingClasses.some(cls => target.classList.contains(cls))
+                    ) this.close();
+                }
+            })
+        }
+
         if (this.openClass) {
             if (this.closeClass) {
                 this.element.classList.remove(this.closeClass);
@@ -39,6 +55,8 @@ class Layer {
     }
 
     async close(): Promise<void> {
+        document.onclick = null;
+
         if (this.closeClass) {
             if (this.openClass) {
                 this.element.classList.remove(this.openClass);
