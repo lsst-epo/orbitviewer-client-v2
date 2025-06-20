@@ -1,7 +1,7 @@
 {% from "../partials/icons.njk" import icon %}
 
 {% macro Banner(text = 'Text', classes = '', uniqueIcon = '') %}
-<div class="banner {% if classes %} {{ classes }}{% endif %}">
+<div class="banner {% if classes %} {{ classes }}{% endif %}" aria-hidden="true">
     {% if uniqueIcon %}
         <div class="icon_wrap">
             {{ icon(uniqueIcon) }}

@@ -96,6 +96,7 @@ export interface Globals {
 	firstPage:boolean;
 	loader:Loader;
 	getViewport:Function;
+	isMobile:Function;
 	navigation:Navigation;
 }
 
@@ -116,5 +117,8 @@ export const GLOBALS:Globals = {
 	navigation: null,
 	getViewport: () => {
 		return getComputedStyle(document.documentElement).getPropertyValue('--viewport');
+	},
+	isMobile: () => {
+		return GLOBALS.getViewport().includes('small');
 	}
 }

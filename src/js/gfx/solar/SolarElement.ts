@@ -161,15 +161,15 @@ export class SolarElement extends Object3D implements InteractiveObject {
     }
 
     updateCameraView() {
-        const viewport = GLOBALS.getViewport();
+        // const viewport = GLOBALS.getViewport();
         const scl = this.scale.x;
-        // console.log(viewport);
+        // console.log(viewport, GLOBALS.isMobile());
 
         const box = this.orbitPath.boundingBox;
         tmp.copy(box.max).sub(box.min);
         const R = tmp.length()/2;
 
-        if(viewport === 'small') {
+        if(GLOBALS.isMobile()) {
             this.offsetObject.set(0, -scl*1.5, 0);
             this.lockedObjectDistance = {
                 min: scl * 5,
