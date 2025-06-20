@@ -4,7 +4,7 @@ import { VISUAL_SETTINGS } from "../Globals";
 import { getSolarStaticData } from "../Utils";
 import { CSSCategoryMap } from "./Categories";
 import { getCategories, getSolarItemsInfo } from "./CraftManager";
-import { getA } from "./QueryManager";
+import { getA, getClassificationRanges } from "./QueryManager";
 
 const staticURL = "/assets/data/";
 const baseURL = "/assets/data/";
@@ -61,7 +61,7 @@ class LoadManagerClass {
     }
 
     private get hasuraDataAvailable() {
-        return this.mgr.hasuraData.classification_ranges;
+        return true;//this.mgr.hasuraData.classification_ranges;
     }
 
     private get coreCraftDataAvailable() {
@@ -79,6 +79,7 @@ class LoadManagerClass {
         fetch(url).then(result => {
             result.json().then(json => {
                 this.mgr.data[id] = json;
+                // console.log(json);
                 onLoaded();
             })
         });
@@ -113,6 +114,8 @@ class LoadManagerClass {
             }
             //@ts-ignore
             // this.mgr.craftData[id] = cnt.data;
+
+            console.log(cnt);
             
             onLoaded();
         }
@@ -153,7 +156,7 @@ class LoadManagerClass {
 
         this.loadSample(VISUAL_SETTINGS.current, onL);
 
-        getA().then(json => {
+        getClassificationRanges().then(json => {
             this.mgr.hasuraData.classification_ranges = json.classification_ranges_v2;
             console.log(this.mgr.hasuraData.classification_ranges);
             onL();
@@ -173,6 +176,7 @@ class LoadManagerClass {
             this.mgr.data.rubinCount = json.rubin_discoveries_count;
             this.mgr.data.sample = json.mpc_orbits;
             onLoaded(json.mpc_orbits);
+            // console.log(json);
 			// downloadJSON(json, `data-${VISUAL_SETTINGS.current}.json`, true);
 		});
     }
