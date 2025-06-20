@@ -29,10 +29,51 @@ eleventyComputed:
                         <img src="" alt="{{ copy.object.hero.alt[lang] }} 2014 UZ224">
                     </div>
                     <div class="object_card-category">
-                        <span class="chip object_type planets_moons">
+                        <span class="chip object_type planets_moons" aria-hidden="false">
                             {{ icon('planets_moons', 'chip-icon') }}
-                            <span class="chip-text">Planet</span>
+                            <span class="chip-text">{{ copy.objects.types.planets_moons.name[lang] }}</span>
                         </span>
+
+                        <span class="chip object_type asteroids" aria-hidden="true">
+                            {{ icon('asteroids', 'chip-icon') }}
+                            <span class="chip-text">{{ copy.objects.types.asteroids.name[lang] }}</span>
+                        </span>
+
+                        <span class="chip object_type near_earth_objects" aria-hidden="true">
+                            {{ icon('near_earth_objects', 'chip-icon') }}
+                            <span class="chip-text">{{ copy.objects.types.near_earth_objects.name[lang] }}</span>
+                        </span>
+
+                        <span class="chip object_type comets" aria-hidden="true">
+                            {{ icon('comets', 'chip-icon') }}
+                            <span class="chip-text">{{ copy.objects.types.comets.name[lang] }}</span>
+                        </span>
+
+                        <span class="chip object_type centaurs" aria-hidden="true">
+                            {{ icon('centaurs', 'chip-icon') }}
+                            <span class="chip-text">{{ copy.objects.types.centaurs.name[lang] }}</span>
+                        </span>
+
+                        <span class="chip object_type trans_neptunian_objects" aria-hidden="true">
+                            {{ icon('trans_neptunian_objects', 'chip-icon') }}
+                            <span class="chip-text">{{ copy.objects.types.trans_neptunian_objects.name[lang] }}</span>
+                        </span>
+
+                        <span class="chip object_type interstellar_objects" aria-hidden="true">
+                            {{ icon('interstellar_objects', 'chip-icon') }}
+                            <span class="chip-text">{{ copy.objects.types.interstellar_objects.name[lang] }}</span>
+                        </span>
+
+                        <span class="chip object_type trojans" aria-hidden="true">
+                            {{ icon('trojans', 'chip-icon') }}
+                            <span class="chip-text">{{ copy.objects.types.trojans.name[lang] }}</span>
+                        </span>
+
+                        <span class="chip object_type sun_star" aria-hidden="true">
+                            {{ icon('sun_star', 'chip-icon') }}
+                            <span class="chip-text">{{ copy.objects.types.sun_star.name[lang] }}</span>
+                        </span>
+                        
                     </div>
 
                     <div class="object_card-description">
