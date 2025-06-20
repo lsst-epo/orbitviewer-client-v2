@@ -21,7 +21,7 @@ import { ObjectPage } from "../pages/ObjectPage";
 import { ObjectsFiltersPage } from "../pages/ObjectsFiltersPage";
 import OrbitViewerPage from "../pages/OrbitViewerPage";
 import { ScrollingPage } from "../pages/ScrollingPage";
-import { calculateDistanceMap, calculateEarthTodayDistanceMap, calculatePropRange, CategoryCounters, CategoryFilters } from "./data/Categories";
+import { calculateDistanceMap, calculateEarthTodayDistanceMap, calculatePropRange, CategoryCounters, CategoryFilters, updateTotals } from "./data/Categories";
 import { LoadManager } from "./data/LoadManager";
 import { UserFilters } from "./solar/SolarUtils";
 
@@ -147,6 +147,7 @@ export class App implements NomadRouteListener {
 		calculatePropRange('e');
 		calculatePropRange('i');
 		calculateEarthTodayDistanceMap();
+		updateTotals();
 		// this.viewer.hidePaths();
 		// this.addGUI();
 		console.log(LoadManager.data);
