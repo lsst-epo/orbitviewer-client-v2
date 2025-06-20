@@ -10,6 +10,10 @@
     background: var(--background);
     color: var(--color);
 
+    &[aria-hidden=true] {
+        display: none;
+    }
+
     .icon_wrap {
         flex: 0 0 auto;
     }
