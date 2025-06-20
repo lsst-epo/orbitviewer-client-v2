@@ -33,8 +33,7 @@
 
         @include media(medium) {
             display: block;
-            width: 102px;
-            height: 60px;
+            height: 76px;
             border-bottom: solid 1px var(--color-border);
         }
     }
