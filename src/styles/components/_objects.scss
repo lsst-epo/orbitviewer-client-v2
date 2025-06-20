@@ -35,30 +35,63 @@
 
     &-body {
         flex: auto;
-        display: flex;
-        flex-direction: column;
+        display: grid;
+        grid-auto-flow: row;
+        grid-template-rows: auto 1fr;
         gap: 24px;
 
         @include media(medium) {
+            grid-template-rows: auto auto;
             gap: 48px;
-            align-items: center;
-            justify-content: center;
         }
     }
 
     &-heading {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-        color: var(--color-text);
-        padding: 0 var(--site-margin-large);
+        display: grid;
+        grid-template-rows: auto auto; 
+        grid-template-columns: calc(var(--toolbar-width) + var(--site-margin-small)) 1fr;
+        gap: 24px 0;
 
         @include media(medium) {
-            gap: 16px;
+            grid-template-rows: auto 1fr;
+            gap: 48px 0;
         }
-        
-        .title {
-            @include font(subtitle-large-regular);
+
+        .actions {
+            display: flex;
+            height: var(--header-height);
+            padding-left: var(--site-margin-large);
+            grid-row: 1/2;
+            grid-column: 1/-1;
+
+            @include media(medium) {
+                grid-row: 1/2;
+                grid-column: 2/-1;
+                padding: var(--site-margin-small) var(--site-margin-small) 8px 0;
+            }
+        }
+
+        .heading {
+            grid-row: 2/-1;
+            grid-column: 1/-1;
+
+            align-self: flex-end;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            color: var(--color-text);
+            padding: 0 var(--site-margin-large);
+
+            @include media(medium) {
+                padding: initial;
+                grid-row: 2/-1;
+                grid-column: 2/-1;
+                gap: 16px;
+            }
+            
+            .title {
+                @include font(subtitle-large-regular);
+            }
         }
     }
 
@@ -76,24 +109,22 @@
             display: flex;
             gap: 12px;
             padding: 0 var(--site-margin-large);
-            will-change: transform;
-
             overflow-x: auto;
             scroll-snap-type: x mandatory;
             scroll-padding-left: var(--site-margin-large);
+            will-change: transform;
+            @include scrollbar-hidden;
 
             @include media(medium) {
                 overflow-x: visible;
+                padding: 0 calc(var(--toolbar-width) + var(--site-margin-small));
+                scroll-padding-left: calc(var(--toolbar-width) + var(--site-margin-small));
             }
-
-            &::-webkit-scrollbar {
-                display: none;
-            }  
         }
 
             &-item {
                 width: 80vw;
-                min-width: 320px;
+                max-width: 320px;
                 flex-shrink: 0;
 
                 scroll-snap-align: start;
@@ -105,6 +136,8 @@
                 
                 @include media(medium) {
                     width: 36vw; // width: 20vw;
+                    min-width: 320px;
+                    max-width: initial;
                 }
 
                 @include media(large) {

@@ -13,6 +13,7 @@
     align-items: center;
     justify-content: center;
     padding: 5px;
+    pointer-events: initial;
 
     @include media(medium) {
         padding: 16px 12px;
@@ -32,6 +33,7 @@
     z-index: var(--z-menu);
     display: flex;
     justify-content: flex-end;
+    pointer-events: none;
 
     &.has-gradient {
         background: linear-gradient(180deg, rgba(var(--color-black-rgb), 1) 33%, rgba(var(--color-black-rgb), 0) 100%);
@@ -40,6 +42,7 @@
     &-buttons {
         display: flex;
         gap: 8px;
+        pointer-events: initial;
     }
 
     &--open {
@@ -83,7 +86,7 @@
     @include frozen_glass;
     @include gradient_border;
     border-radius: var(--corner-large);
-    overflow: auto;
+    overflow: hidden;
 
     &[aria-hidden=true] {
         display: none;
@@ -92,23 +95,18 @@
     &-content {
         display: flex;
         transition: height .5s ease, transform .5s ease;
+        @include scrollbar-hidden;
+        @include scrollbar-custom;
 
         &.show-level-2 {
             transform: translateX(-100%);
-        }
-
-        &::-webkit-scrollbar {
-            display: none;
         }
     }
 
         &_level {
             flex: 0 0 100%;
             min-width: 100%;
-
-            & +  & {
-                border-left: solid 1px var(--color-border-strong);
-            }
+            border: solid 1px transparent;
 
             &-group {
                 &[aria-hidden=true] {
