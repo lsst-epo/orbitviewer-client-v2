@@ -80,7 +80,6 @@ export class ObjectPage extends DefaultPage {
         gsap.set(this.dom, {
             autoAlpha: 1
         });
-        document.body.style.overflow = 'hidden';
         return new Promise<void>(gsapResolve => {
             // console.log('gsap', this.section);
             gsapResolve();
@@ -89,14 +88,13 @@ export class ObjectPage extends DefaultPage {
                 duration: 2,
                 ease: 'expo.inOut',
                 onComplete: () => {
-                    document.body.style.overflow = 'auto';
+                    
                 }
             })
         }).then(resolve);
     }
 
     transitionOut(resolve: any): Promise<void> {
-        document.body.style.overflow = 'hidden';
         return new Promise<void>(gsapResolve => {
             gsapResolve();
             gsap.to(this.section, {

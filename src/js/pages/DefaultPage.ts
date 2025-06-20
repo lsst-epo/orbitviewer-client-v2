@@ -15,7 +15,6 @@ export class DefaultPage extends Page {
         // GLOBALS.firstPage = false;
         return new Promise<void>((res) => {
             res();
-            document.body.style.overflow = 'auto';
         }).then(resolve);
     }
 

@@ -1,11 +1,13 @@
 import { GLOBALS } from "../core/Globals";
 import { DefaultPage } from "./DefaultPage";
 
-export class AboutPage extends DefaultPage {
+export class ScrollingPage extends DefaultPage {
     dom: HTMLElement;
     
     constructor(id: string, template: string, dom: HTMLElement) {
         super(id, template, dom);
+
+        document.body.classList.add('scrollable');
 
         this.dom = dom;
     }
@@ -15,12 +17,13 @@ export class AboutPage extends DefaultPage {
     }
 
     transitionIn(resolve: any): Promise<void> {
-        // document.body.style.overflow = 'auto';
+        document.body.style.overflow = 'auto';
         GLOBALS.viewer.paused = true;
         return super.transitionIn(resolve);
     }
 
     transitionOut(resolve: any): Promise<void> {
+        document.body.style.overflow = 'auto';
         GLOBALS.viewer.paused = false;
         return super.transitionOut(resolve);
     }
