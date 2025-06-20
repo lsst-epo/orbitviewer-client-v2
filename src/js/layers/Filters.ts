@@ -48,7 +48,7 @@ class Filters extends Layer {
 		this.distanceSlider = new RangeSlider(
             this.distance,
             {
-                label: '{{value}} au',
+                label: '{{value}}',
                 onChange: (values) => {
                     // console.log('Distance slider values:', values);
                     UserFilters.distanceRange.min = values[0];
@@ -93,7 +93,7 @@ class Filters extends Layer {
         this.resetButton.addEventListener('click', (e) => {
             e.preventDefault();
             this.distanceSlider.reset();
-            this.dateSlider.reset();
+            // this.dateSlider.reset();
             this.discoveriesToggle.reset();
         })
     }
