@@ -114,6 +114,7 @@ class OrbitViewerPage extends DefaultPage {
 		GLOBALS.mapCtrls.open();
 		GLOBALS.timeCtrls.open();
 		this.toolbar.open();
+		this.wizard.check();
 	}
 
 	trackLayerOpen(layerName: string) {

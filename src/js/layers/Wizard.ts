@@ -57,7 +57,9 @@ class Wizard extends Layer {
         this.skipButton = dom.querySelector('.button-skip');
         this.finishButton = dom.querySelector('.button-finish');
         this.disableButton(this.finishButton);
+    }
 
+    check() {
         const skipped = window.localStorage.getItem('wizardSkipped');
         !skipped && this.start();
     }
@@ -67,7 +69,7 @@ class Wizard extends Layer {
         setTimeout(() => {
             this.updateDom();
             this.open();
-        }, 800); // Delay to allow DOM animations to complete
+        }, 1200); // Delay to allow DOM animations to complete
     }
 
     
