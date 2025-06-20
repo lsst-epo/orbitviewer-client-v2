@@ -11,7 +11,7 @@ import { DefaultPage } from "./DefaultPage";
 import { LoadManager } from "../core/data/LoadManager";
 import gsap from "gsap";
 
-const SKIP_ONBOARDING = false;
+const SKIP_ONBOARDING = true;
 
 class OrbitViewerPage extends DefaultPage {
 	filters: Filters;

@@ -152,9 +152,9 @@ export class ObjectsFiltersPage extends DefaultPage {
                     duration: 1.5,
                     delay: i * .1,
                     onComplete: () => {
-                        if(i===this.cards.length-1) {
+                        /* if(i===this.cards.length-1) {
                             document.body.style.overflow = 'auto';
-                        }
+                        } */
                     }
                 });
             }
@@ -186,7 +186,6 @@ export class ObjectsFiltersPage extends DefaultPage {
 
     transitionOut(resolve: any): Promise<void> {
         GLOBALS.viewer.paused = false;
-        document.body.style.overflow = 'hidden';
         return new Promise<void>(gsapResolve => {
             gsapResolve();
             gsap.to(this.section, {
