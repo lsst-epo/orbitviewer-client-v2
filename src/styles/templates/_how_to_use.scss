@@ -3,7 +3,7 @@
 @use '../base/mixins' as *;
 @use '../base/typography' as *;
 
-.how_to_use {
+.how_to {
     &-page {
         position: relative;
         min-height: 100vh;
@@ -13,7 +13,6 @@
     }
     
     &_heading {
-        min-height: 80vh;
         padding-top: calc(var(--header-height) + 24px);
         background-image: url(/assets/images/about/about-header-bg-small.png);
         background-size: 768px auto;
@@ -55,19 +54,94 @@
                 gap: 24px;
             }
 
-            .title {
-                color: var(--color-text-low);
-                @include font(subtitle-large-regular); 
+                .title {
+                    color: var(--color-text-low);
+                    @include font(subtitle-large-regular); 
+                }
+
+                .subtitle {
+                    color: var(--color-text);
+
+                    @include font(headline);
+                    @include media(medium) {
+                        @include font(hero);
+                    }
+                }
+        }
+    }
+
+    &_nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+
+        &-link {
+            display: block;
+            padding: 4px 8px;
+            border-radius: var(--corner-medium);
+            color: var(--color-turquoise-500);
+            @include font(caption-semi-caps);
+            transition: all .3s ease;
+
+            &:hover,
+            &:focus {
+                background: var(--color-turquoise-900);
+                color: var(--color-turquoise-200);
             }
 
-            .subtitle {
-                color: var(--color-text);
-
-                @include font(headline);
-                @include media(medium) {
-                    @include font(hero);
-                }
+            &:active {
+                background: var(--color-turquoise-800);
             }
         }
+    }
+
+    &_content {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        padding: 48px 16px;
+
+        @include media(medium) {
+            padding: 80px 32px;
+        }
+
+
+        &-block {
+            grid-column: -1 / 1;
+            padding: 32px 0;
+            text-align: center;
+
+            & + & {
+                border-top: solid 1px var(--color-border);
+            }
+
+            @include media(medium) {
+                padding: 32px 0;
+                grid-column: 2 / 12;
+            }
+
+            @include media(large) {
+                padding: 32px 0;
+                grid-column: 3 / 11;
+            }
+
+            @include media(xlarge) {
+                padding: 32px 0;
+                grid-column: 4 / 10;
+            }
+        }
+
+            &-head {
+                .title {
+                    color: var(--color-text);
+                    @include font(subtitle-large-regular);
+                }
+            }
+
+            &-body {
+                figure {
+                    color: var(--color-text-low);
+                }
+            }
     }
 }
