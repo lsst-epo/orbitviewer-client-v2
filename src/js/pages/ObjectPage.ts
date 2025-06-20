@@ -64,7 +64,14 @@ export class ObjectPage extends DefaultPage {
 
         GLOBALS.timeCtrls.open();
         GLOBALS.mapCtrls.open();
-        const slug = location.search.replace('?', '');
+        let slug = '';
+        const params = GLOBALS.urlParams();
+        // console.log(params);
+        for(const param of params) {
+            if(param.key === 'id') {
+                slug = param.value;
+            }
+        }
         // console.log(slug);
         const sel = GLOBALS.viewer.getSolarElementBySlug(slug);
         if(sel === null) {

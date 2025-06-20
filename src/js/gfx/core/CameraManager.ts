@@ -42,6 +42,8 @@ function getDistance(touch1, touch2) {
   return Math.sqrt(dx * dx + dy * dy);
 }
 
+const defaultPos = new Vector3(0, 5000, 10000);
+
 export class CameraManager {
   controls:OrbitControls;
   protected lockedCam:PerspectiveCamera;
@@ -184,12 +186,18 @@ export class CameraManager {
 
     gsap.to(this.lockedCam.position, {
       overwrite: true,
-      z: camPos.x,
-      y: camPos.y,
-      x: camPos.z,
+      z: defaultPos.x,
+      y: defaultPos.y,
+      x: defaultPos.z,
       duration,
       ease,
     })
+  }
+
+  isCustomCamera():boolean {
+    const d = tmp.copy(this.lockedCam.position).sub(defaultPos).length();
+
+    return d > 100;
   }
 
   followTarget(target:InteractiveObject, followOrbit:boolean=false) {

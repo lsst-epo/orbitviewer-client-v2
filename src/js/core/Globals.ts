@@ -98,6 +98,7 @@ export interface Globals {
 	getViewport:Function;
 	isMobile:Function;
 	navigation:Navigation;
+	urlParams:Function;
 }
 
 export const GLOBALS:Globals = {
@@ -120,5 +121,19 @@ export const GLOBALS:Globals = {
 	},
 	isMobile: () => {
 		return GLOBALS.getViewport().includes('small');
+	},
+	urlParams: ():{key:string, value:string}[] => {
+		const parts = location.search.replace('?', '').split("&");
+		const map = [];
+
+		for(const p of parts) {
+			const p2 = p.split('=');
+			map.push({
+				key: p2[0],
+				value: p2[1]
+			})
+		}
+
+		return map;
 	}
 }
