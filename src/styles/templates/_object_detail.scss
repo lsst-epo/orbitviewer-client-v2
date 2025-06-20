@@ -67,6 +67,7 @@
         position: absolute;
         inset: var(--object-top-margin) auto var(--site-margin-small) var(--site-margin-small);
         width: calc(100% - var(--site-margin-small));
+        max-width: 620px;
         min-height: initial;
         overflow: hidden;
         border-radius: var(--corner-large);
@@ -196,7 +197,8 @@
             .value {
                 display: inline-flex;
                 align-items: baseline;
-                gap: 8px;
+                flex-wrap: wrap;
+                gap: 0 8px;
 
                 .primary {
                     @include font(subtitle-large-regular);
@@ -218,8 +220,16 @@
                 
                 &-head {
                     display: flex;
-                    gap: 8px;
+                    gap: 0 8px;
                     color: var(--color-text-low);
+
+                    @include media(medium) {
+                        flex-direction: column;
+                    }
+
+                    @include media(xlarge) {
+                        flex-direction: initial;
+                    }
 
                     .label {
                         flex: auto;
