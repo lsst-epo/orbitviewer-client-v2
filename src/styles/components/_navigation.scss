@@ -83,7 +83,7 @@
     @include frozen_glass;
     @include gradient_border;
     border-radius: var(--corner-large);
-    overflow: auto;
+    overflow: hidden;
 
     &[aria-hidden=true] {
         display: none;
@@ -103,10 +103,7 @@
         &_level {
             flex: 0 0 100%;
             min-width: 100%;
-
-            & +  & {
-                border-left: solid 1px var(--color-border-strong);
-            }
+            border: solid 1px transparent;
 
             &-group {
                 &[aria-hidden=true] {
