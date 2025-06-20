@@ -362,6 +362,10 @@ export default {
             "en": "\"{{query}}\" not found in your local catalog. Try searching our cloud database.",
             "es": ""
         },
+        "not_found": {
+            "en": "\"{{query}}\" not found.",
+            "es": ""
+        },
         "recommended_searches": {
             "en": "Recommended searches",
             "es": ""

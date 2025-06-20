@@ -74,6 +74,10 @@
                     display: flex;
                     flex-direction: column;
                     height: 100%;
+
+                    h3[aria-hidden=true] {
+                        display: none;
+                    }
                     
                     .input {
                         flex: 0 0 auto;
