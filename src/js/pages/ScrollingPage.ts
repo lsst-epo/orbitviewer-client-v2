@@ -1,11 +1,16 @@
 import { GLOBALS } from "../core/Globals";
 import { DefaultPage } from "./DefaultPage";
+import AboutCarousel from "../components/AboutCarousel";
 
 export class ScrollingPage extends DefaultPage {
     dom: HTMLElement;
+    template: string;
+    aboutCarousel: AboutCarousel;
     
     constructor(id: string, template: string, dom: HTMLElement) {
         super(id, template, dom);
+
+        this.template = template;
 
         document.body.classList.add('scrollable');
 
@@ -13,7 +18,10 @@ export class ScrollingPage extends DefaultPage {
     }
 
     create() {
-        
+        if (this.template === 'about') {
+            const carousel = this.dom.querySelector('.about_device-hero');
+            this.aboutCarousel = new AboutCarousel(carousel);
+        }
     }
 
     transitionIn(resolve: any): Promise<void> {
@@ -27,6 +35,6 @@ export class ScrollingPage extends DefaultPage {
     }
 
     close() {
-        
+        this.aboutCarousel?.dispose();
     }
 }
