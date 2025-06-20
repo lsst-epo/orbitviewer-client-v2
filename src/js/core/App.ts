@@ -84,7 +84,7 @@ export class App implements NomadRouteListener {
 		const nomad = new Nomad({
 			replace: false,
 		}, (id, template, dom) => {
-			if (template === 'objectviewerpage') return new OrbitViewerPage(id, template, dom)
+			if (template === 'orbitviewerpage') return new OrbitViewerPage(id, template, dom)
 			if (template === 'objects') return new ObjectsFiltersPage(id, template, dom)
 			else if (template === 'object') return new ObjectPage(id, template, dom)
 			else if (template === 'about') return new ScrollingPage(id, template, dom)

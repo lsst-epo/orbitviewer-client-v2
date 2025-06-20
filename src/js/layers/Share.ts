@@ -3,6 +3,7 @@ import ToggleGroup from "../components/ToggleGroup";
 import Layer from "./Layer";
 import { copyToClipboard } from "@fils/utils";
 import { ShareAPI } from "../core/ShareAPI";
+import { generateShareableURL } from "../core/Utils";
 
 class Share extends Layer {
     dom: HTMLElement;
@@ -99,6 +100,9 @@ class Share extends Layer {
     }
 
     getInputValue() {
+        const url = generateShareableURL();
+        console.log(url);
+        return url;
         if (!this.input) return '';
         return this.input.value.trim();
     }
