@@ -17,6 +17,10 @@ export default {
         "objects": {
             "en": "objects",
             "es": ""
+        },
+        "back": {
+            "en": "Orbit viewer",
+            "es": ""
         }
     },
     "logo": {
@@ -200,10 +204,6 @@ export default {
         }
     },
     "object": {
-        "back": {
-            "en": "Orbit viewer",
-            "es": ""
-        },
         "designation": {
             "en": "Designation",
             "es": ""
