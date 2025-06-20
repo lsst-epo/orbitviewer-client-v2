@@ -4,10 +4,14 @@
 @use '../base/typography' as *;
 
 .about {
-    position: relative;
-    background: var(--color-bg);
-    z-index: var(--z-static);
-
+    &-page {
+        position: relative;
+        min-height: 100vh;
+        min-height: 100svh;
+        z-index: var(--z-static);
+        background: var(--color-bg);
+    }
+    
     &-section {
         position: relative;
         z-index: 1;
@@ -337,7 +341,7 @@
             }
 
             @include media(large) {
-                gap: 0 40px;
+                gap: 24px 40px;
             }
 
             .invite {
@@ -348,6 +352,18 @@
                 text-align: center;
                 color: var(--color-text-low);
                 @include font(body-large);
+
+                > * + * {
+                    margin-top: 1rem;
+                }
+
+                a {
+                    color: var(--color-text);
+
+                &:hover {
+                    text-decoration: underline;
+                }
+                }
 
                 @include media(medium) {
                     grid-column: 4/10;
@@ -453,11 +469,18 @@
                 
                 .text {
                     color: var(--color-text-low);
-
                     @include font(body-large);
 
                     @include media(medium) {
                         @include font(body-xlarge);
+                    }
+
+                    a {
+                        color: var(--color-text);
+
+                    &:hover {
+                        text-decoration: underline;
+                    }
                     }
 
                     * + * {
@@ -548,6 +571,14 @@
                         margin-top: 72px;
                     }
                 }
+
+                a {
+                    color: var(--color-text);
+
+                &:hover {
+                    text-decoration: underline;
+                }
+                }
                 
                 @include media(medium) {
                     @include font(body-xlarge);
@@ -561,6 +592,14 @@
                 
                 @include media(medium) {
                     @include font(body-xlarge);
+                }
+
+                a {
+                    color: var(--color-text);
+
+                &:hover {
+                    text-decoration: underline;
+                }
                 }
             }
         }
