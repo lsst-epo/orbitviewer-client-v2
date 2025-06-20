@@ -13,6 +13,7 @@
     align-items: center;
     justify-content: center;
     padding: 5px;
+    pointer-events: initial;
 
     @include media(medium) {
         padding: 16px 12px;
@@ -32,6 +33,7 @@
     z-index: var(--z-menu);
     display: flex;
     justify-content: flex-end;
+    pointer-events: none;
 
     &.has-gradient {
         background: linear-gradient(180deg, rgba(var(--color-black-rgb), 1) 33%, rgba(var(--color-black-rgb), 0) 100%);
@@ -40,6 +42,7 @@
     &-buttons {
         display: flex;
         gap: 8px;
+        pointer-events: initial;
     }
 
     &--open {

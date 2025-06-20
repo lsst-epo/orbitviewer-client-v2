@@ -18,8 +18,16 @@ eleventyComputed:
     </header>
     <div class="objects-body">
         <div class="objects-heading">
-            <h2 class="title">{{ copy.objects.title[lang] }}</h2>
-            <h3 class="subtitle">{{ copy.objects.subtitle[lang] }}</h3>
+            <div class="actions">
+                <a href="/{{lang}}/" class="button secondary small button_back">
+                    {{ icon('chevron-left') }}
+                    <span>{{ copy.core.back[lang] }}</span>
+                </a>
+            </div>
+            <div class="heading">
+                <h2 class="title">{{ copy.objects.title[lang] }}</h2>
+                <h3 class="subtitle">{{ copy.objects.subtitle[lang] }}</h3>
+            </div>
         </div>
         <div class="objects-mask">
             <ul class="objects-list">
