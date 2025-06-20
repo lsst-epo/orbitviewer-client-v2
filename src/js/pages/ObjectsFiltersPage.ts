@@ -6,6 +6,7 @@ import { ObjectsScroller } from "../components/ObjectsScroller";
 import { SolarCategory } from "../core/solar/SolarSystem";
 // import { FilterToggle } from "../components/FilterToggle";
 import { UserFilters } from "../core/solar/SolarUtils";
+import { CategoryCounters } from "../core/data/Categories";
 
 const catSort:SolarCategory[] = [
     'planets-moons',
@@ -82,7 +83,7 @@ export class ObjectsFiltersPage extends DefaultPage {
     }
 
     create() {
-        // console.log('create');
+        console.log('create');
         const map = UserFilters.categories;
 
 		this.toggles.forEach(element => {
@@ -120,6 +121,23 @@ export class ObjectsFiltersPage extends DefaultPage {
                 })
             })
 		});
+
+        for(const key in CategoryCounters) {
+            if(CategoryCounters[key] > 0) continue;
+            const k = key as SolarCategory;
+            // console.log(k);
+            if(k === "near-earth-objects") {
+                this.dom.querySelector('li#cat-near_earth_objects').remove();    
+            } else if(k === "trans-neptunian-objects") {
+                this.dom.querySelector('li#cat-trans_neptunian_objects').remove();    
+            } else if(k === "interstellar-objects") {
+                this.dom.querySelector('li#cat-interstellar_objects').remove();    
+            } else if(k === "jupiter-trojans") {
+                this.dom.querySelector('li#cat-trojans').remove();    
+            } else {
+                this.dom.querySelector(`li#cat-${k}`).remove();
+            }
+        }
 
 		this.closeButton.addEventListener('click', (e) => {
 			e.preventDefault();
