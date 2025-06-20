@@ -24,7 +24,7 @@ eleventyComputed:
         <div class="objects-mask">
             <ul class="objects-list">
                 {% for key, type in copy.objects.types %}
-                <li class="objects-item">
+                <li class="objects-item" aria-hidden="true">
                     <div class="objects_card">
                         <div class="objects_card-label {{ key }}">
                             <h3 class="name">{{ type.name[lang] }}</h3>
