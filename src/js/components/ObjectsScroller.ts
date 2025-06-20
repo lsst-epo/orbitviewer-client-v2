@@ -119,7 +119,7 @@ export class ObjectsScroller {
     const lastChild = this.children[this.children.length - 1];
     this.bounding = lastSnap + lastChild.offsetWidth + this.offset * 2 - window.innerWidth;
     this.target = this.current = this.clampTarget(this.current);
-    const isMobile = GLOBALS.getViewport() === 'small'; // Replace with actual mobile detection logic
+    const isMobile = GLOBALS.getViewport().includes('small');
     this.active = !isMobile; // Disable on mobile by default
   }
 

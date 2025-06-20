@@ -10,6 +10,7 @@ class Filters extends Layer {
     date: HTMLElement;
     closeButton: HTMLElement;
     resetButton: HTMLElement;
+    applyButton: HTMLElement;
     discoveries: HTMLElement;
 
     distanceSlider: RangeSlider;
@@ -27,6 +28,7 @@ class Filters extends Layer {
         this.date = dom.querySelector('#slider-date') as HTMLElement;
         this.discoveries = dom.querySelector('#toggle-discoveries');
 		this.closeButton = dom.querySelector('.filters-head .button_icon') as HTMLElement;
+        this.applyButton = dom.querySelector('.button-apply') as HTMLElement;
         this.resetButton = dom.querySelector('.button-reset') as HTMLElement;
 
         this.start();
@@ -86,6 +88,11 @@ class Filters extends Layer {
         ); */
 
 		this.closeButton.addEventListener('click', (e) => {
+			e.preventDefault();
+			this.close();
+		});
+		
+        this.applyButton.addEventListener('click', (e) => {
 			e.preventDefault();
 			this.close();
 		});

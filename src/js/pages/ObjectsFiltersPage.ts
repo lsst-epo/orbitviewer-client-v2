@@ -89,6 +89,7 @@ export class ObjectsFiltersPage extends DefaultPage {
             const toggleElement = element.querySelector('.togglegroup') as HTMLElement;
             const labelElements = element.querySelectorAll('.label') as NodeListOf<HTMLElement>;
             
+            
 			const objectsToggle = new ToggleGroup(toggleElement, (value:string, index:number) => {
                 labelElements.forEach((label, i) => {
                     label.classList.toggle('active', i === index);
@@ -97,17 +98,27 @@ export class ObjectsFiltersPage extends DefaultPage {
                 // console.log(map);
                 GLOBALS.viewer.filtersUpdated();
             });
+
             objectsToggle.show();
-            labelElements.forEach((label, index) => {
-                label.onclick = (e) => {
-                    const target = e.target as HTMLElement;
-                    const { dataset } = target;
-                    const index = parseInt(dataset.index || '0', 10);
-                    if (isNaN(index)) return;
-                    objectsToggle.setIndex(index);
-                }
-            })
+
             this.inputs.push(objectsToggle);
+
+            // allow togglegroup to be set
+            requestAnimationFrame(()=>{
+                labelElements.forEach((label, index) => {
+                    const inputs = element.querySelectorAll('input') as NodeListOf<HTMLInputElement>;
+                    const selectedIndex = Array.from(inputs).findIndex(input => input.checked);
+                    label.classList.toggle('active', index === selectedIndex);
+                
+                    label.onclick = (e) => {
+                        const target = e.target as HTMLElement;
+                        const { dataset } = target;
+                        const index = parseInt(dataset.index || '0', 10);
+                        if (isNaN(index)) return;
+                        objectsToggle.setIndex(index);
+                    }
+                })
+            })
 		});
 
 		this.closeButton.addEventListener('click', (e) => {
