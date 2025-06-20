@@ -247,18 +247,28 @@ class RangeSlider {
     ));
     
     let newValue = this.minValue + (percentage * (this.maxValue - this.minValue));
-    newValue = newValue;//this.roundToStep(newValue);
     
     // Constrain values to prevent thumbs from crossing
-    if (this.values.length === 2) {
-      if (this.activeThumbIndex === 0) {
-        newValue = Math.min(newValue, this.values[1]);
-      } else {
-        newValue = Math.max(newValue, this.values[0]);
-      }
-    }
+    // if (this.values.length === 2) {
+    //   if (this.activeThumbIndex === 0) {
+    //     newValue = Math.min(newValue, this.values[1]);
+    //   } else {
+    //     newValue = Math.max(newValue, this.values[0]);
+    //   }
+    // }
     
     this.values[this.activeThumbIndex] = newValue;
+
+    if (this.values.length === 2) {
+      if (this.activeThumbIndex === 0 && newValue > this.values[1]) {
+        // Prevent crossing if first thumb is moved beyond second thumb
+        this.values[1] = newValue;
+      } else if (this.activeThumbIndex === 1 && newValue < this.values[0]) {
+        // Prevent crossing if second thumb is moved before first thumb
+        this.values[0] = newValue;
+      }
+    }
+
     this.updateSlider();
     this.options.onChange?.(this.values);
   }
@@ -398,9 +408,11 @@ class RangeSlider {
       Math.max(min, Math.min(max, value))
     );
 
-    this.initValues = [...this.values]; // Update initial values for reset
-    
+    // Reset initial values
+    this.initValues = [this.minValue, this.maxValue]
+
     this.updateSlider();
+    this.options.onChange?.(this.values);
   }
 
   public destroy(): void {
