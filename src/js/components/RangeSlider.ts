@@ -117,8 +117,8 @@ class RangeSlider {
     const minLabel = this.container.querySelector('.rangeslider-labels .min') as HTMLElement;
     const maxLabel = this.container.querySelector('.rangeslider-labels .max') as HTMLElement;
     this.labels = { min: minLabel, max: maxLabel };
-    this.labels.min.textContent = this.getLabelFromValue(Math.round(this.minValue));
-    this.labels.max.textContent = this.getLabelFromValue(Math.round(this.maxValue));
+    this.labels.min.textContent = this.getLabelFromValue(this.minValue);
+    this.labels.max.textContent = this.getLabelFromValue(this.maxValue);
 
     // Set initial aria attributes
     this.thumbs.forEach((thumb, index) => {
@@ -303,14 +303,13 @@ class RangeSlider {
     this.options.onChange?.(this.values);
   }
 
-  private roundToStep(value: number): number {
-    // Round to reasonable precision to avoid floating point issues
-    return Math.round(value);
-  }
-
   private getLabelFromValue(value: number): string {
+    let decimals = 0;
+    const range = this.maxValue - this.minValue;     
+    if (range < 10) decimals = 2;
+    else if (range < 100) decimals = 1;
     // Replace {{value}} with the actual value in the label
-    return this.label.replace('{{value}}', value.toString());
+    return this.label.replace('{{value}}', value.toFixed(decimals));
   }
 
   private updateSlider(): void {
@@ -336,7 +335,7 @@ class RangeSlider {
         thumb.setAttribute('aria-valuenow', this.values[index].toString());
         
         if (this.valueDisplays[index]) {
-          this.valueDisplays[index].textContent = this.getLabelFromValue(Math.round(this.values[index]));
+          this.valueDisplays[index].textContent = this.getLabelFromValue(this.values[index]);
         }
       }
     });
@@ -385,8 +384,8 @@ class RangeSlider {
     this.maxValue = max;
     
     // Update labels
-    this.labels.min.textContent = this.getLabelFromValue(Math.round(this.minValue));
-    this.labels.max.textContent = this.getLabelFromValue(Math.round(this.maxValue));
+    this.labels.min.textContent = this.getLabelFromValue(this.minValue);
+    this.labels.max.textContent = this.getLabelFromValue(this.maxValue);
     
     // Update aria attributes
     this.thumbs.forEach(thumb => {
@@ -398,6 +397,8 @@ class RangeSlider {
     this.values = this.values.map(value => 
       Math.max(min, Math.min(max, value))
     );
+
+    this.initValues = [...this.values]; // Update initial values for reset
     
     this.updateSlider();
   }
