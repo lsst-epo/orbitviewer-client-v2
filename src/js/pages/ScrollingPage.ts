@@ -17,13 +17,11 @@ export class ScrollingPage extends DefaultPage {
     }
 
     transitionIn(resolve: any): Promise<void> {
-        document.body.style.overflow = 'auto';
         GLOBALS.viewer.paused = true;
         return super.transitionIn(resolve);
     }
 
     transitionOut(resolve: any): Promise<void> {
-        document.body.style.overflow = 'auto';
         GLOBALS.viewer.paused = false;
         return super.transitionOut(resolve);
     }

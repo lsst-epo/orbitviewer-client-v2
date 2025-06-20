@@ -7,6 +7,7 @@ export class DefaultPage extends Page {
         super(id, template, dom);
 
         document.body.className = `${template}_template`;
+        window.scrollTo(0,0);
     }
 
     update() {}

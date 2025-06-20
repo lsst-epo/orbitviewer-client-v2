@@ -1,7 +1,5 @@
 // reset.scss
 
-@use '../base/mixins' as *;
-
 * {
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
@@ -11,15 +9,6 @@
 body {
 	margin: 0;
 	// touch-action: none;
-	
-	@include media(medium) {
-		overflow: hidden;
-	}
-
-	&.scrollable {
-		overflow-y: auto;
-		overflow-x: hidden;
-	}
 }
 
 a {

@@ -1,7 +1,18 @@
 // layout.scss
 
+@use '../base/mixins' as *;
+
 html,
 body {
     height: 100vh;
     height: 100svh;
+
+    @include media(medium) {
+		overflow: hidden;
+	}
+
+	&.scrollable {
+		overflow-y: auto;
+		overflow-x: hidden;
+	}
 }

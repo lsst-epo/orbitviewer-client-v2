@@ -4,6 +4,7 @@ export class Loader {
   }
 
   show() {
+    // console.log('SHOOOOOOOOW', this.dom);
     this.dom.setAttribute('aria-hidden', 'false');
   }
 
