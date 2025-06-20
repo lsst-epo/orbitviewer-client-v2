@@ -4,7 +4,7 @@
     position: absolute;
     top: 0;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translate(-50%, 0);
     z-index: var(--z-toast);
     width: 100%;
     max-width: var(--timemachine-width);
@@ -15,8 +15,61 @@
     padding: 20px;
     color: var(--color-text);
     text-wrap: pretty;
+    will-change: opacity, transform;
 
     &[aria-hidden=true] {
         display: none;
+    }
+
+    &--open {
+        animation: toastIn 0.3s ease-out forwards;
+    }
+
+    &--close {
+        animation: toastOut 0.3s ease-in forwards;
+    }
+
+    @keyframes toastIn {
+        from {
+            opacity: 0;
+            transform: translate(-50%, 48px);
+        }
+        to {
+            opacity: 1;
+            transform: translate(-50%, 0);
+        }
+
+        @include media(medium) {
+            from {
+                opacity: 0;
+                transform: translate(-50%, 8px);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, 0);
+            }
+        }
+    }
+
+    @keyframes toastOut {
+        from {
+            opacity: 1;
+            transform: translate(-50%, 0);
+        }
+        to {
+            opacity: 0;
+            transform: translate(-50%, 48px);
+        }
+
+        @include media(medium) {
+            from {
+                opacity: 1;
+                transform: translate(-50%, 0);
+            }
+            to {
+                opacity: 0;
+                transform: translate(-50%, 8px);
+            }
+        }
     }
 }

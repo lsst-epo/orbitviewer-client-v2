@@ -10,6 +10,7 @@ import { GLOBALS, IS_DEV_MODE } from "../core/Globals";
 import { DefaultPage } from "./DefaultPage";
 import { LoadManager } from "../core/data/LoadManager";
 import gsap from "gsap";
+import Toast from "../layers/Toast";
 
 const SKIP_ONBOARDING = true;
 
@@ -20,9 +21,10 @@ class OrbitViewerPage extends DefaultPage {
 	wizard: Wizard;
 	splash: Splash;
 	onboarding: Onboarding;
+	toast: Toast;
 	// mapControls: MapControls;
 	toolbar: Toolbar;
-	elements: { splash: Element; onboarding: Element; wizard: Element; filters: Element; search: Element; toolbar: Element; };
+	elements: { splash: Element; onboarding: Element; wizard: Element; toast: Element, filters: Element; search: Element; toolbar: Element; };
 	openLayers: Set<string>;
     
   constructor(id: string, template: string, dom: HTMLElement) {
@@ -39,6 +41,7 @@ class OrbitViewerPage extends DefaultPage {
 			filters: document.querySelector('.filters'),
 			search: document.querySelector('.search'),
 			toolbar: document.querySelector('.toolbar'),
+			toast: document.querySelector('.toast'),
 			// timeMachine: document.querySelector('.timemachine'),
 			// mapControls: document.querySelector('.map_controls')
 		};
@@ -49,6 +52,7 @@ class OrbitViewerPage extends DefaultPage {
 		this.filters = this.elements.filters ? new Filters(this.elements.filters) : null;
 		this.search = this.elements.search ? new Search(this.elements.search) : null;
 		this.toolbar = this.elements.toolbar ? new Toolbar(this.elements.toolbar, this) :  null;
+		this.toast = this.elements.toast ? new Toast(this.elements.toast) : null
 		// this.timeMachine = this.elements.timeMachine ? new TimeMachine(this.elements.timeMachine) :  null;
 		// this.mapControls = this.elements.mapControls ? new MapControls(this.elements.mapControls, this) :  null;
 
@@ -135,6 +139,17 @@ class OrbitViewerPage extends DefaultPage {
 		if (this.toolbar) {
 			this.toolbar.updateActiveStates(this.openLayers);
 		}
+	}
+
+	update() {
+		// TOAST
+		if (this.toast && GLOBALS.solarClock) {
+			const { isInEdge } = GLOBALS.solarClock;
+			const isVisible = this.toast.isVisible();
+			if (isVisible && !isInEdge) this.toast.close();
+			else if (!isVisible && isInEdge) this.toast.open();
+		}
+		// END TOAST
 	}
 
 	toggleLayer(targetLayer: string) {
