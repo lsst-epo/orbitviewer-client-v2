@@ -29,6 +29,8 @@ export const FAR = 75000;
 
 const dummy = new Object3D();
 
+export const SolarItemsSamples = [];
+
 export class OrbitViewer extends ThreeLayer {
   camera:PerspectiveCamera;
   particles:SolarParticles;
@@ -233,6 +235,7 @@ export class OrbitViewer extends ThreeLayer {
 							// console.log(sel.mpcdesignation, el.elementID, sel.fulldesignation);
 							if(sel.mpcdesignation === el.elementID || sel.fulldesignation === el.elementID) {
 								console.log('Found Solar Item', el.elementID);
+								SolarItemsSamples.push(sample[i]);
 								const data = mapOrbitElementsV2(sel);
 								// console.log(data.category);
 								if(!data) break;
@@ -284,6 +287,16 @@ export class OrbitViewer extends ThreeLayer {
 	getSolarElementBySlug(slug:string):SolarElement {
 		for(const el of this.solarElements) {
 			if(el.slug === slug) {
+				return el;
+			}
+		}
+
+		return null;
+	}
+
+	getSolarElementByName(name:string):SolarElement {
+		for(const el of this.solarElements) {
+			if(el.name === name) {
 				return el;
 			}
 		}

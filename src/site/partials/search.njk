@@ -17,7 +17,7 @@
                 </div>
                 <div class="search_card-body">
                     <div class="input" focusable="true" tabindex="0">
-                        <input type="search" placeholder="Search by planet, object,.." tabindex="-1" focusable="false">
+                        <input id="search" type="search" placeholder="Search by planet, object,.." tabindex="-1">
                         <div class="button_wrap" aria-hidden="true">
                             {{ Button(copy.search.search_cloud.en, 'button primary small') }}
                         </div>
@@ -26,34 +26,21 @@
                         </div>
                     </div>
                     
-                    {{ Banner(copy.search.not_found_local.en.replace("{{query}}", "28934u"), 'alert', 'error') }}
+                    {{ Banner(copy.search.not_found.en, 'alert', 'error') }}
                     
                     <div class="search_results">
                         <div class="listitem-group" role="group">
                             <h3 class="listitem-label">{{ copy.search.recommended_searches[lang] }}</h3>
                             <ul class="listitem-list">
                                 {% set recommended_searches = [
-                                    { name: "Earth", category: "Trans-Neptunian Object" },
-                                    { name: "Mercury", category: "Comet" },
-                                    { name: "Mars", category: "Near-Earth Object" },
-                                    { name: "Earth", category: "Trans-Neptunian Object" },
-                                    { name: "Mercury", category: "Trans-Neptunian Object" },
-                                    { name: "Mars", category: "Trans-Neptunian Object" },
-                                    { name: "Earth", category: "Trans-Neptunian Object" },
-                                    { name: "Mercury", category: "Trans-Neptunian Object" },
-                                    { name: "Mars", category: "Trans-Neptunian Object" },
-                                    { name: "Earth", category: "Trans-Neptunian Object" },
-                                    { name: "Mercury", category: "Trans-Neptunian Object" },
-                                    { name: "Mars", category: "Trans-Neptunian Object" },
-                                    { name: "Earth", category: "Trans-Neptunian Object" },
-                                    { name: "Mercury", category: "Trans-Neptunian Object" },
-                                    { name: "Mars", category: "Trans-Neptunian Object" },
-                                    { name: "Earth", category: "Trans-Neptunian Object" },
-                                    { name: "Mercury", category: "Trans-Neptunian Object" }
+                                    { name: "Earth", category: "Planets", id: "earth" },
+                                    { name: "Mars", category: "Planets", id: "mars" },
+                                    { name: "Apollo", category: "NEOs", id: "1932-ha" },
+                                    { name: "Chariklo", category: "Centaurs", id: "1997-cu26" }
                                 ] %}
                                 {% for item in recommended_searches %}
                                     <li class="listitem-item" role="menuitem">
-                                        <a href="" class="listitem-link">
+                                        <a href="/{{lang}}/object/?{{item.id}}" class="listitem-link">
                                             <span class="heading">
                                                 <span class="name">{{ item.name }}</span>
                                             </span>

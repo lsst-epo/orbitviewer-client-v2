@@ -65,6 +65,17 @@ export const CategoryCounters:Record<SolarCategory, number> = {
 	'jupiter-trojans': 0
 }
 
+export const CategoryNamesEN:Record<SolarCategory, string> = {
+	"planets-moons": "Planets",
+	'asteroids': "Asteroids",
+	'comets': "Comets",
+	'centaurs': "Centaurs",
+	'interstellar-objects': "Interstellar Objects",
+	'near-earth-objects': "Near Earth Objects",
+	'trans-neptunian-objects': "Trans Neptunian Objects",
+	'jupiter-trojans': "Jupiter Trojans"
+}
+
 export function resetSolarCategoryCounters() {
 	for(const type in CategoryCounters) {
 		if (type === "planets-moons") continue;

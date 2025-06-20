@@ -10,6 +10,7 @@
  * Search will be performed using we workers most likely hooked to events that show results as they come.
  */
 
+import { SolarItemsSamples } from "../../gfx/OrbitViewer";
 import { OrbitDataElements } from "../solar/SolarUtils";
 import { LoadManager } from "./LoadManager";
 
@@ -27,7 +28,7 @@ class SEngine {
 
         this.searchInArray(q, data.planets, items);
         this.searchInArray(q, data.dwarf_planets, items);
-        this.searchInArray(q, craftData.solar_items, items);
+        this.searchInArray(q, SolarItemsSamples, items);
         this.searchInArray(q, data.sample, items);
 
         return items;
