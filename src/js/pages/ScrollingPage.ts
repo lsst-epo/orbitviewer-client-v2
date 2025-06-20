@@ -35,6 +35,9 @@ export class ScrollingPage extends DefaultPage {
     }
 
     close() {
+    }
+
+    dispose() {
         this.aboutCarousel?.dispose();
     }
 }
