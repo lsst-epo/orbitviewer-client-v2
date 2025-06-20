@@ -21,11 +21,18 @@ eleventyComputed:
             <div class="object_card-body">
                 <div class="object_card-heading">
                     <h1 class="object_card-name" id="object-name">2014 UZ224</h1>
+                    <dl class="object_card-designation">
+                        <dt class="title">{{ copy.object.designation[lang] }}</dt>
+                        <dd class="value">Earth-Moon Barycenter (3)</dd>
+                    </dl>
                     <div class="object_card-hero">
                         <img src="" alt="{{ copy.object.hero.alt[lang] }} 2014 UZ224">
                     </div>
                     <div class="object_card-category">
-
+                        <span class="chip object_type planets_moons">
+                            {{ icon('planets_moons', 'chip-icon') }}
+                            <span class="chip-text">Planet</span>
+                        </span>
                     </div>
 
                     <div class="object_card-description">
