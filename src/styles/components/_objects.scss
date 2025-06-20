@@ -97,6 +97,10 @@
                 flex-shrink: 0;
 
                 scroll-snap-align: start;
+
+                &[aria-hidden=true] {
+                    display: none;
+                }
                 
                 
                 @include media(medium) {
