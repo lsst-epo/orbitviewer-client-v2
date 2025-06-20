@@ -16,6 +16,7 @@ class Navigation extends Layer {
       super(dom, {
             openClass: 'navigation--open',
             closeClass: 'navigation--close',
+            closingClasses: ['out'],
             animationDuration: 500
         });
       

@@ -122,7 +122,9 @@ export class SimpleSlider {
   }
 
   protected onKeyDown(e:KeyboardEvent) {
-    if(!this.enabled) return;
+    const {activeElement} = document;
+    const isActive = activeElement === this.dom || this.dom.contains(activeElement);
+    if(!this.enabled || !isActive) return;
     if(e.key === 'ArrowRight') {
       this.updateBy(1);
     } else if(e.key === 'ArrowLeft') {

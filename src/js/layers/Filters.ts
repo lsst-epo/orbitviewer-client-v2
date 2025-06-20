@@ -21,6 +21,7 @@ class Filters extends Layer {
         super(dom, {
             openClass: 'filters--open',
             closeClass: 'filters--close',
+            closingClasses: ['out'],
             animationDuration: 500
         });
 

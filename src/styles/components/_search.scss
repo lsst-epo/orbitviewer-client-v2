@@ -88,6 +88,7 @@
                         flex: auto;
                         overflow: auto;
                         border-top: solid 1px var(--color-border);
+                        @include scrollbar-custom;
                     }
                 }
         }

@@ -6,6 +6,7 @@ html,
 body {
     height: 100vh;
     height: 100svh;
+	@include scrollbar-custom;
 
     @include media(medium) {
 		overflow: hidden;
