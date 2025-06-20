@@ -164,92 +164,27 @@ export class ObjectPage extends DefaultPage {
         slider.style.width = `${MathUtils.smoothstep(rangeA.min, rangeA.max, value)*100}%`;
     }
 
-    fillWithContent(cnt, data) {
-        // console.log(cnt);
-        const h1 = this.dom.querySelector('h1#object-name');
-        h1.textContent = cnt.title;
-
-        // full designation
-        this.dom.querySelector('.object_card-designation').querySelector('.value').textContent = data.fulldesignation;
-
-        const ranges = CategoryFilters;
-        const catID = data.category;
-        // console.log(catID);
-
-        // Map sliders
-        const sliderA = this.dom.querySelector('#sliderA') as HTMLElement;
-        this.mapSlider(sliderA, data, 'a');
-
-        const sliderE = this.dom.querySelector('#sliderE') as HTMLElement;
-        this.mapSlider(sliderE, data, 'e');
-
-        const sliderI = this.dom.querySelector('#sliderI') as HTMLElement;
-        this.mapSlider(sliderI, data, 'i');
-
-        // Set Contents
-
-        const text = this.dom.querySelector('.object_card-description');
-        text.innerHTML = cnt.text;
-
-        const d = cnt.elementDiameter;
-        const dm = d / 1.609;
-        const dt = this.dom.querySelector('h4[aria-describedby="diameter-label"]');
-        dt.querySelector('span.primary').textContent = `${d.toFixed(2)}km`;
-        dt.querySelector('span.secondary').textContent = `${dm.toFixed(2)}mi`
-
-        // console.log(data);
-
-        const els = this.dom.querySelectorAll('li.orbital_elements-item');
-        els[0].querySelector('.orbital_elements-value').textContent = `${data.w.toFixed(2)}`;
-        els[1].querySelector('.orbital_elements-value').textContent = `${data.N.toFixed(2)}`;
-        els[2].querySelector('.orbital_elements-value').textContent = `${data.M.toFixed(2)}`;
-
-        const tel = this.dom.querySelector('h4#closest-to-sun');
-        const time = tel.querySelector('time');
-        const date = getClosestDateToSun(data);
-        const formattedDate = date.toLocaleDateString(GLOBALS.lang, {
-          year: 'numeric',
-          month: 'long',
-          day: '2-digit'
-        });
-        time.textContent = formattedDate;
-
-        const currentDate = new Date();
-        
-        // Get difference in milliseconds
-        //@ts-ignore
-        const timeDifference = date - currentDate;
-
-        // Convert to days
-        const daysLeft = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-        tel.querySelector('span#days').textContent = `${daysLeft}`;
-
-        // How far from the sun?
-        const fS = getDistanceFromSunNow(data);
-        const sliderFarSun = this.dom.querySelector('#sliderFarSun') as HTMLElement;
-        this.mapSliderWithValue(sliderFarSun, catID, 'a', fS);
-        this.dom.querySelector('p[aria-describedby="graph-from-the-sun"]').textContent = `${fS.toFixed(2)}au`;
-        
-        // How far from Earth?
-        /* const dEn = getDistanceFromEarthNow(data);
-        this.dom.querySelector('p[aria-describedby="graph-from-the-earth"]').textContent = `${dEn.toFixed(2)}au`;
-        const sliderFarEarth = this.dom.querySelector('#sliderFarEarth') as HTMLElement;
-        const map = DistanceFromEarth[catID];
-        sliderFarEarth.style.width = `${MathUtils.smoothstep(map.min, map.max, dEn)*100}%`; */
+    private revealCategoryChip(catID:SolarCategory) {
+        const catHTML = this.dom.querySelector('.object_card-category');
+        const chips = catHTML.querySelectorAll('span.chip');
+        for(const c of chips) {
+            if(catID === "planets-moons") {
+                if(c.classList.contains('planets_moons')) return c.setAttribute('aria-hidden', 'false');
+            } else if(catID === "interstellar-objects") {
+                if(c.classList.contains('interstellar_objects')) return c.setAttribute('aria-hidden', 'false');
+            } else if(catID === "near-earth-objects") {
+                if(c.classList.contains('near_earth_objects')) return c.setAttribute('aria-hidden', 'false');
+            } else if(catID === "trans-neptunian-objects") {
+                if(c.classList.contains('trans_neptunian_objects')) return c.setAttribute('aria-hidden', 'false');
+            } else if(catID === "jupiter-trojans") {
+                if(c.classList.contains('trojans')) return c.setAttribute('aria-hidden', 'false');
+            } else {
+                if(c.classList.contains(catID)) return c.setAttribute('aria-hidden', 'false');
+            }
+        }
     }
 
-    fillWithOrbitElements(data:OrbitElements) {
-        // console.log(cnt);
-        const h1 = this.dom.querySelector('h1#object-name');
-        h1.textContent = data.fulldesignation;
-
-        // full designation
-        this.dom.querySelector('.object_card-designation').remove();
-
-        const ranges = CategoryFilters;
-        const catID = data.category;
-        // console.log(catID);
-
+    fillData(data:OrbitElements, catID:SolarCategory, diameter:number=0) {
         // Map sliders
         const sliderA = this.dom.querySelector('#sliderA') as HTMLElement;
         this.mapSlider(sliderA, data, 'a');
@@ -265,7 +200,7 @@ export class ObjectPage extends DefaultPage {
         const text = this.dom.querySelector('.object_card-description');
         text.innerHTML = "";
 
-        const d = 0;
+        const d = diameter;
         const dm = d / 1.609;
         const dt = this.dom.querySelector('h4[aria-describedby="diameter-label"]');
         dt.querySelector('span.primary').textContent = `${d.toFixed(2)}km`;
@@ -295,7 +230,7 @@ export class ObjectPage extends DefaultPage {
         time.textContent = formattedDate;
 
         const currentDate = new Date();
-        
+
         // Get difference in milliseconds
         //@ts-ignore
         const timeDifference = date - currentDate;
@@ -309,13 +244,44 @@ export class ObjectPage extends DefaultPage {
         const sliderFarSun = this.dom.querySelector('#sliderFarSun') as HTMLElement;
         this.mapSliderWithValue(sliderFarSun, catID, 'a', fS);
         this.dom.querySelector('p[aria-describedby="graph-from-the-sun"]').textContent = `${fS.toFixed(2)}au`;
-        
+
         // How far from Earth?
         /* const dEn = getDistanceFromEarthNow(data);
         this.dom.querySelector('p[aria-describedby="graph-from-the-earth"]').textContent = `${dEn.toFixed(2)}au`;
         const sliderFarEarth = this.dom.querySelector('#sliderFarEarth') as HTMLElement;
         const map = DistanceFromEarth[catID];
         sliderFarEarth.style.width = `${MathUtils.smoothstep(map.min, map.max, dEn)*100}%`; */
+    }
+
+    fillWithContent(cnt, data) {
+        // console.log(cnt);
+        const h1 = this.dom.querySelector('h1#object-name');
+        h1.textContent = cnt.title;
+
+        // full designation
+        this.dom.querySelector('.object_card-designation').querySelector('.value').textContent = data.fulldesignation;
+
+        const catID = data.category;
+        console.log(catID);
+
+        this.revealCategoryChip(catID);
+        this.fillData(data, catID, cnt.elementDiameter);
+    }
+
+    fillWithOrbitElements(data:OrbitElements) {
+        // console.log(cnt);
+        const h1 = this.dom.querySelector('h1#object-name');
+        h1.textContent = data.fulldesignation;
+
+        // full designation
+        this.dom.querySelector('.object_card-designation').remove();
+
+        const ranges = CategoryFilters;
+        const catID = data.category;
+        console.log(catID);
+
+        this.revealCategoryChip(catID);
+        this.fillData(data, catID);
     }
 
     dispose(): void {
