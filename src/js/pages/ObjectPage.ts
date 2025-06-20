@@ -8,6 +8,7 @@ import { DefaultPage } from "./DefaultPage";
 import { CategoryFilters, DistanceFromEarth } from "../core/data/Categories";
 import { MathUtils } from "@fils/math";
 import { OrbitElements, SolarCategory } from "../core/solar/SolarSystem";
+import TooltipDialog from "../components/TooltipDialog";
 
 export class ObjectPage extends DefaultPage {
     infoButtons: NodeListOf<Element>;
@@ -27,23 +28,38 @@ export class ObjectPage extends DefaultPage {
     }
 
     create() {
-        const tooltip = new Tooltip({
-            autoDismissDelay: 3000,
-            offset: 12,
-            maxWidth: 250
-        });
+        this.infoButtons = this.dom.querySelectorAll('.orbital_elements-item');
 
-        this.infoButtons = this.dom.querySelectorAll('.orbital_elements-data .button_icon');
+        this.infoButtons.forEach((dom: HTMLElement, index: number) => {
+            let _to;
+            let _active = false;
+            let alignment : 'left' | 'center' | 'right' = 'left';
+            const { isMobile } = GLOBALS;
+            if (index === 1) alignment = isMobile() ? 'right' : 'center';
+            else if (index === 2) alignment = 'right';
+            const el = dom.querySelector('[data-tooltip]') as HTMLElement;
+            const text = el.getAttribute('data-tooltip');
+            const tooltip = new TooltipDialog({ dom, text, alignment });
 
-        this.infoButtons.forEach((el: HTMLElement) => {
-            
-            el.addEventListener('mouseleave', () => {
-                tooltip.hide();
-            });
+            el.onmouseenter = el.onclick = (e: Event) => {
+                const {type} = e
+                if (!_active) {
+                    _active = true;
+                    tooltip.create();
+                    if (type === 'click') {
+                        clearTimeout(_to);
+                        _to = setTimeout(() => {
+                            _active = false;
+                            tooltip.dispose();
+                        }, 2000);
+                    }
+                }
+            }
 
-            el.addEventListener('mouseenter', () => {
-                tooltip.show(el, undefined, "center");
-            });
+            el.onmouseleave = () => {
+                _active = false;
+                tooltip.dispose();
+            }
         });
 
         GLOBALS.timeCtrls.open();
