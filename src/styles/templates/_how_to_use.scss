@@ -4,5 +4,70 @@
 @use '../base/typography' as *;
 
 .how_to_use {
+    &-page {
+        position: relative;
+        min-height: 100vh;
+        min-height: 100svh;
+        z-index: var(--z-static);
+        background: var(--color-bg);
+    }
+    
+    &_heading {
+        min-height: 80vh;
+        padding-top: calc(var(--header-height) + 24px);
+        background-image: url(/assets/images/about/about-header-bg-small.png);
+        background-size: 768px auto;
+        background-repeat: no-repeat;
+        background-position: center top;
+        background-color: var(--color-bg);
 
+        @include media(medium) {
+            padding-top: calc(var(--header-height) + 40px);
+            background-image: url(/assets/images/about/about-header-bg-large.png);
+            background-size: 1440px auto;
+        }
+        
+        &-body {
+            @include media(small) {
+                display: grid;
+                grid-template-columns: repeat(12, 1fr);
+                gap: 24px;
+            }
+            
+            .content {
+                display: flex;
+                flex-direction: column;
+                gap: 40px;
+                text-align: center;
+
+                @include media(small) {
+                    grid-column: 2/12;
+                }
+
+                @include media(large) {
+                    grid-column: 4/10;
+                }
+            }
+
+            .heading {
+                display: flex;
+                flex-direction: column;
+                gap: 24px;
+            }
+
+            .title {
+                color: var(--color-text-low);
+                @include font(subtitle-large-regular); 
+            }
+
+            .subtitle {
+                color: var(--color-text);
+
+                @include font(headline);
+                @include media(medium) {
+                    @include font(hero);
+                }
+            }
+        }
+    }
 }

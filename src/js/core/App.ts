@@ -88,6 +88,7 @@ export class App implements NomadRouteListener {
 			if (template === 'objects') return new ObjectsFiltersPage(id, template, dom)
 			else if (template === 'object') return new ObjectPage(id, template, dom)
 			else if (template === 'about') return new ScrollingPage(id, template, dom)
+			else if (template === 'how_to_use') return new ScrollingPage(id, template, dom)
 			return new DefaultPage(id, template, dom)
 		})
 

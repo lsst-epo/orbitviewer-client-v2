@@ -63,7 +63,7 @@
     @include gradient_border;
 
     @include media(medium) {
-        --object-top-margin: calc(var(--site-margin-large) + 48px);
+        --object-top-margin: calc(var(--site-margin-large) + 72px);
         position: absolute;
         inset: var(--object-top-margin) auto var(--site-margin-small) var(--site-margin-small);
         width: calc(100% - var(--site-margin-small));
