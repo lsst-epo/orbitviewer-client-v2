@@ -1,4 +1,5 @@
 import { GLOBALS } from "./Globals";
+import { UserFilters } from "./solar/SolarUtils";
 
 export function downloadJSON(data, filename, minify = false) {
     // Convert the JavaScript object to a JSON string
@@ -33,7 +34,7 @@ export function downloadJSON(data, filename, minify = false) {
 export const STATIC_URL = "https://storage.googleapis.com/orbitviewer-data/";
 
 export async function getSolarStaticData(weight:string, isV2:boolean=false) {
-    const url = isV2 ? `${STATIC_URL}mpc_orbits-${weight}-v6.json` : `${STATIC_URL}mpcorbs-${weight}.json`;
+    const url = isV2 ? `${STATIC_URL}mpc_orbits-${weight}-v7.json` : `${STATIC_URL}mpcorbs-${weight}.json`;
     const response = await fetch(url);
     return await response.json();
 }
@@ -55,8 +56,8 @@ export function generateShareableURL() {
   if(!GLOBALS.solarClock.live) {
     // embed a date
     const date = GLOBALS.solarClock.currentDate;
-    const p = `date=${date.toISOString().split('T')[0]}`;
-    params.push(p);
+    params.push(`d=${date.toISOString().slice(0, 19).replaceAll(':', '-')}`);
+    params.push(`ts=${GLOBALS.solarClock.hoursPerSec}`);
   }
 
   if(template === "orbitviewerpage") {
@@ -66,9 +67,23 @@ export function generateShareableURL() {
     if(cam.isCustomCamera()) {
       const pos = cam.camera.position;
       const quat = cam.camera.quaternion;
-      params.push(`cp=${pos.x}:${pos.y}:${pos.z}`);
-      params.push(`cq=${quat.x}:${quat.y}:${quat.z}:${quat.w}`);
+      params.push(`cp=${pos.x}_${pos.y}_${pos.z}`);
+      params.push(`cq=${quat.x}_${quat.y}_${quat.z}_${quat.w}`);
     }
+
+    // filters
+    params.push(`db=${UserFilters.discoveredBy}`);
+    const cats = [];
+    for(const key in UserFilters.categories) {
+      if(UserFilters.categories[key] === false) {
+        cats.push(key);
+      }
+    }
+    // console.log(cats);
+    if(cats.length) {
+      params.push(`ntypes=${cats.join('+')}`);
+    }
+
   } else if(template === 'object') {
     url += `object/`;
     const pr = GLOBALS.urlParams();
@@ -79,7 +94,42 @@ export function generateShareableURL() {
     url += `${template}/`;
   }
 
-  if(params.length) url += params.join('&');
+  if(params.length) url += `?${params.join('&')}`;
 
   return url;
+}
+
+export function parseURL() {
+  const params = GLOBALS.urlParams();
+
+  let cp = null, cq = null;
+
+  for(const p of params) {
+    if(p.key === 'db') {
+      const i = parseInt(p.value);
+      if(i >=0 && i<=2) UserFilters.discoveredBy = i as 0|1|2;
+    }
+    if(p.key === 'ntypes') {
+      const cats = p.value.split('+');
+      for(const cat of cats) {
+        UserFilters.categories[cat] = false;
+      }
+    }
+    if(p.key === 'cp') {
+      cp = p.value;
+    }
+    if(p.key === 'cq') {
+      cq = p.value;
+    }
+  }
+
+  // console.log(UserFilters);
+
+  GLOBALS.viewer.filtersUpdated();
+
+  if(cp != null && cq != null) {
+    console.log(cp);
+    console.log(cq);
+    GLOBALS.viewer.controls.animateCameraFromURLParams(cp, cq);
+  }
 }
