@@ -5,7 +5,7 @@ import { GLOBALS } from "../core/Globals";
 import { getClosestDateToSun, getDistanceFromEarthNow, getDistanceFromSunNow, mapOrbitElementsV2 } from "../core/solar/SolarUtils";
 import { SolarElement } from "../gfx/solar/SolarElement";
 import { DefaultPage } from "./DefaultPage";
-import { CategoryFilters, DistanceFromEarth } from "../core/data/Categories";
+import { CategoryFilters, CategoryNames, DistanceFromEarth } from "../core/data/Categories";
 import { MathUtils } from "@fils/math";
 import { OrbitElements, SolarCategory } from "../core/solar/SolarSystem";
 import TooltipDialog from "../components/TooltipDialog";
@@ -213,6 +213,9 @@ export class ObjectPage extends DefaultPage {
                 GLOBALS.nomad.goToPath(`/${GLOBALS.lang}/`);
             }, 200);
         }
+
+        const h2c = this.dom.querySelector('h2#cat-comparison');
+        h2c.textContent = h2c.textContent.replace('%category%', CategoryNames[GLOBALS.lang][catID]);
 
         const els = this.dom.querySelectorAll('li.orbital_elements-item');
         els[0].querySelector('.orbital_elements-value').textContent = `${data.w.toFixed(2)}`;

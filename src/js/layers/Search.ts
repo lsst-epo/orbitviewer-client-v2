@@ -1,4 +1,4 @@
-import { CategoryNamesEN, TypeCategoryMap } from "../core/data/Categories";
+import { CategoryNames, TypeCategoryMap } from "../core/data/Categories";
 import { LoadManager } from "../core/data/LoadManager";
 import { SearchEngine } from "../core/data/SearchEngine";
 import { GLOBALS } from "../core/Globals";
@@ -110,7 +110,7 @@ class Search extends Layer {
 
     getCategoryName(cat:SolarCategory) {
         // console.log(cat);
-        return CategoryNamesEN[cat];
+        return CategoryNames[GLOBALS.lang][cat];
     }
 
     private mapNodeDataWithSI(node:HTMLElement, el, sel:SolarElement, addDes:boolean=false) {

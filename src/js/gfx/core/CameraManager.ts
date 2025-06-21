@@ -230,7 +230,7 @@ export class CameraManager {
     
     this.controls.enableZoom = true;
 
-    offset.copy(origin);
+    // offset.copy(origin);
 
     this.cameraTarget.target = null;
     this.controls.autoRotate = false;

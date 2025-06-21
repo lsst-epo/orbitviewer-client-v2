@@ -76,6 +76,10 @@ export const CategoryNamesEN:Record<SolarCategory, string> = {
 	'jupiter-trojans': "Jupiter Trojans"
 }
 
+export const CategoryNames = {
+	en: CategoryNamesEN
+}
+
 export function resetSolarCategoryCounters() {
 	for(const type in CategoryCounters) {
 		if (type === "planets-moons") continue;
