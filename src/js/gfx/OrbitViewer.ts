@@ -159,11 +159,12 @@ export class OrbitViewer extends ThreeLayer {
 			gsap.killTweensOf(CLOCK_SETTINGS);
 			if(goLive) GLOBALS.solarClock.goLive();
 
-			this.solarItemsUI.show(true);
+			this.solarItemsUI.show(null);
 
 			for(const el of this.solarElements) {
 				el.selected = false;
 				el.mode = Mode.ORBIT;
+				el.domRef.dom.style.opacity = `1`;
 			}
 		}
 
@@ -333,6 +334,7 @@ export class OrbitViewer extends ThreeLayer {
 		}
 		// sel.enabled = false;
 		sel.selected = true;
+		sel.domRef.dom.style.opacity = `${followOrbit ? 1 : 0}`;
 		this.controls.followTarget(sel, followOrbit);
 		this.particles.highlighted = false;
 	}

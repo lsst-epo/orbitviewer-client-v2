@@ -9,6 +9,7 @@ import gsap from "gsap";
 import { slugify } from "@fils/utils";
 import { GLOBALS } from "../../core/Globals";
 import { UserFilters } from "../../core/solar/SolarUtils";
+import { SolarDOMElement } from "./SolarDomElement";
 
 export interface CameraLock {
 	min: number;
@@ -64,6 +65,8 @@ export class SolarElement extends Object3D implements InteractiveObject {
 	type: string;
     category: string;
     closeUp: boolean = false;
+
+    domRef:SolarDOMElement = null;
 
     isPlanet:boolean = false;
 

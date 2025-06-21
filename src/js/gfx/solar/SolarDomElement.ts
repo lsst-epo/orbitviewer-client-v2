@@ -14,6 +14,8 @@ export class SolarDOMElement {
     this.label = dom.querySelector('.canvas_pointer-text');
     dom.setAttribute('aria-label', ref.name);
 
+    ref.domRef = this;
+
     dom.onmouseover = () => {
       ref.focus();
       this.hovered = true;

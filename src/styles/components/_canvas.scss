@@ -65,7 +65,7 @@
 
     &.disabled {
         pointer-events: none;
-        opacity: 0;
+        // opacity: 0;
     }
 
     // opacity: max(.2, calc(1 - var(--depth)));
