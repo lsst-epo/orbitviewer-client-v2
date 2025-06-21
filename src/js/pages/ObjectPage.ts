@@ -15,9 +15,13 @@ export class ObjectPage extends DefaultPage {
     selectedSolarItem:SolarElement;
 
     section:HTMLElement;
+
+    isSolarItem:boolean;
     
     constructor(id: string, template: string, dom: HTMLElement) {
         super(id, template, dom);
+
+        this.isSolarItem = template === 'featured-object';
 
         this.section = dom.querySelector('section');
         // gsap.set(this.section, {
@@ -65,11 +69,17 @@ export class ObjectPage extends DefaultPage {
         GLOBALS.timeCtrls.open();
         GLOBALS.mapCtrls.open();
         let slug = '';
-        const params = GLOBALS.urlParams();
-        // console.log(params);
-        for(const param of params) {
-            if(param.key === 'id') {
-                slug = param.value;
+        if(this.isSolarItem) {
+            const parts = location.pathname.split('/');
+            slug = parts[parts.length-2];
+            console.log(slug);
+        } else {
+            const params = GLOBALS.urlParams();
+            // console.log(params);
+            for(const param of params) {
+                if(param.key === 'id') {
+                    slug = param.value;
+                }
             }
         }
         // console.log(slug);

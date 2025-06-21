@@ -1,0 +1,17 @@
+---
+layout: base
+pageTemplate: featured-object
+pagination:
+  data: objects
+  alias: object
+  size: 1
+permalink:
+  build: "/{{lang}}/solar-items/{{object.slug}}/"
+eleventyComputed:
+  title: "{{ object.title }}"
+  description: "{{ object.description }}"
+  card: "{{ staticData.og.basePath }}{{ object.og }}"
+  locale: "{{ staticData.locale[lang] }}"
+---
+
+{% include "../../../partials/object.njk" %}

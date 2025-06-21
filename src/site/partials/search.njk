@@ -32,23 +32,19 @@
                         <div class="listitem-group" role="group">
                             <h3 class="listitem-label">{{ copy.search.recommended_searches[lang] }}</h3>
                             <ul class="listitem-list">
-                                {% set recommended_searches = [
-                                    { name: "Earth", category: "Planets & Dwarf Planets", id: "earth" },
-                                    { name: "Mars", category: "Planets & Dwarf Planets", id: "mars" },
-                                    { name: "Apollo", category: "NEOs", id: "1932-ha" },
-                                    { name: "Chariklo", category: "Centaurs", id: "1997-cu26" }
-                                ] %}
-                                {% for item in recommended_searches %}
+                                {% for item in objects %}
+                                    {% if item.category.title != '' %}
                                     <li class="listitem-item" role="menuitem">
-                                        <a href="/{{lang}}/object/?id={{item.id}}" class="listitem-link">
+                                        <a href="/{{lang}}/solar-items/{{item.slug}}/" class="listitem-link">
                                             <span class="heading">
-                                                <span class="name">{{ item.name }}</span>
+                                                <span class="name">{{ item.title }}</span>
                                             </span>
                                             {% if item.category %}
-                                                <span class="value">{{ item.category }}</span>
+                                                <span class="value">{{ item.category.title }}</span>
                                             {% endif %}
                                         </a>
                                     </li>
+                                    {% endif %}
                                 {% endfor %}
                             </ul>
                         </div>

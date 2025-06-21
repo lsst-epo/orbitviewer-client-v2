@@ -4,7 +4,7 @@ export default {
 	baseURL: "",
   title: "Orbit Viewer",
 	description: "Vera Rubin's interactive explorer.",
-	languages: ["en", "es"],
+	languages: ["en"],//["en", "es"],
 	defaultLanguage: "en",
 	rootDomain: "https://d251spak4lbyvj.cloudfront.net/en/",
 	stagingDomain: "https://d251spak4lbyvj.cloudfront.net/",

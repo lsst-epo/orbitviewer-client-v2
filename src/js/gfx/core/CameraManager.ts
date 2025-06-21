@@ -20,7 +20,7 @@ const DEFAULT_TARGET_ZOOM = .5;
 
 export const DEFAULT_CAM_LIMITS = {
 	minDistance: 24,
-  maxDistance: 2000000
+  maxDistance: 3000000
 }
 
 const tmp = new Vector3();

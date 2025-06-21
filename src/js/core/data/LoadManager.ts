@@ -1,8 +1,8 @@
 import { Color } from "three";
 import { USE_V2 } from "../App";
-import { VISUAL_SETTINGS } from "../Globals";
+import { GLOBALS, VISUAL_SETTINGS } from "../Globals";
 import { getSolarStaticData } from "../Utils";
-import { CSSCategoryMap } from "./Categories";
+import { CategoryNames, CSSCategoryMap, TypeCategoryMap } from "./Categories";
 import { getCategories, getSolarItemsInfo } from "./CraftManager";
 import { getA, getClassificationRanges } from "./QueryManager";
 
@@ -66,8 +66,8 @@ class LoadManagerClass {
 
     private get coreCraftDataAvailable() {
         const craft = this.mgr.craftData;
-        return craft.categories && craft.solar_items && this.mgr.craftData.solar_items;// && craft.pages.landing;
-        // return craft.solar_items && this.mgr.craftData.solar_items;// && craft.pages.landing;
+        // return craft.categories && craft.solar_items && this.mgr.craftData.solar_items;// && craft.pages.landing;
+        return craft.solar_items && this.mgr.craftData.solar_items;// && craft.pages.landing;
     }
 
     public get coreLoaded():boolean {
@@ -90,6 +90,10 @@ class LoadManagerClass {
         cnt.data.categories.forEach(entry => {
             entry.threeColor = new Color(entry.mainColor);
             root.style.setProperty(`--color-${CSSCategoryMap[parseInt(entry.objectTypeCode)]}`, entry.mainColor);
+            // Also replace text
+            CategoryNames[GLOBALS.lang][
+                TypeCategoryMap[parseInt(entry.objectTypeCode)]
+            ] = entry.title;
             // console.log(`--color-${CSSCategoryMap[parseInt(entry.objectTypeCode)]}`, entry.mainColor);
             // console.log(entry);
         })

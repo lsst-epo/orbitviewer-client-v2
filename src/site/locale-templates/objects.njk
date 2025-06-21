@@ -6,7 +6,7 @@ eleventyComputed:
   title: "{{ staticData.title }}"
   description: "{{ staticData.description }}"
   card: "{{ staticData.og.basePath }}{{ staticData.og.default }}"
-  locale: "{{ staticData.locale[staticData.defaultLanguage] }}"
+  locale: "{{ staticData.locale[lang] }}"
 ---
 
 {% from '../../../partials/icons.njk' import icon %}

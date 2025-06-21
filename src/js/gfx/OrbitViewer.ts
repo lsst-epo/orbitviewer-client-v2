@@ -25,7 +25,7 @@ export interface FollowTarget {
 }
 
 export const NEAR = 5000;
-export const FAR = 75000;
+export const FAR = 150000;
 
 const dummy = new Object3D();
 
@@ -64,7 +64,7 @@ export class OrbitViewer extends ThreeLayer {
       super(_gl);
       const w = this.gl.rect.width;
       const h = this.gl.rect.height;
-      this.camera = new PerspectiveCamera(35, w/h, .01, DEFAULT_CAM_LIMITS.maxDistance);
+      this.camera = new PerspectiveCamera(35, w/h, .01, DEFAULT_CAM_LIMITS.maxDistance + 5000000);
       this.scene.add(this.camera);
       this.params.camera = this.camera;
 

@@ -5,6 +5,8 @@ permalink: "/{{lang}}/about/"
 eleventyComputed:
   title: "{{ staticData.title }}"
   description: "{{ staticData.description }}"
+  card: "{{ staticData.og.basePath }}{{ staticData.og.default }}"
+  locale: "{{ staticData.locale[staticData.defaultLanguage] }}"
 ---
 
 <div class="about-page">

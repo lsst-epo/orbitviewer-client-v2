@@ -3,7 +3,7 @@
 @use '../base/mixins' as *;
 @use '../base/typography' as *;
 
-.object {
+.object, .featured-object {
     &_template {
         .scene_controls {
             bottom: calc(40vh + 12px);
