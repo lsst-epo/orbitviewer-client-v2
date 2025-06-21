@@ -154,7 +154,8 @@
                 }
                 
                 figure {
-                    margin: 0;
+                    max-width: 80ch;
+                    margin: 0 auto;
                     color: var(--color-text-low);
                 }
             }

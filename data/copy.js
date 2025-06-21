@@ -187,7 +187,7 @@ export default {
             }
         },
         "title": {
-            "en": "Vera C. Rubins 3D Orbit Viewer",
+            "en": "NSF–DOE Vera C. Rubin Observatory’s 3D Orbitviewer",
             "es": ""
         },
         "subtitle": {
@@ -199,7 +199,7 @@ export default {
             "es": ""
         },
         "discoveries": {
-            "en": "Discoveries Unveiled",
+            "en": "Rubin discoveries (so far)",
             "es": ""
         }
     },
@@ -233,7 +233,7 @@ export default {
                     "es": ""
                 },
                 "tooltip": {
-                    "en": "This is the periapsis tooltip",
+                    "en": "Argument of perihelion: the “roll” of the orbit",
                     "es": ""
                 }
             },
@@ -243,7 +243,7 @@ export default {
                     "es": ""
                 },
                 "tooltip": {
-                    "en": "This is the longitued tooltip",
+                    "en": "Longitude of ascending node: the “yaw” of the orbit",
                     "es": ""
                 }
             },
@@ -253,7 +253,7 @@ export default {
                     "es": ""
                 },
                 "tooltip": {
-                    "en": "This is the true anomaly tooltip",
+                    "en": "True anomaly: the position of the object in its orbit",
                     "es": ""
                 }
             }
@@ -461,7 +461,7 @@ export default {
         "types": {
             "planets_moons": {
                 name: {
-                    "en": "Planets",
+                    "en": "Planets & Dwarf Planets",
                     "es": "",
                 },
                 description: {
