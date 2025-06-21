@@ -128,6 +128,7 @@ export const GLOBALS:Globals = {
 
 		for(const p of parts) {
 			const p2 = p.split('=');
+			if(p.length < 2) continue;
 			map.push({
 				key: p2[0],
 				value: p2[1]

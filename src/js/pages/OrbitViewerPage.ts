@@ -68,10 +68,11 @@ class OrbitViewerPage extends DefaultPage {
 	create(): void {
 		this.createElements();
 
-		console.log(GLOBALS.firstPage);
+		// console.log(GLOBALS.firstPage);
 
 		if(GLOBALS.firstPage) {
 			const params = GLOBALS.urlParams();
+			// console.log(params)
 			if((IS_DEV_MODE && SKIP_ONBOARDING) || (params.length > 0)) {
 				this.splash?.close();
 				GLOBALS.viewer.goToOrbitViewerMode(true);
