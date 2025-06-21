@@ -91,6 +91,7 @@ eleventyComputed:
                     </div>
                     
                     <div class="object_card-unit">
+                        <h2 class="title">This object compared to other <insert object category></h2>
                         {{ ObjectCardGraph('sliderA', 'Average distance from the Sun', 'Semi-major axis (a)', 20, 100, ['sun', 'stars']) }}
                         {{ ObjectCardGraph('sliderE', 'Deviation from a circular orbit', 'Eccentricity (e)', 50, 100, ['eccentricity-low', 'eccentricity-high']) }}
                         {{ ObjectCardGraph('sliderI', 'Angle of orbit', 'Inclination (i)', 10, 100, ['inclination-low', 'inclination-high']) }}
