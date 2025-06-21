@@ -114,7 +114,7 @@ eleventyComputed:
                                     <dt class="orbital_elements-label" aria-label="{{ copy.object.orbital_elements.longitude.aria[lang] }}">Ω</dt>
                                     <dd class="orbital_elements-value">322.63</dd>
                                 </dl>
-                                <button type="button" class="button_icon xsmall ghost" data-tooltip="{{ copy.object.orbital_elements.longitude.aria[lang] }}">
+                                <button type="button" class="button_icon xsmall ghost" data-tooltip="{{ copy.object.orbital_elements.longitude.tooltip[lang] }}">
                                     {{ icon('info') }}
                                 </button>
                             </li>
@@ -123,7 +123,7 @@ eleventyComputed:
                                     <dt class="orbital_elements-label" aria-label="{{ copy.object.orbital_elements.anomaly.aria[lang] }}">v</dt>
                                     <dd class="orbital_elements-value">322.63</dd>
                                 </dl>
-                                <button type="button" class="button_icon xsmall ghost" data-tooltip="{{ copy.object.orbital_elements.anomaly.aria[lang] }}">
+                                <button type="button" class="button_icon xsmall ghost" data-tooltip="{{ copy.object.orbital_elements.anomaly.tooltip[lang] }}">
                                     {{ icon('info') }}
                                 </button>
                             </li>
