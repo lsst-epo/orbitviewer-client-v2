@@ -56,6 +56,8 @@
 
     scroll-margin: 0;
 
+    transition: opacity 1s ease-out;
+
     &[aria-hidden=true] {
         display: none;
         pointer-events: none;
@@ -63,6 +65,7 @@
 
     &.disabled {
         pointer-events: none;
+        opacity: 0;
     }
 
     // opacity: max(.2, calc(1 - var(--depth)));
