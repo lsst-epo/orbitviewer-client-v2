@@ -115,7 +115,6 @@
                                     <li class="listitem-item" role="menuitem">
                                         <label class="listitem-field">
                                             <input type="radio" id="{{ key }}" name="mode">
-                                        
                                             <span class="listitem-link">
                                                 <span class="text">
                                                     <span class="heading">
@@ -123,7 +122,7 @@
                                                     </span>
                                                     <span class="details">
                                                         <span>{{ mode.name[lang] }}</span>
-                                                        <span>16,000 {{ copy.core.objects[lang] }}</span>
+                                                        <span>{{ mode.objects }} {{ copy.core.objects[lang] }}</span>
                                                     </span>
                                                 </span>
                                                 {{ icon('check', 'check') }}
