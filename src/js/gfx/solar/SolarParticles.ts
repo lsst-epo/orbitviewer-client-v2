@@ -22,6 +22,9 @@ import { CategoryCounters, getCraftCategory } from "../../core/data/Categories";
 import { UserFilters } from "../../core/solar/SolarUtils";
 import { FAR, NEAR } from "../OrbitViewer";
 
+const DEFAULT_OPACITY = 1;
+const OBJECT_MODE_OPACITY = .1;
+
 const MAT = new ShaderMaterial({
     vertexShader,
     fragmentShader,
@@ -32,7 +35,7 @@ const MAT = new ShaderMaterial({
             value: null
         },
         opacity: {
-            value: 1
+            value: DEFAULT_OPACITY
         },
         near: {
             value: 0
@@ -196,7 +199,7 @@ export class SolarParticles {
      */
     set highlighted(value:boolean) {
         const u = MAT.uniforms;
-        gsap.to(u.opacity, {value: value ? 1 : .1, duration: 2, overwrite: true});
+        gsap.to(u.opacity, {value: value ? DEFAULT_OPACITY : OBJECT_MODE_OPACITY, duration: 2, overwrite: true});
     }
 
     /**
