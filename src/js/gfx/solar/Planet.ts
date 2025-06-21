@@ -24,6 +24,8 @@ const gltfLoader = new GLTFLoader();
 import fragmentShader from "../../../glsl/lib/atmosphere.frag";
 import vertexShader from "../../../glsl/lib/atmosphere.vert";
 import { PlanetDataMap } from "../../core/solar/SolarUtils";
+import { debugCan } from "../../core/App";
+import { uiColliders } from "../OrbitViewer";
 
 export function getAtmosphereMaterial(color1:ColorRepresentation, color2:ColorRepresentation, fresnelWidth:number=1, brightness:number=1.5):ShaderMaterial {
     return new ShaderMaterial({
@@ -68,6 +70,7 @@ export class Planet extends SolarElement {
         this.initMaterial(opts);
 
 		this.mesh = new Mesh(PLANET_GEO, this.material);
+        this.mesh.geometry.computeBoundingBox();
 
 		this.parent.add(this.mesh);
 
@@ -80,6 +83,9 @@ export class Planet extends SolarElement {
         const scl = PlanetRadiusMap[this.type] * KM2AU * PLANET_SCALE * 100;
         this.scale.set(scl, scl, scl);
         // correct fresnel
+
+        debugCan.add(this);
+        uiColliders.push(this);
 
         if(id === 'saturn') {
             // console.log('Houston, we\'ve got Saturn!');
@@ -176,6 +182,8 @@ export class Planet extends SolarElement {
         // calculateOrbitByType(this.data, d-.00000000000000001, OrbitType.Elliptical, this.offsetDesktop);
         // if(!this.hasAtmosphere) return;
         // this.atmosphereMaterial.uniforms.time.value = GLOBALS.solarClock.time;
+
+        this.updateSSBbox(GLOBALS.viewer.camera);
     }
 
 }

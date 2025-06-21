@@ -2,7 +2,8 @@ import { MathUtils } from "@fils/math";
 import { Vector3 } from "three";
 import { GLOBALS } from "../../core/Globals";
 import { SolarElement } from "./SolarElement";
-import { FAR } from "../OrbitViewer";
+import { FAR, uiColliders } from "../OrbitViewer";
+import { rectsIntersect } from "./Solar3DElement";
 
 const tmp:Vector3 = new Vector3();
 
@@ -62,7 +63,27 @@ export class SolarDOMElement {
     const zIndex = this.hovered ? FAR : Math.round(FAR - tmp.z);
     this.dom.style.zIndex = `${zIndex}`;
 
-    // const isBehindSun = 
+    let rect = null;
+    let behind = false;
+
+    for(const el of uiColliders) {
+      if(el.isCollider()) {
+        if(el.distanceToCamara < this.ref.distanceToCamara) {
+          if(rect == null) rect = this.dom.getBoundingClientRect();
+          if(rectsIntersect(el.rect, rect)) {
+            behind = true;
+            break;
+          }
+        }
+      }
+    }
+
+    if(behind) {
+      console.log('INTERSECT');
+      this.dom.classList.add('behind');
+    } else {
+      this.dom.classList.remove('behind');
+    }
     
     // if(depth > .5 && !this.hovered) this.label.classList.add('disabled');
     // else this.label.classList.remove('disabled');

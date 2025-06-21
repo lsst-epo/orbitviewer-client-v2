@@ -1,17 +1,17 @@
-import { MathUtils } from "@fils/math";
-import { AdditiveBlending, Color, Mesh, MeshBasicMaterial, Object3D, ShaderMaterial, SphereGeometry, Vector3 } from "three";
+import { Color, Mesh, MeshBasicMaterial, Object3D, ShaderMaterial, SphereGeometry, Vector3 } from "three";
 // import { CameraManager } from "../core/CameraManager";
 // import { SunMaterial } from "../gfx/SunMaterial";
-import { InteractiveObject } from "./SolarElement";
 // import { P_MAT, SunParticles } from "./SunParticles";
+import { GLOBALS } from "../../core/Globals";
 import { PLANET_SCALE } from "../../core/solar/Planet";
 import { KM2AU, SUN_RADIUS } from "../../core/solar/SolarSystem";
-import { GLOBALS } from "../../core/Globals";
 
-import vertexShader from "../../../glsl/lib/sun.vert";
 import fragmentShader from "../../../glsl/lib/sun.frag";
-import { getAtmosphereMaterial } from "./Planet";
+import vertexShader from "../../../glsl/lib/sun.vert";
+import { Solar3DElement } from "./Solar3DElement";
 import { SunMagneticField } from "./SunMagneticField";
+import { debugCan } from "../../core/App";
+import { uiColliders } from "../OrbitViewer";
 
 const GEO = new SphereGeometry(1, 64, 32);
 const R = SUN_RADIUS * KM2AU * PLANET_SCALE;
@@ -52,7 +52,7 @@ const SUN_MAT = new ShaderMaterial({
 /**
  * GFX Asset for the Sun
  */
-export class Sun extends Object3D implements InteractiveObject {
+export class Sun extends Solar3DElement {
     mesh:Mesh;
     // particles:SunParticles;
     selected:boolean = false;
@@ -76,6 +76,9 @@ export class Sun extends Object3D implements InteractiveObject {
 
     constructor() {
         super();
+
+        debugCan.add(this);
+        uiColliders.push(this);
 
         this.scale.setScalar(R);
 
@@ -133,6 +136,9 @@ export class Sun extends Object3D implements InteractiveObject {
     }
 
     update() {
+        this.updateDistanceToCamera();
+        this.updateSSBbox(GLOBALS.viewer.camera);
+
         // const t = GLOBALS.solarClock.time;
         const t = GLOBALS.clock.currentTime;
         SUN_MAT.uniforms.time.value = t;

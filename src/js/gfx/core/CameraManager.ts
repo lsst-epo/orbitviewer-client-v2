@@ -2,6 +2,7 @@ import { MathUtils } from "@fils/math";
 import gsap from "gsap";
 import { Euler, Object3D, PerspectiveCamera, Raycaster, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import { Solar3DElement } from "../solar/Solar3DElement";
 import { InteractiveObject, SolarElement } from "../solar/SolarElement";
 
 export interface FollowTarget {
@@ -201,7 +202,7 @@ export class CameraManager {
     return d > 100;
   }
 
-  followTarget(target:InteractiveObject, followOrbit:boolean=false) {
+  followTarget(target:Solar3DElement, followOrbit:boolean=false) {
     gsap.killTweensOf(this.lockedCam.position);
     gsap.killTweensOf(this.controls.target);
 

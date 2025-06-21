@@ -18,6 +18,7 @@ import { LoadManager } from "../core/data/LoadManager";
 import { SolarItemUI } from "../layers/SolarItemsUI";
 import { CameraManager, camOcluders, DEFAULT_CAM_LIMITS } from "./core/CameraManager";
 import { CategoryCounters, resetSolarCategoryCounters, updateTotals } from "../core/data/Categories";
+import { Solar3DElement } from "./solar/Solar3DElement";
 
 export interface FollowTarget {
 	target: InteractiveObject;
@@ -30,6 +31,8 @@ export const FAR = 150000;
 const dummy = new Object3D();
 
 export const SolarItemsSamples = [];
+
+export const uiColliders:Solar3DElement[] = [];
 
 export class OrbitViewer extends ThreeLayer {
   camera:PerspectiveCamera;

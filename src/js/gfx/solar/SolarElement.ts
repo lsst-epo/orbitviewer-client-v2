@@ -1,14 +1,15 @@
-import { Box3, BufferAttribute, BufferGeometry, ColorRepresentation, Line, LineBasicMaterial, Mesh, MeshPhongMaterial, Object3D, Vector3 } from "three";
+import { BufferAttribute, BufferGeometry, ColorRepresentation, Line, LineBasicMaterial, Object3D, Vector3 } from "three";
 // import { isPortrait } from "../../production/utils/Helpers";
 // import { initMaterial } from "../gfx/ShaderLib";
 // import { EllipticalPath } from "./EllipticalPath";
 // import { PlanetOptions, PLANET_GEO } from "./Planet";
-import { calculateOrbitByType, OrbitElements, OrbitType } from "../../core/solar/SolarSystem";
-import { DEFAULT_PATH_ALPHA, EllipticalPath, OBJECT_PATH_ALPHA } from "./EllipticalPath";
-import gsap from "gsap";
 import { slugify } from "@fils/utils";
+import gsap from "gsap";
 import { GLOBALS } from "../../core/Globals";
+import { calculateOrbitByType, OrbitElements, OrbitType } from "../../core/solar/SolarSystem";
 import { UserFilters } from "../../core/solar/SolarUtils";
+import { DEFAULT_PATH_ALPHA, EllipticalPath, OBJECT_PATH_ALPHA } from "./EllipticalPath";
+import { Solar3DElement } from "./Solar3DElement";
 import { SolarDOMElement } from "./SolarDomElement";
 
 export interface CameraLock {
@@ -54,7 +55,7 @@ export enum Mode {
     OBJECT
 }
 
-export class SolarElement extends Object3D implements InteractiveObject {
+export class SolarElement extends Solar3DElement {
     parent:Object3D = new Object3D();
     // mesh:Mesh;
     data:OrbitElements;
@@ -252,6 +253,8 @@ export class SolarElement extends Object3D implements InteractiveObject {
         // this.mesh.updateMatrixWorld();
         // this.material.update();
         this.orbitPath.update(d, this.position, this.scale.x);
+
+        this.updateDistanceToCamera();
 
         // this.orbitPath.ellipse.visible = this.visible;
     }

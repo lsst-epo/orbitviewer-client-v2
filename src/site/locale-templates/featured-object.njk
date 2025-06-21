@@ -8,7 +8,7 @@ pagination:
 permalink:
   build: "/{{lang}}/solar-items/{{object.slug}}/"
 eleventyComputed:
-  title: "{{ object.title }}"
+  title: "{{ staticData.title }} — {{ object.title }}"
   description: "{{ object.description }}"
   card: "{{ staticData.og.basePath }}{{ object.og }}"
   locale: "{{ staticData.locale[lang] }}"

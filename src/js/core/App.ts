@@ -1,5 +1,5 @@
 import { Timer } from "@fils/ani";
-import { ThreeDOMLayer } from "@fils/gl-dom";
+import { CanvasDOMLayer, ThreeDOMLayer } from "@fils/gl-dom";
 import { Clock } from "three";
 import { OrbitViewer } from "../gfx/OrbitViewer";
 import { initShaders } from "../gfx/Shaders";
@@ -10,6 +10,7 @@ import { getSimData, getSimDataV2 } from "./solar/SolarData";
 import { Nomad, NomadRoute, NomadRouteListener } from "@fils/nomad";
 import Stats from "three/examples/jsm/libs/stats.module.js";
 import ToggleGroup from "../components/ToggleGroup";
+import { Debug2DCanvas } from "../gfx/Debug2DCanvas";
 import { EarthClouds } from "../gfx/planets/EarthClouds";
 import { Loader } from "../layers/Loader";
 import MapControls from "../layers/MapControls";
@@ -21,7 +22,7 @@ import { ObjectPage } from "../pages/ObjectPage";
 import { ObjectsFiltersPage } from "../pages/ObjectsFiltersPage";
 import OrbitViewerPage from "../pages/OrbitViewerPage";
 import { ScrollingPage } from "../pages/ScrollingPage";
-import { calculateDistanceMap, calculateEarthTodayDistanceMap, calculatePropRange, CategoryCounters, CategoryFilters, updateTotals } from "./data/Categories";
+import { calculateEarthTodayDistanceMap, calculatePropRange, CategoryCounters, CategoryFilters, updateTotals } from "./data/Categories";
 import { LoadManager } from "./data/LoadManager";
 import { UserFilters } from "./solar/SolarUtils";
 
@@ -29,10 +30,14 @@ export const solarClock = new SolarClock(new Clock());
 
 export const USE_V2 = true;
 
+export let debugCan:Debug2DCanvas = null;
+
 export class App implements NomadRouteListener {
 	gl:ThreeDOMLayer;
 	viewer:OrbitViewer;
 	clock:Timer;
+
+	gl2:CanvasDOMLayer;
 
 	protected testRunning:boolean = false;
 	protected deltas:number[] = [];
@@ -50,6 +55,11 @@ export class App implements NomadRouteListener {
 		GLOBALS.loader.show();
 
 		initShaders();
+
+		this.gl2 = new CanvasDOMLayer(document.querySelector('.view'), devicePixelRatio);
+		this.gl2.canvas.classList.add('debug');
+		console.log(this.gl2.canvas);
+		debugCan = new Debug2DCanvas(this.gl2);
 
 		this.gl = new ThreeDOMLayer(document.querySelector('.view'), {
 			antialias: true,
@@ -187,6 +197,8 @@ export class App implements NomadRouteListener {
 
 		this.viewer.update(t, d);
 		this.viewer.render();
+
+		debugCan.render();
 
 		GLOBALS.timeCtrls.update();
 
