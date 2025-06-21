@@ -552,16 +552,12 @@ export default {
                     "en": "Trojans are asteroids that share a planet’s orbit, clustering around gravitationally stable points ahead of or behind the planet (called Lagrange points). Most known Trojans share orbits with Jupiter, but Neptune and even Earth have a few. Their unique orbits make them long-term Solar System residents and tracers of gravitational interactions with the planets.",
                     "es": ""
                 }
-            },
-            "sun_star": {
-                name: {
-                    "en": "Sun",
-                    "es": ""
-                },
-                description: {
-                    "en": "",
-                    "es": ""
-                }
+            }
+        },
+        "sun_star": {
+            name: {
+                "en": "Sun",
+                "es": ""
             }
         },
         "total": {
