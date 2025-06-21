@@ -8,6 +8,10 @@ export default {
 	defaultLanguage: "en",
 	rootDomain: "https://d251spak4lbyvj.cloudfront.net/en/",
 	stagingDomain: "https://d251spak4lbyvj.cloudfront.net/",
+	og: {
+		basePath: 'images/og/',
+		default: 'default.webp'
+	},
 	locale: {
     en: "en",
 		es: "es"
