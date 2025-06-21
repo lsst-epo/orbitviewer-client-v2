@@ -41,10 +41,13 @@ export class SolarItemUI {
     }
   }
 
-  show() {
+  show(sel:SolarElement=null) {
     this.dom.setAttribute('aria-hidden', 'false');
     clearTimeout(tid);
     this.visible = true;
+    for(const el of this.elements) {
+      el.enabled = el.ref !== sel;
+    }
   }
 
   hide() {

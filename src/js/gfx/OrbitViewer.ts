@@ -159,7 +159,7 @@ export class OrbitViewer extends ThreeLayer {
 			gsap.killTweensOf(CLOCK_SETTINGS);
 			if(goLive) GLOBALS.solarClock.goLive();
 
-			this.solarItemsUI.show();
+			this.solarItemsUI.show(true);
 
 			for(const el of this.solarElements) {
 				el.selected = false;
@@ -323,13 +323,15 @@ export class OrbitViewer extends ThreeLayer {
 		if(sel === null) return console.warn('Null Solar Item selected!');
 		console.log('Follow Solar Item with orbit set to', followOrbit);
 		this.fadeIn();
-		this.solarItemsUI.show();
+		this.solarItemsUI.show(sel);
 		for(const el of this.solarElements) {
 			el.mode = Mode.OBJECT;
 			if(el === sel) continue;
 			el.selected = false;
+			// el.enabled = true;
 			// el.hidePath();
 		}
+		// sel.enabled = false;
 		sel.selected = true;
 		this.controls.followTarget(sel, followOrbit);
 		this.particles.highlighted = false;

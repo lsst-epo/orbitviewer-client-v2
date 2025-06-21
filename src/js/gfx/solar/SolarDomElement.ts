@@ -12,6 +12,7 @@ export class SolarDOMElement {
 
   constructor(public dom:HTMLElement, public ref:SolarElement) {
     this.label = dom.querySelector('.canvas_pointer-text');
+    dom.setAttribute('aria-label', ref.name);
 
     dom.onmouseover = () => {
       ref.focus();
@@ -25,6 +26,7 @@ export class SolarDOMElement {
 
     dom.onclick = () => {
       dom.blur();
+      // this.enabled = false;
       GLOBALS.nomad.goToPath(`/${GLOBALS.lang}/object/`, `?id=${ref.slug}`);
       const sel = GLOBALS.viewer.getSolarElementBySlug(ref.slug);
       GLOBALS.viewer.followSolarElement(sel, !sel.isPlanet || GLOBALS.objectToggle.selectedIndex===0);
