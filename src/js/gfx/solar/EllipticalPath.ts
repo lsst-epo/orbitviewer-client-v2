@@ -19,6 +19,7 @@ const MIN_DISTANCE = {
 const MIN_POINTS = 10;
 
 export const DEFAULT_PATH_ALPHA = .05;
+export const OBJECT_PATH_ALPHA = .01;
 
 const origin = new Vector3();
 

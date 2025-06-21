@@ -10,7 +10,7 @@ import { JD2MJD } from "../core/solar/SolarTime";
 import { mapOrbitElements, mapOrbitElementsV2, OrbitDataElements, OrbitDataElementsV2 } from "../core/solar/SolarUtils";
 import { RubinRenderer } from "./core/RubinRenderer";
 import { Planet } from "./solar/Planet";
-import { InteractiveObject, SolarElement } from "./solar/SolarElement";
+import { InteractiveObject, Mode, SolarElement } from "./solar/SolarElement";
 import { Sun } from "./solar/Sun";
 
 // import { Lensflare, LensflareElement } from 'three/examples/jsm/objects/Lensflare.js';
@@ -163,6 +163,7 @@ export class OrbitViewer extends ThreeLayer {
 
 			for(const el of this.solarElements) {
 				el.selected = false;
+				el.mode = Mode.ORBIT;
 			}
 		}
 
@@ -322,11 +323,12 @@ export class OrbitViewer extends ThreeLayer {
 		if(sel === null) return console.warn('Null Solar Item selected!');
 		console.log('Follow Solar Item with orbit set to', followOrbit);
 		this.fadeIn();
-		this.solarItemsUI.hide();
+		this.solarItemsUI.show();
 		for(const el of this.solarElements) {
+			el.mode = Mode.OBJECT;
 			if(el === sel) continue;
 			el.selected = false;
-			el.hidePath();
+			// el.hidePath();
 		}
 		sel.selected = true;
 		this.controls.followTarget(sel, followOrbit);

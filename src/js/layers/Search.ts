@@ -121,7 +121,7 @@ class Search extends Layer {
         const a = node.querySelector('a');
         a.href = "javascript:void(0);";
         a.onclick = () => {
-            GLOBALS.nomad.goToPath(`/${GLOBALS.lang}/object/?id=${sel.slug}`);
+            GLOBALS.nomad.goToPath(`/${GLOBALS.lang}/object/`, `?id=${sel.slug}`);
         }
     }
 
@@ -131,7 +131,7 @@ class Search extends Layer {
         const a = node.querySelector('a');
         a.href = "javascript:void(0);";
         a.onclick = () => {
-            GLOBALS.nomad.goToPath(`/${GLOBALS.lang}/object/?id=${mel.mpcdesignation}`);
+            GLOBALS.nomad.goToPath(`/${GLOBALS.lang}/object/`, `?id=${mel.mpcdesignation}`);
         }
     }
 

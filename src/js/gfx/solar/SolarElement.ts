@@ -4,7 +4,7 @@ import { Box3, BufferAttribute, BufferGeometry, ColorRepresentation, Line, LineB
 // import { EllipticalPath } from "./EllipticalPath";
 // import { PlanetOptions, PLANET_GEO } from "./Planet";
 import { calculateOrbitByType, OrbitElements, OrbitType } from "../../core/solar/SolarSystem";
-import { DEFAULT_PATH_ALPHA, EllipticalPath } from "./EllipticalPath";
+import { DEFAULT_PATH_ALPHA, EllipticalPath, OBJECT_PATH_ALPHA } from "./EllipticalPath";
 import gsap from "gsap";
 import { slugify } from "@fils/utils";
 import { GLOBALS } from "../../core/Globals";
@@ -48,6 +48,11 @@ export type SolarElementOptions = {
 	}
 } */
 
+export enum Mode {
+    ORBIT,
+    OBJECT
+}
+
 export class SolarElement extends Object3D implements InteractiveObject {
     parent:Object3D = new Object3D();
     // mesh:Mesh;
@@ -68,6 +73,8 @@ export class SolarElement extends Object3D implements InteractiveObject {
     offsetOrbit = new Vector3();
 
     slug:string;
+
+    protected _mode:Mode = 0;
 
     protected _active:boolean = true;
 
@@ -123,6 +130,16 @@ export class SolarElement extends Object3D implements InteractiveObject {
         // this.lockedPosition.portrait.offset.set(0,-max.length()-1000,0);
 
         this.updateCameraView();
+    }
+
+    set mode(value:Mode) {
+        this._mode = value;
+        if(this.selected) return;
+        this.blur(value === 0 ? DEFAULT_PATH_ALPHA : OBJECT_PATH_ALPHA);
+    }
+
+    get mode():Mode {
+        return this._mode;
     }
 
     updateFilters() {
@@ -247,8 +264,10 @@ export class SolarElement extends Object3D implements InteractiveObject {
         })
     }
 
-    blur(opacity:number=DEFAULT_PATH_ALPHA) {
+    blur(op?:number) {
         if(!this._active) return;
+        let opacity = this.mode === 0 ? DEFAULT_PATH_ALPHA : OBJECT_PATH_ALPHA;
+        if(op !== undefined) opacity = op;
         this.orbitPath.ellipse.visible = true;
         gsap.to(this.orbitPath.material, {
             opacity,
