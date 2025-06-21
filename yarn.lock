@@ -322,9 +322,9 @@
     mersenne "^0.0.4"
 
 "@fils/nomad@^0.4.2":
-  version "0.4.2"
-  resolved "https://registry.yarnpkg.com/@fils/nomad/-/nomad-0.4.2.tgz#d082e42a8534afc18155af44b36c82a928c1451c"
-  integrity sha512-AaSsrzGxUk2yn75gQs2APYwdK/bZ4iOO9tNZ30LQorOBgmw8Z/5OimmWIX/PYbLAi/eBs42Km5uYVs6UXy/bcw==
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/@fils/nomad/-/nomad-0.4.3.tgz#f869674f0d2c628a4b808d60fc8d91ecd174f04a"
+  integrity sha512-zZEunZqNY0EQAd6ynaoM6NMNEnLW5iqgB3wmReHYnkXktlmexgRLY9wiPg6e+g6frIj1EUCz97dzfTFAh9v5AQ==
   dependencies:
     "@fils/utils" "0.0.20"
 
