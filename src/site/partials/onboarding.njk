@@ -24,7 +24,7 @@ eleventyComputed:
                         <h3 class="name">{{ mode.name[lang] }}</h3>
                         <h4 class="title">{{ mode.title[lang] }}</h4>
                         <p class="description">{{ mode.description[lang] }}</p>
-                        <p class="count">30,000 {{ copy.core.objects[lang] }}</p>
+                        <p class="count">{{ mode.objects }} {{ copy.core.objects[lang] }}</p>
                     </div>
                     <div class="exploration_card-foot">
                         {# {{ Button('Launch', 'button secondary medium') }} #}
