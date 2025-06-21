@@ -66,7 +66,7 @@ export const CategoryCounters:Record<SolarCategory, number> = {
 }
 
 export const CategoryNamesEN:Record<SolarCategory, string> = {
-	"planets-moons": "Planets",
+	"planets-moons": "Planets & Dwarf Planets",
 	'asteroids': "Asteroids",
 	'comets': "Comets",
 	'centaurs': "Centaurs",
