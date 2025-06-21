@@ -15,7 +15,7 @@ eleventyComputed:
         </div>
 
         <div class="splash-heading">
-            <h1 class="title">{{ copy.splash.title[lang] }}</h1>
+            <h1 class="title">{{ copy.splash.title[lang] | safe }}</h1>
             <h2 class="subtitle">{{ copy.splash.subtitle[lang] }}</h2>
         </div>
 

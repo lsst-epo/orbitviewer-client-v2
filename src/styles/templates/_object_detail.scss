@@ -85,6 +85,10 @@
         overflow: auto;
         padding: 16px;
         @include scrollbar-custom;
+
+        @include media(medium) {
+            padding: 24px;
+        }
     }
 
         &-heading {

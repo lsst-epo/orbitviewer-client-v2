@@ -191,7 +191,7 @@ export default {
             }
         },
         "title": {
-            "en": "NSF–DOE Vera C. Rubin Observatory’s 3D Orbitviewer",
+            "en": "NSF–DOE Vera C. Rubin Observatory’s<br/>3D Orbitviewer",
             "es": ""
         },
         "subtitle": {
@@ -220,6 +220,10 @@ export default {
         },
         "diameter": {
             "en": "Diameter",
+            "es": ""
+        },
+        "comparison": {
+            "en": "This object compared to other %category%",
             "es": ""
         },
         "orbital_elements": {
