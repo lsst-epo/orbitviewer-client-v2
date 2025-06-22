@@ -3,6 +3,8 @@ precision highp float;
 uniform sampler2D computedPosition;
 attribute vec2 simUV;
 attribute float filterValue;
+uniform vec2 resolution;
+uniform float fixedSize;
 
 out float alive;
 out vec3 vColor;
@@ -50,11 +52,19 @@ void main () {
     vPosition = (translationMatrix * vec4(position, 1.0)).xyz;
 
     float distanceToCamera = length(instancePosition - cameraPosition);
-    float sD = smoothstep(100.0, 2000.0, distanceToCamera);
+    /*float sD = smoothstep(100.0, 2000.0, distanceToCamera);
 
     float iScale = mix(.1, 2., sD);
 
-    mat4 scaleMatrix = scale(vec3(iScale * size));
+    mat4 scaleMatrix = scale(vec3(iScale * size)); */
+
+    // Method 2: More precise screen-space scaling (uncomment to use instead)
+    float fov = atan(1.0 / projectionMatrix[1][1]) * 2.0;
+    float screenHeight = resolution.y;
+    float pixelSize = fixedSize / screenHeight;
+    float worldSize = pixelSize * distanceToCamera * tan(fov * 0.5) * 2.0;
+
+    mat4 scaleMatrix = scale(vec3(worldSize));
 
     vec3 pos = position;
     vec4 transformed = translationMatrix * scaleMatrix * vec4(pos, 1.0);

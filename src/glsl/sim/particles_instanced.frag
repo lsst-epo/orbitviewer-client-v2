@@ -15,7 +15,7 @@ uniform float opacity;
 
 #include <desaturate>
 
-const float factor = .75;
+const float factor = .5;
 const float brightness = .4;
 
 void main () {

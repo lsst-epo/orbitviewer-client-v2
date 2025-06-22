@@ -7,7 +7,7 @@
  */
 
 // import { RTUtils } from "@fils/gfx";
-import { Color, InstancedBufferAttribute, InstancedMesh, PerspectiveCamera, ShaderMaterial, SphereGeometry, WebGLRenderer } from "three";
+import { Color, InstancedBufferAttribute, InstancedMesh, PerspectiveCamera, ShaderMaterial, SphereGeometry, Vector2, WebGLRenderer } from "three";
 import { GLOBALS, GPU_SIM_SIZES, VISUAL_SETTINGS } from "../../core/Globals";
 import { OrbitElements } from "../../core/solar/SolarSystem";
 import { GPUSim, SimQuality } from "./GPUSim";
@@ -42,6 +42,12 @@ const MAT = new ShaderMaterial({
         },
         far: {
             value: 0
+        },
+        fixedSize: {
+            value: 1
+        },
+        resolution: {
+            value: new Vector2()
         }
     }
 });
@@ -63,6 +69,10 @@ export class SolarParticles {
         this.sim = new GPUSim(renderer);
         this.quality = this.sim.qualitySettings;
         MAT.uniforms.computedPosition.value = this.sim.texture;
+        MAT.uniforms.resolution.value.set(
+            renderer.domElement.width,
+            renderer.domElement.height
+        );
 
         this.createInstancedMesh();
     }
@@ -112,6 +122,13 @@ export class SolarParticles {
 
         this.filtered = [];
         for(let i=0; i<count; i++) this.filtered.push(false);
+    }
+
+    setSize(width:number, height:number) {
+        MAT.uniforms.resolution.value.set(
+            width,
+            height
+        );
     }
 
     /**

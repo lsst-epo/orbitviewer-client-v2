@@ -27,7 +27,7 @@ export interface FollowTarget {
 }
 
 export const NEAR = 5000;
-export const FAR = 150000;
+export const FAR = 100000;
 
 const dummy = new Object3D();
 
@@ -366,15 +366,15 @@ export class OrbitViewer extends ThreeLayer {
 	}
 
     setTarget(target:WebGLRenderTarget)  {
-        this.params.target = target;
+      this.params.target = target;
     }
 
     setSize(width: number, height: number): void {
-        super.setSize(width, height);
-				for(const sel of this.solarElements) {
-					sel.updateCameraView();
-				}
-
+      super.setSize(width, height);
+			for(const sel of this.solarElements) {
+				sel.updateCameraView();
+			}
+			this.particles.setSize(width, height);
     }
 
     setData(data:OrbitElements[]) {
