@@ -88,6 +88,7 @@ export class ObjectPage extends DefaultPage {
         }
         // console.log(slug);
         const sel = GLOBALS.viewer.getSolarElementBySlug(slug);
+        console.log(slug, sel);
         if(sel === null) {
             let data = null;
             for(const item of LoadManager.data.sample) {
@@ -309,6 +310,6 @@ export class ObjectPage extends DefaultPage {
     dispose(): void {
         // console.log('DISPOSE');
         super.dispose();
-        GLOBALS.objectToggle.callback = null;
+        // GLOBALS.objectToggle.callback = null;
     }
 }

@@ -87,6 +87,8 @@ export class App implements NomadRouteListener {
 		GLOBALS.mapCtrls = new MapControls(document.querySelector('.map_controls'));
 		GLOBALS.objectToggle = new ToggleGroup(document.querySelector('#toggle-view'));
 
+		// console.log(document.querySelectorAll('#toggle-view'))
+
 		const navigationDom = document.querySelector('.nav_dropdown');
 		this.navigation = navigationDom ? new Navigation(navigationDom) : null;
 		GLOBALS.navigation = this.navigation;
@@ -219,7 +221,7 @@ export class App implements NomadRouteListener {
 			if(performance.now() - this.testStarted >= 5000) {
 				let dt = 0;
 				// console.log(this.deltas);
-				this.deltas.splice(0, 2);
+				this.deltas.splice(0, 10);
 				for(const d of this.deltas) {
 					dt += d / this.deltas.length;
 				}
