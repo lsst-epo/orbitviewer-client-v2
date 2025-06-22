@@ -4,6 +4,7 @@ import { Euler, Object3D, PerspectiveCamera, Raycaster, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { Solar3DElement } from "../solar/Solar3DElement";
 import { SolarElement } from "../solar/SolarElement";
+import { OBJECT_PATH_ALPHA } from "../solar/EllipticalPath";
 
 export interface FollowTarget {
   target: Solar3DElement;
@@ -219,7 +220,7 @@ export class CameraManager {
     const t = target as SolarElement;
     if(t.orbitPath) {
       if(followOrbit) t.selected = true;
-      else t.blur(.003);
+      else t.blur(OBJECT_PATH_ALPHA);
     }
 
     this.controls.enableZoom = false;
@@ -312,7 +313,7 @@ export class CameraManager {
       // 1. remove offset
       this.lockedCam.translateX(-offset.x);
       this.lockedCam.translateY(-offset.y);
-      if(this.isTarget) this.lockedCam.translateZ(-offset.z);
+      // if(this.isTarget) this.lockedCam.translateZ(-offset.z);
 
       const easing = this.cameraTarget.alpha;
 

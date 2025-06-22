@@ -47,7 +47,7 @@ export default {
         },
         "medium": {
             "name": {
-                "en": "High-end mobiles",
+                "en": "Laptops & Basic Desktops",
                 "es": ""
             },
             "title": {

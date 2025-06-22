@@ -1,6 +1,8 @@
 import { MathUtils } from "@fils/math";
+import { isMobile } from "@fils/utils";
 import { CLOCK_SETTINGS, GLOBALS } from "./Globals";
 import { UserFilters } from "./solar/SolarUtils";
+import { performanceTest } from "./App";
 
 export function downloadJSON(data, filename, minify = false) {
     // Convert the JavaScript object to a JSON string
@@ -35,7 +37,7 @@ export function downloadJSON(data, filename, minify = false) {
 export const STATIC_URL = "https://storage.googleapis.com/orbitviewer-data/";
 
 export async function getSolarStaticData(weight:string, isV2:boolean=false) {
-    const url = isV2 ? `${STATIC_URL}mpc_orbits-${weight}-v7.json` : `${STATIC_URL}mpcorbs-${weight}.json`;
+    const url = isV2 ? `${STATIC_URL}mpc_orbits-${weight}-v8.json` : `${STATIC_URL}mpcorbs-${weight}.json`;
     const response = await fetch(url);
     return await response.json();
 }
@@ -155,4 +157,14 @@ export function parseURL() {
     // console.log(cq);
     GLOBALS.viewer.controls.animateCameraFromURLParams(cp, cq);
   }
+}
+
+export function getRecommendedPerformanceIndex():number {
+  if(!isMobile()) {
+      console.log('average perf test DT', performanceTest.averageDT);
+      if(performanceTest.averageDT < 17) return 2;
+      else if(performanceTest.averageDT < 24) return 1;
+  }
+
+  return 0;
 }

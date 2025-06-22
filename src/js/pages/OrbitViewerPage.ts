@@ -13,7 +13,7 @@ import gsap from "gsap";
 import Toast from "../layers/Toast";
 import { parseURL } from "../core/Utils";
 
-const SKIP_ONBOARDING = true;
+const SKIP_ONBOARDING = false;
 
 class OrbitViewerPage extends DefaultPage {
 	filters: Filters;

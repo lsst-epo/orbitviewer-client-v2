@@ -32,6 +32,11 @@ export const USE_V2 = true;
 
 export let debugCan:Debug2DCanvas = null;
 
+export const performanceTest = {
+	finished: false,
+	averageDT: 0
+}
+
 export class App implements NomadRouteListener {
 	gl:ThreeDOMLayer;
 	viewer:OrbitViewer;
@@ -168,9 +173,8 @@ export class App implements NomadRouteListener {
 
 		console.log(CategoryFilters);
 
-		GLOBALS.loader.hide();
-
-		this.initNomad();
+		this.testStarted = performance.now();
+		this.testRunning = true;
 
 		// this.viewer.goToLandingMode();
 		/* this.viewer.fadeIn();
@@ -200,24 +204,30 @@ export class App implements NomadRouteListener {
 
 		// debugCan?.render();
 
-		GLOBALS.timeCtrls.update();
-
-		this.currentPage?.update();
-
 		if(this.testRunning) {
 			this.deltas.push(this.clock.currentDelta);
+			// console.log(this.clock.currentDelta);
 			if(performance.now() - this.testStarted >= 5000) {
 				let dt = 0;
 				// console.log(this.deltas);
+				this.deltas.splice(0, 2);
 				for(const d of this.deltas) {
 					dt += d / this.deltas.length;
 				}
 				// dt *= 1000;
 				// this.terminal.log(`Ended test with an average <span class="blue">${dt*1000}ms</span> & <span class="blue">${1/dt}fps</span>.`);
 				// this.terminal.log(`<span class="green">Done!</span> ✨`);
+				performanceTest.finished = true;
+				performanceTest.averageDT = dt * 1000;
 				this.testRunning = false;
-				this.viewer.controls.enableInteraction = true;
+				GLOBALS.loader.hide();
+				this.initNomad();
 			}
+
+			return;
 		}
+
+		GLOBALS.timeCtrls.update();
+		this.currentPage?.update();
 	}
 }
