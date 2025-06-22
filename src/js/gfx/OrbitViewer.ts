@@ -126,6 +126,7 @@ export class OrbitViewer extends ThreeLayer {
     }
 
 		adjustQualitySettings() {
+			console.log('Adjusting gfx tier to', VISUAL_SETTINGS.current)
 			const tier = QUALITY_TIERS[VISUAL_SETTINGS.current] as GFXTier;
 
 			// resize

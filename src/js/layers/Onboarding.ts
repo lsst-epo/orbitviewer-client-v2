@@ -64,6 +64,7 @@ class Onboarding extends Layer {
                         whenReady();
                     });
                 } else {
+                    GLOBALS.viewer.adjustQualitySettings();
                     whenReady();
                 }
             });
