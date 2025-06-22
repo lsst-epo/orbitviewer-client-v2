@@ -12,6 +12,7 @@ import { LoadManager } from "../core/data/LoadManager";
 import gsap from "gsap";
 import Toast from "../layers/Toast";
 import { parseURL } from "../core/Utils";
+import { isMobile } from "@fils/utils";
 
 const SKIP_ONBOARDING = false;
 
@@ -76,6 +77,7 @@ class OrbitViewerPage extends DefaultPage {
 			if((IS_DEV_MODE && SKIP_ONBOARDING) || (params.length > 0)) {
 				this.splash?.close();
 				GLOBALS.viewer.goToOrbitViewerMode(true);
+				GLOBALS.viewer.adjustQualitySettings(isMobile() ? 'low' : 'medium');
 				this.showUI();
 				parseURL();
 			} else {

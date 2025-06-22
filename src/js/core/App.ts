@@ -25,6 +25,7 @@ import { ScrollingPage } from "../pages/ScrollingPage";
 import { calculateEarthTodayDistanceMap, calculatePropRange, CategoryCounters, CategoryFilters, updateTotals } from "./data/Categories";
 import { LoadManager } from "./data/LoadManager";
 import { UserFilters } from "./solar/SolarUtils";
+import { isMobile } from "@fils/utils";
 
 export const solarClock = new SolarClock(new Clock());
 
@@ -110,6 +111,9 @@ export class App implements NomadRouteListener {
 		GLOBALS.nomad = nomad;
 
 		this.currentPage = nomad.route.page as DefaultPage;
+		if(this.currentPage.template !== "orbitviewerpage") {
+			this.viewer.adjustQualitySettings(isMobile() ? 'low' : 'medium');
+		}
 	}
 
 	onRouteChangeStart(href: string): void {

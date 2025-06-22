@@ -19,6 +19,7 @@ import { SolarItemUI } from "../layers/SolarItemsUI";
 import { CameraManager, camOcluders, DEFAULT_CAM_LIMITS } from "./core/CameraManager";
 import { CategoryCounters, resetSolarCategoryCounters, updateTotals } from "../core/data/Categories";
 import { Solar3DElement } from "./solar/Solar3DElement";
+import { SimQuality } from "./solar/GPUSim";
 
 export interface FollowTarget {
 	target: Solar3DElement;
@@ -125,9 +126,10 @@ export class OrbitViewer extends ThreeLayer {
 			GLOBALS.viewer = this;
     }
 
-		adjustQualitySettings() {
-			console.log('Adjusting gfx tier to', VISUAL_SETTINGS.current)
-			const tier = QUALITY_TIERS[VISUAL_SETTINGS.current] as GFXTier;
+		adjustQualitySettings(q:SimQuality=null) {
+			const quality = q || VISUAL_SETTINGS.current;
+			console.log('Adjusting gfx tier to', quality)
+			const tier = QUALITY_TIERS[quality] as GFXTier;
 
 			// resize
 			this.gl.renderer.setPixelRatio(Math.min(devicePixelRatio, tier.maxPixelRatio));

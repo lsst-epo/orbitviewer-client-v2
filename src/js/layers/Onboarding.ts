@@ -48,7 +48,7 @@ class Onboarding extends Layer {
                 this.close();
 
                 const id = el.getAttribute('data-id');
-                console.log(id);
+                // console.log(id);
 
                 if(id !== VISUAL_SETTINGS.current) {
                     // Load Data
