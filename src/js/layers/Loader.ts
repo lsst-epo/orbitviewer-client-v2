@@ -9,6 +9,7 @@ export class Loader {
   }
 
   hide() {
+    // console.log('HIDEEEE')
     this.dom.setAttribute('aria-hidden', 'true');
   }
 }

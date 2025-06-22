@@ -46,6 +46,7 @@ export class EarthClouds {
       tier.cloudsWidth,
       tier.cloudsWidth / 2
     )
+    this.forceRender = true;
   }
 
   render(rnd:WebGLRenderer) {

@@ -57,8 +57,10 @@ export class App implements NomadRouteListener {
 	constructor() {
 		GLOBALS.lang = document.documentElement.getAttribute('lang');
 
+		console.log(document.querySelectorAll('.loader'))
+
 		GLOBALS.loader = new Loader(document.querySelector('.loader'));
-		GLOBALS.loader.show();
+		// GLOBALS.loader.show();
 
 		initShaders();
 

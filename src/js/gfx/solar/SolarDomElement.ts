@@ -63,6 +63,8 @@ export class SolarDOMElement {
     const x = tmp.x * window.innerWidth;
     const y = tmp.y * window.innerHeight;
     this.dom.style.transform = `translateX(${x}px) translateY(${y}px)`;
+
+    if(this.ref.selected) return this.enabled = false;
     // this.dom.style.left = `${tmp.x*100}%`;
     // this.dom.style.top = `${tmp.y*100}%`;
 
