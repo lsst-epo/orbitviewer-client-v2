@@ -100,8 +100,15 @@
             min-height: 40vh;
             overflow: hidden;
 
+            .ribbon {
+                &[aria-hidden=true] {
+                    display: none;
+                }
+            }
+
             &.recommended {
                 .ribbon {
+                    display: block;
                     position: absolute;
                     top: 0;
                     right: 0;
@@ -110,7 +117,6 @@
                     transform-origin: bottom left;
                     background: var(--color-turquoise-600);
                     @include font(overline-small);
-
                 }
                 
                 .button {
