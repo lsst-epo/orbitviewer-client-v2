@@ -6,10 +6,10 @@ export default {
 	description: "Vera Rubin's interactive explorer.",
 	languages: ["en"],//["en", "es"],
 	defaultLanguage: "en",
-	rootDomain: "https://d251spak4lbyvj.cloudfront.net/en/",
+	rootDomain: "https://d251spak4lbyvj.cloudfront.net/",
 	stagingDomain: "https://d251spak4lbyvj.cloudfront.net/",
 	og: {
-		basePath: 'images/og/',
+		basePath: 'assets/images/og/',
 		default: 'default.webp'
 	},
 	locale: {
