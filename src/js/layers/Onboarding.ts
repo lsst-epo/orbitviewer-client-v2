@@ -33,7 +33,7 @@ class Onboarding extends Layer {
         }
 
         const lis = this.dom.querySelectorAll('li');
-        console.log(lis);
+        // console.log(lis);
         let recommendedIndex = getRecommendedPerformanceIndex();
 
         for(let i=0;i<4;i++) {
