@@ -12,22 +12,6 @@ import { DEFAULT_PATH_ALPHA, EllipticalPath, OBJECT_PATH_ALPHA } from "./Ellipti
 import { Solar3DElement } from "./Solar3DElement";
 import { SolarDOMElement } from "./SolarDomElement";
 
-export interface CameraLock {
-	min: number;
-	max: number;
-}
-
-export interface InteractiveObject extends Object3D {
-	selected:boolean;
-	target:Object3D;
-	lockedObjectDistance:CameraLock;
-    lockedOrbitDistance:CameraLock;
-	offsetObject:Vector3;
-    offsetOrbit:Vector3;
-	// closeUp: boolean;
-}
-
-
 const L_DUMMY = new LineBasicMaterial({
     color: 0xff0000
 });

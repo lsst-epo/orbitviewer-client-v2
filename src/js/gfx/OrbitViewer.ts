@@ -10,7 +10,7 @@ import { JD2MJD } from "../core/solar/SolarTime";
 import { mapOrbitElements, mapOrbitElementsV2, OrbitDataElements, OrbitDataElementsV2 } from "../core/solar/SolarUtils";
 import { RubinRenderer } from "./core/RubinRenderer";
 import { Planet } from "./solar/Planet";
-import { InteractiveObject, Mode, SolarElement } from "./solar/SolarElement";
+import { Mode, SolarElement } from "./solar/SolarElement";
 import { Sun } from "./solar/Sun";
 
 // import { Lensflare, LensflareElement } from 'three/examples/jsm/objects/Lensflare.js';
@@ -21,7 +21,7 @@ import { CategoryCounters, resetSolarCategoryCounters, updateTotals } from "../c
 import { Solar3DElement } from "./solar/Solar3DElement";
 
 export interface FollowTarget {
-	target: InteractiveObject;
+	target: Solar3DElement;
 	alpha: number;
 }
 

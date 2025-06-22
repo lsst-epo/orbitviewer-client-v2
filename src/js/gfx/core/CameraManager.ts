@@ -3,10 +3,10 @@ import gsap from "gsap";
 import { Euler, Object3D, PerspectiveCamera, Raycaster, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { Solar3DElement } from "../solar/Solar3DElement";
-import { InteractiveObject, SolarElement } from "../solar/SolarElement";
+import { SolarElement } from "../solar/SolarElement";
 
 export interface FollowTarget {
-  target: InteractiveObject;
+  target: Solar3DElement;
   alpha: number;
   zoomLevel:number;
   orbit:boolean;
