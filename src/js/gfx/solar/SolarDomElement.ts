@@ -56,7 +56,7 @@ export class SolarDOMElement {
   }
 
   update() {
-    if(!this.ref.enabled) return this.hidden = true;
+    if(!this.ref.enabled || this.ref.isBehindCamera()) return this.hidden = true;
     GLOBALS.viewer.controls.getNormalizedScreenCoords(this.ref, tmp);
     if(tmp.z < 0) return this.hidden = true;
     this.hidden = false;
@@ -64,7 +64,7 @@ export class SolarDOMElement {
     const y = tmp.y * window.innerHeight;
     this.dom.style.transform = `translateX(${x}px) translateY(${y}px)`;
 
-    if(this.ref.selected) return this.enabled = false;
+    if(this.ref.selected) this.enabled = false;
     // this.dom.style.left = `${tmp.x*100}%`;
     // this.dom.style.top = `${tmp.y*100}%`;
 
@@ -73,19 +73,19 @@ export class SolarDOMElement {
     const zIndex = this.hovered ? FAR : Math.round(FAR - tmp.z);
     this.dom.style.zIndex = `${zIndex}`;
 
-    let rect = null;
+    let rect = this.rectDOM.getBoundingClientRect();
+    this.rect = rect;
     let behind = false;
 
     if(!this.hovered) {
       for(const el of uiColliders) {
         if(el.isCollider()) {
           if(el.distanceToCamara < this.ref.distanceToCamara) {
-            if(el.rect.width < 20 && el.rect.height < 20) break;
-            if(rect == null) {
+            /* if(rect == null) {
               rect = this.rectDOM.getBoundingClientRect();
               this.rect = rect;
-            }
-            if(rectsIntersect(el.rect, rect)) {
+            } */
+            if((el.rect.width > 20 && el.rect.height > 20) && rectsIntersect(el.rect, rect)) {
               behind = true;
               break;
             }

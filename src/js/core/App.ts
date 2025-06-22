@@ -3,7 +3,7 @@ import { CanvasDOMLayer, ThreeDOMLayer } from "@fils/gl-dom";
 import { Clock } from "three";
 import { OrbitViewer } from "../gfx/OrbitViewer";
 import { initShaders } from "../gfx/Shaders";
-import { CLOCK_SETTINGS, GLOBALS } from "./Globals";
+import { CLOCK_SETTINGS, GLOBALS, IS_DEV_MODE } from "./Globals";
 import { SolarClock } from "./solar/SolarClock";
 import { getSimData, getSimDataV2 } from "./solar/SolarData";
 
@@ -30,6 +30,7 @@ import { isMobile } from "@fils/utils";
 export const solarClock = new SolarClock(new Clock());
 
 export const USE_V2 = true;
+export const SHOW_DEBUG = false;
 
 export let debugCan:Debug2DCanvas = null;
 
@@ -64,10 +65,12 @@ export class App implements NomadRouteListener {
 
 		initShaders();
 
-		/* this.gl2 = new CanvasDOMLayer(document.querySelector('.view'), devicePixelRatio);
-		this.gl2.canvas.classList.add('debug');
-		console.log(this.gl2.canvas);
-		debugCan = new Debug2DCanvas(this.gl2); */
+		if(SHOW_DEBUG && IS_DEV_MODE) {
+			this.gl2 = new CanvasDOMLayer(document.querySelector('.view'), devicePixelRatio);
+			this.gl2.canvas.classList.add('debug');
+			console.log(this.gl2.canvas);
+			debugCan = new Debug2DCanvas(this.gl2);
+		}
 
 		this.gl = new ThreeDOMLayer(document.querySelector('.view'), {
 			antialias: true,
@@ -208,7 +211,7 @@ export class App implements NomadRouteListener {
 		this.viewer.update(t, d);
 		this.viewer.render();
 
-		// debugCan?.render();
+		debugCan?.render();
 
 		if(this.testRunning) {
 			this.deltas.push(this.clock.currentDelta);

@@ -259,7 +259,7 @@ export class OrbitViewer extends ThreeLayer {
 								// console.log(data);
 								//Add item...
 								const element = new SolarElement(el.elementID, data);
-								this.addElementToScene(element);
+								this.addElementToScene(element, el.title);
 								break;
 							}
 						}
@@ -278,7 +278,7 @@ export class OrbitViewer extends ThreeLayer {
 
 				const planet = new Planet(el.id as PlanetId, mel);
 
-      	this.addElementToScene(planet);
+      	this.addElementToScene(planet, planet.name);
 
 				if(el.id === 'earth') {
 					console.log("Houston, Houston: we've found the earth");
@@ -293,9 +293,9 @@ export class OrbitViewer extends ThreeLayer {
 		// this.hidePaths();
 	}
 
-	protected addElementToScene(element:SolarElement) {
+	protected addElementToScene(element:SolarElement, title:string) {
 		this.solarElements.push(element);
-		this.solarItemsUI.addItem(element);
+		this.solarItemsUI.addItem(element, title);
 		this.scene.add(element);
 		this.scene.add(element.orbitPath.ellipse);
 	}

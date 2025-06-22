@@ -29,6 +29,8 @@ export class Solar3DElement extends Object3D {
 
   distanceToCamara:number;
 
+  distanceThreshold:number = D_THRESHOLD;
+
   // selected:boolean;
   target:Object3D;
   lockedObjectDistance:CameraLock;
@@ -94,7 +96,7 @@ export class Solar3DElement extends Object3D {
   }
 
   updateSSBbox(camera:Camera) {
-    if(camera.position.distanceTo(this.position) > D_THRESHOLD) {
+    if(this.isBehindCamera() || camera.position.distanceTo(this.position) > this.distanceThreshold) {
       this.boundingBox.set(min, max);
       return;
     }

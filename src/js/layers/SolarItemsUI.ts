@@ -21,10 +21,12 @@ export class SolarItemUI {
     this.dom = document.querySelector('.solar-items');
   }
 
-  addItem(el:SolarElement) {
+  addItem(el:SolarElement, title:string) {
     const category = el.category;
     const id = CategoryTypeMap[category];
     // console.log(category, id);
+
+    // console.log(title, el.name);
 
     for(const template of this.templates) {
       if(parseInt(template.getAttribute('data-id')) === id) {
@@ -32,7 +34,7 @@ export class SolarItemUI {
         const dom = template.cloneNode(true) as HTMLAnchorElement;
         // dom.href = `/object/?${el.name}`;
         // dom.href = `/object/`;
-        dom.querySelector('.canvas_pointer-text').textContent = el.name;
+        dom.querySelector('.canvas_pointer-text').textContent = title || el.name;
         this.dom.appendChild(dom);
         const item = new SolarDOMElement(dom, el);
         this.elements.push(item);

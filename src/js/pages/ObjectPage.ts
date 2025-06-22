@@ -113,6 +113,7 @@ export class ObjectPage extends DefaultPage {
                 GLOBALS.objectToggle.show();
                 GLOBALS.viewer.followSolarElement(sel, GLOBALS.objectToggle.selectedIndex===0);
                 GLOBALS.objectToggle.callback = () => {
+                    console.log('Switch mode to', GLOBALS.objectToggle.selectedIndex);
                     GLOBALS.viewer.followSolarElement(sel, GLOBALS.objectToggle.selectedIndex===0);
                 }
             }
