@@ -1,5 +1,5 @@
 import { RTUtils } from "@fils/gfx";
-import { BlurPass, BlurSettings } from "@fils/vfx";
+import { BlurPass, BlurQuality, BlurSettings } from "@fils/vfx";
 import { Camera, Mesh, MeshBasicMaterial, Scene, ShaderMaterial, SRGBColorSpace, WebGLRenderer, WebGLRenderTarget } from "three";
 
 const SCREEN_MAT = new MeshBasicMaterial();
@@ -14,6 +14,56 @@ const GLOW:BlurSettings = {
 import vertexShader from "../../../glsl/vfx/comp.vert";
 import fragmentShader from "../../../glsl/vfx/comp.frag";
 import { GLOBALS } from "../../core/Globals";
+import { SimQuality } from "../solar/GPUSim";
+
+export interface GFXTier {
+  maxPixelRatio:number;
+  maxSamples:number;
+  blurScale:number;
+  blurQuality:BlurQuality;
+  blurIterations:number;
+  glowEnabled:boolean;
+  cloudsWidth:number;
+}
+
+export const QUALITY_TIERS:Record<SimQuality, GFXTier> = {
+  low: {
+    maxPixelRatio: 1.5,
+    maxSamples: 1,
+    glowEnabled: false,
+    blurIterations: 2,
+    blurQuality: 0,
+    blurScale: .25,
+    cloudsWidth: 512
+  },
+  medium: {
+    maxPixelRatio: 1.5,
+    maxSamples: 2,
+    glowEnabled: true,
+    blurIterations: 2,
+    blurQuality: 0,
+    blurScale: .25,
+    cloudsWidth: 512
+  },
+  high: {
+    maxPixelRatio: 2,
+    maxSamples: 4,
+    glowEnabled: true,
+    blurIterations: 4,
+    blurQuality: 2,
+    blurScale: .5,
+    cloudsWidth: 1024
+  },
+  ultra: {
+    maxPixelRatio: 3,
+    maxSamples: 4,
+    glowEnabled: true,
+    blurIterations: 4,
+    blurQuality: 2,
+    blurScale: 1,
+    cloudsWidth: 2048
+  }
+}
 
 const COMP = new ShaderMaterial({
   vertexShader,
@@ -38,6 +88,8 @@ export class RubinRenderer {
 
   sunRT:WebGLRenderTarget;
   sunBlur:BlurPass;
+
+  glowEnabled:boolean = true;
 
   constructor(protected rnd:WebGLRenderer) {
     const w = rnd.domElement.width;
@@ -85,15 +137,35 @@ export class RubinRenderer {
 
     const rs = new ResizeObserver( entries => {
       // console.log(rnd.domElement.width, rnd.domElement.height);
-      this.sceneRT.setSize(rnd.domElement.width, rnd.domElement.height);
-      this.glowRT.setSize(rnd.domElement.width, rnd.domElement.height);
-      this.glowBlur.setSize(rnd.domElement.width, rnd.domElement.height);
-      this.sunRT.setSize(rnd.domElement.width, rnd.domElement.height);
-      this.sunBlur.setSize(rnd.domElement.width, rnd.domElement.height);
-      this.compRT.setSize(rnd.domElement.width, rnd.domElement.height);
+      this.resizeTargets();
     });
 
     rs.observe(rnd.domElement);
+  }
+
+  resizeTargets() {
+    const rnd = this.rnd;
+
+    this.sceneRT.setSize(rnd.domElement.width, rnd.domElement.height);
+    this.glowRT.setSize(rnd.domElement.width, rnd.domElement.height);
+    this.glowBlur.setSize(rnd.domElement.width, rnd.domElement.height);
+    this.sunRT.setSize(rnd.domElement.width, rnd.domElement.height);
+    this.sunBlur.setSize(rnd.domElement.width, rnd.domElement.height);
+    this.compRT.setSize(rnd.domElement.width, rnd.domElement.height);
+  }
+
+  setTier(tier:GFXTier) {
+    this.sceneRT.samples = tier.maxSamples;
+    this.glowEnabled = tier.glowEnabled;
+    this.glowBlur.quality = tier.blurQuality;
+    this.glowBlur.scale = tier.blurScale;
+    this.glowBlur.iterations = tier.blurIterations;
+    this.sunBlur.quality = tier.blurQuality;
+    this.sunBlur.scale = tier.blurScale;
+    this.sunBlur.iterations = tier.blurIterations;
+
+    // resize RT (will take scale into account)
+    this.resizeTargets();
   }
 
   render(scene:Scene, camera:Camera) {
@@ -101,15 +173,17 @@ export class RubinRenderer {
     this.rnd.setRenderTarget(this.sceneRT);
     this.rnd.render(scene, camera);
 
-    // 2. render glow
-    this.rnd.setRenderTarget(this.glowRT);
-    const bg = scene.background;
-    scene.background = null;
-    this.rnd.render(scene, camera);
-    scene.background = bg;
+    if(this.glowEnabled) {
+      // 2. render glow
+      this.rnd.setRenderTarget(this.glowRT);
+      const bg = scene.background;
+      scene.background = null;
+      this.rnd.render(scene, camera);
+      scene.background = bg;
 
-    // 3. blur glow
-    this.glowBlur.renderInternal(this.rnd);
+      // 3. blur glow
+      this.glowBlur.renderInternal(this.rnd);
+    }
 
     // 4. render sun specific vfx
     this.sunScene.add(GLOBALS.sun);

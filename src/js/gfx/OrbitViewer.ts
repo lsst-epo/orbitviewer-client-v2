@@ -4,11 +4,11 @@ import { OrbitElements, SolarCategory } from "../core/solar/SolarSystem";
 import { SolarParticles } from "./solar/SolarParticles";
 
 import gsap from "gsap";
-import { CLOCK_SETTINGS, GLOBALS } from "../core/Globals";
+import { CLOCK_SETTINGS, GLOBALS, VISUAL_SETTINGS } from "../core/Globals";
 import { PlanetId } from "../core/solar/Planet";
 import { JD2MJD } from "../core/solar/SolarTime";
 import { mapOrbitElements, mapOrbitElementsV2, OrbitDataElements, OrbitDataElementsV2 } from "../core/solar/SolarUtils";
-import { RubinRenderer } from "./core/RubinRenderer";
+import { GFXTier, QUALITY_TIERS, RubinRenderer } from "./core/RubinRenderer";
 import { Planet } from "./solar/Planet";
 import { Mode, SolarElement } from "./solar/SolarElement";
 import { Sun } from "./solar/Sun";
@@ -124,6 +124,15 @@ export class OrbitViewer extends ThreeLayer {
 
 			GLOBALS.viewer = this;
     }
+
+		adjustQualitySettings() {
+			const tier = QUALITY_TIERS[VISUAL_SETTINGS.current] as GFXTier;
+
+			// resize
+			this.gl.renderer.setPixelRatio(Math.min(devicePixelRatio, tier.maxPixelRatio));
+			this.vfx.setTier(tier);
+			GLOBALS.clouds.setTier(tier);
+		}
 
 		fadeIn() {
 			if(GLOBALS.fog.far === FAR) return;

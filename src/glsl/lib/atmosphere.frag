@@ -32,7 +32,7 @@ void main() {
   vec4 col = color;
   col *= brightness;
 
-  gl_FragColor = vec4(0.);
+  gl_FragColor = col;
   oGlow = col;
 
 }

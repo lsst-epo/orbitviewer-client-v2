@@ -197,7 +197,7 @@ export class App implements NomadRouteListener {
 		if(this.clockChanged()) solarClock.hoursPerSec = CLOCK_SETTINGS.speed;
 		const d = solarClock.update();
 
-		GLOBALS.clouds.render(this.gl.renderer);
+		if(this.viewer.earth) GLOBALS.clouds.render(this.gl.renderer);
 
 		this.viewer.update(t, d);
 		this.viewer.render();

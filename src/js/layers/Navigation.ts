@@ -38,6 +38,7 @@ class Navigation extends Layer {
           LoadManager.loadSample(id, (json) => {
               const data = USE_V2 ? getSimDataV2(LoadManager.data.sample) : getSimData(LoadManager.data.sample);;
               GLOBALS.viewer.setData(data);
+              GLOBALS.viewer.adjustQualitySettings();
               GLOBALS.loader.hide();
           });
         }
