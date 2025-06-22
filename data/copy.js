@@ -32,16 +32,16 @@ export default {
      "exploration": {
         "low": {
             "name": {
-                "en": "Mobile",
+                "en": "Mobile, Tablets & Basic Laptops",
                 "es": ""
             },
             "title": {
-                "en": "Mobile Optimized",
+                "en": "Basic Experience",
                 "es": ""
             },
             "objects": "16,000",
             "description": {
-                "en": "Perfect for on-the-go exploration with minimal data usage",
+                "en": "Perfect for on-the-go exploration with minimal data usage and reduced visuals",
                 "es": ""
             }
         },

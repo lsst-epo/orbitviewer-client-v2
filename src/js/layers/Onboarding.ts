@@ -23,7 +23,7 @@ class Onboarding extends Layer {
         this.orbitviewer = orbitviewer;
         this.startButtons = this.dom.querySelectorAll('.button_launch');
 
-        this.start();
+        // this.start();
     }
 
     start() {
@@ -38,8 +38,15 @@ class Onboarding extends Layer {
 
         for(let i=0;i<4;i++) {
             const li = lis[i];
-            if(i === recommendedIndex) li.classList.add('recommended');
-            else li.classList.remove('recommended');
+            const ribbon = li.querySelector('span.ribbon');
+            if(i === recommendedIndex) {
+                li.classList.add('recommended');
+                ribbon.setAttribute('aria-hidden', 'false');
+            }
+            else {
+                li.classList.remove('recommended');
+                ribbon.setAttribute('aria-hidden', 'true');
+            }
         }
 
         this.startButtons.forEach((el: Element) => {
@@ -69,6 +76,11 @@ class Onboarding extends Layer {
                 }
             });
         });
+    }
+
+    open(): Promise<void> {
+        this.start();
+        return super.open();
     }
 }
 
