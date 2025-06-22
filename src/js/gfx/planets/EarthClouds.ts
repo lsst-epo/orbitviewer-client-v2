@@ -27,6 +27,7 @@ export class EarthClouds {
   rt:WebGLRenderTarget;
 
   needsUpdate:boolean = true;
+  forceRender:boolean = true;
 
   previousTime:number = -Infinity;
 
@@ -48,13 +49,14 @@ export class EarthClouds {
   }
 
   render(rnd:WebGLRenderer) {
-    if(!this.needsUpdate) return;
+    if(!this.needsUpdate && !this.forceRender) return;
     this.needsUpdate = false;
-    if(Math.abs(GLOBALS.solarClock.time - this.previousTime) < 100) return;
-    if(GLOBALS.viewer.earth.distanceToCamara > 100) return;
+    if(!this.forceRender && Math.abs(GLOBALS.solarClock.time - this.previousTime) < 100) return;
     this.previousTime = GLOBALS.solarClock.time;
     MAT.uniforms.time.value = GLOBALS.solarClock.time;
+    // console.log('render clouds')
     RTUtils.renderToRT(this.rt, rnd, MAT);
     rnd.setRenderTarget(null);
+    this.forceRender = false;
   }
 }

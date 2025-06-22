@@ -350,6 +350,7 @@ export class OrbitViewer extends ThreeLayer {
 		sel.domRef.dom.style.opacity = `${followOrbit ? 1 : 0}`;
 		this.controls.followTarget(sel, followOrbit);
 		this.particles.highlighted = false;
+		if(sel === this.earth) GLOBALS.clouds.forceRender = true;
 	}
 
 	releaseCameraTarget() {
@@ -399,13 +400,13 @@ export class OrbitViewer extends ThreeLayer {
 
       this.particles.update(d, this.camera);
 
+			this.solarItemsUI.update();
+
 			if(!this.earth) return;
 
-			if(this.camera.position.distanceTo(this.earth.position) < 100) {
+			if(this.earth.distanceToCamara < 100) {
 				GLOBALS.clouds.needsUpdate = true;
 			}
-
-			this.solarItemsUI.update();
     }
 
 		render(): void {
