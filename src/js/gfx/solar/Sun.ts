@@ -77,7 +77,7 @@ export class Sun extends Solar3DElement {
     constructor() {
         super();
 
-        debugCan.add(this);
+        debugCan?.add(this);
         uiColliders.push(this);
 
         this.scale.setScalar(R);

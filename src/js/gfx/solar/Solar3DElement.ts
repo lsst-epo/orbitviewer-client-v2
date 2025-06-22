@@ -15,7 +15,7 @@ export interface CameraLock {
 
 const tempBox = new Box3();
 
-const D_THRESHOLD = 5000;
+const D_THRESHOLD = 2000;
 
 const min = new Vector3(Infinity, Infinity, Infinity);
 const max = new Vector3(-Infinity, -Infinity, -Infinity);

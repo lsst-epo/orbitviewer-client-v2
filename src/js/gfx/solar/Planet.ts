@@ -84,7 +84,7 @@ export class Planet extends SolarElement {
         this.scale.set(scl, scl, scl);
         // correct fresnel
 
-        debugCan.add(this);
+        debugCan?.add(this);
         uiColliders.push(this);
 
         if(id === 'saturn') {

@@ -56,10 +56,10 @@ export class App implements NomadRouteListener {
 
 		initShaders();
 
-		this.gl2 = new CanvasDOMLayer(document.querySelector('.view'), devicePixelRatio);
+		/* this.gl2 = new CanvasDOMLayer(document.querySelector('.view'), devicePixelRatio);
 		this.gl2.canvas.classList.add('debug');
 		console.log(this.gl2.canvas);
-		debugCan = new Debug2DCanvas(this.gl2);
+		debugCan = new Debug2DCanvas(this.gl2); */
 
 		this.gl = new ThreeDOMLayer(document.querySelector('.view'), {
 			antialias: true,
@@ -198,7 +198,7 @@ export class App implements NomadRouteListener {
 		this.viewer.update(t, d);
 		this.viewer.render();
 
-		debugCan.render();
+		// debugCan?.render();
 
 		GLOBALS.timeCtrls.update();
 

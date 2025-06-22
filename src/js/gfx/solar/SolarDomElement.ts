@@ -4,6 +4,7 @@ import { GLOBALS } from "../../core/Globals";
 import { SolarElement } from "./SolarElement";
 import { FAR, uiColliders } from "../OrbitViewer";
 import { rectsIntersect } from "./Solar3DElement";
+import { debugCan } from "../../core/App";
 
 const tmp:Vector3 = new Vector3();
 
@@ -11,11 +12,18 @@ export class SolarDOMElement {
   label:HTMLElement;
   hovered:boolean = false;
 
+  rect:DOMRect;
+  rectDOM:HTMLSpanElement;
+
   constructor(public dom:HTMLElement, public ref:SolarElement) {
     this.label = dom.querySelector('.canvas_pointer-text');
     dom.setAttribute('aria-label', ref.name);
 
+    this.rectDOM = dom.querySelector('span.canvas_pointer-label');
+
     ref.domRef = this;
+
+    debugCan?.addItem(this);
 
     dom.onmouseover = () => {
       ref.focus();
@@ -66,20 +74,26 @@ export class SolarDOMElement {
     let rect = null;
     let behind = false;
 
-    for(const el of uiColliders) {
-      if(el.isCollider()) {
-        if(el.distanceToCamara < this.ref.distanceToCamara) {
-          if(rect == null) rect = this.dom.getBoundingClientRect();
-          if(rectsIntersect(el.rect, rect)) {
-            behind = true;
-            break;
+    if(!this.hovered) {
+      for(const el of uiColliders) {
+        if(el.isCollider()) {
+          if(el.distanceToCamara < this.ref.distanceToCamara) {
+            if(el.rect.width < 20 && el.rect.height < 20) break;
+            if(rect == null) {
+              rect = this.rectDOM.getBoundingClientRect();
+              this.rect = rect;
+            }
+            if(rectsIntersect(el.rect, rect)) {
+              behind = true;
+              break;
+            }
           }
         }
       }
     }
 
     if(behind) {
-      console.log('INTERSECT');
+      // console.log('INTERSECT');
       this.dom.classList.add('behind');
     } else {
       this.dom.classList.remove('behind');
