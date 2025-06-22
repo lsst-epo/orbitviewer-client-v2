@@ -20,6 +20,7 @@ import { CameraManager, camOcluders, DEFAULT_CAM_LIMITS } from "./core/CameraMan
 import { CategoryCounters, resetSolarCategoryCounters, updateTotals } from "../core/data/Categories";
 import { Solar3DElement } from "./solar/Solar3DElement";
 import { SimQuality } from "./solar/GPUSim";
+import { OBJECT_PATH_ALPHA } from "./solar/EllipticalPath";
 
 export interface FollowTarget {
 	target: Solar3DElement;
@@ -353,6 +354,8 @@ export class OrbitViewer extends ThreeLayer {
 		this.controls.followTarget(sel, followOrbit);
 		this.particles.highlighted = false;
 		if(sel === this.earth) GLOBALS.clouds.forceRender = true;
+		if(followOrbit) sel.focus();
+		else sel.blur(OBJECT_PATH_ALPHA);
 	}
 
 	releaseCameraTarget() {

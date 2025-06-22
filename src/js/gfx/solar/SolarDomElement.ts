@@ -31,7 +31,7 @@ export class SolarDOMElement {
     }
 
     dom.onmouseout = () => {
-      ref.blur();
+      if(!ref.selected) ref.blur();
       this.hovered = false;
     }
 
