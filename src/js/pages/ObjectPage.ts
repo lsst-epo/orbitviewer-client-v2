@@ -9,6 +9,7 @@ import { CategoryFilters, CategoryNames, DistanceFromEarth } from "../core/data/
 import { MathUtils } from "@fils/math";
 import { OrbitElements, SolarCategory } from "../core/solar/SolarSystem";
 import TooltipDialog from "../components/TooltipDialog";
+import { OBJECT_FRAME } from "../gfx/core/CameraManager";
 
 export class ObjectPage extends DefaultPage {
     infoButtons: NodeListOf<Element>;
@@ -33,6 +34,9 @@ export class ObjectPage extends DefaultPage {
 
     create() {
         this.infoButtons = this.dom.querySelectorAll('.orbital_elements-item');
+
+        OBJECT_FRAME.element = this.dom.querySelector('.object_detail-frame');
+        OBJECT_FRAME.rect = OBJECT_FRAME.element.getBoundingClientRect();
 
         this.infoButtons.forEach((dom: HTMLElement, index: number) => {
             let _to;
@@ -124,6 +128,10 @@ export class ObjectPage extends DefaultPage {
         }
 
         super.create();
+    }
+    
+    onResize(): void {
+        OBJECT_FRAME.rect = OBJECT_FRAME.element.getBoundingClientRect();
     }
 
     transitionIn(resolve: any): Promise<void> {
@@ -298,7 +306,7 @@ export class ObjectPage extends DefaultPage {
     }
 
     dispose(): void {
-        console.log('DISPOSE');
+        // console.log('DISPOSE');
         super.dispose();
         GLOBALS.objectToggle.callback = null;
     }

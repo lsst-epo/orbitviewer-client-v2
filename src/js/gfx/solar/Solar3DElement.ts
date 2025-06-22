@@ -37,6 +37,7 @@ export class Solar3DElement extends Object3D {
   offsetOrbit:Vector3;
 
   rect:DOMRect = new DOMRect();
+  orbitRect:DOMRect = new DOMRect();
 
   constructor() {
     super();

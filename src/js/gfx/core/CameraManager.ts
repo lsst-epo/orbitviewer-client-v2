@@ -45,6 +45,16 @@ function getDistance(touch1, touch2) {
 
 const defaultPos = new Vector3(0, 5000, 10000);
 
+export interface DOMFrame {
+  element: HTMLElement,
+  rect: DOMRect
+}
+
+export const OBJECT_FRAME:DOMFrame = {
+  element: null,
+  rect: null
+}
+
 export class CameraManager {
   controls:OrbitControls;
   protected lockedCam:PerspectiveCamera;
@@ -345,6 +355,32 @@ export class CameraManager {
       let off = origin;
       if(this.isTarget) {
         off = t.orbit ? t.target.offsetOrbit : t.target.offsetObject;
+
+        // adaptive screen-space offset
+        /* const R = OBJECT_FRAME.rect;
+        if(R) {
+          tmp.copy(origin);
+          if(t.orbit) {
+            //to do
+          } else {
+            if(t.target.rect) {
+              const r = t.target.rect;
+              const tx = R.x + R.width/2;
+              const ty = R.y + R.height/2;
+              const dx = (tx - r.x) / window.innerWidth;
+              const dy = (ty - r.y) / window.innerHeight;
+              tmp.copy(dummy.position);
+              tmp.project(this.lockedCam);
+              tmp.x = (tmp.x * 0.5 + 0.5) + dx;
+              tmp.y = (-tmp.y * 0.5 + 0.5) + dy;
+              tmp.z = dummy.position.z;
+              tmp.unproject(this.lockedCam);
+              tmp2.copy(dummy.position).sub(tmp);
+            }
+          }
+          // off = t.orbit ? t.target.offsetOrbit : t.target.offsetObject;
+          // off = tmp;
+        } */
       }
 
       offset.lerp(off, easing);

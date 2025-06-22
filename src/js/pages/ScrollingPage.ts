@@ -22,6 +22,8 @@ export class ScrollingPage extends DefaultPage {
             const carousel = this.dom.querySelector('.about_device-hero');
             this.aboutCarousel = new AboutCarousel(carousel);
         }
+
+        super.create();
     }
 
     transitionIn(resolve: any): Promise<void> {
@@ -38,6 +40,7 @@ export class ScrollingPage extends DefaultPage {
     }
 
     dispose() {
+        super.dispose();
         this.aboutCarousel?.dispose();
     }
 }

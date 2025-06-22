@@ -150,6 +150,8 @@ export class ObjectsFiltersPage extends DefaultPage {
         this.scroller.init();
 
         this.updateInputValues();
+
+        super.create();
     }
 
     updateInputValues() {
