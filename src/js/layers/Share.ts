@@ -47,6 +47,11 @@ class Share extends Layer {
 
     shareAPI : ShareAPI = new ShareAPI();
 
+    canvas:HTMLCanvasElement;
+    ctx:CanvasRenderingContext2D;
+    layout:string;
+    openTab:number = 0;
+
     constructor(dom) {
         super(dom, {
             openClass: 'share--open',
@@ -70,6 +75,9 @@ class Share extends Layer {
         // console.log(this.downloadButton);
 
         this.input = dom.querySelector('input[type="url"]') as HTMLInputElement;
+
+        this.canvas = this.dom.querySelector('canvas#shareCanvas') as HTMLCanvasElement;
+        this.ctx = this.canvas.getContext('2d');
 
         this.start();
     }
@@ -115,14 +123,10 @@ class Share extends Layer {
             }, 3000); // Reset the button after 3 seconds
         })
 
-        let layout = 'horizontal'
-
-        const canvas = this.dom.querySelector('canvas#shareCanvas') as HTMLCanvasElement;
-        // console.log(canvas);
-        const ctx = canvas.getContext('2d');
+        this.layout = 'horizontal'
 
         this.downloadButton.onclick = () => {
-            canvas.toBlob( blob => {
+            this.canvas.toBlob( blob => {
                 // Create a URL for the blob
                 const url = URL.createObjectURL(blob);
 
@@ -141,21 +145,12 @@ class Share extends Layer {
                 URL.revokeObjectURL(url);
             }, "image/png");
         }
-
-        const capture = () => {
-            const siz = sizes[layout];
-            canvas.width = siz.width;
-            canvas.height = siz.height;
-            GLOBALS.viewer.capture(layout, can => {
-                ctx.drawImage(can, 0, 0, canvas.width, canvas.height);
-                ctx.drawImage(logos[layout], 0, 0, canvas.width, canvas.height);
-            })
-        }
         
 		const shareTabs = new Tabs('.share_dialog-body', (index) => {
             // console.log('tab changed to', index);
+            this.openTab = index;
             if(index === 1) {
-                capture();
+                this.capture();
             }
         });
 
@@ -168,13 +163,23 @@ class Share extends Layer {
                 possibleValues.forEach(v => screenCapture.classList.remove(v));
                 if (value && possibleValues.includes(value)) {
                     screenCapture.classList.add(value);
-                    layout = value;
-                    capture();
-                }                
+                    this.layout = value;
+                    this.capture();
+                }
             }
         });        
 
         ratioToggle.show();
+    }
+
+    capture() {
+        const siz = sizes[this.layout];
+        this.canvas.width = siz.width;
+        this.canvas.height = siz.height;
+        GLOBALS.viewer.capture(this.layout, can => {
+            this.ctx.drawImage(can, 0, 0, this.canvas.width, this.canvas.height);
+            this.ctx.drawImage(logos[this.layout], 0, 0, this.canvas.width, this.canvas.height);
+        })
     }
 
     setInputValue() {
@@ -183,10 +188,15 @@ class Share extends Layer {
 
     getInputValue() {
         const url = generateShareableURL();
-        console.log(url);
+        // console.log(url);
         return url;
         if (!this.input) return '';
         return this.input.value.trim();
+    }
+
+    open(): Promise<void> {
+        if(this.openTab === 1) this.capture();
+        return super.open();
     }
 }
 
