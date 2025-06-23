@@ -15,19 +15,11 @@
     z-index: var(--z-wizard);
     overflow: hidden;
     
-    opacity: 1;
+    opacity: 0;
     will-change: opacity;
-    transition: opacity .4s ease-in-out, display .4s allow-discrete;
     display: block;
 
-    @starting-style {
-        &[aria-hidden="false"] {
-            opacity: 0;
-        }
-    }
-
     &[aria-hidden="true"] {
-        opacity: 0;
         display: none;
     }
 
@@ -63,7 +55,6 @@
             bottom: 232px;
             @include media(medium) {
                 bottom: 172px;
-                transform: translateX(calc(-50% - 26px));
             }
         }
     }
