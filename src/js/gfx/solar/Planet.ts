@@ -43,6 +43,12 @@ export function getAtmosphereMaterial(color1:ColorRepresentation, color2:ColorRe
             },
             brightness: {
                 value: brightness
+            },
+            hasGlow: {
+                value: true
+            },
+            isGlow: {
+                value: false
             }
         },
         transparent: true,

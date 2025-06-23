@@ -3,8 +3,10 @@ import { Color, ColorRepresentation, MeshStandardMaterial, MeshStandardMaterialP
 
 import p_pars_vert from '../../../glsl/lib/planet_pars.vert';
 import p_vert from '../../../glsl/lib/vert.glsl';
-import p_pars_frag from '../../../glsl/lib/planet_pars.frag';
-import p_map_frag from '../../../glsl/lib/earth_map.frag';
+// import p_pars_frag from '../../../glsl/lib/planet_pars.frag';
+// import p_map_frag from '../../../glsl/lib/earth_map.frag';
+import frag from '../../../glsl/lib/planet/planet.frag';
+
 import { solarClock } from "../../core/App";
 
 export type PlanetMaterialParameters = {
@@ -26,6 +28,8 @@ export class PlanetMaterial extends MeshStandardMaterial {
     nightMap:Texture;
     cloudsMap:Texture;
 
+    isCustomMaterial:boolean = true
+
     constructor(opts:MeshStandardMaterialParameters=null, opts2:PlanetMaterialParameters={}, isEarth:boolean=false) {
         super(opts);
         // this.fresnel = new Color(opts2.fresnelColor || 0xffffff);
@@ -41,7 +45,7 @@ export class PlanetMaterial extends MeshStandardMaterial {
             this.defines = {};
         }
 
-        this.defines['FRESNEL_SELECTED'] = '';
+        // this.defines['FRESNEL_SELECTED'] = '';
 
         if(isEarth) {
             this.defines['EARTH'] = '';
@@ -57,27 +61,19 @@ export class PlanetMaterial extends MeshStandardMaterial {
       vs = vs.replace("#include <clipping_planes_pars_vertex>", p_pars_vert);
       vs = vs.replace("#include <fog_vertex>", p_vert);
         
-      fs = fs.replace("#include <clipping_planes_pars_fragment>", p_pars_frag);
-      fs = fs.replace("#include <map_fragment>", p_map_frag);
-      // fs = fs.replace("#include <envmap_fragment>", p_fresnel_frag);
-      // fs = fs.replace("#include <output_fragment>", p_output_frag);
+      // fs = fs.replace("#include <clipping_planes_pars_fragment>", p_pars_frag);
+      // fs = fs.replace("#include <map_fragment>", p_map_frag);
 
-      /* parameters.uniforms['fresnelColor'] = {
-        value: new Color(this.fresnel)
+      fs = frag;
+
+      parameters.uniforms['isGlow'] = {
+        value: false
       }
 
-      parameters.uniforms['sunIntensity'] = {
-        value: this.sunIntensity
+      parameters.uniforms['hasGlow'] = {
+        value: this.earth
       }
-
-      parameters.uniforms['fresnelWidth'] = {
-        value: this.fresnelWidth
-      }
-
-      parameters.uniforms['selected'] = {
-        value: this.selected ? 1 : 0
-      } */
-
+      
       if(this.earth) {
         parameters.uniforms['nightMap'] = {
           value: this.nightMap

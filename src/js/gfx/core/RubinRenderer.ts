@@ -1,6 +1,6 @@
 import { RTUtils } from "@fils/gfx";
 import { BlurPass, BlurQuality, BlurSettings } from "@fils/vfx";
-import { Camera, Mesh, MeshBasicMaterial, Scene, ShaderMaterial, SRGBColorSpace, WebGLRenderer, WebGLRenderTarget } from "three";
+import { Camera, Mesh, MeshBasicMaterial, Scene, ShaderMaterial, SRGBColorSpace, WebGLProgramParametersWithUniforms, WebGLRenderer, WebGLRenderTarget } from "three";
 
 const SCREEN_MAT = new MeshBasicMaterial();
 
@@ -168,13 +168,73 @@ export class RubinRenderer {
     this.resizeTargets();
   }
 
+  prepareForSceneRender(scene:Scene) {
+    scene.traverse(obj => {
+      if(obj['isMesh']) {
+        const mesh = obj as Mesh;
+        if(!mesh.visible && mesh.userData.visible) mesh.visible = true; // restore
+        mesh.userData.visible = mesh.visible;
+        if(mesh.visible) {
+          const mat = mesh.material as ShaderMaterial;
+          if(mat['isCustomMaterial']) {
+            // console.log('we have a custom mat');
+            const ref:WebGLProgramParametersWithUniforms = mat['shaderRef'];
+            if(ref) {
+              if(ref.uniforms && ref.uniforms.isGlow) {
+                ref.uniforms.isGlow.value = false;
+              }
+            }
+          } else {
+            if(mat.uniforms && mat.uniforms.isGlow) {
+              mat.uniforms.isGlow.value = false;
+            }
+          }
+        }
+      }
+    });
+  }
+
+  prepareForGlowRender(scene:Scene) {
+    scene.traverse(obj => {
+      if(obj['isMesh']) {
+        const mesh = obj as Mesh;
+        // mesh.userData.visible = mesh.visible;
+        if(mesh.visible) {
+          const mat = mesh.material as ShaderMaterial;
+          if(mat['isCustomMaterial']) {
+            // console.log('we have a custom mat');
+            const ref:WebGLProgramParametersWithUniforms = mat['shaderRef'];
+            if(ref) {
+              if(ref.uniforms && ref.uniforms.isGlow) {
+                ref.uniforms.isGlow.value = true;
+              } else {
+                mesh.visible = false;
+              }
+            } else {
+              mesh.visible = false;
+            }
+          } else {
+            if(mat.uniforms && mat.uniforms.isGlow) {
+              mat.uniforms.isGlow.value = true;
+            } else {
+              mesh.visible = false;
+            }
+          }
+        }
+      }
+    });
+  }
+
   render(scene:Scene, camera:Camera) {
     // 1. Render scene
+    this.prepareForSceneRender(scene);
+
     this.rnd.setRenderTarget(this.sceneRT);
     this.rnd.render(scene, camera);
 
     if(this.glowEnabled) {
       // 2. render glow
+      this.prepareForGlowRender(scene);
       this.rnd.setRenderTarget(this.glowRT);
       const bg = scene.background;
       scene.background = null;
@@ -206,7 +266,7 @@ export class RubinRenderer {
 
     // 5. composition
     COMP.uniforms.scene.value = this.sceneRT.texture;
-    COMP.uniforms.glow.value = this.glowRT.textures[1];
+    COMP.uniforms.glow.value = this.glowRT.texture;
     COMP.uniforms.glowBlurred.value = this.glowBlur.texture;
     COMP.uniforms.fire.value = this.sunBlur.texture;
     COMP.uniforms.camPos.value = camera.position;

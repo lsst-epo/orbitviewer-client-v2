@@ -64,14 +64,14 @@ void main() {
   // col *= br;
 
   // gl_FragColor = glowBlack;
-  #ifdef HALO
-  gl_FragColor = vec4(col.rgb * .5, col.a);
-  #else
-  gl_FragColor = vec4(col.rgb * .5, 1.0);
-  #endif
-  
-  // oGlow = glowBlack;
-  // oGlow = getBloomColor(col.rgb * brightness, 2);
-  // oGlow.a *= col.a;// * .1;
-  // oGlow = col;
+  if(isGlow) {
+    gl_FragColor = getBloomColor(col.rgb * brightness, 2);
+    gl_FragColor.a *= col.a;// * .1;
+  } else {
+    #ifdef HALO
+    gl_FragColor = vec4(col.rgb * .5, col.a);
+    #else
+    gl_FragColor = vec4(col.rgb * .5, 1.0);
+    #endif
+  }
 }
