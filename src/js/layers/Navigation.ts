@@ -10,6 +10,7 @@ class Navigation extends Layer {
   button_trigger: any;
   anchor_triggers: NodeListOf<HTMLAnchorElement>;
   slidingMenu: SlidingMenu;
+  fullscreenButton: HTMLElement;
 
   exploration:HTMLElement;
   
@@ -28,6 +29,8 @@ class Navigation extends Layer {
       this.anchor_triggers = dom.querySelectorAll('a');
 
       this.slidingMenu = new SlidingMenu('.nav_dropdown');
+
+      this.fullscreenButton = dom.querySelector('.button-fullscreen');
 
       this.exploration = dom.querySelector(`[data-menu="exploration"]`);
 
@@ -70,6 +73,9 @@ class Navigation extends Layer {
         this.close()
       }
     })
+    this.fullscreenButton.onclick = () => {
+      GLOBALS.toggleFullscreen();
+    };
   }
 
   open(): Promise<void> {

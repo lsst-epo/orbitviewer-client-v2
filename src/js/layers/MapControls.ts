@@ -35,6 +35,16 @@ class MapControls extends Layer {
 
         // zoom out
         this.attachUpDownActions(this.buttons[2], zoomOut, releaseZoom);
+
+        this.buttons[3].onclick = () => {
+            GLOBALS.toggleFullscreen()
+        }
+
+        this.buttons[4].onclick = () => {
+            GLOBALS.toggleFullscreen()
+        }
+
+        this.buttons[4].setAttribute('aria-hidden', 'true')
     }
 
     protected attachUpDownActions(btn:HTMLButtonElement, onDown, onUp) {
