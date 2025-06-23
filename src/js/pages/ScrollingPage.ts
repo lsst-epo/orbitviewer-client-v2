@@ -23,6 +23,8 @@ export class ScrollingPage extends DefaultPage {
             this.aboutCarousel = new AboutCarousel(carousel);
         }
 
+        GLOBALS.navigation.close();
+
         super.create();
     }
 
