@@ -74,6 +74,7 @@
                         background: linear-gradient(180deg, rgba(var(--color-white-rgb), .11) 0%, rgba(var(--color-white-rgb), .08) 100%);
                         border-radius: var(--corner-medium);
                     }
+                }
 
                     .button_copy,
                     .button_download {
@@ -83,6 +84,7 @@
                         
                         position: relative;
                         display: flex;
+                        width: 100%;
                         height: var(--height);
                         overflow: hidden;
                         border-radius: var(--corner-medium);
@@ -138,7 +140,6 @@
                         }
                     }
                     }
-                }
 
                 .social_share {
                     display: flex;
