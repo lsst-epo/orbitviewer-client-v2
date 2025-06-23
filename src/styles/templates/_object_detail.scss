@@ -8,9 +8,11 @@
     &_template {
         .scene_controls {
             bottom: calc(25vh + 12px);
+            bottom: calc(25svh + 12px);
 
             @media (min-height: 618px) {
                 bottom: calc(40vh + 12px);
+                bottom: calc(40svh + 12px);
             }
             
             @include media(medium) {
@@ -28,11 +30,13 @@
     overflow: auto;
     display: grid;
     grid-template-rows: calc(var(--object-grid-frame-small) * 1vh) 1fr;
+    grid-template-rows: calc(var(--object-grid-frame-small) * 1svh) 1fr;
     grid-template-columns: 40vw 1fr;
     pointer-events: none;
 
     @media (min-height: 618px) {
         grid-template-rows: calc(var(--object-grid-frame-large) * 1vh) 1fr;
+        grid-template-rows: calc(var(--object-grid-frame-large) * 1svh) 1fr;
     }
 
     &[aria-hidden=true] {
