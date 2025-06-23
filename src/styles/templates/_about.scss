@@ -4,6 +4,7 @@
 @use '../base/typography' as *;
 
 .about {
+
     &-page {
         position: relative;
         min-height: 100vh;
@@ -36,12 +37,16 @@
         background-color: var(--color-bg);
 
         @include media(medium) {
-            padding-top: calc(var(--header-height) + 40px);
+            padding-top: 56px;
             background-image: url(/assets/images/about/about-header-bg-large.png);
             background-size: 1440px auto;
         }
 
         &-header {
+            margin-bottom: 48px;
+            @include media(small) {
+                margin-bottom: 172px;
+            }
             .hero {
                 display: block;
                 max-width: 192px;
@@ -222,7 +227,7 @@
                     margin: auto;
                     border: solid 4px rgba(var(--color-white-rgb), .2);
                     border-radius: var(--corner-large);
-                    transition: all .3s ease;
+                    transition: all .8s ease;
                     overflow: hidden;
 
                     &.ratio-21-9 {
