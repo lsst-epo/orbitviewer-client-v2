@@ -73,6 +73,14 @@
                             display: flex;
                             align-items: center;
                             gap: 8px;
+                            span {
+                                svg {
+                                    display: block;
+                                }
+                                &[aria-hidden=true] {
+                                    display: none;
+                                }
+                            }
                         }
 
                             .label {

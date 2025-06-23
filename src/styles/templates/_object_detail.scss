@@ -24,10 +24,12 @@
 }
 
 .object_detail {
-    position: absolute;
+    position: relative;
     inset: 0;
     z-index: var(--z-detail);
-    overflow: auto;
+    overflow: hidden;
+    height: max-content;
+    
     display: grid;
     grid-template-rows: calc(var(--object-grid-frame-small) * 1vh) 1fr;
     grid-template-rows: calc(var(--object-grid-frame-small) * 1svh) 1fr;
@@ -37,6 +39,18 @@
     @media (min-height: 618px) {
         grid-template-rows: calc(var(--object-grid-frame-large) * 1vh) 1fr;
         grid-template-rows: calc(var(--object-grid-frame-large) * 1svh) 1fr;
+    }
+
+    @include media(medium) {
+        position: absolute;
+        height: 100vh;
+        height: 100svh;
+    }
+
+    @include media(medium) {
+        position: absolute;
+        height: 100vh;
+        height: 100svh;
     }
 
     &[aria-hidden=true] {

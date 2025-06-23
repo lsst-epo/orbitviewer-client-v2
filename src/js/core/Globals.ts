@@ -98,6 +98,7 @@ export interface Globals {
 	loader:Loader;
 	getViewport:Function;
 	isMobile:Function;
+	toggleFullscreen: Function;
 	navigation:Navigation;
 	urlParams:Function;
 	currentPage: DefaultPage;
@@ -124,6 +125,24 @@ export const GLOBALS:Globals = {
 	},
 	isMobile: () => {
 		return GLOBALS.getViewport().includes('small');
+	},
+	toggleFullscreen() {
+		const buttonLabels = document.querySelectorAll('.button-fullscreen .label');
+		const offIcons = document.querySelectorAll('.fullscreen-off');
+		const onIcons = document.querySelectorAll('.fullscreen-on');
+		if (!document.fullscreenElement) {
+			buttonLabels.forEach(label => label.textContent = 'Exit Fullscreen');
+			offIcons.forEach(icon => icon.removeAttribute('aria-hidden'));
+			onIcons.forEach(icon => icon.setAttribute('aria-hidden', 'true'));
+			document.documentElement.requestFullscreen().catch(err => {
+				console.error(`Error al entrar en fullscreen: ${err.message}`);
+			});
+		} else {
+			buttonLabels.forEach(label => label.textContent = 'Fullscreen');
+			offIcons.forEach(icon => icon.setAttribute('aria-hidden', 'true'));
+			onIcons.forEach(icon => icon.removeAttribute('aria-hidden'));
+			document.exitFullscreen();
+		}
 	},
 	urlParams: ():{key:string, value:string}[] => {
 		const parts = location.search.replace('?', '').split("&");
