@@ -63,6 +63,11 @@ class Navigation extends Layer {
       this.toggle();
     });
   }
+
+  open(): Promise<void> {
+    this.updateExplorationState();
+    return super.open();
+  }
 }
 
 export default Navigation;
