@@ -396,7 +396,7 @@ export class Toucher {
 
   log(...args: any[]): void {
     if (this.debug) {
-      console.log(...args)
+      // console.log(...args)
     }
   }
 }

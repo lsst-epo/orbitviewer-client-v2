@@ -66,7 +66,7 @@ export class App implements NomadRouteListener {
 		if(SHOW_DEBUG && IS_DEV_MODE) {
 			this.gl2 = new CanvasDOMLayer(document.querySelector('.view'), devicePixelRatio);
 			this.gl2.canvas.classList.add('debug');
-			console.log(this.gl2.canvas);
+			// console.log(this.gl2.canvas);
 			debugCan = new Debug2DCanvas(this.gl2);
 		}
 
@@ -177,13 +177,13 @@ export class App implements NomadRouteListener {
 		updateTotals();
 		// this.viewer.hidePaths();
 		// this.addGUI();
-		console.log(LoadManager.data);
-		console.log(LoadManager.craftData);
+		// console.log(LoadManager.data);
+		// console.log(LoadManager.craftData);
 
 		UserFilters.distanceRange.min = CategoryFilters.a.totals.min;
 		UserFilters.distanceRange.max = CategoryFilters.a.totals.max;
 
-		console.log(CategoryFilters);
+		// console.log(CategoryFilters);
 
 		this.testStarted = performance.now();
 		this.testRunning = true;

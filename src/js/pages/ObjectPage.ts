@@ -301,7 +301,7 @@ export class ObjectPage extends DefaultPage {
 
         const ranges = CategoryFilters;
         const catID = data.category;
-        console.log(catID);
+        // console.log(catID);
 
         this.revealCategoryChip(catID);
         this.fillData(data, catID);

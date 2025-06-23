@@ -158,7 +158,7 @@ class Share extends Layer {
             const screenCapture = this.dom.querySelector('.screen_capture-hero');
             if (screenCapture) {
                 value = value.toLowerCase();
-                console.log(value);
+                // console.log(value);
                 const possibleValues = ['square', 'vertical', 'horizontal'];
                 possibleValues.forEach(v => screenCapture.classList.remove(v));
                 if (value && possibleValues.includes(value)) {

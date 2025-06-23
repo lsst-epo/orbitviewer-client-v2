@@ -200,7 +200,7 @@ export class ObjectsScroller {
   }
 
   onActiveChange() {
-    console.log('Active state changed:', this.active);
+    // console.log('Active state changed:', this.active);
     if (this.active) this.addEventListeners();
     else {
       this.reset();

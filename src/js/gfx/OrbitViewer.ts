@@ -242,7 +242,7 @@ export class OrbitViewer extends ThreeLayer {
 
 				for(const el of solarItems) {
 					if(el.title.toLowerCase() === 'sun' && el.elementCategory) {
-						console.log('Add Sun');
+						// console.log('Add Sun');
 						//to-do: add sun
 					}
 				}
@@ -258,7 +258,7 @@ export class OrbitViewer extends ThreeLayer {
 							const sel:OrbitDataElementsV2 = sample[i];
 							// console.log(sel.mpcdesignation, el.elementID, sel.fulldesignation);
 							if(sel.mpcdesignation === el.elementID || sel.fulldesignation === el.elementID) {
-								console.log('Found Solar Item', el.elementID);
+								// console.log('Found Solar Item', el.elementID);
 								SolarItemsSamples.push(sample[i]);
 								const data = mapOrbitElementsV2(sel);
 								// console.log(data.category);
@@ -288,7 +288,7 @@ export class OrbitViewer extends ThreeLayer {
       	this.addElementToScene(planet, planet.name);
 
 				if(el.id === 'earth') {
-					console.log("Houston, Houston: we've found the earth");
+					// console.log("Houston, Houston: we've found the earth!");
 					this.earth = planet;
 				}
 
@@ -344,7 +344,7 @@ export class OrbitViewer extends ThreeLayer {
 
 	followSolarElement(sel:SolarElement, followOrbit:boolean=false) {
 		if(sel === null) return console.warn('Null Solar Item selected!');
-		console.log('Follow Solar Item with orbit set to', followOrbit);
+		// console.log('Follow Solar Item with orbit set to', followOrbit);
 		this.fadeIn();
 		this.solarItemsUI.show(sel);
 		for(const el of this.solarElements) {
@@ -392,7 +392,7 @@ export class OrbitViewer extends ThreeLayer {
         this.particles.data = data;
         this.scene.add(this.particles.mesh);
 
-				console.log(CategoryCounters);
+				// console.log(CategoryCounters);
     }
 
     /**
@@ -425,6 +425,7 @@ export class OrbitViewer extends ThreeLayer {
 			this.beforeCapturingSize.height = this.gl.rect.height;
 			this.captureCallback = callback;
 			this.controls.isCapturing = true;
+			this.controls.update();
 			this.gl.renderer.domElement.classList.add('hidden');
 			GLOBALS.loader.show();
 			if(format === 'horizontal') {

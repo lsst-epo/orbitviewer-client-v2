@@ -75,7 +75,7 @@ class LoadManagerClass {
     }
 
     private loadData(id:string, url:string, onLoaded:Function) {
-        console.log(`Loading ${id} - ${url} ...`);
+        // console.log(`Loading ${id} - ${url} ...`);
         fetch(url).then(result => {
             result.json().then(json => {
                 this.mgr.data[id] = json;
@@ -119,7 +119,7 @@ class LoadManagerClass {
             //@ts-ignore
             // this.mgr.craftData[id] = cnt.data;
 
-            console.log(cnt);
+            // console.log(cnt);
             
             onLoaded();
         }
@@ -162,7 +162,7 @@ class LoadManagerClass {
 
         getClassificationRanges().then(json => {
             this.mgr.hasuraData.classification_ranges = json.classification_ranges_v2;
-            console.log(this.mgr.hasuraData.classification_ranges);
+            // console.log(this.mgr.hasuraData.classification_ranges);
             onL();
         });
 
