@@ -143,7 +143,8 @@ export class ObjectPage extends DefaultPage {
         return new Promise<void>(gsapResolve => {
             // console.log('gsap', this.section);
             gsapResolve();
-            gsap.to(this.section, {
+            const content = this.section.querySelector('.object_detail-content');
+            gsap.to(content, {
                 translateY: '0%',
                 duration: 2,
                 ease: 'expo.inOut',
@@ -157,7 +158,8 @@ export class ObjectPage extends DefaultPage {
     transitionOut(resolve: any): Promise<void> {
         return new Promise<void>(gsapResolve => {
             gsapResolve();
-            gsap.to(this.section, {
+            const content = this.section.querySelector('.object_detail-content');
+            gsap.to(content, {
                 translateY: '100%',
                 duration: 2,
                 ease: 'expo.inOut',
