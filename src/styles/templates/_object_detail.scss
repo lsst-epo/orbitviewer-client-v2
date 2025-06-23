@@ -145,6 +145,10 @@
                 overflow: hidden;
                 border-radius: var(--corner-large);
 
+                &[aria-hidden=true] {
+                    display: none;
+                }
+
                 img {
                     position: absolute;
                     top: 0;
