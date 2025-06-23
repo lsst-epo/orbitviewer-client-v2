@@ -136,7 +136,7 @@ class TimeMachine extends Layer implements SliderListener {
 				this.toggle();
 			});
 
-			console.log(this.flat);
+			// console.log(this.flat);
     }
 
     toggle() {

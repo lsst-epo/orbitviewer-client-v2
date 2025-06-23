@@ -8,6 +8,7 @@ import Layer from "./Layer";
 class Navigation extends Layer {
   dom: HTMLElement;
   button_trigger: any;
+  anchor_triggers: NodeListOf<HTMLAnchorElement>;
   slidingMenu: SlidingMenu;
 
   exploration:HTMLElement;
@@ -23,6 +24,8 @@ class Navigation extends Layer {
       this.dom = dom;
 
       this.button_trigger = document.querySelector('#nav_trigger');
+
+      this.anchor_triggers = dom.querySelectorAll('a');
 
       this.slidingMenu = new SlidingMenu('.nav_dropdown');
 
@@ -40,6 +43,7 @@ class Navigation extends Layer {
               GLOBALS.viewer.setData(data);
               GLOBALS.viewer.adjustQualitySettings();
               GLOBALS.loader.hide();
+              this.close();
           });
         }
       }
@@ -61,6 +65,16 @@ class Navigation extends Layer {
     this.button_trigger.addEventListener('click', ()=> {
       this.toggle();
     });
+    this.anchor_triggers.forEach((a) => {
+      a.onclick = () => {
+        this.close()
+      }
+    })
+  }
+
+  open(): Promise<void> {
+    this.updateExplorationState();
+    return super.open();
   }
 }
 

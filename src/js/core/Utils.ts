@@ -95,7 +95,7 @@ export function generateShareableURL() {
     }
 
     const dist = UserFilters.distanceRange;
-    console.log(dist, CategoryFilters.a.totals);
+    // console.log(dist, CategoryFilters.a.totals);
     if(dist.min != CategoryFilters.a.totals.min || dist.max != CategoryFilters.a.totals.max) {
       params.push(`dr=${dist.min}-${dist.max}`);
     }
@@ -150,7 +150,7 @@ export function parseURL() {
 
     if(p.key == 'd') {
       // date
-      console.log(p.value);
+      // console.log(p.value);
       const parts = p.value.split('T');
       const date = new Date(`${parts[0]}T${parts[1].replaceAll('-', ':')}`);
       GLOBALS.solarClock.setDate(date);
@@ -183,7 +183,7 @@ export function parseURL() {
 
 export function getRecommendedPerformanceIndex():number {
   if(!isMobile()) {
-      console.log('average perf test DT', performanceTest.averageDT);
+      // console.log('average perf test DT', performanceTest.averageDT);
       if(performanceTest.averageDT < 17) return 2;
       else if(performanceTest.averageDT < 24) return 1;
   }

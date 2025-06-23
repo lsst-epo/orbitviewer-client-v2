@@ -83,7 +83,7 @@ export class ObjectsFiltersPage extends DefaultPage {
     }
 
     create() {
-        console.log('create');
+        // console.log('create');
         const map = UserFilters.categories;
 
 		this.toggles.forEach(element => {
