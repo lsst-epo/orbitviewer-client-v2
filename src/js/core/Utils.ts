@@ -4,6 +4,7 @@ import { CLOCK_SETTINGS, GLOBALS } from "./Globals";
 import { UserFilters } from "./solar/SolarUtils";
 import { performanceTest } from "./App";
 import { CategoryFilters } from "./data/Categories";
+import OrbitViewerPage from "../pages/OrbitViewerPage";
 
 export function downloadJSON(data, filename, minify = false) {
     // Convert the JavaScript object to a JSON string
@@ -47,12 +48,17 @@ export async function getSolarStaticData(weight:string, isV2:boolean=false) {
 
 
 export function generateShareableURL() {
-  const baseURL = "http://localhost:8080";
+  const baseURL = location.origin;//"http://localhost:8080";
   const n = document.querySelector("[nomad-wrapper]").querySelector('div');//.childNodes[0] as HTMLElement;
   const template = n.getAttribute("nomad-template");
-  console.log(template);
+  // console.log(location);
 
   let url = `${baseURL}/${GLOBALS.lang}/`;
+
+  if(template === "orbitviewerpage") {
+    const page = GLOBALS.currentPage as OrbitViewerPage;
+    if(page.isLanding) return url;
+  }
 
   const params = [];
 

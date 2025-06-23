@@ -116,6 +116,7 @@ export class App implements NomadRouteListener {
 		GLOBALS.nomad = nomad;
 
 		this.currentPage = nomad.route.page as DefaultPage;
+		GLOBALS.currentPage = this.currentPage;
 		if(this.currentPage.template !== "orbitviewerpage") {
 			this.viewer.adjustQualitySettings(isMobile() ? 'low' : 'medium');
 		}
@@ -127,6 +128,8 @@ export class App implements NomadRouteListener {
 
 	onRouteChanged(route: NomadRoute): void {
 		this.currentPage = route.page as DefaultPage;
+		GLOBALS.firstPage = false;
+		GLOBALS.currentPage = this.currentPage;
 	}
 
 	start() {
