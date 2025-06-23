@@ -57,14 +57,14 @@ export class ScrollingPage extends DefaultPage {
             this.intersectionObserver.observe(section);
         });
         document.body.classList.add('scrollable');
-        console.log('transition in!')
+        // console.log('transition in!')
         return super.transitionIn(resolve);
     }
 
     transitionOut(resolve: any): Promise<void> {
         GLOBALS.viewer.paused = false;
         document.body.classList.remove('scrollable');
-        console.log('transition out!')
+        // console.log('transition out!')
         return super.transitionOut(resolve);
     }
 

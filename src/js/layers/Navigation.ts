@@ -43,6 +43,7 @@ class Navigation extends Layer {
               GLOBALS.viewer.setData(data);
               GLOBALS.viewer.adjustQualitySettings();
               GLOBALS.loader.hide();
+              this.close();
           });
         }
       }
@@ -69,6 +70,11 @@ class Navigation extends Layer {
         this.close()
       }
     })
+  }
+
+  open(): Promise<void> {
+    this.updateExplorationState();
+    return super.open();
   }
 }
 

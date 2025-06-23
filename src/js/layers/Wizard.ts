@@ -212,7 +212,7 @@ class Wizard extends Layer {
     }
 
     skip() {
-        console.log('Wizard skipped');
+        // console.log('Wizard skipped');
         window.localStorage.setItem('wizardSkipped', 'true');
         this.removeEventListeners();
         this.hide();
