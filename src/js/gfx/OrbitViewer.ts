@@ -424,6 +424,7 @@ export class OrbitViewer extends ThreeLayer {
 			this.beforeCapturingSize.width = this.gl.rect.width;
 			this.beforeCapturingSize.height = this.gl.rect.height;
 			this.captureCallback = callback;
+			this.controls.isCapturing = true;
 			this.gl.renderer.domElement.classList.add('hidden');
 			GLOBALS.loader.show();
 			if(format === 'horizontal') {
@@ -445,6 +446,7 @@ export class OrbitViewer extends ThreeLayer {
 					this.setSize(this.beforeCapturingSize.width, this.beforeCapturingSize.height);
 					this.isCapturing = false;
 					this.gl.renderer.domElement.classList.remove('hidden');
+					this.controls.isCapturing = false;
 					GLOBALS.loader.hide();
 				}, 1);
 				return;

@@ -31,6 +31,7 @@ const origin = new Vector3();
 const cameraDirection = new Vector3();
 
 const offset = new Vector3();
+const offsetBackup = new Vector3();
 const camPos = new Vector3();
 
 const dummy = new Object3D();
@@ -60,6 +61,7 @@ export class CameraManager {
   controls:OrbitControls;
   protected lockedCam:PerspectiveCamera;
   isAnimating:boolean=false;
+  _isCapturing:boolean=false;
 
   zoom:number = 0;
 
@@ -149,6 +151,20 @@ export class CameraManager {
 
   get isTarget():boolean {
     return this.cameraTarget.target !== null;
+  }
+
+  set isCapturing(value:boolean) {
+    if(value) {
+      offsetBackup.copy(offset);
+      offset.copy(origin);
+    } else {
+      offset.copy(offsetBackup);
+    }
+    this._isCapturing = value;
+  }
+
+  get isCapturing():boolean {
+    return this._isCapturing;
   }
 
   zoomBy(d:number) {
@@ -311,8 +327,10 @@ export class CameraManager {
   update() {
     if(!this.isAnimating) {
       // 1. remove offset
-      this.lockedCam.translateX(-offset.x);
-      this.lockedCam.translateY(-offset.y);
+      if(!this.isCapturing) {
+        this.lockedCam.translateX(-offset.x);
+        this.lockedCam.translateY(-offset.y);
+      }
       // if(this.isTarget) this.lockedCam.translateZ(-offset.z);
 
       const easing = this.cameraTarget.alpha;
@@ -383,6 +401,8 @@ export class CameraManager {
           // off = tmp;
         } */
       }
+
+      if(this._isCapturing) offset.copy(origin);
 
       offset.lerp(off, easing);
       this.lockedCam.translateX(offset.x);
