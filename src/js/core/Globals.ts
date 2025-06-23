@@ -12,6 +12,7 @@ import MapControls from "../layers/MapControls";
 import { Loader } from "../layers/Loader";
 import ToggleGroup from "../components/ToggleGroup";
 import Navigation from "../layers/Navigation";
+import { DefaultPage } from "../pages/DefaultPage";
 
 /**
  * DEV_MODE is injected by esbuild
@@ -99,6 +100,7 @@ export interface Globals {
 	isMobile:Function;
 	navigation:Navigation;
 	urlParams:Function;
+	currentPage: DefaultPage;
 }
 
 export const GLOBALS:Globals = {
@@ -116,6 +118,7 @@ export const GLOBALS:Globals = {
 	firstPage: true,
 	loader: null,
 	navigation: null,
+	currentPage: null,
 	getViewport: () => {
 		return getComputedStyle(document.documentElement).getPropertyValue('--viewport');
 	},

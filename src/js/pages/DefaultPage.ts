@@ -37,7 +37,7 @@ export class DefaultPage extends Page {
     }
 
     create(): void {
-        GLOBALS.firstPage = false;
+        // GLOBALS.firstPage = false;
     }
 
     dispose(): void {

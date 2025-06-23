@@ -64,6 +64,12 @@ export class OrbitViewer extends ThreeLayer {
 	useVFX:boolean = true;
 
 	paused:boolean = false;
+	isCapturing:boolean = false;
+	captureCallback:Function;
+	beforeCapturingSize = {
+		width: 0,
+		height: 0
+	}
 
     constructor(_gl:ThreeDOMLayer) {
       super(_gl);
@@ -211,7 +217,7 @@ export class OrbitViewer extends ThreeLayer {
           color: 0xFA6868
 				});
 
-        this.addElementToScene(planet);
+        this.addElementToScene(planet, null);
 		}
 
 	}
@@ -414,7 +420,35 @@ export class OrbitViewer extends ThreeLayer {
 			}
     }
 
+		capture(format:string, callback:Function) {
+			this.beforeCapturingSize.width = this.gl.rect.width;
+			this.beforeCapturingSize.height = this.gl.rect.height;
+			this.captureCallback = callback;
+			this.gl.renderer.domElement.classList.add('hidden');
+			GLOBALS.loader.show();
+			if(format === 'horizontal') {
+				this.setSize(1920, 1080);
+			} else if(format === 'vertical') {
+				this.setSize(1080, 1920);
+			} else {
+				this.setSize(1080, 1080);
+			}
+			this.isCapturing = true;
+		}
+
 		render(): void {
+			if(this.isCapturing) {
+				if(this.useVFX) this.vfx.render(this.scene, this.camera);
+				else super.render();
+				this.captureCallback(this.gl.renderer.domElement);
+				setTimeout(() => {
+					this.setSize(this.beforeCapturingSize.width, this.beforeCapturingSize.height);
+					this.isCapturing = false;
+					this.gl.renderer.domElement.classList.remove('hidden');
+					GLOBALS.loader.hide();
+				}, 1);
+				return;
+			};
 			if(this.paused) return;
 			if(this.useVFX) this.vfx.render(this.scene, this.camera);
 			else super.render();

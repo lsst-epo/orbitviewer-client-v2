@@ -2,7 +2,7 @@ class Tabs {
   private tabLinks: NodeListOf<HTMLElement>;
   private tabContents: NodeListOf<HTMLElement>;
 
-  constructor(containerSelector: string) {
+  constructor(containerSelector: string, protected onChange:Function = null) {
     const container = document.querySelector(containerSelector);
     
     if (!container) {
@@ -20,6 +20,7 @@ class Tabs {
       link.addEventListener('click', (e) => {
         e.preventDefault();
         this.showTab(index);
+        if(this.onChange) this.onChange(index);
       });
     });
 

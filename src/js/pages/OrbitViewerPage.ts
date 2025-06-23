@@ -28,6 +28,8 @@ class OrbitViewerPage extends DefaultPage {
 	toolbar: Toolbar;
 	elements: { splash: Element; onboarding: Element; wizard: Element; toast: Element, filters: Element; search: Element; toolbar: Element; };
 	openLayers: Set<string>;
+
+	isLanding:boolean = true;
     
   constructor(id: string, template: string, dom: HTMLElement) {
     super(id, template, dom)
@@ -79,6 +81,7 @@ class OrbitViewerPage extends DefaultPage {
 				GLOBALS.viewer.goToOrbitViewerMode(true);
 				GLOBALS.viewer.adjustQualitySettings(isMobile() ? 'low' : 'medium');
 				this.showUI();
+				this.isLanding = false;
 				parseURL();
 			} else {
 				GLOBALS.viewer.goToLandingMode();
@@ -87,6 +90,7 @@ class OrbitViewerPage extends DefaultPage {
 			this.splash?.close();
 			GLOBALS.viewer.goToOrbitViewerMode();
 			this.showUI();
+			this.isLanding = false;
 		}
 
 		GLOBALS.objectToggle.hide();
