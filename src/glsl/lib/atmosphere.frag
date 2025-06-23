@@ -33,6 +33,6 @@ void main() {
   col *= brightness;
 
   gl_FragColor = col;
-  oGlow = col;
+  // oGlow = col;
 
 }
