@@ -197,10 +197,14 @@
             gap: 40px;            
 
             .device {
+                position: relative;
                 flex: auto;
                 width: 100%;
-                height: 100%;
-                position: relative;
+                height: 40vh;                
+
+                @include media(medium) {
+                    height: 60vh;
+                }
 
                 .count {
                     position: absolute;
@@ -217,22 +221,26 @@
                 }
                 
                 .mask {
-                    position: relative;
-                    max-height: 60vh;
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
                     margin: auto;
+                    overflow: hidden;
                     border: solid 4px rgba(var(--color-white-rgb), .2);
                     border-radius: var(--corner-large);
-                    transition: all .3s ease;
-                    overflow: hidden;
+                    transition: all .3s ease;                    
 
                     &.ratio-21-9 {
                         aspect-ratio: 21/9;
+                        width: 100%;
                         .img-ratio-21-9 {
                             opacity: 1;
                             z-index: 2;
                         }
                     }
                     &.ratio-16-9 {
+                        width: 80%;
                         aspect-ratio: 16/9;
 
                         .img-ratio-16-9 {
@@ -241,6 +249,7 @@
                         }
                     }
                     &.ratio-9-16 {
+                        width: 30%;
                         aspect-ratio: 9/16;
 
                         .img-ratio-9-16 {
@@ -249,6 +258,7 @@
                         }
                     }
                     &.ratio-2-3 {
+                        width: 25%;
                         aspect-ratio: 2/3;
 
                         .img-ratio-2-3 {

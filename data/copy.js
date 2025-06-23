@@ -39,7 +39,7 @@ export default {
                 "en": "Basic Experience",
                 "es": ""
             },
-            "objects": "16,000",
+            "objects": "16000",
             "description": {
                 "en": "Perfect for on-the-go exploration with minimal data usage and reduced visuals",
                 "es": ""
@@ -54,7 +54,7 @@ export default {
                 "en": "Core Experience",
                 "es": ""
             },
-            "objects": "65,000",
+            "objects": "65000",
             "description": {
                 "en": "Great performance on most devices with rich visuals",
                 "es": ""
@@ -69,7 +69,7 @@ export default {
                 "en": "Detailed discovery",
                 "es": ""
             },
-            "objects": "262,000",
+            "objects": "262000",
             "description": {
                 "en": "Detailed textures and increased object count for deeper exploration",
                 "es": ""
@@ -84,7 +84,7 @@ export default {
                 "en": "Maximum fidelity",
                 "es": ""
             },
-            "objects": "500,000",
+            "objects": "500000",
             "description": {
                 "en": "Maximum detail with complete celestial catalog for the ultimate experience",
                 "es": ""
