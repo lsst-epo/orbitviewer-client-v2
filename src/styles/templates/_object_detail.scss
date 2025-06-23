@@ -24,13 +24,13 @@
     display: grid;
     grid-template-rows: 60vh 1fr;
     grid-template-columns: 40vw 1fr;
-    pointer-events: none;
 
     &[aria-hidden=true] {
         display: none;
     }
 
     &-frame {
+        pointer-events: none;
         grid-column: 1 / -1;
         grid-row: 1 / 2;
 
