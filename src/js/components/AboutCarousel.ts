@@ -88,7 +88,7 @@ export default class AboutCarousel {
             gsap.killTweensOf(this, 'counter');
             gsap.to(this, {
                 counter: parseFloat(objects),
-                duration: .3,
+                duration: .8,
                 onUpdate: () => {
                     this.counterEl.innerHTML = this.label.replace(
                         '{value}',
