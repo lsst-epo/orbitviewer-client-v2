@@ -3,6 +3,7 @@ import { isMobile } from "@fils/utils";
 import { CLOCK_SETTINGS, GLOBALS } from "./Globals";
 import { UserFilters } from "./solar/SolarUtils";
 import { performanceTest } from "./App";
+import { CategoryFilters } from "./data/Categories";
 
 export function downloadJSON(data, filename, minify = false) {
     // Convert the JavaScript object to a JSON string
@@ -87,12 +88,22 @@ export function generateShareableURL() {
       params.push(`ntypes=${cats.join('+')}`);
     }
 
+    const dist = UserFilters.distanceRange;
+    console.log(dist, CategoryFilters.a.totals);
+    if(dist.min != CategoryFilters.a.totals.min || dist.max != CategoryFilters.a.totals.max) {
+      params.push(`dr=${dist.min}-${dist.max}`);
+    }
+
   } else if(template === 'object') {
     url += `object/`;
     const pr = GLOBALS.urlParams();
     for(const p of pr) {
       if(p.key === 'id') params.push(`id=${p.value}`);
     }
+  } else if(template === 'featured-object') {
+    const parts = location.pathname.split('/');
+    const slug = parts[parts.length-2];
+    url += `solar-items/${slug}/`
   } else {
     url += `${template}/`;
   }
@@ -112,6 +123,11 @@ export function parseURL() {
     if(p.key === 'db') {
       const i = parseInt(p.value);
       if(i >=0 && i<=2) UserFilters.discoveredBy = i as 0|1|2;
+    }
+    if(p.key === 'dr') {
+      const parts = p.value.split("-");
+      UserFilters.distanceRange.min = parseFloat(parts[0]);
+      UserFilters.distanceRange.max = parseFloat(parts[1]);
     }
     if(p.key === 'ntypes') {
       const cats = p.value.split('+');

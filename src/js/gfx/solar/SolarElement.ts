@@ -237,6 +237,7 @@ export class SolarElement extends Solar3DElement {
         // this.mesh.updateMatrixWorld();
         // this.material.update();
         this.orbitPath.update(d, this.position, this.scale.x);
+        this.orbitPath.ellipse.visible = this.enabled;
 
         this.updateDistanceToCamera();
 
