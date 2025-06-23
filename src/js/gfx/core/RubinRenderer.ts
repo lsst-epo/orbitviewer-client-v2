@@ -107,11 +107,11 @@ export class RubinRenderer {
 
     this.glowRT = new WebGLRenderTarget(w, h, {
       samples: 1,
-      count: 2,
+      count: 1,
       colorSpace: colorSpace
     });
 
-    this.glowBlur = new BlurPass(this.glowRT.textures[1], w, h, GLOW);
+    this.glowBlur = new BlurPass(this.glowRT.texture, w, h, GLOW);
     this.glowBlur.target.texture.colorSpace = rnd.outputColorSpace;
     this.glowBlur.write.texture.colorSpace = rnd.outputColorSpace;
 

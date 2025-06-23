@@ -39,5 +39,5 @@ void main () {
 
     gl_FragColor = color;
     // oGlow = color * .5;
-    oGlow = glowBlack;
+    // oGlow = glowBlack;
 }

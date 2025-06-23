@@ -71,7 +71,7 @@ void main() {
   #endif
   
   // oGlow = glowBlack;
-  oGlow = getBloomColor(col.rgb * brightness, 2);
-  oGlow.a *= col.a;// * .1;
+  // oGlow = getBloomColor(col.rgb * brightness, 2);
+  // oGlow.a *= col.a;// * .1;
   // oGlow = col;
 }
