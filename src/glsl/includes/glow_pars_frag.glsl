@@ -1,5 +1,7 @@
 const vec4 glowBlack = vec4(vec3(0.0), 1.0);
-layout(location = 1) out vec4 oGlow;
+uniform bool isGlow;
+uniform bool hasGlow;
+// layout(location = 1) out vec4 oGlow;
 
 const vec3 bloomWeightsStandard = vec3(0.2126, 0.7152, 0.0722);
 const vec3 bloomWeightsBrighter = vec3(0.6126, 0.8152, 0.6722);

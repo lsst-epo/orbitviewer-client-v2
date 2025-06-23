@@ -43,6 +43,12 @@ const SUN_MAT = new ShaderMaterial({
         },
         brightness: {
             value: 1.3
+        },
+        hasGlow: {
+            value: true
+        },
+        isGlow: {
+            value: false
         }
     },
     // transparent: true,

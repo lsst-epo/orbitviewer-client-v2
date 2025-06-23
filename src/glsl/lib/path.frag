@@ -15,5 +15,5 @@ void main () {
 
   // color.a *= .8;
   gl_FragColor = col * d;
-  oGlow = vec4(0.0);
+  // oGlow = vec4(0.0);
 }

@@ -30,14 +30,16 @@ void main () {
 
     if(d < .001) discard;
 
-    vec3 col = generic_desaturate(vColor, factor);
+    if(isGlow) {
+        gl_FragColor = glowBlack;
+    } else {
+        vec3 col = generic_desaturate(vColor, factor);
+        vec4 color = (vec4(col, d));
 
-    #include <glow_frag_init>
-    vec4 color = (vec4(col, d));
+        color.rgb *= brightness;
 
-    color.rgb *= brightness;
-
-    gl_FragColor = color;
+        gl_FragColor = color;
+    }
     // oGlow = color * .5;
-    oGlow = glowBlack;
+    // oGlow = glowBlack;
 }

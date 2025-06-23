@@ -1,6 +1,6 @@
 #include <color_fragment>
 
-oGlow = glowBlack;
+// oGlow = glowBlack;
 
 /* if(isPlanet) {
   float D = distance(vPosO.xyz, planetPosition);
