@@ -89,8 +89,15 @@
         gap: 12px;
         padding: 0 var(--site-margin-large);
 
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scroll-padding-left: var(--site-margin-large);
+
+        @include scrollbar-hidden;
+
         @include media(medium) {
             justify-content: center;
+            overflow-x: visible;
         }
     }
 
@@ -99,6 +106,8 @@
             flex-shrink: 0;
             min-height: 40vh;
             overflow: hidden;
+
+            scroll-snap-align: start;
 
             .ribbon {
                 &[aria-hidden=true] {
