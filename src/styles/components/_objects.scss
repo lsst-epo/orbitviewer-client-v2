@@ -98,7 +98,6 @@
 
     &-mask {
         width: 100%;
-        height: max-content;
         overflow: hidden;
     }
 
@@ -109,9 +108,10 @@
             gap: 12px;
             padding: 0 var(--site-margin-large) var(--site-margin-large);
             overflow-x: auto;
+            overflow-y: hidden;
             scroll-snap-type: x mandatory;
             scroll-padding-left: var(--site-margin-large);
-            
+            min-height: max-content;
             will-change: transform;
             @include scrollbar-hidden;
 
