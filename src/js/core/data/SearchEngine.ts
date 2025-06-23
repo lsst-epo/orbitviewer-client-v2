@@ -19,19 +19,46 @@ const query = {
     items: []
 }
 
+const SearchWorker = new Worker('/assets/js/search.js');
+
+const items = [];
+const put_items = (arr) => {
+    for(const item of arr) {
+        if(items.indexOf(item) === -1) items.push(item);
+    }
+}
+
 class SEngine {
-    search(query:string) {
-        const items = [];
-        const q = query.toLowerCase();
-        const data = LoadManager.data;
-        const craftData = LoadManager.craftData;
+    searchCallback:Function = null;
 
-        this.searchInArray(q, data.planets, items);
-        this.searchInArray(q, data.dwarf_planets, items);
-        this.searchInArray(q, SolarItemsSamples, items);
-        this.searchInArray(q, data.sample, items);
+    search(query:string, useWorker:boolean=false) {
+        if(!useWorker) {
+            const items = [];
+            const q = query.toLowerCase();
+            const data = LoadManager.data;
 
-        return items;
+            this.searchInArray(q, data.planets, items);
+            this.searchInArray(q, data.dwarf_planets, items);
+            this.searchInArray(q, SolarItemsSamples, items);
+            this.searchInArray(q, data.sample, items);
+
+            return items;
+        } else {
+            const q = query.toLowerCase();
+            const data = LoadManager.data;
+
+            if(!items.length) {
+                put_items(data.planets);
+                put_items(data.dwarf_planets);
+                put_items(SolarItemsSamples);
+                put_items(data.sample);
+            }
+
+            SearchWorker.postMessage({
+                query,
+                items
+            })
+        }
     }
 
     private searchInArray(prompt:string, arr:OrbitDataElements[], found:OrbitDataElements[]) {
@@ -46,3 +73,9 @@ class SEngine {
 }
 
 export const SearchEngine = new SEngine();
+
+SearchWorker.addEventListener('message', (e) => {
+    // console.log(e.data.imageURL)
+    if(!SearchEngine.searchCallback) return;
+    SearchEngine.searchCallback(e.data.results);
+});

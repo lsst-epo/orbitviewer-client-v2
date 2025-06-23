@@ -7,6 +7,8 @@ import { mapOrbitElementsV2, OrbitDataElementsV2 } from "../core/solar/SolarUtil
 import { SolarElement } from "../gfx/solar/SolarElement";
 import Layer from "./Layer";
 
+const USE_WORKER = false;
+
 class Search extends Layer {
     dom: HTMLElement;
     closeButton: HTMLElement;
@@ -16,6 +18,8 @@ class Search extends Layer {
     recommended:NodeListOf<HTMLUListElement>;
     alert:HTMLElement;
     errorMessage:string;
+
+    notSearching:boolean = false;
     
     constructor(dom) {
         super(dom, {
@@ -39,6 +43,19 @@ class Search extends Layer {
         this.errorMessage = this.alert.textContent;
 
         this.start();
+
+        SearchEngine.searchCallback = items => {
+            if(this.notSearching) return;
+            console.log(items);
+            if(!items.length) {
+                this.showNotFound(this.sInput.value);
+                return;
+            }
+            this.hideNotFound();
+            for(let i=0; i<Math.min(100, items.length); i++) {
+                this.addItemToList(items[i]);
+            }
+        }
     }
 
     open(): Promise<void> {
@@ -48,17 +65,23 @@ class Search extends Layer {
                 // console.log(this.sInput.value);
                 if(!this.sInput.value.length) {
                     this.showRecommended();
+                    this.notSearching = true;
                     return;
                 };
                 this.hideRecommended();
-                const items = SearchEngine.search(this.sInput.value);
-                if(!items.length) {
-                    this.showNotFound(this.sInput.value);
-                    return;
-                }
-                this.hideNotFound();
-                for(let i=0; i<Math.min(100, items.length); i++) {
-                    this.addItemToList(items[i]);
+                const items = SearchEngine.search(this.sInput.value, USE_WORKER);
+                if(!USE_WORKER) {
+                    if(!items.length) {
+                        this.showNotFound(this.sInput.value);
+                        return;
+                    }
+                    this.hideNotFound();
+                    for(let i=0; i<Math.min(100, items.length); i++) {
+                        this.addItemToList(items[i]);
+                    }
+                } else {
+                    this.notSearching = false;
+                    this.hideNotFound();
                 }
             }
         })

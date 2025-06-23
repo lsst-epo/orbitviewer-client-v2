@@ -76,6 +76,26 @@ export async function getCategories(lang) {
   return content;
 }
 
+// --- Comments: -----------------
+/*
+  - This needs to happen on site build
+  - But is it worth it?
+  - Can this SEO info be static?
+*/
+// -------------------------------
+export async function getGlobals(lang) {
+  const query = `{
+  globalSets(siteId: "${lang}") {
+    ... on defaultSEO_GlobalSet {
+      seoSiteName
+      seoTitle
+      seoDescription
+    }
+  }
+}`
+  return await getQuery(query);
+}
+
 export function slugify(str) {
 	return str
 		.toLowerCase()
