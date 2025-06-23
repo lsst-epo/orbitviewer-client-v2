@@ -112,11 +112,13 @@
             scroll-snap-type: x mandatory;
             scroll-padding-left: var(--site-margin-large);
             min-height: max-content;
+            
             will-change: transform;
             @include scrollbar-hidden;
 
             @include media(medium) {
                 overflow-x: visible;
+                overflow-y: visible;
                 padding: 0 calc(var(--toolbar-width) + var(--site-margin-small));
                 scroll-padding-left: calc(var(--toolbar-width) + var(--site-margin-small));
             }
