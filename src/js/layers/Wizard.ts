@@ -68,11 +68,18 @@ class Wizard extends Layer {
         this.addEventListeners();
         setTimeout(() => {
             this.updateDom();
-            this.open();
+            this.show();
         }, 1200); // Delay to allow DOM animations to complete
     }
 
-    
+    show() {
+        super.open();
+        gsap.to(this.dom, { opacity: 1 })
+    }
+
+    hide() {
+        gsap.to(this.dom, { opacity: 0, onComplete: super.close.bind(this) });
+    }
 
     onStepChange() {
         this.inTransition = true;
@@ -205,9 +212,10 @@ class Wizard extends Layer {
     }
 
     skip() {
+        console.log('Wizard skipped');
         window.localStorage.setItem('wizardSkipped', 'true');
         this.removeEventListeners();
-        this.close();
+        this.hide();
     }
 }
 
