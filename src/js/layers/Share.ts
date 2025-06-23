@@ -46,6 +46,7 @@ class Share extends Layer {
     start() {
 		this.triggerButton.addEventListener('click', (e) => {
 			e.preventDefault();
+            this.setInputValue(); // Update the input value before opening
 			this.open();
 		});
 
@@ -97,6 +98,10 @@ class Share extends Layer {
                 }                
             }
         });
+    }
+
+    setInputValue() {
+        this.input.value = generateShareableURL();
     }
 
     getInputValue() {
