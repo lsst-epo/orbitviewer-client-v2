@@ -4,7 +4,7 @@
 @use '../base/typography' as *;
 
 .view {
-    position: absolute;
+    position: fixed;
     left: 0;
     top: 0;
     z-index: var(--z-canvas);

@@ -2,9 +2,9 @@
 {% from '../components/button.njk' import Button %}
 {% from '../components/object_card_graph.njk' import ObjectCardGraph %}
 
-<section class="object_detail" role="main" aria-labelledby="object-name" aria-hidden="false" style='transform: translateY(100%);'>
+<section class="object_detail" role="main" aria-labelledby="object-name" aria-hidden="false">
     <div class="object_detail-frame" aria-hidden="false"></div>
-    <div class="object_detail-content">
+    <div class="object_detail-content" style='transform: translateY(100%);'>
         <div class="object_card">
             <header class="object_card-head">
                 <a href="/{{lang}}/">{{ Button(copy.core.back[lang], 'button ghost medium', 'chevron-left') }}</a>
@@ -16,7 +16,7 @@
                         <dt class="title">{{ copy.object.designation[lang] }}</dt>
                         <dd class="value">Earth-Moon Barycenter (3)</dd>
                     </dl>
-                    <div class="object_card-hero">
+                    <div class="object_card-hero" aria-hidden="true">
                         <img src="" alt="{{ copy.object.hero.alt[lang] }} 2014 UZ224">
                     </div>
                     <div class="object_card-category">
