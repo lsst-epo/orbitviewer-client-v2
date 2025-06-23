@@ -55,7 +55,6 @@
             bottom: 232px;
             @include media(medium) {
                 bottom: 172px;
-                transform: translateX(calc(-50% - 26px));
             }
         }
     }
