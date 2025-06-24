@@ -49,6 +49,18 @@ export class ScrollingPage extends DefaultPage {
             root: null, // Use the viewport as the root
             rootMargin: "-150px 0px -150px 0px", // top, right, bottom, left
         });
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
     }
 
     transitionIn(resolve: any): Promise<void> {
@@ -57,7 +69,8 @@ export class ScrollingPage extends DefaultPage {
             this.intersectionObserver.observe(section);
         });
         document.body.classList.add('scrollable');
-        // console.log('transition in!')
+        document.body.scrollTo(0, 0)
+        
         return super.transitionIn(resolve);
     }
 
