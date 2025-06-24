@@ -13,7 +13,8 @@
 		"dev": "yarn langs && yarn glsl && eleventy --serve --watch",
 		"build": "yarn langs && yarn glsl && node scripts/build/build.js && cross-env ELEVENTY_ENV=production eleventy",
 		"stage": "yarn build && push rubin --force",
-		"mirror": "git push rubin dev:feature/fil-dev && git push rubin main:feature/fil-main"
+		"mirror": "git push rubin dev:feature/fil-dev && git push rubin main:feature/fil-main",
+		"start": "http-server ./public"
 	},
 	"dependencies": {
 		"@fils/ani": "^0.0.6",
@@ -28,6 +29,7 @@
 		"@fils/vfx": "^0.2.3",
 		"flatpickr": "^4.6.13",
 		"gsap": "^3.13.0",
+		"http-server": "^14.1.1",
 		"three": "^0.174.0"
 	},
 	"devDependencies": {
