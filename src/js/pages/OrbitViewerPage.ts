@@ -99,6 +99,7 @@ class OrbitViewerPage extends DefaultPage {
 	}
 
 	transitionIn(resolve: any): Promise<void> {
+		GLOBALS.viewer.enter();
 		const total = LoadManager.data.rubinCount;
 		const n = {
 			value: Math.max(0, total-2000)
@@ -122,6 +123,11 @@ class OrbitViewerPage extends DefaultPage {
 				}
 			})
 		}).then(resolve);
+	}
+
+	transitionOut(resolve: any): Promise<void> {
+		GLOBALS.viewer.leave();
+		return super.transitionOut(resolve);
 	}
 
 	showUI() {

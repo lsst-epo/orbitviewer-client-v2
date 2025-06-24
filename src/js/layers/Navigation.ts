@@ -1,3 +1,4 @@
+import gsap from "gsap";
 import SlidingMenu from "../components/SlidingMenu";
 import { USE_V2 } from "../core/App";
 import { LoadManager } from "../core/data/LoadManager";
@@ -76,6 +77,17 @@ class Navigation extends Layer {
     this.fullscreenButton.onclick = () => {
       GLOBALS.toggleFullscreen();
     };
+  }
+
+  enter() {
+    const logo = document.querySelector('.site-logo');
+    const navEl = document.querySelector('.navigation');
+    gsap.to([logo, navEl], {
+      opacity: 1,
+      duration: .8,
+      ease: 'power1.in',
+      stagger: .2
+    })
   }
 
   open(): Promise<void> {

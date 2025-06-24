@@ -37,6 +37,7 @@ export const SolarItemsSamples = [];
 export const uiColliders:Solar3DElement[] = [];
 
 export class OrbitViewer extends ThreeLayer {
+	dom: HTMLElement;
   camera:PerspectiveCamera;
   particles:SolarParticles;
   
@@ -73,6 +74,7 @@ export class OrbitViewer extends ThreeLayer {
 
     constructor(_gl:ThreeDOMLayer) {
       super(_gl);
+	  this.dom = _gl.dom;
       const w = this.gl.rect.width;
       const h = this.gl.rect.height;
       this.camera = new PerspectiveCamera(35, w/h, .01, DEFAULT_CAM_LIMITS.maxDistance + 5000000);
@@ -142,6 +144,26 @@ export class OrbitViewer extends ThreeLayer {
 			this.gl.renderer.setPixelRatio(Math.min(devicePixelRatio, tier.maxPixelRatio));
 			this.vfx.setTier(tier);
 			GLOBALS.clouds.setTier(tier);
+		}
+
+		enter() {
+			// console.log('enter scene', this.dom);
+			this.dom.removeAttribute('aria-hidden');
+			gsap.to(this.dom, { opacity: 1, duration: .8, ease: 'power1.in' })
+		}
+
+		leave() {
+			return new Promise((resolve) => {
+				gsap.to(this.dom, {
+					opacity: 0,
+					duration: .4,
+					ease: 'power1.out',
+					onComplete: () => {
+						this.dom.setAttribute('aria-hidden', 'true');
+						resolve(true);
+					}
+				})
+			})
 		}
 
 		fadeIn() {

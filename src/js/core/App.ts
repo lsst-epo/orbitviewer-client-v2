@@ -59,7 +59,7 @@ export class App implements NomadRouteListener {
 		GLOBALS.lang = document.documentElement.getAttribute('lang');
 
 		GLOBALS.loader = new Loader(document.querySelector('.loader'));
-		// GLOBALS.loader.show();
+		GLOBALS.loader.show();
 
 		initShaders();
 
@@ -234,6 +234,7 @@ export class App implements NomadRouteListener {
 				this.testRunning = false;
 				GLOBALS.loader.hide();
 				this.initNomad();
+				GLOBALS.navigation.enter();
 			}
 
 			return;

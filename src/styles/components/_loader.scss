@@ -12,6 +12,8 @@
     justify-content: center;
     background: var(--color-backdrop);
     backdrop-filter: blur(var(--backdrop-blur));
+    opacity: 0;
+    will-change: opacity;
 
     &[aria-hidden=true] {
         display: none;
