@@ -2,7 +2,7 @@ export default {
 	// Get global "isProduction"
 	isProduction: process.env.ELEVENTY_ENV === 'production',
 	baseURL: "",
-  title: "Orbit Viewer",
+  title: "Orbitviewer",
 	description: "Vera Rubin's interactive explorer.",
 	languages: ["en"],//["en", "es"],
 	defaultLanguage: "en",
