@@ -1,0 +1,60 @@
+name: 'Push to Development after PR Merge'
+
+on:
+  push:
+    branches:
+      - 'develop'
+      - 'main'   
+    tags:
+      - 'v*'
+
+jobs:
+  build-push-deploy:
+    name: 'Deploy Development Version'
+    runs-on: ubuntu-latest
+    if: ${{ github.event.action != 'closed'}}
+
+    # Checkout the repository to the GitHub Actions runner
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Parse deployment info
+      id: deploy-info
+      run: |
+          # Determine environment to deploy to
+          if ${{ github.ref_type == 'tag'}}; then
+            environment_name="prod"
+            environment_project_id="edc-prod-eef0"
+            credentials_json='${{ secrets.PIPELINE_EPO_PROD_PROJECT }}'
+          elif ${{ contains(github.ref_name, 'main') || contains(github.base_ref, 'main') }}; then
+            environment_name="int"
+            environment_project_id="edc-int-6c5e"
+            credentials_json='${{ secrets.SKYVIEWER_INT_SERVICE_ACCOUNT }}'
+          else
+            environment_name="dev"
+            environment_project_id="skyviewer"
+            credentials_json='${{ secrets.DEV_SA_KEY }}'
+          fi
+          echo environment_name=$environment_name >> "$GITHUB_OUTPUT"
+          echo environment_project_id=$environment_project_id >> "$GITHUB_OUTPUT"
+          echo credentials_json=$credentials_json >> "$GITHUB_OUTPUT"
+    # GCP Login
+    - name: Login to GCP
+      uses: 'google-github-actions/auth@v2.1.10'
+      with:
+        credentials_json: ${{ steps.deploy-info.outputs.credentials_json }}
+
+    # Set up Google Cloud SDK
+    - name: 'Set up Cloud SDK'
+      uses: 'google-github-actions/setup-gcloud@v2.1.4'
+      with:
+        project_id: ${{ steps.deploy-info.outputs.environment_project_id }}
+    
+    - name: Get app.yaml
+      run: gcloud secrets versions access latest --secret=orbitviewer-client-v2-appyaml > app.yaml
+
+    - name: Deploy to App Engine
+      run: |
+        gcloud app deploy app.yaml \
+          --promote

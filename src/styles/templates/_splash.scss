@@ -29,7 +29,7 @@
         flex-direction: column;
         justify-content: space-between;
         align-items: center;
-        gap: 24px;
+        gap: 16px;
 
         @include media(small) {
             grid-column: 3/11;
@@ -42,10 +42,16 @@
         @include media(large) {
             grid-column: 4/10;
         }
+
+        @media (min-height: 618px) {
+            gap: 24px;
+        }
     }
 
         &-triad {
-            padding-top: 32px;
+            @media (min-height: 618px) {
+                padding-top: 32px;
+            }
             
             img {
                 display: block;
@@ -61,11 +67,14 @@
         &-heading {
             display: flex;
             flex-direction: column;
-            gap: 12px;
             align-items: center;
             text-align: center;
             color: var(--color-text);
             text-shadow: 2px 2px 2px rgba(var(--color-black-rgb), .15), 0 0 12px rgba(48, 100, 51, .75);
+
+            @media (min-height: 618px) {
+                gap: 12px;
+            } 
 
             @include media(medium) {
                 gap: 24px;

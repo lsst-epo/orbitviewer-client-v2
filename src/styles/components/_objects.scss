@@ -98,10 +98,7 @@
 
     &-mask {
         width: 100%;
-        overflow-x: auto;
-        @include media(medium) {
-            overflow: hidden;
-        }
+        overflow: hidden;
     }
 
         &-list {
@@ -109,15 +106,19 @@
             min-width: 100%;
             display: flex;
             gap: 12px;
-            padding: 0 var(--site-margin-large);
+            padding: 0 var(--site-margin-large) var(--site-margin-large);
             overflow-x: auto;
+            overflow-y: hidden;
             scroll-snap-type: x mandatory;
             scroll-padding-left: var(--site-margin-large);
+            min-height: max-content;
+            
             will-change: transform;
             @include scrollbar-hidden;
 
             @include media(medium) {
                 overflow-x: visible;
+                overflow-y: visible;
                 padding: 0 calc(var(--toolbar-width) + var(--site-margin-small));
                 scroll-padding-left: calc(var(--toolbar-width) + var(--site-margin-small));
             }

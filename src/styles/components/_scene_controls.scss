@@ -6,7 +6,7 @@
 .scene_controls {
     --timemachine-gap: 12px;
     
-    position: absolute;
+    position: fixed;
     right: var(--site-margin-large);
     bottom: calc(var(--toolbar-height) + var(--site-margin-large) + var(--timemachine-gap));
     left: var(--site-margin-large);

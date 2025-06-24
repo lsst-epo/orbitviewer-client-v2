@@ -3,10 +3,15 @@
 @use '../base/mixins' as *;
 @use '../base/typography' as *;
 
-.object, .featured-object {
+.object,
+.featured-object {
     &_template {
         .scene_controls {
-            bottom: calc(40vh + 12px);
+            bottom: calc(25svh + 12px);
+
+            @media (min-height: 618px) {
+                bottom: calc(40svh + 12px);
+            }
             
             @include media(medium) {
                 left: 40vw;
@@ -17,14 +22,26 @@
 }
 
 .object_detail {
-    position: absolute;
+    position: relative;
     inset: 0;
     z-index: var(--z-detail);
-    overflow: auto;
+    overflow: hidden;
+    height: max-content;
+    
     display: grid;
-    grid-template-rows: 60vh 1fr;
+    grid-template-rows: calc(var(--object-grid-frame-small) * 1vh) 1fr;
     grid-template-columns: 40vw 1fr;
     pointer-events: none;
+
+    @media (min-height: 618px) {
+        grid-template-rows: calc(var(--object-grid-frame-large) * 1vh) 1fr;
+    }
+
+    @include media(medium) {
+        position: absolute;
+        height: 100vh;
+        height: 100svh;
+    }
 
     &[aria-hidden=true] {
         display: none;
@@ -41,6 +58,7 @@
     }
 
     &-content {
+        pointer-events: all;
         position: relative;
         grid-column: 1 / -1;
         grid-row: 2 / -1;
@@ -57,7 +75,6 @@
     flex-direction: column;
     min-height: 100%;    
     border-radius: var(--corner-large) var(--corner-large) 0 0;
-    pointer-events: all;
     
     @include frozen_glass;
     @include gradient_border;
@@ -127,6 +144,10 @@
                 background: var(--color-backdrop);
                 overflow: hidden;
                 border-radius: var(--corner-large);
+
+                &[aria-hidden=true] {
+                    display: none;
+                }
 
                 img {
                     position: absolute;

@@ -10,8 +10,8 @@ eleventyComputed:
 ---
 
 <div class="about-page">
-  <section class="about-section about_heading">
-    <div class="about_heading-header">
+  <section class="about-section about_heading intersect_no-active">
+    <div class="about_heading-header intersect-animation">
       <img src="/assets/images/rubin-nsf-doe-triad.png" alt="{{ copy.splash.logo.alt[lang] }}" class="hero">
     </div>
     <div class="about_heading-body">
@@ -53,10 +53,10 @@ eleventyComputed:
         </div>
       </div>
       <nav class="tab_list">
-        <button role="tab" data-ratio="21-9" data-objects="50000" aria-selected="true">Gaming Pcs</button>
-        <button role="tab" data-ratio="16-9" data-objects="20000">High-end laptops</button>
-        <button role="tab" data-ratio="9-16" data-objects="2000">High-end mobiles</button>
-        <button role="tab" data-ratio="2-3" data-objects="1">Mobiles</button>
+        <button role="tab" data-ratio="21-9" data-objects="{{ copy.exploration.ultra.objects }}" aria-selected="true">Gaming Pcs</button>
+        <button role="tab" data-ratio="16-9" data-objects="{{ copy.exploration.high.objects }}">High-end laptops</button>
+        <button role="tab" data-ratio="9-16" data-objects="{{ copy.exploration.medium.objects }}">High-end mobiles</button>
+        <button role="tab" data-ratio="2-3" data-objects="{{ copy.exploration.low.objects }}">Mobiles</button>
       </nav>
     </div>
     <div class="about_device-text">
@@ -64,7 +64,7 @@ eleventyComputed:
     </div>
   </section>
 
-  <section class="about_observatory">
+  <section class="about_observatory with-inner-sections">
       <div class="about_observatory-head">
         <div class="invite">
           <p>We invite you to dive in and explore as Rubin Observatory reveals millions of new objects in our Solar System — revolutionizing what we know about our cosmic neighborhood, from what’s in it to how we got here.</p>

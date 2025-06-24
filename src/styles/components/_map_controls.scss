@@ -8,6 +8,12 @@
     &[aria-hidden=true] {
         display: none;
     }
+
+    button {
+        &[aria-hidden=true] {
+            display: none;
+        }
+    }
     
     &-buttons {
         display: flex;

@@ -48,6 +48,12 @@ const MAT = new ShaderMaterial({
         },
         resolution: {
             value: new Vector2()
+        },
+        isGlow: {
+            value: false
+        },
+        hasGLow: {
+            value: false
         }
     }
 });

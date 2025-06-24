@@ -36,7 +36,7 @@ export default class AboutCarousel {
     
     constructor(dom: Element) {
         this.dom = dom;
-        console.log('AboutCarousel initialized with DOM:', this.dom);
+        // console.log('AboutCarousel initialized with DOM:', this.dom);
         this.intersectionObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 this.active = entry.isIntersecting;
@@ -70,12 +70,12 @@ export default class AboutCarousel {
     }
 
     onActiveChange() {
-        console.log('AboutCarousel active state changed:', this.active);
+        // console.log('AboutCarousel active state changed:', this.active);
         this.active ? this.start() : this.pause();
     }
 
     onIndexChange() {
-        console.log('AboutCarousel index changed:', this.index);
+        // console.log('AboutCarousel index changed:', this.index);
 
         this.buttonEls.forEach((button, index) => {
             button.setAttribute('aria-selected', index === this.index ? 'true' : 'false');
@@ -88,7 +88,7 @@ export default class AboutCarousel {
             gsap.killTweensOf(this, 'counter');
             gsap.to(this, {
                 counter: parseFloat(objects),
-                duration: .3,
+                duration: .8,
                 onUpdate: () => {
                     this.counterEl.innerHTML = this.label.replace(
                         '{value}',
@@ -111,7 +111,7 @@ export default class AboutCarousel {
     }
 
     pause() {
-        console.log('AboutCarousel paused');
+        // console.log('AboutCarousel paused');
         this.timer?.kill();
     }
 
@@ -120,6 +120,6 @@ export default class AboutCarousel {
         this.intersectionObserver?.disconnect();
         this.intersectionObserver = null;
 
-        console.log('AboutCarousel disposed');
+        // console.log('AboutCarousel disposed');
     }
 }

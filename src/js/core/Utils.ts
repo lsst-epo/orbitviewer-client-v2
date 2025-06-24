@@ -3,6 +3,8 @@ import { isMobile } from "@fils/utils";
 import { CLOCK_SETTINGS, GLOBALS } from "./Globals";
 import { UserFilters } from "./solar/SolarUtils";
 import { performanceTest } from "./App";
+import { CategoryFilters } from "./data/Categories";
+import OrbitViewerPage from "../pages/OrbitViewerPage";
 
 export function downloadJSON(data, filename, minify = false) {
     // Convert the JavaScript object to a JSON string
@@ -46,12 +48,17 @@ export async function getSolarStaticData(weight:string, isV2:boolean=false) {
 
 
 export function generateShareableURL() {
-  const baseURL = "http://localhost:8080";
+  const baseURL = location.origin;//"http://localhost:8080";
   const n = document.querySelector("[nomad-wrapper]").querySelector('div');//.childNodes[0] as HTMLElement;
   const template = n.getAttribute("nomad-template");
-  console.log(template);
+  // console.log(location);
 
   let url = `${baseURL}/${GLOBALS.lang}/`;
+
+  if(template === "orbitviewerpage") {
+    const page = GLOBALS.currentPage as OrbitViewerPage;
+    if(page.isLanding) return url;
+  }
 
   const params = [];
 
@@ -87,12 +94,22 @@ export function generateShareableURL() {
       params.push(`ntypes=${cats.join('+')}`);
     }
 
+    const dist = UserFilters.distanceRange;
+    // console.log(dist, CategoryFilters.a.totals);
+    if(dist.min != CategoryFilters.a.totals.min || dist.max != CategoryFilters.a.totals.max) {
+      params.push(`dr=${dist.min}-${dist.max}`);
+    }
+
   } else if(template === 'object') {
     url += `object/`;
     const pr = GLOBALS.urlParams();
     for(const p of pr) {
       if(p.key === 'id') params.push(`id=${p.value}`);
     }
+  } else if(template === 'featured-object') {
+    const parts = location.pathname.split('/');
+    const slug = parts[parts.length-2];
+    url += `solar-items/${slug}/`
   } else {
     url += `${template}/`;
   }
@@ -113,6 +130,11 @@ export function parseURL() {
       const i = parseInt(p.value);
       if(i >=0 && i<=2) UserFilters.discoveredBy = i as 0|1|2;
     }
+    if(p.key === 'dr') {
+      const parts = p.value.split("-");
+      UserFilters.distanceRange.min = parseFloat(parts[0]);
+      UserFilters.distanceRange.max = parseFloat(parts[1]);
+    }
     if(p.key === 'ntypes') {
       const cats = p.value.split('+');
       for(const cat of cats) {
@@ -128,7 +150,7 @@ export function parseURL() {
 
     if(p.key == 'd') {
       // date
-      console.log(p.value);
+      // console.log(p.value);
       const parts = p.value.split('T');
       const date = new Date(`${parts[0]}T${parts[1].replaceAll('-', ':')}`);
       GLOBALS.solarClock.setDate(date);
@@ -161,7 +183,7 @@ export function parseURL() {
 
 export function getRecommendedPerformanceIndex():number {
   if(!isMobile()) {
-      console.log('average perf test DT', performanceTest.averageDT);
+      // console.log('average perf test DT', performanceTest.averageDT);
       if(performanceTest.averageDT < 17) return 2;
       else if(performanceTest.averageDT < 24) return 1;
   }

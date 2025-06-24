@@ -53,7 +53,8 @@
 
             <div id="screen_capture" role="tabpanel" aria-hidden="false">
                 <div class="screen_capture-hero horizontal">
-                    <img src="/assets/images/sample/screen_capture.png" alt="image">
+                    {# <img src="/assets/images/sample/screen_capture.png" alt="image"> #}
+                    <canvas id="shareCanvas"></canvas>
                 </div>
                 <div class="screen_capture-options">
                     {{ ToggleGroup('toggle-ratio', '', 'aspect_ratio', [copy.share.aspect_ratio.horizontal[lang], copy.share.aspect_ratio.vertical[lang], copy.share.aspect_ratio.square[lang]], copy.share.aspect_ratio.horizontal[lang])}}

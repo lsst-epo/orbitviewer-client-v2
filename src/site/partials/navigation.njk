@@ -42,9 +42,14 @@
                                         </button>
                                     </li>
                                     <li class="listitem-item" role="menuitem">
-                                        <button type="button" class="listitem-link">
+                                        <button type="button" class="listitem-link button-fullscreen">
                                             <span class="heading">
-                                                {{ icon('fullscreen') }}
+                                                <span class="fullscreen-on">
+                                                    {{ icon('fullscreen') }}
+                                                </span>
+                                                <span class="fullscreen-off" aria-hidden="true">
+                                                    {{ icon('fullscreen-off') }}
+                                                </span>
                                                 <span class="label">{{ copy.navigation.fullscreen[lang] }}</span>
                                             </span>
                                         </button>

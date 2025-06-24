@@ -1,0 +1,14 @@
+.intersect_active,
+.intersect_no-active {
+    will-change: opacity;
+}
+
+.intersect_active {
+    opacity: 1;
+    transition: opacity .3s ease-in;
+}
+
+.intersect_no-active {
+    opacity: 0;
+    transition: opacity .3s ease-out;
+}
