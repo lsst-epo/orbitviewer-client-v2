@@ -19,7 +19,7 @@ export default {
             "es": ""
         },
         "back": {
-            "en": "Orbit viewer",
+            "en": "Orbitviewer",
             "es": ""
         }
     },
