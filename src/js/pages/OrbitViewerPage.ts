@@ -99,6 +99,7 @@ class OrbitViewerPage extends DefaultPage {
 	}
 
 	transitionIn(resolve: any): Promise<void> {
+		document.body.classList.add('in-viewer');
 		GLOBALS.viewer.enter();
 		const total = LoadManager.data.rubinCount;
 		const n = {
@@ -126,6 +127,7 @@ class OrbitViewerPage extends DefaultPage {
 	}
 
 	transitionOut(resolve: any): Promise<void> {
+		document.body.classList.remove('in-viewer');
 		// GLOBALS.viewer.leave();
 		return super.transitionOut(resolve);
 	}
