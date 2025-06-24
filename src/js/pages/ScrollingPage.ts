@@ -65,6 +65,7 @@ export class ScrollingPage extends DefaultPage {
 
     transitionIn(resolve: any): Promise<void> {
         GLOBALS.viewer.paused = true;
+        GLOBALS.viewer.leave();
         this.sections.forEach(section => {
             this.intersectionObserver.observe(section);
         });

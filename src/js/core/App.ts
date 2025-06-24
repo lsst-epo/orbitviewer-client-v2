@@ -234,6 +234,7 @@ export class App implements NomadRouteListener {
 				this.testRunning = false;
 				GLOBALS.loader.hide();
 				this.initNomad();
+				GLOBALS.viewer.enter();
 				GLOBALS.navigation.enter();
 			}
 

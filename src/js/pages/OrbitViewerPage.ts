@@ -126,7 +126,7 @@ class OrbitViewerPage extends DefaultPage {
 	}
 
 	transitionOut(resolve: any): Promise<void> {
-		GLOBALS.viewer.leave();
+		// GLOBALS.viewer.leave();
 		return super.transitionOut(resolve);
 	}
 
