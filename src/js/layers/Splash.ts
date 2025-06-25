@@ -1,3 +1,5 @@
+import { GLOBALS } from "../core/Globals";
+import OrbitViewerPage from "../pages/OrbitViewerPage";
 import Layer from "./Layer";
 import gsap from "gsap";
 
@@ -5,9 +7,9 @@ class Splash extends Layer {
     dom: HTMLElement;
     buttonStart: HTMLElement;
     splash: any;
-    orbitViewer: any;
+    orbitViewer: OrbitViewerPage;
 
-    constructor(dom, orbitViewer) {
+    constructor(dom, orbitViewer:OrbitViewerPage) {
         super(dom);
         this.dom = dom;
         this.orbitViewer = orbitViewer;
@@ -24,7 +26,9 @@ class Splash extends Layer {
             event.preventDefault();
 
             if (this.orbitViewer.onboarding) {
-                this.orbitViewer.onboarding.open();
+                GLOBALS.loader.show();
+                this.orbitViewer.appRef?.startTest();
+                this.orbitViewer.onboarding?.open();
                 this.close();
             }
         });

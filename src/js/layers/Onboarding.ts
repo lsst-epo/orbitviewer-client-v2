@@ -27,12 +27,7 @@ class Onboarding extends Layer {
         // this.start();
     }
 
-    start() {
-        const whenReady = () => {
-            this.orbitviewer.showUI();
-            GLOBALS.viewer.goToOrbitViewerMode(true);
-        }
-
+    updateRecommendedTier() {
         const lis = this.dom.querySelectorAll('li');
         // console.log(lis);
         let recommendedIndex = getRecommendedPerformanceIndex();
@@ -49,7 +44,16 @@ class Onboarding extends Layer {
                 ribbon.setAttribute('aria-hidden', 'true');
             }
         }
+    }
 
+    start() {
+        const whenReady = () => {
+            this.orbitviewer.showUI();
+            GLOBALS.viewer.goToOrbitViewerMode(true);
+        }
+
+        this.updateRecommendedTier();
+        
         this.startButtons.forEach((el: Element) => {
             el.addEventListener('click', (event) => {
                 event.preventDefault();

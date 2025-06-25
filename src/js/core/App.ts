@@ -36,7 +36,7 @@ export let debugCan:Debug2DCanvas = null;
 
 export const performanceTest = {
 	finished: false,
-	averageDT: 0
+	averageDT: 20
 }
 
 export class App implements NomadRouteListener {
@@ -133,19 +133,28 @@ export class App implements NomadRouteListener {
 	}
 
 	start() {
-		const stats = new Stats();
-		document.body.appendChild(stats.dom);
-		stats.dom.style.top = 'unset';
-		stats.dom.style.bottom = '0';
+		if(IS_DEV_MODE) {
+			const stats = new Stats();
+			document.body.appendChild(stats.dom);
+			stats.dom.style.top = 'unset';
+			stats.dom.style.bottom = '0';
 
-		const animate = () => {
+			const animate = () => {
+				requestAnimationFrame(animate);
+				stats.begin();
+				this.update();
+				stats.end();
+			}
+
 			requestAnimationFrame(animate);
-			stats.begin();
-			this.update();
-			stats.end();
-		}
+		} else {
+			const animate = () => {
+				requestAnimationFrame(animate);
+				this.update();
+			}
 
-		requestAnimationFrame(animate);
+			requestAnimationFrame(animate);
+		}
 
 		this.clock = new Timer(true);
 		solarClock.start();
@@ -185,8 +194,15 @@ export class App implements NomadRouteListener {
 
 		// console.log(CategoryFilters);
 
-		this.testStarted = performance.now();
-		this.testRunning = true;
+		GLOBALS.loader.hide();
+		GLOBALS.viewer.enter();
+		this.initNomad();
+		if(this.currentPage.template === 'orbitviewerpage') {
+			const page = this.currentPage as OrbitViewerPage;
+			page.appRef = this;
+		} else {
+			GLOBALS.navigation.enter();
+		}
 
 		// this.viewer.goToLandingMode();
 		/* this.viewer.fadeIn();
@@ -196,6 +212,12 @@ export class App implements NomadRouteListener {
 			duration: 5,
 			ease: 'expo.inOut'
 		}) */
+	}
+	
+
+	startTest() {
+		this.testStarted = performance.now();
+		this.testRunning = true;
 	}
 
 	clockChanged():boolean {
@@ -219,22 +241,24 @@ export class App implements NomadRouteListener {
 		if(this.testRunning) {
 			this.deltas.push(this.clock.currentDelta);
 			// console.log(this.clock.currentDelta);
-			if(performance.now() - this.testStarted >= 5000) {
+			if(performance.now() - this.testStarted >= 2000) {
 				let dt = 0;
-				// console.log(this.deltas);
-				this.deltas.splice(0, 10);
+				// this.deltas.splice(0, 10);
+				console.log(this.deltas);
 				for(const d of this.deltas) {
 					dt += d / this.deltas.length;
 				}
 				// dt *= 1000;
 				// this.terminal.log(`Ended test with an average <span class="blue">${dt*1000}ms</span> & <span class="blue">${1/dt}fps</span>.`);
 				// this.terminal.log(`<span class="green">Done!</span> ✨`);
+				const page = this.currentPage as OrbitViewerPage;
 				performanceTest.finished = true;
 				performanceTest.averageDT = dt * 1000;
+				page.onboarding?.updateRecommendedTier();
 				this.testRunning = false;
 				GLOBALS.loader.hide();
-				this.initNomad();
-				GLOBALS.viewer.enter();
+				// this.initNomad();
+				// GLOBALS.viewer.enter();
 				GLOBALS.navigation.enter();
 			}
 

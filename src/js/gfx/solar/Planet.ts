@@ -27,6 +27,23 @@ import { PlanetDataMap } from "../../core/solar/SolarUtils";
 import { debugCan } from "../../core/App";
 import { uiColliders } from "../OrbitViewer";
 
+/* function calculateGMST(mjd) {
+    // Convert MJD to Julian centuries since J2000.0
+    const T = (mjd - 51544.5) / 36525.0;
+    
+    // Calculate GMST in hours (Meeus formula)
+    let gmst = 280.46061837 + 
+               360.98564736629 * (mjd - 51544.5) +
+               0.000387933 * T * T -
+               T * T * T / 38710000.0;
+    
+    // Normalize to 0-360 degrees
+    gmst = gmst % 360.0;
+    if (gmst < 0) gmst += 360.0;
+    
+    return gmst; // Returns degrees
+} */
+
 export function getAtmosphereMaterial(color1:ColorRepresentation, color2:ColorRepresentation, fresnelWidth:number=1, brightness:number=1.5):ShaderMaterial {
     return new ShaderMaterial({
         vertexShader,
