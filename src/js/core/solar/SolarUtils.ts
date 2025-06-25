@@ -149,8 +149,9 @@ export function mapOrbitElementsV2(dEl:OrbitDataElementsV2):OrbitElements {
         epoch: dEl.epoch_mjd != undefined ? dEl.epoch_mjd : EPOCH,
         type: getOrbitType(dEl),
         category: getCategory(dEl) as SolarCategory,
-        rubin_discovery: dEl.rubin_discovery === true
+        rubin_discovery: dEl.rubin_discovery
     }
+    console.log(el.rubin_discovery);
     return el;
 }
 

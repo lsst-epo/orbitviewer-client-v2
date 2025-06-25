@@ -183,7 +183,7 @@ export function parseURL() {
 
 export function getRecommendedPerformanceIndex():number {
   if(!isMobile()) {
-    console.log('average perf test DT', performanceTest.averageDT);
+    // console.log('average perf test DT', performanceTest.averageDT);
     if(performanceTest.averageDT < 17) return 2;
     else if(performanceTest.averageDT < 30) return 1;
   }

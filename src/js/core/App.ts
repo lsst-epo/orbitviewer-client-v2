@@ -244,7 +244,7 @@ export class App implements NomadRouteListener {
 			if(performance.now() - this.testStarted >= 2000) {
 				let dt = 0;
 				// this.deltas.splice(0, 10);
-				console.log(this.deltas);
+				// console.log(this.deltas);
 				for(const d of this.deltas) {
 					dt += d / this.deltas.length;
 				}

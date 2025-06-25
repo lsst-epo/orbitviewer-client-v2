@@ -143,6 +143,8 @@ export class SolarParticles {
     updateFilterState() {
         const catMap = UserFilters.categories;
         const dMap = UserFilters.distanceRange;
+        const by = UserFilters.discoveredBy;
+        console.log(by, this._data.length);
         for(let i=0;i<this._data.length; i++) {
             const d = this._data[i];
             // 1. Update categopries
@@ -158,16 +160,18 @@ export class SolarParticles {
             //3. date range (coming soon)
 
             //4. discovered by
-            const by = UserFilters.discoveredBy;
             if(by === 0) continue;
             if(by === 1) {
                 // rubin
+                console.log(d.rubin_discovery, this._data[i].rubin_discovery);
                 this.filtered[i] = !d.rubin_discovery;
             } else {
                 // non rubin
                 this.filtered[i] = d.rubin_discovery;
             }
         }
+
+        console.log(this._data);
         
         // 3. Update buffer attribute
         const attr = this.mesh.geometry.attributes.filterValue;
@@ -200,6 +204,7 @@ export class SolarParticles {
 
         for(let i=0; i<count; i++) {
             const el = this._data[i];
+            console.log(el.rubin_discovery);
             // console.log(el.category);
             CategoryCounters[el.category]++;
             const categoryData = getCraftCategory(el.category);
