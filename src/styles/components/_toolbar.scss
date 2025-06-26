@@ -16,10 +16,10 @@
     @include gradient_border;
 
     @include media(medium) {
-        top: var(--site-margin-small);
+        top: var(--site-margin-xsmall);
         right: auto;
         bottom: auto;
-        left: var(--site-margin-small);
+        left: var(--site-margin-xsmall);
         width: var(--toolbar-width);
         height: auto;
     }
@@ -33,7 +33,7 @@
 
         @include media(medium) {
             display: block;
-            height: 76px;
+            height: 64px;
             border-bottom: solid 1px var(--color-border);
         }
     }

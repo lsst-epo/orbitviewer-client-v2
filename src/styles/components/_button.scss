@@ -55,6 +55,14 @@
 
         @include font(subtitle-small);
     }
+
+    &.large {
+        --height: 72px;
+        --padding: 16px;
+        --icon: 40px;
+
+        @include font(subtitle-small);
+    }
 }
 
 .button_share {

@@ -18,7 +18,9 @@
     opacity: 0;
 
     @include media(medium) {
-        padding: 16px 12px;
+        top: var(--site-margin-xsmall);
+        left: var(--site-margin-xsmall);
+        padding: 12px;
 
         .logo {
             width: 72px;

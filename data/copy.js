@@ -268,7 +268,7 @@ export default {
         },
         "closest_sun": {
             "title": {
-                "en": "When it will be closest to the Sun?",
+                "en": "When will it be closest to the Sun?",
                 "es": ""
             },
             "days_left": {
