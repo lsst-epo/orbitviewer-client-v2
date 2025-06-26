@@ -40,7 +40,7 @@ export enum Mode {
 }
 
 export class SolarElement extends Solar3DElement {
-    parent:Object3D = new Object3D();
+    container:Object3D = new Object3D();
     // mesh:Mesh;
     data:OrbitElements;
     orbitPath:EllipticalPath;
@@ -104,8 +104,8 @@ export class SolarElement extends Solar3DElement {
 
         // this.mesh = new Mesh(PLANET_GEO, this.initMaterial(opts));
         // this.mesh.visible = false;
-        // this.parent.add(this.mesh);
-        this.add(this.parent);
+        // this.container.add(this.mesh);
+        this.add(this.container);
         this.target = this;
 
         // const min = this.boundingBox.min;

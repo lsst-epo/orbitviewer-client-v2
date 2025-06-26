@@ -146,8 +146,8 @@ export class SolarParticles {
         const dMap = UserFilters.distanceRange;
         const by = UserFilters.discoveredBy;
         // console.log(by, this._data.length);
-        console.log(this._data);
-        console.log(LoadManager.data.sample);
+        // console.log(this._data);
+        // console.log(LoadManager.data.sample);
         for(let i=0;i<this._data.length; i++) {
             const d = this._data[i];
             // 1. Update categopries
