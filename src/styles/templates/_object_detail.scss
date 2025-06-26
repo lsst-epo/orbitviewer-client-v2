@@ -266,7 +266,7 @@
                         display: flex;
                         align-items: center;
                         gap: 8px;
-                        padding: 8px 0;
+                        padding: 20px 0 8px 0;
                         
                         .icon_wrap {
                             flex: 0 0 auto;
@@ -310,6 +310,19 @@
                                     border-radius: 6px;
                                     background: var(--color-grey-100);
                                 }
+
+                                    .tooltip {
+                                        position: absolute;
+                                        z-index: 2;
+                                        bottom: calc(100% + 4px);
+                                        left: 50%;
+                                        transform: translateX(-50%);
+                                        padding: 2px 8px;
+                                        background: var(--color-text);
+                                        border-radius: 24px;
+                                        color: var(--color-bg);
+                                        @include font(caption-regular-caps);
+                                    }
                             }
 
                             &-post {
