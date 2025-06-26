@@ -109,6 +109,7 @@ class Filters extends Layer {
     open(): Promise<void> {
         this.distanceSlider.setRange(CategoryFilters.a.totals.min, CategoryFilters.a.totals.max);
         this.distanceSlider.setValues([UserFilters.distanceRange.min, UserFilters.distanceRange.max]);
+        this.discoveriesToggle.setIndex(UserFilters.discoveredBy);
         return super.open();
     }
 }

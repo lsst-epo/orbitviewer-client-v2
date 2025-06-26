@@ -13,8 +13,9 @@ import gsap from "gsap";
 import Toast from "../layers/Toast";
 import { parseURL } from "../core/Utils";
 import { isMobile } from "@fils/utils";
+import { App } from "../core/App";
 
-const SKIP_ONBOARDING = false;
+const SKIP_ONBOARDING = true;
 
 class OrbitViewerPage extends DefaultPage {
 	filters: Filters;
@@ -30,6 +31,8 @@ class OrbitViewerPage extends DefaultPage {
 	openLayers: Set<string>;
 
 	isLanding:boolean = true;
+
+	appRef:App = null;
     
   constructor(id: string, template: string, dom: HTMLElement) {
     super(id, template, dom)
