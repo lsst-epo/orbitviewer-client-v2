@@ -15,7 +15,7 @@ import { parseURL } from "../core/Utils";
 import { isMobile } from "@fils/utils";
 import { App } from "../core/App";
 
-const SKIP_ONBOARDING = true;
+const SKIP_ONBOARDING = false;
 
 class OrbitViewerPage extends DefaultPage {
 	filters: Filters;

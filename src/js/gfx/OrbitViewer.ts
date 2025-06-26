@@ -17,7 +17,7 @@ import { Sun } from "./solar/Sun";
 import { LoadManager } from "../core/data/LoadManager";
 import { SolarItemUI } from "../layers/SolarItemsUI";
 import { CameraManager, camOcluders, DEFAULT_CAM_LIMITS } from "./core/CameraManager";
-import { CategoryCounters, resetSolarCategoryCounters, updateTotals } from "../core/data/Categories";
+import { CategoryCounters, CategoryTypeMap, resetSolarCategoryCounters, updateTotals } from "../core/data/Categories";
 import { Solar3DElement } from "./solar/Solar3DElement";
 import { SimQuality } from "./solar/GPUSim";
 import { OBJECT_PATH_ALPHA } from "./solar/EllipticalPath";
@@ -263,34 +263,42 @@ export class OrbitViewer extends ThreeLayer {
 				const len = sample.length;
 
 				for(const el of solarItems) {
-					if(el.title.toLowerCase() === 'sun' && el.elementCategory) {
+					if(el.elementID.toLowerCase() === 'sol') {
 						// console.log('Add Sun');
 						//to-do: add sun
 					}
 				}
 
-				for(let i=0;i<len;i++) {
-					for(const el of solarItems) {
-						if(el.title.toLowerCase() === 'sun' && el.elementCategory) {
-							continue;
-						} else {
-							const mel = el.elementCategory.length ? el.elementCategory[0] as SolarCategory : null;
-							if(mel === 'planets-moons')  continue;
-							// Look for solar item in sample
-							const sel:OrbitDataElementsV2 = sample[i];
-							// console.log(sel.mpcdesignation, el.elementID, sel.fulldesignation);
-							if(sel.mpcdesignation === el.elementID || sel.fulldesignation === el.elementID) {
-								// console.log('Found Solar Item', el.elementID);
-								SolarItemsSamples.push(sample[i]);
-								const data = mapOrbitElementsV2(sel);
-								// console.log(data.category);
-								if(!data) break;
-								// console.log(data);
-								//Add item...
-								const element = new SolarElement(el.elementID, data);
-								this.addElementToScene(element, el.title);
-								break;
+				for(const el of solarItems) {
+					// console.log(el.elementCategory);
+					if(el.elementID.toLowerCase() === 'sol') {
+						continue;
+					}
+					for(let i=0;i<len;i++) {
+						const mel = el.elementCategory.length ? el.elementCategory[0].slug as SolarCategory : null;
+						if(mel === 'planets-moons')  continue;
+						// Look for solar item in sample
+						const sel:OrbitDataElementsV2 = sample[i];
+						// if(sel.fulldesignation.indexOf('2015') > -1) console.log(sel.mpcdesignation, el.elementID, mel);
+						if(sel.mpcdesignation === el.elementID || sel.fulldesignation === el.elementID) {
+							// console.log('Found Solar Item', el.elementID);
+							if(sample[i].object_type[0] === 0 || !sample[i].object_type) {
+								// console.log(mel, CategoryTypeMap[mel]);
+								sample[i].object_type = [CategoryTypeMap[mel]];
 							}
+							/* if(el.title.indexOf('2015') > -1) {
+								console.log(sample[i]);
+								console.log(el);
+							} */
+							SolarItemsSamples.push(sample[i]);
+							const data = mapOrbitElementsV2(sel);
+							// if(sel.fulldesignation.indexOf('2015') > -1) console.log(sel, data.category);
+							if(!data) break;
+							// console.log(data);
+							//Add item...
+							const element = new SolarElement(el.elementID, data);
+							this.addElementToScene(element, el.title);
+							break;
 						}
 					}
 				}

@@ -46,6 +46,7 @@ class Navigation extends Layer {
               const data = USE_V2 ? getSimDataV2(LoadManager.data.sample) : getSimData(LoadManager.data.sample);;
               GLOBALS.viewer.setData(data);
               GLOBALS.viewer.adjustQualitySettings();
+              GLOBALS.viewer.filtersUpdated();
               GLOBALS.loader.hide();
               this.close();
           });

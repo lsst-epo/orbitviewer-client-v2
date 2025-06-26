@@ -95,7 +95,7 @@ export class Planet extends SolarElement {
 		this.mesh = new Mesh(PLANET_GEO, this.material);
         this.mesh.geometry.computeBoundingBox();
 
-		this.parent.add(this.mesh);
+		this.container.add(this.mesh);
 
 		this.closeUp = true;
 
@@ -132,7 +132,7 @@ export class Planet extends SolarElement {
         // this.rotationSpeed = Random.randf(-1, 1);
         const rt = PlanetRotationMap[this.type] as PlanetRotationData;
         this.rotationSpeed = DEG_TO_RAD * (360 / rt.period);
-        this.parent.rotation.z = DEG_TO_RAD * -(rt.axialTilt + _data.i);
+        this.container.rotation.z = DEG_TO_RAD * -(rt.axialTilt + _data.i);
 
         this.orbitPath.setPathOptions({
             isPlanet: true,
@@ -146,7 +146,8 @@ export class Planet extends SolarElement {
 
     updateFilters(): void {
         super.updateFilters();
-        this.mesh.visible = this.enabled;
+        this.container.visible = this.enabled;
+        // console.log(this.enabled);
     }
 
     initAtmosphere(id:PlanetId) {
@@ -154,7 +155,7 @@ export class Planet extends SolarElement {
         this.atmosphereMaterial = getAtmosphereMaterial(opts.color1, opts.color2, opts.fresnelWidth * PLANET_SCALE / 1000, opts.brightness);
         this.atmosphere = new Mesh(PLANET_GEO, this.atmosphereMaterial);
         this.atmosphere.scale.setScalar(opts.scale);
-        this.parent.add(this.atmosphere);
+        this.container.add(this.atmosphere);
     }
 
     initMaterial(opts?: SolarElementOptions): PlanetMaterial {
@@ -200,6 +201,7 @@ export class Planet extends SolarElement {
         const rt = PlanetRotationMap[this.type] as PlanetRotationData;
         this.mesh.rotation.y = rt.meridian * DEG_TO_RAD + d * this.rotationSpeed;
         this.material.update();
+        // this.container.visible = this.enabled;
         // if(!this.orbitPath.material.ref) return;
         // console.log(this.position === this.orbitPath.material.ref.uniforms.planetPosition.value);
         // calculateOrbitByType(this.data, d-.00000000000000001, OrbitType.Elliptical, this.offsetDesktop);
