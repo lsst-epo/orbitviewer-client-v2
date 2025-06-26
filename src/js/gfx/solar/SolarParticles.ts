@@ -21,6 +21,7 @@ import vertexShader from '../../../glsl/sim/particles_instanced.vert';
 import { CategoryCounters, getCraftCategory } from "../../core/data/Categories";
 import { UserFilters } from "../../core/solar/SolarUtils";
 import { FAR, NEAR } from "../OrbitViewer";
+import { LoadManager } from "../../core/data/LoadManager";
 
 const DEFAULT_OPACITY = 1;
 const OBJECT_MODE_OPACITY = .1;
@@ -145,7 +146,8 @@ export class SolarParticles {
         const dMap = UserFilters.distanceRange;
         const by = UserFilters.discoveredBy;
         // console.log(by, this._data.length);
-        // console.log(this._data);
+        console.log(this._data);
+        console.log(LoadManager.data.sample);
         for(let i=0;i<this._data.length; i++) {
             const d = this._data[i];
             // 1. Update categopries
