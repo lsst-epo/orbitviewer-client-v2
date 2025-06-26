@@ -418,19 +418,19 @@ export default {
         },
         "content": {
             "toolbar": {
-                "en": "1 Lorem ipsum dolor sit amet consectetur. Amet urna sit blandit vel. Aliquam nec sed leo ullamcorper commodo vulputate praesent vitae vel.",
+                "en": "Choose what to see! Select types of objects, filter by brightness, and search for specific objects.",
                 "es": ""
             },
             "time_controls": {
-                "en": "2 Lorem ipsum dolor sit amet consectetur. Amet urna sit blandit vel. Aliquam nec sed leo ullamcorper commodo vulputate praesent vitae vel.",
+                "en": "Play orbits forward or backward with the slider, or jump to a specific date and time using the calendar.",
                 "es": ""
             },
             "map_controls": {
-                "en": "3 Lorem ipsum dolor sit amet consectetur. Amet urna sit blandit vel. Aliquam nec sed leo ullamcorper commodo vulputate praesent vitae vel.",
+                "en": "Reset your view to center, zoom in or out, or go full screen.",
                 "es": ""
             },
             "share_menu": {
-                "en": "4 Lorem ipsum dolor sit amet consectetur. Amet urna sit blandit vel. Aliquam nec sed leo ullamcorper commodo vulputate praesent vitae vel.",
+                "en": "Share your current view with a link or a screenshot of your current view. Open the hamburger  menu for Orbitviewer info.",
                 "es": ""
             }
         },
