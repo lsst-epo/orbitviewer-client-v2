@@ -286,10 +286,13 @@ export class OrbitViewer extends ThreeLayer {
 								// console.log(mel, CategoryTypeMap[mel]);
 								sample[i].object_type = [CategoryTypeMap[mel]];
 							}
-							/* if(el.title.indexOf('2015') > -1) {
+							/* if(el.title.indexOf('Chariklo') > -1) {
 								console.log(sample[i]);
 								console.log(el);
 							} */
+							if(sample[i].a === null || sample[i].mean_anomaly === null || sample[i].mean_motion === null) {
+								continue;
+							}
 							SolarItemsSamples.push(sample[i]);
 							const data = mapOrbitElementsV2(sel);
 							// if(sel.fulldesignation.indexOf('2015') > -1) console.log(sel, data.category);

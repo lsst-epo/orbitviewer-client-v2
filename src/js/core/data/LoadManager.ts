@@ -181,6 +181,9 @@ class LoadManagerClass {
             this.mgr.data.sample = json.mpc_orbits;
             onLoaded(json.mpc_orbits);
             // console.log(json);
+            /* for(const d of this.mgr.data.sample) {
+                if(d.rubin_discovery) console.log(d);
+            } */
 			// downloadJSON(json, `data-${VISUAL_SETTINGS.current}.json`, true);
 		});
     }
