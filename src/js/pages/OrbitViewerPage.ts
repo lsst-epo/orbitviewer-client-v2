@@ -138,6 +138,7 @@ class OrbitViewerPage extends DefaultPage {
 	showUI() {
 		GLOBALS.mapCtrls.open();
 		GLOBALS.timeCtrls.open();
+		GLOBALS.navigation.enter();
 		this.toolbar.open();
 		this.wizard.check();
 	}
