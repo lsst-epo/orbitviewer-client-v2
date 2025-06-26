@@ -144,18 +144,25 @@ export class SolarParticles {
         const catMap = UserFilters.categories;
         const dMap = UserFilters.distanceRange;
         const by = UserFilters.discoveredBy;
-        console.log(by, this._data.length);
+        // console.log(by, this._data.length);
+        // console.log(this._data);
         for(let i=0;i<this._data.length; i++) {
             const d = this._data[i];
             // 1. Update categopries
             this.filtered[i] = !catMap[d.category];
-            if(this.filtered[i]) continue;
+            if(this.filtered[i]) {
+                // console.log('cat filter')
+                continue
+            };
             
             // 2. distance from sun
             const isIn = d.a >= dMap.min && d.a <= dMap.max;
             // console.log(isIn);
             this.filtered[i] = !isIn;
-            if(this.filtered[i]) continue;
+            if(this.filtered[i]) {
+                // console.log('distance filter')
+                continue;
+            }
 
             //3. date range (coming soon)
 
@@ -163,7 +170,7 @@ export class SolarParticles {
             if(by === 0) continue;
             if(by === 1) {
                 // rubin
-                console.log(d.rubin_discovery, this._data[i].rubin_discovery);
+                // console.log(d.rubin_discovery);
                 this.filtered[i] = !d.rubin_discovery;
             } else {
                 // non rubin
@@ -171,7 +178,7 @@ export class SolarParticles {
             }
         }
 
-        console.log(this._data);
+        // console.log(this._data);
         
         // 3. Update buffer attribute
         const attr = this.mesh.geometry.attributes.filterValue;
@@ -204,7 +211,7 @@ export class SolarParticles {
 
         for(let i=0; i<count; i++) {
             const el = this._data[i];
-            console.log(el.rubin_discovery);
+            // console.log(el.rubin_discovery);
             // console.log(el.category);
             CategoryCounters[el.category]++;
             const categoryData = getCraftCategory(el.category);

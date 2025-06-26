@@ -131,6 +131,9 @@ export function mapOrbitElements(dEl:OrbitDataElements):OrbitElements {
 
 
 export function mapOrbitElementsV2(dEl:OrbitDataElementsV2):OrbitElements {
+    /* if(dEl.rubin_discovery) {
+        console.log(dEl);
+    } */
     const el = {
         id: dEl.fulldesignation,
         fulldesignation: dEl.fulldesignation,
@@ -151,7 +154,6 @@ export function mapOrbitElementsV2(dEl:OrbitDataElementsV2):OrbitElements {
         category: getCategory(dEl) as SolarCategory,
         rubin_discovery: dEl.rubin_discovery
     }
-    console.log(el.rubin_discovery);
     return el;
 }
 
