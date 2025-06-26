@@ -61,11 +61,11 @@
             display: flex;
             height: var(--header-height);
             padding-left: var(--site-margin-large);
+            align-items: center;
             grid-row: 1/2;
             grid-column: 1/-1;
 
             @include media(medium) {
-                height: initial;
                 grid-row: 1/2;
                 grid-column: 2/-1;
                 padding: var(--site-margin-small) var(--site-margin-small) 8px 0;
