@@ -177,13 +177,19 @@ export class ObjectPage extends DefaultPage {
         const ranges = CategoryFilters;
         const catID = data.category;
         const rangeA = ranges[prop][catID];
-        slider.style.width = `${MathUtils.smoothstep(rangeA.min, rangeA.max, data.a)*100}%`;
+        slider.style.width = `${MathUtils.smoothstep(rangeA.min, rangeA.max, data[prop])*100}%`;
+
+        const tooltip = slider.querySelector('.tooltip');
+        tooltip.textContent = `${data[prop].toFixed(3)}`
     }
 
     private mapSliderWithValue(slider:HTMLElement, catID:SolarCategory, prop:string, value:number) {
         const ranges = CategoryFilters;
         const rangeA = ranges[prop][catID];
         slider.style.width = `${MathUtils.smoothstep(rangeA.min, rangeA.max, value)*100}%`;
+
+        const tooltip = slider.querySelector('.tooltip');
+        tooltip.textContent = `${value.toFixed(3)}`
     }
 
     private revealCategoryChip(catID:SolarCategory) {
