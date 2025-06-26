@@ -50,7 +50,7 @@ export class ScrollingPage extends DefaultPage {
             rootMargin: "-150px 0px -150px 0px", // top, right, bottom, left
         });
 
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        document.querySelectorAll('.how_to_nav a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
