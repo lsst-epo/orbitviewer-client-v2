@@ -7,7 +7,7 @@ import gsap from "gsap";
 import { CLOCK_SETTINGS, GLOBALS, VISUAL_SETTINGS } from "../core/Globals";
 import { PlanetId } from "../core/solar/Planet";
 import { JD2MJD } from "../core/solar/SolarTime";
-import { mapOrbitElements, mapOrbitElementsV2, OrbitDataElements, OrbitDataElementsV2 } from "../core/solar/SolarUtils";
+import { getOrbitType, mapOrbitElements, mapOrbitElementsV2, OrbitDataElements, OrbitDataElementsV2 } from "../core/solar/SolarUtils";
 import { GFXTier, QUALITY_TIERS, RubinRenderer } from "./core/RubinRenderer";
 import { Planet } from "./solar/Planet";
 import { Mode, SolarElement } from "./solar/SolarElement";
@@ -422,9 +422,8 @@ export class OrbitViewer extends ThreeLayer {
     setData(data:OrbitElements[]) {
 				resetSolarCategoryCounters();
         this.scene.remove(this.particles.mesh);
-        this.particles.data = data;
-        this.scene.add(this.particles.mesh);
-
+				this.particles.data = data;
+				this.scene.add(this.particles.mesh);
 				// console.log(CategoryCounters);
     }
 

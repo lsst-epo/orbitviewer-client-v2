@@ -225,6 +225,7 @@ export class SolarElement extends Solar3DElement {
 
     update(d:number) {
         calculateOrbitByType(this.data, d, OrbitType.Elliptical, this.position);
+        // if(this.type === 'test') console.log(`${this.position.x}, ${this.position.y}, ${this.position.z}`)
 
         /* const pos = this.sunLine.geometry.attributes.position;
         const arr = pos.array as Float32Array;

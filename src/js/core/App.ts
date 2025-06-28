@@ -24,8 +24,11 @@ import OrbitViewerPage from "../pages/OrbitViewerPage";
 import { ScrollingPage } from "../pages/ScrollingPage";
 import { calculateEarthTodayDistanceMap, calculatePropRange, CategoryCounters, CategoryFilters, updateTotals } from "./data/Categories";
 import { LoadManager } from "./data/LoadManager";
-import { UserFilters } from "./solar/SolarUtils";
+import { mapOrbitElementsV2, UserFilters } from "./solar/SolarUtils";
 import { isMobile } from "@fils/utils";
+import { SolarTimeManager } from "./solar/SolarTime";
+import { getMeanAnomaly } from "./solar/SolarSystem";
+import { downloadJSON } from "./Utils";
 
 export const solarClock = new SolarClock(new Clock());
 
@@ -191,6 +194,37 @@ export class App implements NomadRouteListener {
 
 		UserFilters.distanceRange.min = CategoryFilters.a.totals.min;
 		UserFilters.distanceRange.max = CategoryFilters.a.totals.max;
+
+		// --- DEBUG ------------------------------------------------
+
+		/* const sample = LoadManager.data.sample;
+		const date = new Date("May 7, 2025");
+		const _d = SolarTimeManager.getMJDonDate(date);
+		
+		const rubin = {
+			calcDate: date.toLocaleString('en-US'),
+			items: []
+		};
+
+		for(const d of sample) {
+			if(d.rubin_discovery) {
+				const el = mapOrbitElementsV2(d);
+				// console.log(el);
+				const item = {
+					original: d,
+					internal: el,
+					mean_anomaly_at_date: getMeanAnomaly(el, _d)
+				}
+
+				rubin.items.push(item);
+			}
+		}
+
+		console.log(rubin)
+
+		downloadJSON(rubin, 'rubin-objects.json'); */
+
+		// ----------------------------------------------------------
 
 		// console.log(CategoryFilters);
 

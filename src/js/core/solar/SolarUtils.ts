@@ -145,7 +145,7 @@ export function mapOrbitElementsV2(dEl:OrbitDataElementsV2):OrbitElements {
         i: dEl.i,
         // H: dEl.H,
         w: dEl.argperi,
-        M: dEl.mean_anomaly,
+        M: dEl.mean_anomaly < 0 ? dEl.mean_anomaly + 360 : dEl.mean_anomaly,
         n: dEl.mean_motion,
         q: dEl.q,
         Tp: dEl.peri_time,
