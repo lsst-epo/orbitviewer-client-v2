@@ -293,7 +293,7 @@ export class OrbitViewer extends ThreeLayer {
 							if(sample[i].a === null || sample[i].mean_anomaly === null || sample[i].mean_motion === null) {
 								continue;
 							}
-							CategoryCounters[mel]++;
+							// CategoryCounters[mel]++;
 							SolarItemsSamples.push(sample[i]);
 							const data = mapOrbitElementsV2(sel);
 							// if(sel.fulldesignation.indexOf('2015') > -1) console.log(sel, data.category);
