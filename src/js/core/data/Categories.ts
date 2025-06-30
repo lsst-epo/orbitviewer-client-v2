@@ -267,7 +267,7 @@ export function calculatePropRange(prop:string) {
 	// Compute planets
 	const cid = 'planets-moons';
 	for(const sel of GLOBALS.viewer.solarElements) {
-		if(sel.isPlanet) {
+		if(sel.category === cid) {
 			map[cid].min = Math.min(map[cid].min, sel.data[prop]);
 			map[cid].max = Math.max(map[cid].max, sel.data[prop]);
 		}

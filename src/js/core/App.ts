@@ -195,7 +195,7 @@ export class App implements NomadRouteListener {
 		// console.log(LoadManager.craftData);
 		
 		// console.log(LoadManager.hasuraData.classification_ranges);
-		// console.log(CategoryFilters.a);
+		console.log(CategoryFilters.a);
 
 		UserFilters.distanceRange.min = CategoryFilters.a.totals.min;
 		UserFilters.distanceRange.max = CategoryFilters.a.totals.max;
