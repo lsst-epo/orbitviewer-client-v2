@@ -264,6 +264,12 @@ export function calculatePropRange(prop:string) {
 		}
 	}
 
+	if(prop === 'a') {
+		for(const key in map) {
+			map[key].max = Math.min(map[key].max, 500);
+		}
+	}
+
 	// Compute planets
 	const cid = 'planets-moons';
 	for(const sel of GLOBALS.viewer.solarElements) {
