@@ -1,4 +1,4 @@
-{% macro Loader() %}
+{% macro Loader(copy, copy2) %}
 <div class="loader" aria-hidden="false">
     <div class="loader-content">
         <div class="loader-svg">
@@ -20,7 +20,7 @@
                 <path d="M30.0813 17.7355C31.1389 17.7355 31.9963 16.8781 31.9963 15.8204C31.9963 14.7627 31.1389 13.9053 30.0813 13.9053C29.0236 13.9053 28.1662 14.7627 28.1662 15.8204C28.1662 16.8781 29.0236 17.7355 30.0813 17.7355Z" fill="#009FA1"/>
             </svg>
         </div>
-        <p class="loader-text">{{ copy.core.loading[lang] }}</p>
+        <p class="loader-text" data-copy1="{{copy}}" data-copy2="{{copy2}}">{{ copy }}</p>
     </div>
 </div>
 {% endmacro %}

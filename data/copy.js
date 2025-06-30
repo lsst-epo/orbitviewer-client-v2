@@ -23,7 +23,11 @@ export default {
             "es": ""
         },
         "loading": {
-            "en": "Loading.. this may take a moment",
+            "en": "Loading... this may take a moment",
+            "es": ""
+        },
+        "testing": {
+            "en": "Testing performance to optimize your setup...",
             "es": ""
         }
     },

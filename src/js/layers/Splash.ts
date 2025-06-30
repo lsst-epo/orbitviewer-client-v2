@@ -26,7 +26,7 @@ class Splash extends Layer {
             event.preventDefault();
 
             if (this.orbitViewer.onboarding) {
-                GLOBALS.loader.show();
+                GLOBALS.loader.show(true);
                 this.orbitViewer.appRef?.startTest();
                 this.orbitViewer.onboarding?.open();
                 this.close();
