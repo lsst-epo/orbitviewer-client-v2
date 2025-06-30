@@ -13,6 +13,9 @@
     grid-template-rows: 1fr auto;
     gap: 24px;
     padding: calc(var(--header-height) + 16px) var(--site-margin-large) var(--site-margin-large);
+    opacity: 0;
+    will-change: opacity;
+    overflow: hidden;
 
     @include media(small) {
         grid-template-columns: repeat(12,1fr);
@@ -49,6 +52,8 @@
     }
 
         &-triad {
+            filter: blur(10px);
+            will-change: filter;
             @media (min-height: 618px) {
                 padding-top: 32px;
             }
@@ -80,7 +85,13 @@
                 gap: 24px;
             }
 
-            .title {
+            .title, .subtitle {
+                will-change: transform, opacity;
+                transform: translateY(100px);
+                opacity: 0;
+            }
+
+            .title {                
                 @include font(body-large);
                 @include media(medium) {
                     @include font(subtitle-large-regular);
@@ -96,6 +107,9 @@
         }
 
         &-action {
+            will-change: transform, opacity;
+            transform: translateY(100px);
+            opacity: 0;
             .button {
                 min-width: 192px;
             }
@@ -108,6 +122,9 @@
             padding-bottom: 32px;
             text-align: center;
             color: var(--color-text);
+            will-change: transform, opacity;
+            transform: translateY(100px);
+            opacity: 0;
 
             .label {
                 @include font(caption-regular);

@@ -20,7 +20,7 @@ export const KM2AU = 6.6846e-9;
 export const AU2KM = 1 / KM2AU;
 export const SUN_RADIUS = 695700; // in KM
 
-export const EPOCH = 51445.5;
+export const EPOCH = 51544.5;
 
 export type OrbitElements = {
     id:string;
@@ -117,6 +117,7 @@ export function keplerCalc(el:OrbitElements, d:number, target:Vector3= new Vecto
     // Mean Anomally and Eccentric Anomally
     const e = el.e;
     const epoch = el.epoch != undefined ? el.epoch : EPOCH;
+    // if(el.id === 'test') console.log(epoch);
     const M = (el.M + el.n * (d-epoch)) * DEG_TO_RAD;
     let E = M + e * Math.sin(M) * ( 1.0 + e * Math.cos(M) );
 

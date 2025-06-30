@@ -1,8 +1,12 @@
 const float E_CONVERGENCE_THRESHOLD = radians(.001);
 const float K = 0.01720209895;
+
 #define MAX_E_ITERATIONS 100
 
 #define PLANET_SCALE 1000.0
+
+#define PI 3.1415926538
+#define TWO_PI 2.0 * PI
 
 struct OrbitElements {
     float N;
@@ -40,6 +44,7 @@ vec3 ellipticalCalc(OrbitElements el, float d) {
     // Mean Anomally and Eccentric Anomally
     float e = el.e;
     float M = radians(el.M + el.n * (d-el.epoch));
+    // if(M < 0.0) M += TWO_PI;
     float E = M + e * sin(M) * ( 1.0 + e * cos(M) );
 
     // E convergence check

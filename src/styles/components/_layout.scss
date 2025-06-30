@@ -16,4 +16,8 @@ body {
 		overflow-y: auto;
 		overflow-x: hidden;
 	}
+
+	&.in-viewer {
+		overflow: hidden; // Prevent scrolling in the viewer in mobile
+	}
 }

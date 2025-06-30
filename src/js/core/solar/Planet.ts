@@ -5,7 +5,6 @@
  * from data files or database
  */
 
-import { CameraLock } from "../../gfx/solar/SolarElement";
 import { OrbitElements } from "./SolarSystem";
 
 export const PLANET_SCALE = 1000;
