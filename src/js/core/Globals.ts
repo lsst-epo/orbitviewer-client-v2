@@ -127,9 +127,11 @@ export const GLOBALS:Globals = {
 		return GLOBALS.getViewport().includes('small');
 	},
 	toggleFullscreen() {
+		const buttons = document.querySelectorAll('.button-fullscreen');
 		const buttonLabels = document.querySelectorAll('.button-fullscreen .label');
 		const offIcons = document.querySelectorAll('.fullscreen-off');
 		const onIcons = document.querySelectorAll('.fullscreen-on');
+		buttons.forEach(button => (button as HTMLButtonElement).blur())
 		if (!document.fullscreenElement) {
 			buttonLabels.forEach(label => label.textContent = 'Exit Fullscreen');
 			offIcons.forEach(icon => icon.removeAttribute('aria-hidden'));

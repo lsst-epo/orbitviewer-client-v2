@@ -208,7 +208,7 @@
                 height: 40vh;                
 
                 @include media(medium) {
-                    height: 60vh;
+                    height: 50vh;
                 }
 
                 .count {
@@ -223,6 +223,7 @@
                     border-radius: var(--corner-medium);
                     @include font(caption-regular-caps);
                     color: var(--color-text);
+                    white-space: nowrap;
                 }
                 
                 .mask {
@@ -230,16 +231,16 @@
                     top: 50%;
                     left: 50%;
                     transform: translate(-50%, -50%);
+                    max-height: 100%;
                     margin: auto;
-                    overflow: hidden;
                     border: solid 4px rgba(var(--color-white-rgb), .2);
                     border-radius: var(--corner-large);
                     transition: all .8s ease;
-                    overflow: hidden;
 
                     &.ratio-21-9 {
                         aspect-ratio: 21/9;
                         width: 100%;
+                        
                         .img-ratio-21-9 {
                             opacity: 1;
                             z-index: 2;
@@ -278,16 +279,18 @@
                         top: 50%;
                         left: 50%;
                         transform: translate(-50%, -50%);
-                        display: grid;
-                        grid-template: auto / auto;
+                        width: 100%;
+                        height: 100%;
+                        overflow: hidden;
                         
                         img {
-                            position: relative;
+                            position: absolute;
+                            inset:  0;
+                            width: 100%;
+                            height: 100%;
                             opacity: 0;
                             z-index: 1;
-                            height: 80vh;
-                            grid-row: 1;
-                            grid-column: 1;
+                            object-fit: cover;
                             transition: opacity .3s ease;
                         }
                     }
@@ -443,6 +446,20 @@
                             rgba(var(--color-black-rgb), 0) 25%,
                             rgba(var(--color-black-rgb), 0) 75%,
                             rgba(var(--color-black-rgb), 1) 100%
+                        );
+                    }
+
+                    &::before {
+                        content: '';
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 200px;
+                        background: linear-gradient(
+                            to bottom,
+                            rgba(var(--color-black-rgb), 1) 0%,
+                            rgba(var(--color-black-rgb), 0) 100%
                         );
                     }
 

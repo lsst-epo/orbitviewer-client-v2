@@ -11,6 +11,7 @@ attribute float n;
 attribute float Tp;
 attribute float q;
 attribute float type;
+attribute float epoch;
 
 attribute float alive;
 
@@ -27,6 +28,7 @@ void main() {
     els.n = n;
     els.Tp = Tp;
     els.q = q;
+    els.epoch = epoch;
     els.type = int(type);
 
     isActive = alive;

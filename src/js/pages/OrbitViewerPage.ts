@@ -13,6 +13,7 @@ import gsap from "gsap";
 import Toast from "../layers/Toast";
 import { parseURL } from "../core/Utils";
 import { isMobile } from "@fils/utils";
+import { App } from "../core/App";
 
 const SKIP_ONBOARDING = false;
 
@@ -30,6 +31,8 @@ class OrbitViewerPage extends DefaultPage {
 	openLayers: Set<string>;
 
 	isLanding:boolean = true;
+
+	appRef:App = null;
     
   constructor(id: string, template: string, dom: HTMLElement) {
     super(id, template, dom)
@@ -99,6 +102,8 @@ class OrbitViewerPage extends DefaultPage {
 	}
 
 	transitionIn(resolve: any): Promise<void> {
+		document.body.classList.add('in-viewer');
+		GLOBALS.viewer.enter();
 		const total = LoadManager.data.rubinCount;
 		const n = {
 			value: Math.max(0, total-2000)
@@ -124,9 +129,16 @@ class OrbitViewerPage extends DefaultPage {
 		}).then(resolve);
 	}
 
+	transitionOut(resolve: any): Promise<void> {
+		document.body.classList.remove('in-viewer');
+		// GLOBALS.viewer.leave();
+		return super.transitionOut(resolve);
+	}
+
 	showUI() {
 		GLOBALS.mapCtrls.open();
 		GLOBALS.timeCtrls.open();
+		GLOBALS.navigation.enter();
 		this.toolbar.open();
 		this.wizard.check();
 	}

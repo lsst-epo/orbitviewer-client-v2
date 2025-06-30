@@ -181,6 +181,30 @@ class LoadManagerClass {
             this.mgr.data.sample = json.mpc_orbits;
             onLoaded(json.mpc_orbits);
             // console.log(json);
+            /* const arr = [];
+            for(const d of this.mgr.data.sample) {
+                if(d.rubin_discovery) arr.push(d);
+            }
+            const jsonString = JSON.stringify(arr, null, 2);
+            // Create a Blob with the JSON data
+            const blob = new Blob([jsonString], { type: 'application/json' });
+
+            // Create a temporary URL for the blob
+            const url = URL.createObjectURL(blob);
+
+            // Create a temporary anchor element for download
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = "rubin_objects.json";
+
+            // Append to body, click, and remove
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+
+            // Clean up the URL object
+            URL.revokeObjectURL(url); */
+
 			// downloadJSON(json, `data-${VISUAL_SETTINGS.current}.json`, true);
 		});
     }

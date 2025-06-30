@@ -1,3 +1,4 @@
+import gsap from "gsap";
 import { isDesktop, isIpad, isMobile } from "@fils/utils";
 import { performanceTest, USE_V2 } from "../core/App";
 import { LoadManager } from "../core/data/LoadManager";
@@ -26,12 +27,7 @@ class Onboarding extends Layer {
         // this.start();
     }
 
-    start() {
-        const whenReady = () => {
-            this.orbitviewer.showUI();
-            GLOBALS.viewer.goToOrbitViewerMode(true);
-        }
-
+    updateRecommendedTier() {
         const lis = this.dom.querySelectorAll('li');
         // console.log(lis);
         let recommendedIndex = getRecommendedPerformanceIndex();
@@ -48,7 +44,16 @@ class Onboarding extends Layer {
                 ribbon.setAttribute('aria-hidden', 'true');
             }
         }
+    }
 
+    start() {
+        const whenReady = () => {
+            this.orbitviewer.showUI();
+            GLOBALS.viewer.goToOrbitViewerMode(true);
+        }
+
+        this.updateRecommendedTier();
+        
         this.startButtons.forEach((el: Element) => {
             el.addEventListener('click', (event) => {
                 event.preventDefault();
@@ -79,6 +84,35 @@ class Onboarding extends Layer {
     }
 
     open(): Promise<void> {
+        const container = this.dom.querySelector('.exploration');
+        const title = this.dom.querySelector('.onboarding-title');
+        const items = this.dom.querySelectorAll('.exploration-item');
+        const info = this.dom.querySelector('.onboarding-info');
+        gsap.to(title, {
+            y: 0,
+            opacity: 1,
+            duration: 1.2,
+            ease: 'cubic.inOut',
+        })
+        gsap.to(items, {
+            opacity: 1,
+            y: 0,
+            ease: 'expo.inOut',
+            duration: 1.5,
+            stagger: .1,
+            delay: .1
+        })
+        gsap.to(info, {
+            y: 0,
+            opacity: 1,
+            duration: 1.2,
+            ease: 'cubic.inOut',
+            delay: .4 + items.length * 0.1,
+            onComplete: () => {
+                container.classList.add('ready');
+            }
+        });
+        
         this.start();
         return super.open();
     }

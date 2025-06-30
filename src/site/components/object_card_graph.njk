@@ -21,7 +21,9 @@
                     aria-valuemax="{{ maxValue }}"
                     aria-labelledby="graph-{{ title | slug }}">
                    <div id="{{sliderID}}" class="progress-pre" style="width: {{ (currentValue / maxValue * 100) }}%">
-                        <div class="thumb" aria-hidden="true"></div>
+                        <div class="thumb" aria-hidden="true">
+                            <div class="tooltip">{{ currentValue }}</div>
+                        </div>
                     </div>
                     <div class="progress-post" aria-hidden="true"></div>
                 </div>

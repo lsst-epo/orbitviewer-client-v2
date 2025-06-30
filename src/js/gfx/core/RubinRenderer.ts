@@ -266,8 +266,8 @@ export class RubinRenderer {
 
     // 5. composition
     COMP.uniforms.scene.value = this.sceneRT.texture;
-    COMP.uniforms.glow.value = this.glowRT.texture;
-    COMP.uniforms.glowBlurred.value = this.glowBlur.texture;
+    COMP.uniforms.glow.value = this.glowEnabled ? this.glowRT.texture : null;
+    COMP.uniforms.glowBlurred.value = this.glowEnabled ? this.glowBlur.texture : null;
     COMP.uniforms.fire.value = this.sunBlur.texture;
     COMP.uniforms.camPos.value = camera.position;
     RTUtils.renderToRT(this.compRT, this.rnd, COMP);
