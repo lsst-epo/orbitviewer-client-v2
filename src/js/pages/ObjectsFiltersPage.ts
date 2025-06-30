@@ -178,6 +178,7 @@ export class ObjectsFiltersPage extends DefaultPage {
             gsapResolve();
             for(let i=0; i<this.cards.length;i ++) {
                 gsap.to(this.cards[i], {
+                    opacity: 1,
                     translateY: '0%',
                     ease: 'expo.inOut',
                     duration: 1.5,
@@ -253,6 +254,7 @@ export class ObjectsFiltersPage extends DefaultPage {
 
             for(let i=0; i<this.cards.length;i ++) {
                 gsap.to(this.cards[i], {
+                    opacity: 0,
                     translateY: '110%',
                     ease: 'expo.inOut',
                     duration: 1,

@@ -24,8 +24,11 @@ import OrbitViewerPage from "../pages/OrbitViewerPage";
 import { ScrollingPage } from "../pages/ScrollingPage";
 import { calculateEarthTodayDistanceMap, calculatePropRange, CategoryCounters, CategoryFilters, updateTotals } from "./data/Categories";
 import { LoadManager } from "./data/LoadManager";
-import { UserFilters } from "./solar/SolarUtils";
+import { mapOrbitElementsV2, UserFilters } from "./solar/SolarUtils";
 import { isMobile } from "@fils/utils";
+import { SolarTimeManager } from "./solar/SolarTime";
+import { getMeanAnomaly } from "./solar/SolarSystem";
+import { downloadJSON } from "./Utils";
 
 export const solarClock = new SolarClock(new Clock());
 
@@ -36,7 +39,7 @@ export let debugCan:Debug2DCanvas = null;
 
 export const performanceTest = {
 	finished: false,
-	averageDT: 0
+	averageDT: 20
 }
 
 export class App implements NomadRouteListener {
@@ -59,7 +62,7 @@ export class App implements NomadRouteListener {
 		GLOBALS.lang = document.documentElement.getAttribute('lang');
 
 		GLOBALS.loader = new Loader(document.querySelector('.loader'));
-		// GLOBALS.loader.show();
+		GLOBALS.loader.show();
 
 		initShaders();
 
@@ -133,19 +136,28 @@ export class App implements NomadRouteListener {
 	}
 
 	start() {
-		const stats = new Stats();
-		document.body.appendChild(stats.dom);
-		stats.dom.style.top = 'unset';
-		stats.dom.style.bottom = '0';
+		if(IS_DEV_MODE) {
+			const stats = new Stats();
+			document.body.appendChild(stats.dom);
+			stats.dom.style.top = 'unset';
+			stats.dom.style.bottom = '0';
 
-		const animate = () => {
+			const animate = () => {
+				requestAnimationFrame(animate);
+				stats.begin();
+				this.update();
+				stats.end();
+			}
+
 			requestAnimationFrame(animate);
-			stats.begin();
-			this.update();
-			stats.end();
-		}
+		} else {
+			const animate = () => {
+				requestAnimationFrame(animate);
+				this.update();
+			}
 
-		requestAnimationFrame(animate);
+			requestAnimationFrame(animate);
+		}
 
 		this.clock = new Timer(true);
 		solarClock.start();
@@ -166,6 +178,8 @@ export class App implements NomadRouteListener {
 		this.viewer.createPlanets(LoadManager.data.planets);
 		this.viewer.createDwarfPlanets(LoadManager.data.dwarf_planets);
 
+		// console.log(UserFilters.categories);
+
 		CategoryCounters['planets-moons'] = LoadManager.data.planets.length + LoadManager.data.dwarf_planets.length;
 
 		this.viewer.createSolarItems();
@@ -179,14 +193,56 @@ export class App implements NomadRouteListener {
 		// this.addGUI();
 		// console.log(LoadManager.data);
 		// console.log(LoadManager.craftData);
+		
+		// console.log(LoadManager.hasuraData.classification_ranges);
+		// console.log(CategoryFilters.a);
+		// console.log(CategoryCounters);
 
 		UserFilters.distanceRange.min = CategoryFilters.a.totals.min;
 		UserFilters.distanceRange.max = CategoryFilters.a.totals.max;
 
+		// --- DEBUG ------------------------------------------------
+
+		/* const sample = LoadManager.data.sample;
+		const date = new Date("May 7, 2025");
+		const _d = SolarTimeManager.getMJDonDate(date);
+		
+		const rubin = {
+			calcDate: date.toLocaleString('en-US'),
+			items: []
+		};
+
+		for(const d of sample) {
+			if(d.rubin_discovery) {
+				const el = mapOrbitElementsV2(d);
+				// console.log(el);
+				const item = {
+					original: d,
+					internal: el,
+					mean_anomaly_at_date: getMeanAnomaly(el, _d)
+				}
+
+				rubin.items.push(item);
+			}
+		}
+
+		console.log(rubin)
+
+		downloadJSON(rubin, 'rubin-objects.json'); */
+
+		// ----------------------------------------------------------
+
 		// console.log(CategoryFilters);
 
-		this.testStarted = performance.now();
-		this.testRunning = true;
+		GLOBALS.loader.hide();
+		GLOBALS.viewer.enter();
+		this.initNomad();
+		if(this.currentPage.template === 'orbitviewerpage') {
+			const page = this.currentPage as OrbitViewerPage;
+			page.appRef = this;
+		} else {
+			GLOBALS.navigation.enter();
+		}
 
 		// this.viewer.goToLandingMode();
 		/* this.viewer.fadeIn();
@@ -196,6 +252,12 @@ export class App implements NomadRouteListener {
 			duration: 5,
 			ease: 'expo.inOut'
 		}) */
+	}
+	
+
+	startTest() {
+		this.testStarted = performance.now();
+		this.testRunning = true;
 	}
 
 	clockChanged():boolean {
@@ -219,21 +281,25 @@ export class App implements NomadRouteListener {
 		if(this.testRunning) {
 			this.deltas.push(this.clock.currentDelta);
 			// console.log(this.clock.currentDelta);
-			if(performance.now() - this.testStarted >= 5000) {
+			if(performance.now() - this.testStarted >= 2000) {
 				let dt = 0;
+				// this.deltas.splice(0, 10);
 				// console.log(this.deltas);
-				this.deltas.splice(0, 10);
 				for(const d of this.deltas) {
 					dt += d / this.deltas.length;
 				}
 				// dt *= 1000;
 				// this.terminal.log(`Ended test with an average <span class="blue">${dt*1000}ms</span> & <span class="blue">${1/dt}fps</span>.`);
 				// this.terminal.log(`<span class="green">Done!</span> ✨`);
+				const page = this.currentPage as OrbitViewerPage;
 				performanceTest.finished = true;
 				performanceTest.averageDT = dt * 1000;
+				page.onboarding?.updateRecommendedTier();
 				this.testRunning = false;
 				GLOBALS.loader.hide();
-				this.initNomad();
+				// this.initNomad();
+				// GLOBALS.viewer.enter();
+				GLOBALS.navigation.enter();
 			}
 
 			return;

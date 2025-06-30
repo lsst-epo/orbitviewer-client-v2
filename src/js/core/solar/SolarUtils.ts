@@ -131,6 +131,9 @@ export function mapOrbitElements(dEl:OrbitDataElements):OrbitElements {
 
 
 export function mapOrbitElementsV2(dEl:OrbitDataElementsV2):OrbitElements {
+    /* if(dEl.rubin_discovery) {
+        console.log(dEl);
+    } */
     const el = {
         id: dEl.fulldesignation,
         fulldesignation: dEl.fulldesignation,
@@ -142,14 +145,14 @@ export function mapOrbitElementsV2(dEl:OrbitDataElementsV2):OrbitElements {
         i: dEl.i,
         // H: dEl.H,
         w: dEl.argperi,
-        M: dEl.mean_anomaly,
+        M: dEl.mean_anomaly < 0 ? dEl.mean_anomaly + 360 : dEl.mean_anomaly,
         n: dEl.mean_motion,
         q: dEl.q,
         Tp: dEl.peri_time,
         epoch: dEl.epoch_mjd != undefined ? dEl.epoch_mjd : EPOCH,
         type: getOrbitType(dEl),
         category: getCategory(dEl) as SolarCategory,
-        rubin_discovery: dEl.rubin_discovery === true
+        rubin_discovery: dEl.rubin_discovery
     }
     return el;
 }

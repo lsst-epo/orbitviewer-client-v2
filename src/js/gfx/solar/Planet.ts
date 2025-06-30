@@ -27,6 +27,23 @@ import { PlanetDataMap } from "../../core/solar/SolarUtils";
 import { debugCan } from "../../core/App";
 import { uiColliders } from "../OrbitViewer";
 
+/* function calculateGMST(mjd) {
+    // Convert MJD to Julian centuries since J2000.0
+    const T = (mjd - 51544.5) / 36525.0;
+    
+    // Calculate GMST in hours (Meeus formula)
+    let gmst = 280.46061837 + 
+               360.98564736629 * (mjd - 51544.5) +
+               0.000387933 * T * T -
+               T * T * T / 38710000.0;
+    
+    // Normalize to 0-360 degrees
+    gmst = gmst % 360.0;
+    if (gmst < 0) gmst += 360.0;
+    
+    return gmst; // Returns degrees
+} */
+
 export function getAtmosphereMaterial(color1:ColorRepresentation, color2:ColorRepresentation, fresnelWidth:number=1, brightness:number=1.5):ShaderMaterial {
     return new ShaderMaterial({
         vertexShader,
@@ -78,7 +95,7 @@ export class Planet extends SolarElement {
 		this.mesh = new Mesh(PLANET_GEO, this.material);
         this.mesh.geometry.computeBoundingBox();
 
-		this.parent.add(this.mesh);
+		this.container.add(this.mesh);
 
 		this.closeUp = true;
 
@@ -115,7 +132,7 @@ export class Planet extends SolarElement {
         // this.rotationSpeed = Random.randf(-1, 1);
         const rt = PlanetRotationMap[this.type] as PlanetRotationData;
         this.rotationSpeed = DEG_TO_RAD * (360 / rt.period);
-        this.parent.rotation.z = DEG_TO_RAD * -(rt.axialTilt + _data.i);
+        this.container.rotation.z = DEG_TO_RAD * -(rt.axialTilt + _data.i);
 
         this.orbitPath.setPathOptions({
             isPlanet: true,
@@ -129,7 +146,8 @@ export class Planet extends SolarElement {
 
     updateFilters(): void {
         super.updateFilters();
-        this.mesh.visible = this.enabled;
+        this.container.visible = this.enabled;
+        // console.log(this.enabled);
     }
 
     initAtmosphere(id:PlanetId) {
@@ -137,7 +155,7 @@ export class Planet extends SolarElement {
         this.atmosphereMaterial = getAtmosphereMaterial(opts.color1, opts.color2, opts.fresnelWidth * PLANET_SCALE / 1000, opts.brightness);
         this.atmosphere = new Mesh(PLANET_GEO, this.atmosphereMaterial);
         this.atmosphere.scale.setScalar(opts.scale);
-        this.parent.add(this.atmosphere);
+        this.container.add(this.atmosphere);
     }
 
     initMaterial(opts?: SolarElementOptions): PlanetMaterial {
@@ -183,6 +201,7 @@ export class Planet extends SolarElement {
         const rt = PlanetRotationMap[this.type] as PlanetRotationData;
         this.mesh.rotation.y = rt.meridian * DEG_TO_RAD + d * this.rotationSpeed;
         this.material.update();
+        // this.container.visible = this.enabled;
         // if(!this.orbitPath.material.ref) return;
         // console.log(this.position === this.orbitPath.material.ref.uniforms.planetPosition.value);
         // calculateOrbitByType(this.data, d-.00000000000000001, OrbitType.Elliptical, this.offsetDesktop);

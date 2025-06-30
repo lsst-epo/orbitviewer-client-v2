@@ -76,7 +76,7 @@ export class ObjectPage extends DefaultPage {
         if(this.isSolarItem) {
             const parts = location.pathname.split('/');
             slug = parts[parts.length-2];
-            console.log(slug);
+            // console.log(slug);
         } else {
             const params = GLOBALS.urlParams();
             // console.log(params);
@@ -88,7 +88,7 @@ export class ObjectPage extends DefaultPage {
         }
         // console.log(slug);
         const sel = GLOBALS.viewer.getSolarElementBySlug(slug);
-        console.log(slug, sel);
+        // console.log(slug, sel);
         if(sel === null) {
             let data = null;
             for(const item of LoadManager.data.sample) {
@@ -177,13 +177,19 @@ export class ObjectPage extends DefaultPage {
         const ranges = CategoryFilters;
         const catID = data.category;
         const rangeA = ranges[prop][catID];
-        slider.style.width = `${MathUtils.smoothstep(rangeA.min, rangeA.max, data.a)*100}%`;
+        slider.style.width = `${MathUtils.smoothstep(rangeA.min, rangeA.max, data[prop])*100}%`;
+
+        const tooltip = slider.querySelector('.tooltip');
+        tooltip.textContent = `${data[prop].toFixed(3)}`
     }
 
     private mapSliderWithValue(slider:HTMLElement, catID:SolarCategory, prop:string, value:number) {
         const ranges = CategoryFilters;
         const rangeA = ranges[prop][catID];
         slider.style.width = `${MathUtils.smoothstep(rangeA.min, rangeA.max, value)*100}%`;
+
+        const tooltip = slider.querySelector('.tooltip');
+        tooltip.textContent = `${value.toFixed(3)}`
     }
 
     private revealCategoryChip(catID:SolarCategory) {
@@ -287,7 +293,7 @@ export class ObjectPage extends DefaultPage {
         this.dom.querySelector('.object_card-designation').querySelector('.value').textContent = data.fulldesignation;
 
         const catID = data.category;
-        console.log(catID);
+        // console.log(catID);
 
         this.revealCategoryChip(catID);
         this.fillData(data, catID, cnt.elementDiameter);

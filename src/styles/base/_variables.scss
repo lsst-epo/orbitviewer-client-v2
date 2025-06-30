@@ -87,6 +87,7 @@
     --z-canvas: 1;
 
     // Margins
+    --site-margin-xsmall: 8px;
     --site-margin-small: 12px;
     --site-margin-large: 16px;
 
@@ -139,6 +140,7 @@
 
 @include media(medium) {
     :root {
+        --site-margin-xsmall: 16px;
         --site-margin-small: 24px;
         --site-margin-large: 32px;
 

@@ -196,10 +196,13 @@
 .screen_capture {
     &-hero {
         position: relative;
-        background: var(--color-backdrop);
+        background: rgba(var(--color-white-rgb), .1);
+        border: solid 1px rgba(var(--color-white-rgb), .05);
         overflow: hidden;
         border-radius: var(--corner-large);
         aspect-ratio: 16/9;
+        max-height: 336px;
+        transition: all .5s ease;
 
         img,
         canvas {
@@ -217,7 +220,6 @@
         }
         &.vertical {
             aspect-ratio: 9/16;
-            max-height: 320px;
 
             img {
                 object-fit: contain;

@@ -12,20 +12,36 @@
     justify-content: center;
     background: var(--color-backdrop);
     backdrop-filter: blur(var(--backdrop-blur));
+    opacity: 0;
+    will-change: opacity;
 
     &[aria-hidden=true] {
         display: none;
     }
 
-    &-svg {
-        animation: loader-rotate 3s linear infinite;
+    &-content {
+        display: flex;
+        flex-direction: column;
+        max-width: 400px;
+        text-align: center;
+        gap: 24px;
+        align-items: center;
+    }
 
-        svg {
-            width: 125px;
-            height: 128px;
-            fill: var(--color-turquoise-400);
+        &-svg {
+            animation: loader-rotate 3s linear infinite;
+
+            svg {
+                width: 125px;
+                height: 128px;
+                fill: var(--color-turquoise-400);
+            }
+        } 
+        
+        &-text {
+            @include font(body-medium-regular);
+            color: var(--color-text);
         }
-    }   
 }
 
 @keyframes loader-rotate {

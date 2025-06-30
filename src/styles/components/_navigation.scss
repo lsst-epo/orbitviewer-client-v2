@@ -14,9 +14,13 @@
     justify-content: center;
     padding: 5px;
     pointer-events: initial;
+    will-change: opacity;
+    opacity: 0;
 
     @include media(medium) {
-        padding: 16px 12px;
+        top: var(--site-margin-xsmall);
+        left: var(--site-margin-xsmall);
+        padding: 12px;
 
         .logo {
             width: 72px;
@@ -34,6 +38,8 @@
     display: flex;
     justify-content: flex-end;
     pointer-events: none;
+    opacity: 0;
+    will-change: opacity;
 
     &.sticky {
         backdrop-filter: blur(12px);
