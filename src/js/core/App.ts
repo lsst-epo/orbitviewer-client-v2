@@ -178,6 +178,8 @@ export class App implements NomadRouteListener {
 		this.viewer.createPlanets(LoadManager.data.planets);
 		this.viewer.createDwarfPlanets(LoadManager.data.dwarf_planets);
 
+		// console.log(UserFilters.categories);
+
 		CategoryCounters['planets-moons'] = LoadManager.data.planets.length + LoadManager.data.dwarf_planets.length;
 
 		this.viewer.createSolarItems();
@@ -191,6 +193,9 @@ export class App implements NomadRouteListener {
 		// this.addGUI();
 		// console.log(LoadManager.data);
 		// console.log(LoadManager.craftData);
+		
+		// console.log(LoadManager.hasuraData.classification_ranges);
+		// console.log(CategoryFilters.a);
 
 		UserFilters.distanceRange.min = CategoryFilters.a.totals.min;
 		UserFilters.distanceRange.max = CategoryFilters.a.totals.max;

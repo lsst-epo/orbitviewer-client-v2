@@ -290,8 +290,10 @@ export function computePropertyTotals(prop:string) {
 	// compute totals
 	for(const key in map) {
 		if(key === 'totals') continue;
+		// console.log(key, CategoryCounters[key]);
 		if(CategoryCounters[key] === 0) continue;
 		if(!UserFilters.categories[key]) continue;
+		// console.log(key, map[key].min, map[key].max);
 		map['totals'].min = Math.min(map[key].min, map['totals'].min);
 		map['totals'].max = Math.max(map[key].max, map['totals'].max);
 	}
