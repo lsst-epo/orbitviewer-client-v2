@@ -21,6 +21,10 @@ export default {
         "back": {
             "en": "Orbit viewer",
             "es": ""
+        },
+        "loading": {
+            "en": "Loading.. this may take a moment",
+            "es": ""
         }
     },
     "logo": {

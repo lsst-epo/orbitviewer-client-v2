@@ -19,15 +19,28 @@
         display: none;
     }
 
-    &-svg {
-        animation: loader-rotate 3s linear infinite;
+    &-content {
+        display: flex;
+        flex-direction: column;
+        max-width: 208px;
+        gap: 24px;
+        align-items: center;
+    }
 
-        svg {
-            width: 125px;
-            height: 128px;
-            fill: var(--color-turquoise-400);
+        &-svg {
+            animation: loader-rotate 3s linear infinite;
+
+            svg {
+                width: 125px;
+                height: 128px;
+                fill: var(--color-turquoise-400);
+            }
+        } 
+        
+        &-text {
+            @include font(body-medium-regular);
+            color: var(--color-text);
         }
-    }   
 }
 
 @keyframes loader-rotate {
