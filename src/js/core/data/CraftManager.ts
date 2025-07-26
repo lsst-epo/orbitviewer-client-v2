@@ -4,7 +4,7 @@ const LOCAL_TOKEN = "LdTQ3Q1QUtzPec_TNIAmmolWYUaevo3o";
 const PROD_TOKEN = "Ma3vUfBJiY3XXmjerRcBQo5PpE3A0jxU";
 
 const isLocalhost = false;//IS_DEV_MODE;
-const url = isLocalhost ? 'http://localhost:8000' : 'https://orbitviewer-api-dot-skyviewer.uw.r.appspot.com';
+const url = isLocalhost ? 'http://localhost:8000' : 'https://api.orbitviewer.app';
 // const url = isLocalhost ? 'http://localhost:8000' : 'https://hasura-688095955960.us-central1.run.app/v1/graphql';
 
 function getLang():string {

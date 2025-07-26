@@ -1,5 +1,5 @@
 const PROD_TOKEN = "Ma3vUfBJiY3XXmjerRcBQo5PpE3A0jxU";
-const url = 'https://orbitviewer-api-dot-skyviewer.uw.r.appspot.com';
+const url = 'https://api.orbitviewer.app';
 
 async function getQuery(query = null) {
 
