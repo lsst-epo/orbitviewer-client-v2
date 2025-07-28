@@ -1,8 +1,8 @@
-const PROD_TOKEN = "Ma3vUfBJiY3XXmjerRcBQo5PpE3A0jxU";
-const url = 'https://orbitviewer-api-dot-skyviewer.uw.r.appspot.com';
+import env  from '../src/env.js';
+const PROD_TOKEN = env.PROD_TOKEN;
+const url = env.URL;
 
 async function getQuery(query = null) {
-
   if(query === null){
     throw new Error();
   }
