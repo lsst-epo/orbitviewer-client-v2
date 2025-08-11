@@ -5,6 +5,7 @@ concurrency:
 on:
   push:
     branches:
+      - "[0-9]+-**" # want to build branches for dev
       - "develop"
       - "main"
     tags:
