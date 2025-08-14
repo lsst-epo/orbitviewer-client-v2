@@ -32,9 +32,14 @@
             animation: loader-rotate 3s linear infinite;
 
             svg {
-                width: 125px;
-                height: 128px;
+                width: 93px;
+                height: 96px;
                 fill: var(--color-turquoise-400);
+
+                @include media(medium) {
+                    width: 125px;
+                    height: 128px;
+                }
             }
         } 
         
