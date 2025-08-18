@@ -43,12 +43,6 @@ class SlidingMenu {
   });
 }
 
- public open() {
-   this.container.style.display = 'block';
-   const level1 = this.container.querySelector('.nav_dropdown_level-1') as HTMLElement;
-   this.content.style.height = `${level1.offsetHeight}px`;
- }
-
  private showSubmenu(type: 'language' | 'exploration') {
    menuState.currentLevel = 2;
    
@@ -67,13 +61,13 @@ class SlidingMenu {
     menuState.currentLevel = 1;
     this.content.classList.remove('show-level-2');
     
-    const level1 = this.container.querySelector('.nav_dropdown_level-1') as HTMLElement;
-    const targetHeight = this.measureHeight(level1);
+    const level1Content = this.container.querySelector('.nav_dropdown_level-1 .listitem-content') as HTMLElement;
+    const targetHeight = this.measureHeight(level1Content);
     this.content.style.height = `${targetHeight}px`;
   }
 
   private animateHeight() {
-    const level2 = this.container.querySelector('.nav_dropdown_level:nth-child(2)') as HTMLElement;
+    const level2 = this.container.querySelector('.nav_dropdown_level-2') as HTMLElement;
     const activeGroup = level2.querySelector('.nav_dropdown_level-group[aria-hidden="false"]') as HTMLElement;
     
     if (activeGroup) {
