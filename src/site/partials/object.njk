@@ -7,7 +7,10 @@
     <div class="object_detail-content" style='transform: translateY(100%);'>
         <div class="object_card">
             <header class="object_card-head">
-                <a href="/{{lang}}/">{{ Button(copy.core.back[lang], 'button ghost medium', 'chevron-left') }}</a>
+                <a href="/{{lang}}/" class="button ghost small">
+                    {{ icon('chevron-left') }}
+                    <span>{{ copy.core.back[lang] }}</span>
+                </a>
             </header>
             <div class="object_card-body">
                 <div class="object_card-heading">
