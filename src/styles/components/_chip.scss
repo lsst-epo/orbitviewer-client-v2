@@ -44,7 +44,7 @@
             trojans: trojans
         ) {
             &.#{$type} {
-            --bg: rgba(var(--color-#{$color}-rgb), .2);
+            --bg: color-mix(in srgb, var(--color-#{$color}) 20%, transparent);
             --color: var(--color-#{$color});
             }
         }

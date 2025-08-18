@@ -171,7 +171,7 @@ export default {
         "capture_banner": {
             "en": "Pan and zoom to desired view first, then capture.",
             "es": ""
-        }
+        },
         "aspect_ratio": {
             "horizontal": {
                 "en": "Horizontal",
