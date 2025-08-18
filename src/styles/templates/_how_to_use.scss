@@ -27,10 +27,16 @@
         }
         
         &-body {
+            padding-inline: 16px;
+
             @include media(small) {
                 display: grid;
                 grid-template-columns: repeat(12, 1fr);
                 gap: 24px;
+            }
+
+            @include media(medium) {
+                padding-inline: 32px;
             }
             
             .content {
