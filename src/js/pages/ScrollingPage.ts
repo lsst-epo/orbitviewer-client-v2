@@ -53,9 +53,14 @@ export class ScrollingPage extends DefaultPage {
         document.querySelectorAll('.how_to_nav a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
+                const target = document.querySelector(this.getAttribute('href')) as HTMLElement;
                 if (target) {
-                    target.scrollIntoView({
+                    const navElement = document.querySelector('.navigation') as HTMLElement;
+                    const navHeight = navElement ? navElement.offsetHeight : 0;
+                    const targetPosition = target.offsetTop - navHeight;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
                         behavior: 'smooth'
                     });
                 }

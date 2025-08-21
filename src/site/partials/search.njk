@@ -40,7 +40,7 @@
                                                 <span class="name">{{ item.title }}</span>
                                             </span>
                                             {% if item.category %}
-                                                <span class="value">{{ item.category.title }}</span>
+                                                <span class="chip object_type {{ item.category.slug }}">{{ item.category.title }}</span>
                                             {% endif %}
                                         </a>
                                     </li>

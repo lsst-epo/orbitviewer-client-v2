@@ -34,17 +34,17 @@
         color: var(--color);
 
         @each $type, $color in (
-            planets_moons: planets,
-            near_earth_objects: near_earth,
+            planets-moons: planets,
+            near-earth-objects: near_earth,
             asteroids: asteroids,
             comets: comets,
             centaurs: centaurs,
-            trans_neptunian_objects: trans_neptunian,
-            interstellar_objects: interstellar,
+            trans-neptunian-objects: trans_neptunian,
+            interstellar-objects: interstellar,
             trojans: trojans
         ) {
             &.#{$type} {
-            --bg: rgba(var(--color-#{$color}-rgb), .2);
+            --bg: color-mix(in srgb, var(--color-#{$color}) 20%, transparent);
             --color: var(--color-#{$color});
             }
         }

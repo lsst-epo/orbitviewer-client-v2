@@ -7,14 +7,9 @@
 .featured-object {
     &_template {
         .scene_controls {
-            bottom: calc(25vh + 12px);
-            bottom: calc(25svh + 12px);
+            bottom: calc(30vh + 12px);
+            bottom: calc(30svh + 12px);
 
-            @media (min-height: 618px) {
-                bottom: calc(40vh + 12px);
-                bottom: calc(40svh + 12px);
-            }
-            
             @include media(medium) {
                 left: 40vw;
                 bottom: var(--site-margin-large);
@@ -31,15 +26,10 @@
     height: max-content;
     
     display: grid;
-    grid-template-rows: calc(var(--object-grid-frame-small) * 1vh) 1fr;
-    grid-template-rows: calc(var(--object-grid-frame-small) * 1svh) 1fr;
+    grid-template-rows: 70vh 1fr;
+    grid-template-rows: 70svh 1fr;
     grid-template-columns: 40vw 1fr;
     pointer-events: none;
-
-    @media (min-height: 618px) {
-        grid-template-rows: calc(var(--object-grid-frame-large) * 1vh) 1fr;
-        grid-template-rows: calc(var(--object-grid-frame-large) * 1svh) 1fr;
-    }
 
     @include media(medium) {
         position: absolute;
@@ -103,7 +93,7 @@
     &-head {
         position: relative;
         flex: 0 0 auto;
-        padding: 8px 4px;
+        padding: 4px;
         border-bottom: solid 1px var(--color-border);
     }
 

@@ -167,14 +167,14 @@
                         border-radius: var(--corner-medium) var(--corner-medium) 0 0;
                         color: var(--color-text);
 
-                        &.planets_moons { --color: rgba(var(--color-planets-rgb), .3);}
-                        &.near_earth_objects { --color: rgba(var(--color-near_earth-rgb), .3);}
-                        &.asteroids { --color: rgba(var(--color-asteroids-rgb), .3);}
-                        &.comets { --color: rgba(var(--color-comets-rgb), .3);}
-                        &.centaurs { --color: rgba(var(--color-centaurs-rgb), .3);}
-                        &.trans_neptunian_objects { --color: rgba(var(--color-trans_neptunian-rgb), .3);}
-                        &.interstellar_objects { --color: rgba(var(--color-interstellar-rgb), .3);}
-                        &.trojans { --color: rgba(var(--color-trojans-rgb), .3);}
+                        &.planets_moons { --color: color-mix(in srgb, var(--color-planets) 30%, transparent);}
+                        &.near_earth_objects { --color: color-mix(in srgb, var(--color-near_earth) 30%, transparent);}
+                        &.asteroids { --color: color-mix(in srgb, var(--color-asteroids) 30%, transparent);}
+                        &.comets { --color: color-mix(in srgb, var(--color-comets) 30%, transparent);}
+                        &.centaurs { --color: color-mix(in srgb, var(--color-centaurs) 30%, transparent);}
+                        &.trans_neptunian_objects { --color: color-mix(in srgb, var(--color-trans_neptunian) 30%, transparent);}
+                        &.interstellar_objects { --color: color-mix(in srgb, var(--color-interstellar) 30%, transparent);}
+                        &.trojans { --color: color-mix(in srgb, var(--color-trojans) 30%, transparent);}
 
                         .name {
                             flex: auto;

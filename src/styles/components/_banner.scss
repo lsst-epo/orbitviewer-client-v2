@@ -32,4 +32,9 @@
         --background: var(--color-red-darker);
         --color: var(--color-red-light); 
     }
+
+    &.informative {
+        --background: var(--color-turquoise-800);
+        --color: var(--color-turquoise-200); 
+    }
 }
