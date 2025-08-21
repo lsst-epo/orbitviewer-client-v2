@@ -37,6 +37,7 @@
 		"chokidar": "^4.0.3",
 		"clean-css": "^5.3.3",
 		"cross-env": "^10.0.0",
+		"dotenv": "^17.2.1",
 		"esbuild": "^0.25.9",
 		"esbuild-plugin-alias": "^0.2.1",
 		"postcss": "^8.5.6",

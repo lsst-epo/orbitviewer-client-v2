@@ -1,5 +1,12 @@
+import { configDotenv } from "dotenv";
+
 const PROD_TOKEN = "Ma3vUfBJiY3XXmjerRcBQo5PpE3A0jxU";
 const url = 'https://orbitviewer-api-dot-skyviewer.uw.r.appspot.com';
+const dev_url = 'https://api-dev.orbitviewer.dev';
+
+configDotenv();
+
+// console.log(process.env.SECURITY_KEY);
 
 async function getQuery(query = null) {
 
@@ -32,7 +39,40 @@ async function getQuery(query = null) {
   }
   
   return content;
-} 
+}
+
+async function getDevQuery(query = null) {
+
+  if(query === null){
+    throw new Error();
+  }
+
+  // content array
+  let content = [];
+
+  try {
+    // initiate fetch
+    const queryFetch = await fetch(`${dev_url}/api`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${process.env.SECURITY_KEY}`,
+      },
+      body: JSON.stringify({
+        query,
+      }),
+    });
+
+    // store the JSON response when promise resolves
+    content = await queryFetch.json();
+
+  } catch (error) {
+    throw new Error(error);
+  }
+  
+  return content;
+}
 
 /**
  * 
@@ -126,4 +166,111 @@ export function excerpt(text) {
   }
 
   return plainText;
+}
+
+export async function getAbout() {
+  const query = `query AboutQuery {
+    aboutEntries {
+      ... on about_Entry {
+        id
+        title
+        eyebrowText
+        headerTitle
+        headerBody {
+          html
+          rawHtml
+          markdown
+          plainText
+        }
+        introImage {
+          url
+        }
+        responsiveBody {
+          html
+          rawHtml
+          markdown
+          plainText
+        }
+        lowSettingLabel
+        lowSettingCount
+        lowSettingImages {
+          url
+        }
+        mediumSettingLabel
+        mediumSettingCount
+        mediumSettingImages {
+          url
+        }
+        highSettingLabel
+        highSettingCount
+        highSettingImages {
+          url
+        }
+        ultraSettingLabel
+        ultraSettingCount
+        ultraSettingImages {
+          url
+        }
+        observatoryBody {
+          html
+          rawHtml
+          markdown
+          plainText
+        }
+        observatoryImage {
+          urlLarge: url
+          urlMedium: url @transform(mode: "fit", width: 1220, height: 953)
+          urlSmall: url @transform(mode: "fit", width: 813, height: 635)
+        }
+        footerBody {
+          html
+          rawHtml
+          markdown
+          plainText
+        }
+        footerImage {
+          url
+        }
+        creditsText {
+          html
+          rawHtml
+          markdown
+          plainText
+        }
+      }
+    }
+  }`;
+
+  return await getDevQuery(query);
+
+}
+
+export async function getHowToUse() {
+  const query = `query HowToUseQuery {
+    howToUseEntry {
+      ... on howToUse_Entry {
+        id
+        title
+        eyebrowText
+        headerText
+        howToUseSection {
+          ... on howToUseSection_section_BlockType{
+            sectionTitle
+            sectionBody {
+              html
+              rawHtml
+              markdown
+              plainText
+            } 
+            sectionImage {
+              url
+            }
+          }
+        }
+      }
+    }
+  }`;
+
+  return await getDevQuery(query);
+
 }
