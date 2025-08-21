@@ -98,45 +98,88 @@ class TimeMachine extends Layer implements SliderListener {
     start() {		
       // Flatpickr Datepicker
       this.flat = flatpickr("#myDateInput", {
-				disableMobile: true,
-				position: "above",
-				enableTime: true,
-				dateFormat: "M j, Y H:i",
-				defaultDate: new Date(),
-				locale: {
-					weekdays: {
-						shorthand: ["S", "M", "T", "W", "T", "F", "S"],
-						longhand: [
-							"Sunday",
-							"Monday",
-							"Tuesday",
-							"Wednesday",
-							"Thursday",
-							"Friday",
-							"Saturday"
-						]
-					}
-				},
-				minDate: new Date("1900-01-01"),
-    		maxDate: new Date("2100-01-01"),
-				onChange: function(_, __, instance) {
-					if (instance.timeContainer) {
-						const timeInputs = instance.timeContainer.querySelectorAll('input');
-						timeInputs.forEach(input => input.blur());
-					}
-				},
-				onClose: () => {
-					GLOBALS.solarClock.setDate(new Date(this.flat.input.value))
+			disableMobile: true,
+			position: "above",
+			enableTime: true,
+			dateFormat: "M j, Y H:i:S",
+			defaultDate: new Date(),
+			locale: {
+				weekdays: {
+					shorthand: ["S", "M", "T", "W", "T", "F", "S"],
+					longhand: [
+						"Sunday",
+						"Monday",
+						"Tuesday",
+						"Wednesday",
+						"Thursday",
+						"Friday",
+						"Saturday"
+					]
 				}
-			});
+			},
+			minDate: new Date("1900-01-01"),
+			maxDate: new Date("2100-01-01"),
 
-        // Timemachine toggle
-			this.toggleButton.addEventListener('click', (e) => {
-				e.preventDefault();
-				this.toggle();
-			});
+			onOpen: function(selectedDates, dateStr, instance) {
+				const backdrop = document.createElement('div');
+				backdrop.className = 'flatpickr-backdrop';
+				backdrop.addEventListener('click', () => instance.close());
+				document.body.appendChild(backdrop);
 
-			// console.log(this.flat);
+				
+				const calendar = instance.calendarContainer;
+				if (calendar && !calendar.querySelector('.flatpickr-footer')) {
+					const footer = document.createElement('div');
+					footer.className = 'flatpickr-footer';
+					footer.innerHTML = `
+						<button type="button" class="button small secondary button_live"><span>Live</span></button>
+						<div class="primary_actions">
+						<button type="button" class="button small secondary button_cancel"><span>Cancel</span></button>
+						<button type="button" class="button small primary button_apply"><span>Apply</span></button>
+						</div>
+					`;
+					calendar.appendChild(footer);
+
+					const cancelBtn = footer.querySelector('.button_cancel');
+					const nowBtn = footer.querySelector('.button_live');
+					const applyBtn = footer.querySelector('.button_apply');
+
+					cancelBtn?.addEventListener('click', () => {
+						instance.close();
+					});
+
+					nowBtn?.addEventListener('click', () => {
+						const now = new Date();
+						instance.setDate(now, true);
+					});
+
+					applyBtn?.addEventListener('click', () => {
+						const currentDate = instance.selectedDates[0] || new Date();
+						GLOBALS.solarClock.setDate(currentDate);
+						instance.close();
+					});
+				}
+			},
+			
+			onClose: function() {
+				const backdrop = document.querySelector('.flatpickr-backdrop');
+				if (backdrop) {
+					backdrop.remove();
+				}
+			},
+			
+			onChange: function(_, __, instance) {
+				if (instance.timeContainer) {
+					const timeInputs = instance.timeContainer.querySelectorAll('input');
+					timeInputs.forEach(input => input.blur());
+				}
+			},
+		});
+
+		this.toggleButton.addEventListener('click', (e) => {
+			e.preventDefault();
+			this.toggle();
+		});
     }
 
     toggle() {

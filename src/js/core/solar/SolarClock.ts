@@ -23,6 +23,7 @@ export class SolarClock {
     private todayRef = Date.now() * .001;
 
     private isLive:boolean = true;
+    private timeDifference:number = 0;
 
     /**
      * 
@@ -110,6 +111,8 @@ export class SolarClock {
      */
     setDate(date:Date=new Date()) {        
         this.date = date;
+        const now = new Date();
+        this.timeDifference = Math.abs(now.getTime() - date.getTime());
     }
 
     /**
@@ -147,6 +150,7 @@ export class SolarClock {
         this.todayRef = Date.now() * .001;
         CLOCK_SETTINGS.speed = 0;
         this.targetSpeed = this.speed = 0;
+        this.timeDifference = 0;
     }
 
     goLive() {
@@ -167,7 +171,7 @@ export class SolarClock {
             this.elapsedTime = this.iClock.getElapsedTime();
         }
 
-        if(Math.abs(this.targetSpeed) > 0 || this.paused) this.isLive = false;
+        if(Math.abs(this.targetSpeed) > 0 || this.paused || this.timeDifference > 2000) this.isLive = false;
 
         if(Math.abs(this.targetSpeed-this.speed) < .01) {
             this.speed = this.targetSpeed;
