@@ -1,8 +1,8 @@
-import { getAbout } from './craft.js';
+import { getHowToUse } from './craft.js';
 
 async function getLangData(lang) {
-  const src = await getAbout(lang);
-  return src.data.aboutEntries[0];
+  const src = await getHowToUse(lang);
+  return src.data.howToUseEntry;
 }
 
 async function data() {
@@ -11,7 +11,7 @@ async function data() {
     es: await getLangData(2),
   };
 
-  // console.log(data.en);
+  // console.log(data.en.howToUseSection[0]);
 
   return data;
 }

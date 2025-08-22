@@ -3,36 +3,55 @@ layout: base
 pageTemplate: how_to_use
 permalink: "/{{lang}}/how-to-use/"
 eleventyComputed:
-  title: "{{ staticData.title }}"
-  description: "{{ staticData.description }}"
+  title: "{{ settings[lang].title }} - {{ howto[lang].title }}"
+  description: "{{ howto[lang].headerText }}"
   card: "{{ staticData.og.basePath }}{{ staticData.og.default }}"
   locale: "{{ staticData.locale[staticData.defaultLanguage] }}"
 ---
+
+{% set content = howto[lang] %}
 
 <div class="how_to-page">
   <section class="how_to_heading intersect_no-active">
     <div class="how_to_heading-body">
       <div class="content">
         <div class="heading">
-          <h1 class="title">How to use</h1>
-          <h2 class="subtitle">The different buttons and actions you can take with Orbitviewer</h2>
+          <h1 class="title">{{ content.eyebrowText }}</h1>
+          <h2 class="subtitle">{{ content.headerText }}</h2>
         </div>
         <nav class="how_to_nav">
-          <a href="#how-to-navigating" class="how_to_nav-link">Navigating in 3D</a>
+          {% for item in content.howToUseSection %}
+          <a href="#section-{{loop.index0}}" class="how_to_nav-link">{{ item.sectionTitle }}</a>
+          {% endfor %}
+          {# <a href="#how-to-navigating" class="how_to_nav-link">Navigating in 3D</a>
           <a href="#how-to-zoom" class="how_to_nav-link">Zoom</a>
           <a href="#how-to-center-view" class="how_to_nav-link">Center your view</a>
           <a href="#how-to-time-controls" class="how_to_nav-link">Time Controls</a>
           <a href="#how-to-filters" class="how_to_nav-link">Filters</a>
           <a href="#how-to-orbits" class="how_to_nav-link">Interactive Orbits</a>
           <a href="#how-to-search" class="how_to_nav-link">Search</a>
-          <a href="#how-to-language" class="how_to_nav-link">Choose your language</a>
+          <a href="#how-to-language" class="how_to_nav-link">Choose your language</a> #}
         </nav>
       </div>
     </div>
   </section>
 
   <section class="how_to_content with-inner-sections">
-    <article id="how-to-navigating" class="how_to_content-block intersect_no-active">
+    {% for item in content.howToUseSection %}
+    <article id="section-{{loop.index0}}" class="how_to_content-block intersect_no-active">
+      <div class="how_to_content-head">
+        <h2 class="title">{{ item.sectionTitle }}</h2>
+      </div>
+      <div class="how_to_content-body">
+        <figcaption>
+          <figure>{{ item.sectionBody.plainText }}</figure>
+          <img src="/assets/images/how-to-use/how-to-navigating.webp" alt="">
+          {# <img src="{{ item.sectionImage[0].url }}" alt=""> #}
+        </figcaption>
+      </div>
+    </article>
+    {% endfor %}
+    {# <article id="how-to-navigating" class="how_to_content-block intersect_no-active">
       <div class="how_to_content-head">
         <h2 class="title">Navigating in 3D</h2>
       </div>
@@ -126,6 +145,6 @@ eleventyComputed:
           <figure>Orbitviewer is available in both English and Spanish. You may select your language on the landing page, or you may also choose your language using the language selector in the hamburger menu at the top right.</figure>
         </figcaption>
       </div>
-    </article>
+    </article> #}
   </section>
 </div>
