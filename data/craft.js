@@ -268,7 +268,7 @@ export async function getHowToUse(lang) {
               plainText
             } 
             sectionImage {
-              url
+              url @transform(width: 1200, format: "webp")
             }
           }
         }
