@@ -24,7 +24,7 @@ async function getQuery(query = null) {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
-        Authorization: `Bearer ${PROD_TOKEN}`,
+        // Authorization: `Bearer ${PROD_TOKEN}`,
       },
       body: JSON.stringify({
         query,
@@ -57,7 +57,7 @@ async function getDevQuery(query = null) {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
-        Authorization: `Bearer ${process.env.SECURITY_KEY}`,
+        // Authorization: `Bearer ${process.env.SECURITY_KEY}`,
       },
       body: JSON.stringify({
         query,
@@ -168,9 +168,9 @@ export function excerpt(text) {
   return plainText;
 }
 
-export async function getAbout() {
+export async function getAbout(lang) {
   const query = `query AboutQuery {
-    aboutEntries {
+    aboutEntries(siteId: "${lang}") {
       ... on about_Entry {
         id
         title
@@ -245,9 +245,9 @@ export async function getAbout() {
 
 }
 
-export async function getHowToUse() {
+export async function getHowToUse(lang) {
   const query = `query HowToUseQuery {
-    howToUseEntry {
+    howToUseEntry(siteId: "${lang}") {
       ... on howToUse_Entry {
         id
         title

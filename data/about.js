@@ -3,8 +3,8 @@ import { getAbout } from './craft.js';
 async function data() {
   const data = {};
 
-  const src = await getAbout('1');
-  console.log(src);
+  const src = await getAbout(1);
+  console.log(src.data.aboutEntries[0]);
   // const info = src.data.globalSets[0];
 
   // data.title = info.seoTitle;

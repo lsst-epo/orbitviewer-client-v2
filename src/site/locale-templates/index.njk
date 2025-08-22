@@ -3,8 +3,8 @@ layout: base
 pageTemplate: orbitviewerpage
 permalink: "/{{lang}}/"
 eleventyComputed:
-  title: "{{ settings.title }}"
-  description: "{{ settings.description }}"
+  title: "{{ settings[lang].title }}"
+  description: "{{ settings[lang].description }}"
   card: "{{ staticData.og.basePath }}{{ staticData.og.default }}"
   locale: "{{ staticData.locale[lang] }}"
 ---
