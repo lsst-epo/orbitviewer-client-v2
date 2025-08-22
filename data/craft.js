@@ -182,8 +182,11 @@ export async function getAbout(lang) {
           markdown
           plainText
         }
+        introBody {
+          html
+        }
         introImage {
-          url
+          url @transform(width: 1480, format: "webp")
         }
         responsiveBody {
           html
@@ -194,22 +197,22 @@ export async function getAbout(lang) {
         lowSettingLabel
         lowSettingCount
         lowSettingImages {
-          url
+          url @transform(width: 1220, format: "webp")
         }
         mediumSettingLabel
         mediumSettingCount
         mediumSettingImages {
-          url
+          url @transform(width: 1220, format: "webp")
         }
         highSettingLabel
         highSettingCount
         highSettingImages {
-          url
+          url @transform(width: 1220, format: "webp")
         }
         ultraSettingLabel
         ultraSettingCount
         ultraSettingImages {
-          url
+          url @transform(width: 1220, format: "webp")
         }
         observatoryBody {
           html
@@ -218,9 +221,9 @@ export async function getAbout(lang) {
           plainText
         }
         observatoryImage {
-          urlLarge: url
-          urlMedium: url @transform(mode: "fit", width: 1220, height: 953)
-          urlSmall: url @transform(mode: "fit", width: 813, height: 635)
+          urlLarge: url @transform(width: 1920, format: "webp")
+          urlMedium: url @transform(mode: "crop", width: 1440, height: 855, format: "webp")
+          urlSmall: url @transform(mode: "crop", width: 768, height: 456, format: "webp")
         }
         footerBody {
           html
@@ -229,7 +232,9 @@ export async function getAbout(lang) {
           plainText
         }
         footerImage {
-          url
+          urlLarge: url @transform(width: 1920, format: "webp")
+          urlMedium: url @transform(mode: "crop", width: 1440, height: 490, format: "webp")
+          urlSmall: url @transform(mode: "crop", width: 768, height: 262, format: "webp")
         }
         creditsText {
           html

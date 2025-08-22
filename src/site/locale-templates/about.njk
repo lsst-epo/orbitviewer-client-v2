@@ -32,11 +32,11 @@ eleventyComputed:
   <section class="about-section about_viewer">
     <div class="about_viewer-hero">
       <div class="img_wrap">
-        <img src="/assets/images/about/about-viewer.webp" alt="">
+        <img src="{{ content.introImage[0].url }}" alt="">
       </div>
     </div>
     <div class="about_viewer-text">
-      <p>Orbitviewer — powered by real data from the Minor Planet Center — is designed to showcase the incredible number of Solar System objects revealed by Rubin Observatory. In just one year of operations, Rubin will reveal more objects in our Solar System than humans have discovered in the past 150 years. As Rubin’s decade-long Legacy Survey of Space and Time (LSST) gets underway, Orbitviewer will help you explore and contextualize the millions of discoveries from Rubin.</p>
+      {{ content.introBody.html | safe }}
     </div>
   </section>
 
@@ -46,10 +46,10 @@ eleventyComputed:
         <div class="mask ratio-21-9">
           <p class="count" data-label="{value} objects">{{ content.ultraSettingCount }}</p>
           <div class="img_wrap">
-            <img src="/assets/images/about/about-viewer-ultra.webp" class="img-ratio-21-9" alt="">
-            <img src="/assets/images/about/about-viewer-large.webp" class="img-ratio-16-9" alt="">
-            <img src="/assets/images/about/about-viewer-medium.webp" class="img-ratio-9-16" alt="">
-            <img src="/assets/images/about/about-viewer-small.webp" class="img-ratio-2-3" alt="">
+            <img src="{{ content.ultraSettingImages[0].url }}" class="img-ratio-21-9" alt="">
+            <img src="{{ content.highSettingImages[0].url }}" class="img-ratio-16-9" alt="">
+            <img src="{{ content.mediumSettingImages[0].url }}" class="img-ratio-9-16" alt="">
+            <img src="{{ content.lowSettingImages[0].url }}" class="img-ratio-2-3" alt="">
           </div>
         </div>
       </div>
@@ -74,9 +74,10 @@ eleventyComputed:
         <div class="bg">
           <div class="img_wrap">
               <picture>
-                <source srcset="/assets/images/about/about-observatory-large.webp" media="(min-width: 1024px)">
-                <source srcset="/assets/images/about/about-observatory-medium.webp" media="(min-width: 768px)">
-                <img src="/assets/images/about/about-observatory-small.webp" alt="">
+                {% set oImage = content.observatoryImage[0] %}
+                <source srcset="{{ oImage.urlLarge }}" media="(min-width: 1024px)">
+                <source srcset="{{ oImage.urlMedium }}" media="(min-width: 768px)">
+                <img src="{{ oImage.urlSmall }}" alt="">
               </picture>
           </div>
         </div>
