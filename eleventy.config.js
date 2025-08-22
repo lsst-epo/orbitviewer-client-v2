@@ -5,7 +5,7 @@ const isProduction = process.env.ELEVENTY_ENV === 'production';
 
 import staticData from './data/staticData.js';
 
-import { readFileSync } from 'fs';
+import { copyFileSync, readFileSync } from 'fs';
 import { resolve } from 'path';
 
 if(!isProduction) {

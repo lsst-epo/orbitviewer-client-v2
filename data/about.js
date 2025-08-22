@@ -1,17 +1,17 @@
 import { getAbout } from './craft.js';
 
+async function getLangData(lang) {
+  const src = await getAbout(lang);
+  return src.data.aboutEntries[0];
+}
+
 async function data() {
-  const data = {};
+  const data = {
+    en: await getLangData(1),
+    es: await getLangData(2),
+  };
 
-  const src = await getAbout(1);
-  console.log(src.data.aboutEntries[0]);
-  // const info = src.data.globalSets[0];
-
-  // data.title = info.seoTitle;
-  // data.name = info.seoSiteName;
-  // data.description = info.seoDescription;
-
-  // console.log(data);
+  console.log(data.en);
 
   return data;
 }
