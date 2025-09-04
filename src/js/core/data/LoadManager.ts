@@ -128,10 +128,12 @@ class LoadManagerClass {
             const data = JSON.parse(dEl.getAttribute('data-solar-categories'));
             // console.log(data);
             onL(data);
+            dEl.removeAttribute('data-solar-categories')
         } else if(id === 'solar_items') {
             const data = JSON.parse(dEl.getAttribute('data-solar-items'));
             // console.log(data);
             onL(data);
+            dEl.removeAttribute('data-solar-items')
         }
     }
 

@@ -77,7 +77,8 @@ export const CategoryNamesEN:Record<SolarCategory, string> = {
 }
 
 export const CategoryNames = {
-	en: CategoryNamesEN
+	en: CategoryNamesEN,
+	es: CategoryNamesEN
 }
 
 export function resetSolarCategoryCounters() {
