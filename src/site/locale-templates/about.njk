@@ -6,7 +6,7 @@ eleventyComputed:
   title: "{{ settings[lang].title }} - {{ about[lang].title }}"
   description: "{{ about[lang].headerBody.plainText }}"
   card: "{{ staticData.og.basePath }}{{ staticData.og.default }}"
-  locale: "{{ staticData.locale[staticData.defaultLanguage] }}"
+  locale: "{{ staticData.locale[lang] }}"
 ---
 
 {% set content = about[lang] %}
