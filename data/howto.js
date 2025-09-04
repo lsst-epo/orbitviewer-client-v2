@@ -2,7 +2,7 @@ import { getHowToUse } from './craft.js';
 
 async function getLangData(lang) {
   const src = await getHowToUse(lang);
-  return src.data.howToUseEntry;
+  return src.data ? src.data.howToUseEntry : {};
 }
 
 async function data() {

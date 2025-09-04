@@ -4,7 +4,7 @@ import { GLOBALS, VISUAL_SETTINGS } from "../Globals";
 import { getSolarStaticData } from "../Utils";
 import { CategoryNames, CSSCategoryMap, TypeCategoryMap } from "./Categories";
 import { getCategories, getSolarItemsInfo } from "./CraftManager";
-import { getA, getClassificationRanges } from "./QueryManager";
+import { getClassificationRanges } from "./QueryManager";
 
 const staticURL = "/assets/data/";
 const baseURL = "/assets/data/";

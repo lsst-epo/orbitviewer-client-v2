@@ -279,3 +279,18 @@ export async function getHowToUse(lang) {
   return await getDevQuery(query);
 
 }
+
+export async function getJSONDataFiles() {
+  const query = `query getDataFileEntries{
+  mpcDataFilesEntries {
+    ... on mpcDataFiles_Entry {
+      title
+      dataFileUrl
+      dataFileQuality
+    }
+  }
+  }`
+
+  return await getDevQuery(query);
+
+}

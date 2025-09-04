@@ -34,12 +34,22 @@ export function downloadJSON(data, filename, minify = false) {
     URL.revokeObjectURL(url);
 }
 
-// export const STATIC_URL = "https://clients.fil.studio/rubin/tests/data/001/assets/data/";
-// export const STATIC_URL = "./assets/data/";
-export const STATIC_URL = "https://storage.googleapis.com/orbitviewer-data/";
+const dEl = document.documentElement;
 
-export async function getSolarStaticData(weight:string, isV2:boolean=false) {
-    const url = isV2 ? `${STATIC_URL}mpc_orbits-${weight}-v9.json` : `${STATIC_URL}mpcorbs-${weight}.json`;
+const STATIC_URL = {
+  low: dEl.getAttribute('data-low'),
+  medium: dEl.getAttribute('data-medium'),
+  high: dEl.getAttribute('data-high'),
+  ultra: dEl.getAttribute('data-ultra'),
+}
+
+dEl.removeAttribute('data-low');
+dEl.removeAttribute('data-medium');
+dEl.removeAttribute('data-high');
+dEl.removeAttribute('data-ultra');
+
+export async function getSolarStaticData(weight:string) {
+    const url = STATIC_URL[weight];
     const response = await fetch(url);
     return await response.json();
 }

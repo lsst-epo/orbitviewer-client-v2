@@ -19,7 +19,7 @@ async function data() {
     es: await getGlobalsLang(2)
   };
 
-  console.log(data);
+  // console.log(data);
 
   return data;
 }
