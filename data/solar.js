@@ -14,7 +14,7 @@ async function getDataFiles () {
 
 async function data() {
   const data = await getDataFiles();
-  console.log(data);
+  // console.log(data);
 
   return data;
 }
