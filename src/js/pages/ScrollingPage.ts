@@ -58,8 +58,8 @@ export class ScrollingPage extends DefaultPage {
                     const navElement = document.querySelector('.navigation') as HTMLElement;
                     const navHeight = navElement ? navElement.offsetHeight : 0;
                     const targetPosition = target.offsetTop - navHeight;
-                    
-                    window.scrollTo({
+                    // console.log(targetPosition);
+                    document.body.scrollTo({
                         top: targetPosition,
                         behavior: 'smooth'
                     });
