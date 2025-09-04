@@ -81,7 +81,7 @@ async function getDevQuery(query = null) {
  */
 
 export async function getSolarItemsInfo(lang) {
-  const query = `{
+  const query = `query {
   entries(section: "elements", siteId: "${lang}") {
     ... on elements_default_Entry {
       title
@@ -100,7 +100,7 @@ export async function getSolarItemsInfo(lang) {
 }
 
 export async function getCategories(lang) {
-  const query = `{
+  const query = `query {
     categories(group: "objectTypes", siteId: "${lang}") {
       ... on objectTypes_Category {
         title

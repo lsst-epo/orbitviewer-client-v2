@@ -1,9 +1,7 @@
 import { Color } from "three";
-import { USE_V2 } from "../App";
 import { GLOBALS, VISUAL_SETTINGS } from "../Globals";
 import { getSolarStaticData } from "../Utils";
 import { CategoryNames, CSSCategoryMap, TypeCategoryMap } from "./Categories";
-import { getCategories, getSolarItemsInfo } from "./CraftManager";
 import { getClassificationRanges } from "./QueryManager";
 
 const staticURL = "/assets/data/";
@@ -87,7 +85,7 @@ class LoadManagerClass {
 
     private createCategoryColorMap(cnt) {
         const root = document.documentElement;
-        cnt.data.categories.forEach(entry => {
+        cnt.forEach(entry => {
             entry.threeColor = new Color(entry.mainColor);
             root.style.setProperty(`--color-${CSSCategoryMap[parseInt(entry.objectTypeCode)]}`, entry.mainColor);
             // Also replace text
@@ -112,9 +110,9 @@ class LoadManagerClass {
             // console.log(cnt.data);
             if(id === 'categories') {
                 this.createCategoryColorMap(cnt);
-                this.mgr.craftData[id] = cnt.data.categories;
+                this.mgr.craftData[id] = cnt;
             } else {
-               this.mgr.craftData[id] = cnt.data.entries; 
+               this.mgr.craftData[id] = cnt; 
             }
             //@ts-ignore
             // this.mgr.craftData[id] = cnt.data;
@@ -124,22 +122,16 @@ class LoadManagerClass {
             onLoaded();
         }
 
+        const dEl = document.documentElement;
+
         if(id === 'categories') {
-            getCategories().then(cnt => {
-                onL(cnt);
-            }).catch(e => {
-                console.warn('Error');
-                console.log(e);
-                // this.loadCraft(id, onLoaded);
-            });
+            const data = JSON.parse(dEl.getAttribute('data-solar-categories'));
+            // console.log(data);
+            onL(data);
         } else if(id === 'solar_items') {
-            getSolarItemsInfo().then(cnt => {
-                onL(cnt);
-            }).catch(e => {
-                console.warn('Error');
-                console.log(e);
-                // this.loadCraft(id, onLoaded);
-            });
+            const data = JSON.parse(dEl.getAttribute('data-solar-items'));
+            // console.log(data);
+            onL(data);
         }
     }
 
