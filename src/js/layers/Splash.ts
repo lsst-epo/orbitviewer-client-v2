@@ -1,4 +1,6 @@
-import { GLOBALS } from "../core/Globals";
+import { LoadManager } from "../core/data/LoadManager";
+import { GLOBALS, VISUAL_SETTINGS } from "../core/Globals";
+import { getSimDataV2 } from "../core/solar/SolarData";
 import OrbitViewerPage from "../pages/OrbitViewerPage";
 import Layer from "./Layer";
 import gsap from "gsap";
@@ -21,14 +23,22 @@ class Splash extends Layer {
 
     start() {
         this.enter();
-
+        
         this.buttonStart.addEventListener('click', (event) => {
             event.preventDefault();
 
             if (this.orbitViewer.onboarding) {
                 GLOBALS.loader.show(true);
-                this.orbitViewer.appRef?.startTest();
-                this.orbitViewer.onboarding?.open();
+                const profile = localStorage.getItem('rubin-data-profile');
+                if(!profile) {
+                    this.orbitViewer.appRef?.startTest();
+                    this.orbitViewer.onboarding?.open();
+                } else {
+                    // load profile
+                    GLOBALS.loader.hide();
+                    this.orbitViewer.showUI();
+                    GLOBALS.viewer.goToOrbitViewerMode(true);
+                }
                 this.close();
             }
         });

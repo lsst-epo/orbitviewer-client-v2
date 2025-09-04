@@ -167,7 +167,12 @@ export class App implements NomadRouteListener {
 
 		// this.addGUI();
 		const t = Date.now();
+		// --- avoid ocasional double onloaded ----
+		let alreadyLoaded = false;
 		LoadManager.loadCore(() => {
+			console.log('loaded')
+			if(alreadyLoaded) return;
+			alreadyLoaded = true;
 			this.launch();
 		})
 	}
@@ -237,12 +242,13 @@ export class App implements NomadRouteListener {
 		GLOBALS.loader.hide();
 		GLOBALS.viewer.enter();
 		this.initNomad();
+		GLOBALS.navigation.enter();
 		if(this.currentPage.template === 'orbitviewerpage') {
 			const page = this.currentPage as OrbitViewerPage;
 			page.appRef = this;
-		} else {
+		} /* else {
 			GLOBALS.navigation.enter();
-		}
+		} */
 
 		// this.viewer.goToLandingMode();
 		/* this.viewer.fadeIn();

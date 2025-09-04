@@ -152,6 +152,11 @@ class LoadManagerClass {
         this.loadCraft('categories', onL);
         this.loadCraft('solar_items', onL);
 
+        const profile = localStorage.getItem('rubin-data-profile');
+        if(profile) {
+            console.log('Setting saved Exploration Mode to', profile);
+            VISUAL_SETTINGS.current = profile;
+        }
         this.loadSample(VISUAL_SETTINGS.current, onL);
 
         getClassificationRanges().then(json => {

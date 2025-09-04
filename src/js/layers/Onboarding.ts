@@ -61,6 +61,7 @@ class Onboarding extends Layer {
 
                 const id = el.getAttribute('data-id');
                 // console.log(id);
+                localStorage.setItem('rubin-data-profile', id);
 
                 if(id !== VISUAL_SETTINGS.current) {
                     // Load Data
@@ -68,7 +69,7 @@ class Onboarding extends Layer {
                     GLOBALS.loader.show();
                     VISUAL_SETTINGS.current = id;
                     LoadManager.loadSample(id, (json) => {
-                        const data = USE_V2 ? getSimDataV2(LoadManager.data.sample) : getSimData(LoadManager.data.sample);;
+                        const data = getSimDataV2(LoadManager.data.sample);
                         GLOBALS.viewer.setData(data);
                         GLOBALS.loader.hide();
                         GLOBALS.viewer.adjustQualitySettings();
