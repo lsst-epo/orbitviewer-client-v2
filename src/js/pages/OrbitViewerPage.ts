@@ -14,6 +14,7 @@ import Toast from "../layers/Toast";
 import { parseURL } from "../core/Utils";
 import { isMobile } from "@fils/utils";
 import { App } from "../core/App";
+import { PerformanceWarning } from "../components/PerformanceModal";
 
 const SKIP_ONBOARDING = false;
 
@@ -33,6 +34,8 @@ class OrbitViewerPage extends DefaultPage {
 	isLanding:boolean = true;
 
 	appRef:App = null;
+
+	performanceWarning:PerformanceWarning;
     
   constructor(id: string, template: string, dom: HTMLElement) {
     super(id, template, dom)
@@ -52,6 +55,9 @@ class OrbitViewerPage extends DefaultPage {
 			// timeMachine: document.querySelector('.timemachine'),
 			// mapControls: document.querySelector('.map_controls')
 		};
+
+		this.performanceWarning = new PerformanceWarning(this.dom.querySelector('.modal'));
+		// this.performanceWarning.show();
 
 		this.splash = this.elements.splash ? new Splash(this.elements.splash, this) : null;
 		this.onboarding = this.elements.onboarding ? new Onboarding(this.elements.onboarding, this) : null;		

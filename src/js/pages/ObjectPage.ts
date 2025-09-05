@@ -18,6 +18,8 @@ export class ObjectPage extends DefaultPage {
     section:HTMLElement;
 
     isSolarItem:boolean;
+
+    _onKeydown;
     
     constructor(id: string, template: string, dom: HTMLElement) {
         super(id, template, dom);
@@ -129,11 +131,20 @@ export class ObjectPage extends DefaultPage {
             // console.log(GLOBALS.objectToggle.selectedIndex);
         }
 
+        this._onKeydown = this.onKeyDown.bind(this);
+        window.addEventListener('keydown', this._onKeydown);
+
         super.create();
     }
     
     onResize(): void {
         OBJECT_FRAME.rect = OBJECT_FRAME.element.getBoundingClientRect();
+    }
+
+    onKeyDown(e:KeyboardEvent) {
+        if(e.key === 'Escape') {
+            GLOBALS.nomad.goToPath(`/${GLOBALS.lang}`);
+        }
     }
 
     transitionIn(resolve: any): Promise<void> {
@@ -319,5 +330,6 @@ export class ObjectPage extends DefaultPage {
         // console.log('DISPOSE');
         super.dispose();
         // GLOBALS.objectToggle.callback = null;
+        window.removeEventListener('keydown', this._onKeydown);
     }
 }
