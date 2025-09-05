@@ -96,6 +96,7 @@ export class App implements NomadRouteListener {
 
 		const shareDom = document.querySelector('.share');
 		this.share = shareDom ? new Share(shareDom) : null;
+		GLOBALS.share = this.share;
 
 		// this.profiler = new PerformanceProfiler(this.viewer);
 		this.start();
@@ -133,6 +134,7 @@ export class App implements NomadRouteListener {
 		this.currentPage = route.page as DefaultPage;
 		GLOBALS.firstPage = false;
 		GLOBALS.currentPage = this.currentPage;
+		this.share.screenCapture = this.currentPage.template === 'orbitviewerpage'
 	}
 
 	start() {

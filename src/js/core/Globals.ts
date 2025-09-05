@@ -13,6 +13,7 @@ import { Loader } from "../layers/Loader";
 import ToggleGroup from "../components/ToggleGroup";
 import Navigation from "../layers/Navigation";
 import { DefaultPage } from "../pages/DefaultPage";
+import Share from "../layers/Share";
 
 /**
  * DEV_MODE is injected by esbuild
@@ -102,6 +103,7 @@ export interface Globals {
 	navigation:Navigation;
 	urlParams:Function;
 	currentPage: DefaultPage;
+	share:Share;
 }
 
 export const GLOBALS:Globals = {
@@ -120,6 +122,7 @@ export const GLOBALS:Globals = {
 	loader: null,
 	navigation: null,
 	currentPage: null,
+	share: null,
 	getViewport: () => {
 		return getComputedStyle(document.documentElement).getPropertyValue('--viewport');
 	},

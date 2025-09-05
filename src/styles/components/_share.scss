@@ -57,6 +57,12 @@
             display: flex;
             flex-direction: column;
             gap: 16px;
+
+            .tab_list {
+                a[aria-hidden=true] {
+                    display: none;
+                }
+            }
             
             [role=tabpanel] {
                 display: flex;

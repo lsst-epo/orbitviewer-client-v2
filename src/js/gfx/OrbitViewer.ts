@@ -205,6 +205,8 @@ export class OrbitViewer extends ThreeLayer {
 
 			this.solarItemsUI.show(null);
 
+			GLOBALS.share.screenCapture = true;
+
 			for(const el of this.solarElements) {
 				el.selected = false;
 				el.mode = Mode.ORBIT;

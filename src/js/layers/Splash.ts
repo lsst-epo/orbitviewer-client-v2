@@ -34,7 +34,6 @@ class Splash extends Layer {
                     this.orbitViewer.appRef?.startTest();
                     this.orbitViewer.onboarding?.open();
                 } else {
-                    // load profile
                     GLOBALS.loader.hide();
                     this.orbitViewer.showUI();
                     GLOBALS.viewer.goToOrbitViewerMode(true);

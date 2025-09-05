@@ -82,6 +82,20 @@ class Share extends Layer {
         this.start();
     }
 
+    set screenCapture(value:boolean) {
+        const a = this.dom.querySelector('.tab_list').querySelectorAll('a');
+        a[1].setAttribute('aria-hidden', `${!value}`);
+
+        if(!value) {
+            this.dom.querySelector("#link").setAttribute('aria-hidden', 'false');
+            this.dom.querySelector("#link").setAttribute('aria-selected', 'true');
+            this.dom.querySelector("#screen_capture").setAttribute('aria-hidden', 'true');
+            this.dom.querySelector("#screen_capture").setAttribute('aria-selected', 'false');
+            a[0].setAttribute('aria-selected', 'true');
+            a[1].setAttribute('aria-selected', 'false');
+        }
+    }
+
     start() {
 		this.triggerButton.addEventListener('click', (e) => {
 			e.preventDefault();
