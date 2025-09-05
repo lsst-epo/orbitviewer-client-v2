@@ -5,7 +5,7 @@
 {% from "../components/togglegroup.njk" import ToggleGroup %}
 
 <!DOCTYPE html>
-<html lang="{{lang}}" data-low="{{solar.low}}" data-medium="{{solar.medium}}" data-high="{{solar.high}}" data-ultra="{{solar.ultra}}" data-solar-items="{{solar_items[lang]}}" data-solar-categories="{{categories[lang]}}">
+<html lang="{{lang}}" data-low="{{solar.low}}" data-medium="{{solar.medium}}" data-high="{{solar.high}}" data-ultra="{{solar.ultra}}" data-solar-items="{{objects[lang].string}}" data-solar-categories="{{categories[lang]}}">
 	{% include 'head.njk' %}
 
 	<body class="{{ pageTemplate }}_template">

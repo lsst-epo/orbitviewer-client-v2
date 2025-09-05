@@ -3,16 +3,50 @@ import { excerpt, getCategories, getSolarItemsInfo, slugify } from './craft.js';
 
 const planetIds = [];
 
-async function data() {
+async function getSolarItems(lang) {
   const data = [];
+  const src = await getSolarItemsInfo(lang);
+  const slugs = [];
 
-  const cat = await getCategories('1');
+  const cat = await getCategories(lang);
   const categories = cat.data.categories;
-  // console.log(categories);
 
-  const solarItems = await getSolarItemsInfo('1');
-  // console.log(solarItems.data.entries);
-  const items = solarItems.data.entries;
+  for(const item of src.data.entries) {
+    // console.log(item.elementID);
+    const id = item.elementID;
+    if(!id) continue;
+    let slug = slugify(id);
+    let i = 2;
+    while(slugs.indexOf(slug) > -1) {
+      slug = `${slugify(id)}-${i++}`;
+    }
+    slugs.push(slug);
+    item.slug = slug;
+
+    const cat = item.elementCategory && item.elementCategory.length ? item.elementCategory[0].slug : "";
+    item.og = planetIds.indexOf(id) > -1 ? `${id}.webp` : 'default.webp';
+    if(id === 'Sol') item.og = 'sun.webp';
+
+    item.description = item.text ? excerpt(item.text) : ""
+    item.text = item.text || "";
+    item.id = id;
+
+    item.category = {};
+    for(const c of categories) {
+      if(c.slug === cat) {
+        item.category.slug = c.slug;
+        item.category.title = c.title;
+      }
+    }
+    
+    data.push(item);
+  }
+
+  return data;
+}
+
+async function data() {
+  const data = {};
 
   const planets = JSON.parse(readFileSync("./src/assets/data/planet_elems.json", "utf-8"));
   // console.log(planets);
@@ -21,34 +55,17 @@ async function data() {
     planetIds.push(p.id);
   }
 
-  // attach data
-  for(const i of items) {
-    const id = i.elementID;
-    const cat = i.elementCategory && i.elementCategory.length ? i.elementCategory[0].slug : "";
-    const item = {
-      slug: slugify(id),
-      id,
-      og: planetIds.indexOf(id) > -1 ? `${id}.webp` : 'default.webp',
-      title: i.title,
-      description: i.text ? excerpt(i.text) : "",
-      text: i.text || "",
-      category: {
-        slug: '',
-        title: ''
-      }
-    }
+  const en = await getSolarItems(1);
+  const es = await getSolarItems(2);
 
-    if(i.elementID === 'Sol') item.og = 'sun.webp'
+  data.en = {
+    string: JSON.stringify(en),
+    data: en
+  }
 
-    // if(cat === '') continue;
-
-    for(const c of categories) {
-      if(c.slug === cat) {
-        item.category.slug = c.slug;
-        item.category.title = c.title;
-      }
-    }
-    data.push(item);
+  data.es = {
+    string: JSON.stringify(es),
+    data: es
   }
 
   // console.log(data);
