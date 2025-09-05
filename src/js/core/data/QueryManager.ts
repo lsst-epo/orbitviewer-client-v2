@@ -1,6 +1,8 @@
 import { HASURA_URL, VISUAL_SETTINGS } from "../Globals";
 
-const SECRET_KEY = '_qfq_tMbyR4brJ@KHCzuJRU7';
+//@ts-ignore
+const SECRET_KEY = HASURA_SECRET_KEY;
+// console.log(SECRET_KEY);
 
 // Filters fetch
 export async function getSolarSystemElements() {

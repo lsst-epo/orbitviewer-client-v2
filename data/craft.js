@@ -86,7 +86,10 @@ export async function getSolarItemsInfo(lang) {
     ... on elements_default_Entry {
       title
       elementID
-      text
+      textBody {
+        html
+        plainText
+      }
       elementDiameter
       elementCategory {
         slug

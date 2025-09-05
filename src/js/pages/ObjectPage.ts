@@ -237,7 +237,7 @@ export class ObjectPage extends DefaultPage {
         // Set Contents
 
         const text = this.dom.querySelector('.object_card-description');
-        text.innerHTML = "";
+        // text.innerHTML = "";
 
         const d = diameter;
         const dm = d / 1.609;
@@ -305,6 +305,9 @@ export class ObjectPage extends DefaultPage {
 
         const catID = data.category;
         // console.log(catID);
+
+        const description = this.dom.querySelector('.object_card-description');
+        description.innerHTML = cnt.text;
 
         this.revealCategoryChip(catID);
         this.fillData(data, catID, cnt.elementDiameter);

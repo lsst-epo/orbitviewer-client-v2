@@ -11,6 +11,11 @@ async function getSolarItems(lang) {
   const cat = await getCategories(lang);
   const categories = cat.data.categories;
 
+  if(!src.data) {
+    console.log(src);
+    return [];
+  }
+
   for(const item of src.data.entries) {
     // console.log(item.elementID);
     const id = item.elementID;
@@ -27,8 +32,10 @@ async function getSolarItems(lang) {
     item.og = planetIds.indexOf(id) > -1 ? `${id}.webp` : 'default.webp';
     if(id === 'Sol') item.og = 'sun.webp';
 
-    item.description = item.text ? excerpt(item.text) : ""
-    item.text = item.text || "";
+    // console.log(item.textBody);
+
+    item.description = item.textBody ? excerpt(item.textBody.plainText) : ""
+    item.text = item.textBody ? item.textBody.html : "";
     item.id = id;
 
     item.category = {};
