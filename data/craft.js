@@ -6,9 +6,7 @@ const dev_url = 'https://api-dev.orbitviewer.dev';
 
 configDotenv();
 
-// console.log(process.env.SECURITY_KEY);
-
-async function getQuery(query = null) {
+async function getQuery(query = null, isDev = false) {
 
   if(query === null){
     throw new Error();
@@ -19,45 +17,11 @@ async function getQuery(query = null) {
 
   try {
     // initiate fetch
-    const queryFetch = await fetch(`${url}/api`, {
+    const queryFetch = await fetch(`${isDev ? dev_url : url}/api`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Accept: "application/json",
-        // Authorization: `Bearer ${PROD_TOKEN}`,
-      },
-      body: JSON.stringify({
-        query,
-      }),
-    });
-
-    // store the JSON response when promise resolves
-    content = await queryFetch.json();
-
-  } catch (error) {
-    throw new Error(error);
-  }
-  
-  return content;
-}
-
-async function getDevQuery(query = null) {
-
-  if(query === null){
-    throw new Error();
-  }
-
-  // content array
-  let content = [];
-
-  try {
-    // initiate fetch
-    const queryFetch = await fetch(`${dev_url}/api`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        // Authorization: `Bearer ${process.env.SECURITY_KEY}`,
+        Accept: "application/json"
       },
       body: JSON.stringify({
         query,
@@ -249,7 +213,7 @@ export async function getAbout(lang) {
     }
   }`;
 
-  return await getDevQuery(query);
+  return await getQuery(query, true);
 
 }
 
@@ -279,7 +243,7 @@ export async function getHowToUse(lang) {
     }
   }`;
 
-  return await getDevQuery(query);
+  return await getQuery(query, true);
 
 }
 
@@ -294,6 +258,6 @@ export async function getJSONDataFiles() {
   }
   }`
 
-  return await getDevQuery(query);
+  return await getQuery(query, true);
 
 }
