@@ -36,6 +36,12 @@ class OrbitViewerPage extends DefaultPage {
 	appRef:App = null;
 
 	performanceWarning:PerformanceWarning;
+
+	perfTest = {
+		running: false,
+		done: false,
+		dt: []
+	}
     
   constructor(id: string, template: string, dom: HTMLElement) {
     super(id, template, dom)
@@ -56,7 +62,12 @@ class OrbitViewerPage extends DefaultPage {
 			// mapControls: document.querySelector('.map_controls')
 		};
 
-		this.performanceWarning = new PerformanceWarning(this.dom.querySelector('.modal'));
+		this.performanceWarning = new PerformanceWarning(this.dom.querySelector('.modal'), (done:boolean) => {
+			if(done) {
+				this.perfTest.done = true;
+				GLOBALS.performanceTestDone = true;
+			}
+		});
 		// this.performanceWarning.show();
 
 		this.splash = this.elements.splash ? new Splash(this.elements.splash, this) : null;
@@ -102,6 +113,8 @@ class OrbitViewerPage extends DefaultPage {
 			this.isLanding = false;
 		}
 
+		// console.log('create', this.isLanding);
+
 		GLOBALS.objectToggle.hide();
 
 		super.create();
@@ -142,6 +155,7 @@ class OrbitViewerPage extends DefaultPage {
 	}
 
 	showUI() {
+		this.isLanding = false;
 		GLOBALS.mapCtrls.open();
 		GLOBALS.timeCtrls.open();
 		GLOBALS.navigation.enter();
@@ -170,6 +184,8 @@ class OrbitViewerPage extends DefaultPage {
 	}
 
 	update() {
+		if(this.isLanding) return;
+
 		// TOAST
 		if (this.toast && GLOBALS.solarClock) {
 			const { isInEdge } = GLOBALS.solarClock;
@@ -178,6 +194,29 @@ class OrbitViewerPage extends DefaultPage {
 			else if (!isVisible && isInEdge) this.toast.open();
 		}
 		// END TOAST
+
+		// PERFORMANCE TEST
+		if(GLOBALS.performanceTestDone) return;
+		if(this.performanceWarning.visible) return;
+		const pt = this.perfTest;
+		if(!pt.running && !pt.done) {
+			pt.running = true;
+		}
+		if(!pt.running) return;
+		const dt = GLOBALS.clock.currentDelta;
+		pt.dt.push(dt);
+		if(pt.dt.length >= 600) {
+			let d = 0;
+			for(let i=0; i<pt.dt.length; i++) {
+				d += pt.dt[i] / pt.dt.length;
+			}
+			if( d > 1 / 25) {
+				// OUCH!
+				this.performanceWarning.show();
+			}
+
+			pt.dt.splice(0, pt.dt.length);
+		}
 	}
 
 	toggleLayer(targetLayer: string) {

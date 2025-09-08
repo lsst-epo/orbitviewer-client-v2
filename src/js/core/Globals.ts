@@ -104,6 +104,7 @@ export interface Globals {
 	urlParams:Function;
 	currentPage: DefaultPage;
 	share:Share;
+	performanceTestDone:boolean;
 }
 
 export const GLOBALS:Globals = {
@@ -123,6 +124,7 @@ export const GLOBALS:Globals = {
 	navigation: null,
 	currentPage: null,
 	share: null,
+	performanceTestDone: false,
 	getViewport: () => {
 		return getComputedStyle(document.documentElement).getPropertyValue('--viewport');
 	},

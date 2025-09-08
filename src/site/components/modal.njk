@@ -4,13 +4,13 @@
 <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-description" aria-hidden="true">
     <div class="modal_dialog">
         <div class="modal_dialog-body">
-            {# {% if copy.modal.title[lang] %} #}
+            {% if copy.modal.title[lang] %}
             <h2 class="title" id="modal-title">{{ copy.modal.title[lang] }}</h2>
-            {# {% endif %} #}
+            {% endif %}
 
-            {# {% if copy.modal.description[lang] %} #}
+            {% if copy.modal.description[lang] %}
             <h3 class="description" id="modal-description">{{ copy.modal.description[lang] }}</h3>
-            {# {% endif %} #}
+            {% endif %}
         </div>
 
         <div class="modal_dialog-foot">
