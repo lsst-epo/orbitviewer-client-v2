@@ -7,7 +7,7 @@ import { mapOrbitElementsV2, OrbitDataElementsV2 } from "../core/solar/SolarUtil
 import { SolarElement } from "../gfx/solar/SolarElement";
 import Layer from "./Layer";
 
-const USE_WORKER = false;
+const USE_WORKER = true;
 
 class Search extends Layer {
     dom: HTMLElement;
@@ -19,6 +19,8 @@ class Search extends Layer {
     recommendedAll:NodeListOf<HTMLUListElement>;
     alert:HTMLElement;
     errorMessage:string;
+
+    protected tid;
 
     notSearching:boolean = false;
     
@@ -56,14 +58,25 @@ class Search extends Layer {
             for(let i=0; i<Math.min(100, items.length); i++) {
                 this.addItemToList(items[i]);
             }
+
+            this.sInput.disabled = false;
         }
+    }
+
+    protected async query(query:string) {
+        const res = SearchEngine.searchWorker(query).then(res => {
+            // this.sInput.disabled = false;
+            console.log(res);
+        }).catch(error => {});
     }
 
     open(): Promise<void> {
         this.hideNotFound();
         this.updateRecommended();
         this.showRecommended();
+        this.notSearching = true;
         return super.open().then(r => {
+            this.sInput.disabled = false;
             this.sInput.focus();
             this.sInput.oninput = () => {
                 // console.log(this.sInput.value);
@@ -73,8 +86,14 @@ class Search extends Layer {
                     return;
                 };
                 this.hideRecommended();
-                const items = SearchEngine.search(this.sInput.value, USE_WORKER);
-                if(!USE_WORKER) {
+                clearTimeout(this.tid);
+                this.tid = setTimeout(() => {
+                    this.sInput.disabled = true;
+                    // this.query(this.sInput.value);
+                    SearchEngine.search(this.sInput.value, true);
+                }, 500);
+                // const items = SearchEngine.search(this.sInput.value, USE_WORKER);
+                /* if(!USE_WORKER) {
                     if(!items.length) {
                         this.showNotFound(this.sInput.value);
                         return;
@@ -86,7 +105,7 @@ class Search extends Layer {
                 } else {
                     this.notSearching = false;
                     this.hideNotFound();
-                }
+                } */
             }
         })
     }
@@ -164,7 +183,7 @@ class Search extends Layer {
         const name = addDes ? `${el.title} (${sel.data.fulldesignation})` : el.title;
         node.querySelector("span.name").textContent = name;
         // console.log(sel.category);
-        node.querySelector("span.value").textContent = `${this.getCategoryName(sel.category as SolarCategory)}`;
+        node.querySelector("span.object_type").textContent = `${this.getCategoryName(sel.category as SolarCategory)}`;
         const a = node.querySelector('a');
         a.href = "javascript:void(0);";
         a.onclick = () => {
@@ -174,7 +193,7 @@ class Search extends Layer {
 
     private mapNodeDataWithOE(node:HTMLElement, mel:OrbitDataElementsV2) {
         node.querySelector("span.name").textContent = `${mel.fulldesignation}`;
-        node.querySelector("span.value").textContent = `${this.getCategoryName(TypeCategoryMap[mel.object_type[0]])}`;
+        node.querySelector("span.object_type").textContent = `${this.getCategoryName(TypeCategoryMap[mel.object_type[0]])}`;
         const a = node.querySelector('a');
         a.href = "javascript:void(0);";
         a.onclick = () => {

@@ -47,18 +47,49 @@ class SEngine {
             const q = query.toLowerCase();
             const data = LoadManager.data;
 
-            if(!items.length) {
+            /* if(!items.length) {
                 put_items(data.planets);
                 put_items(data.dwarf_planets);
                 put_items(SolarItemsSamples);
                 put_items(data.sample);
-            }
+            } */
 
             SearchWorker.postMessage({
                 query,
-                items
+                items: [data.planets, data.dwarf_planets, SolarItemsSamples, data.sample]
             })
         }
+    }
+
+    searchWorker(query:string) {
+        return new Promise((resolve, reject) => {
+          const worker = SearchWorker;
+
+          const q = query.toLowerCase();
+          const data = LoadManager.data;
+
+          if(!items.length) {
+              put_items(data.planets);
+              put_items(data.dwarf_planets);
+              put_items(SolarItemsSamples);
+              put_items(data.sample);
+          }
+
+          worker.postMessage({
+                query: q,
+                items
+            });
+
+          worker.onmessage = (e) => {
+            resolve(e.data);
+            worker.terminate();
+          };
+
+          worker.onerror = (error) => {
+            reject(error);
+            worker.terminate();
+          };
+        });
     }
 
     private searchInArray(prompt:string, arr:OrbitDataElements[], found:OrbitDataElements[]) {
