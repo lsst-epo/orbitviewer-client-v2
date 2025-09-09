@@ -70,7 +70,7 @@ eleventyComputed:
         <div class="invite">
           {{ content.observatoryBody.html | safe }}
         </div>
-        <h2 class="title">NSF-DOE Rubin Observatory</h2>
+        <h2 class="title">{{ copy.about.observatory_title[lang] }}</h2>
         <div class="bg">
           <div class="img_wrap">
               <picture>
@@ -96,7 +96,7 @@ eleventyComputed:
 
   <section class="about-section about_credits">
     <div class="about_credits-content">
-      <h2 class="title">Credits</h2>
+      <h2 class="title">{{ copy.about.credits[lang] }}</h2>
       <div class="credits">
         {# <p>Orbitviewer is a product of the NSF–DOE Vera C. Rubin Observatory Education and Public Outreach team. Orbitviewer showcases data made possible by the work of over a thousand people who designed, built, and now operate Rubin Observatory—bringing the wonders of the cosmos to you.</p>
         <p><a href="https://fil.studio/" fil-nomad-ignore>Fil Studio</a> is a digital studio based in Barcelona, Spain, specialized in crafting tailored interactive experiences. As digital tailors, they merge design and development to shape unique and meaningful projects. The project was led by Edu Prats as director and developer, with Jordi Colomer as UX/UI designer and front-end developer, Christian MacMillan for Front-End dev support, and Yolanda Moliner managing the studio and overseeing coordination.</p> #}

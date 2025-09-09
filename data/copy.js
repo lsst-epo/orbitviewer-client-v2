@@ -654,5 +654,15 @@ export default {
                 "es": "Notificación de fecha máxima"
             }
         }
+    },
+    "about": {
+        "observatory_title": {
+            "en": "NSF-DOE Rubin Observatory",
+            "es": "NSF-DOE Rubin Observatory"
+        },
+        "credits": {
+            "en": "Credits",
+            "es": "Credits"
+        }
     }
 }
