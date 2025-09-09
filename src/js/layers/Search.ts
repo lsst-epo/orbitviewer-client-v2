@@ -184,7 +184,10 @@ class Search extends Layer {
         const name = addDes ? `${el.title} (${sel.data.fulldesignation})` : el.title;
         node.querySelector("span.name").textContent = name;
         // console.log(sel.category);
-        node.querySelector("span.object_type").textContent = `${this.getCategoryName(sel.category as SolarCategory)}`;
+        const catSlug = sel.category as SolarCategory;
+        const cat = node.querySelector("span.object_type");
+        cat.textContent = `${this.getCategoryName(catSlug)}`;
+        cat.classList.add(catSlug);
         const a = node.querySelector('a');
         a.href = "javascript:void(0);";
         a.onclick = () => {
@@ -194,7 +197,10 @@ class Search extends Layer {
 
     private mapNodeDataWithOE(node:HTMLElement, mel:OrbitDataElementsV2) {
         node.querySelector("span.name").textContent = `${mel.fulldesignation}`;
-        node.querySelector("span.object_type").textContent = `${this.getCategoryName(TypeCategoryMap[mel.object_type[0]])}`;
+        const catSlug = TypeCategoryMap[mel.object_type[0]];
+        const cat = node.querySelector("span.object_type");
+        cat.textContent = `${this.getCategoryName(catSlug)}`;
+        cat.classList.add(catSlug);
         const a = node.querySelector('a');
         a.href = "javascript:void(0);";
         a.onclick = () => {
@@ -205,6 +211,7 @@ class Search extends Layer {
     addItemToList(item:OrbitElements|OrbitDataElementsV2) {
         const node = this.recommended[0].cloneNode(true) as HTMLElement;
         node.setAttribute('priority', '2');
+        node.querySelector("span.object_type").className = "chip object_type";
         if(item.id) {
             // we have a planet
             const planet = item as OrbitElements;

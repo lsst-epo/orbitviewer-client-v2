@@ -47,15 +47,8 @@ class SEngine {
             const q = query.toLowerCase();
             const data = LoadManager.data;
 
-            /* if(!items.length) {
-                put_items(data.planets);
-                put_items(data.dwarf_planets);
-                put_items(SolarItemsSamples);
-                put_items(data.sample);
-            } */
-
             SearchWorker.postMessage({
-                query,
+                query: q,
                 items: [data.planets, data.dwarf_planets, SolarItemsSamples, data.sample]
             })
         }
