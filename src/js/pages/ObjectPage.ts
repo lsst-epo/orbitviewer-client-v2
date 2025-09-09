@@ -10,6 +10,7 @@ import { MathUtils } from "@fils/math";
 import { OrbitElements, SolarCategory } from "../core/solar/SolarSystem";
 import TooltipDialog from "../components/TooltipDialog";
 import { OBJECT_FRAME } from "../gfx/core/CameraManager";
+import { RangeItem } from "@fils/ui";
 
 export class ObjectPage extends DefaultPage {
     infoButtons: NodeListOf<Element>;
@@ -194,13 +195,17 @@ export class ObjectPage extends DefaultPage {
         tooltip.textContent = `${data[prop].toFixed(3)}`
     }
 
-    private mapSliderWithValue(slider:HTMLElement, catID:SolarCategory, prop:string, value:number) {
-        const ranges = CategoryFilters;
-        const rangeA = ranges[prop][catID];
-        slider.style.width = `${MathUtils.smoothstep(rangeA.min, rangeA.max, value)*100}%`;
+    private mapSliderWithValue(slider:HTMLElement, range:RangeItem, value:number) {
+        slider.style.width = `${MathUtils.smoothstep(range.min, range.max, value)*100}%`;
 
         const tooltip = slider.querySelector('.tooltip');
         tooltip.textContent = `${value.toFixed(3)}`
+    }
+
+    private mapPropSliderWithValue(slider:HTMLElement, catID:SolarCategory, prop:string, value:number) {
+        const ranges = CategoryFilters;
+        const range = ranges[prop][catID];
+        this.mapSliderWithValue(slider, range, value);
     }
 
     private revealCategoryChip(catID:SolarCategory) {
@@ -284,15 +289,16 @@ export class ObjectPage extends DefaultPage {
         // How far from the sun?
         const fS = getDistanceFromSunNow(data);
         const sliderFarSun = this.dom.querySelector('#sliderFarSun') as HTMLElement;
-        this.mapSliderWithValue(sliderFarSun, catID, 'a', fS);
+        this.mapPropSliderWithValue(sliderFarSun, catID, 'a', fS);
         this.dom.querySelector('p[aria-describedby="graph-sliderFarSun"]').textContent = `${fS.toFixed(2)}au`;
 
         // How far from Earth?
-        /* const dEn = getDistanceFromEarthNow(data);
-        this.dom.querySelector('p[aria-describedby="graph-from-the-earth"]').textContent = `${dEn.toFixed(2)}au`;
+        const dEn = getDistanceFromEarthNow(data);
+        this.dom.querySelector('p[aria-describedby="graph-sliderFarEarth"]').textContent = `${dEn.toFixed(2)}au`;
         const sliderFarEarth = this.dom.querySelector('#sliderFarEarth') as HTMLElement;
         const map = DistanceFromEarth[catID];
-        sliderFarEarth.style.width = `${MathUtils.smoothstep(map.min, map.max, dEn)*100}%`; */
+        this.mapSliderWithValue(sliderFarEarth, map as RangeItem, dEn);
+        sliderFarEarth.style.width = `${MathUtils.smoothstep(map.min, map.max, dEn)*100}%`;
     }
 
     fillWithContent(cnt, data) {
