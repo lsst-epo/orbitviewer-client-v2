@@ -1,6 +1,5 @@
 import { configDotenv } from "dotenv";
 
-const PROD_TOKEN = "Ma3vUfBJiY3XXmjerRcBQo5PpE3A0jxU";
 const url = 'https://orbitviewer-api-dot-skyviewer.uw.r.appspot.com';
 const dev_url = 'https://api-dev.orbitviewer.dev';
 
