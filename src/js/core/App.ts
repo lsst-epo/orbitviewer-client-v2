@@ -56,6 +56,7 @@ export class App implements NomadRouteListener {
 	currentPage: DefaultPage;
 	navigation: Navigation;
 	share: Share;
+	forceRender:boolean = false;
 	// orbitViewerPage: OrbitViewerPage;
 
 	constructor() {
@@ -260,6 +261,21 @@ export class App implements NomadRouteListener {
 			duration: 5,
 			ease: 'expo.inOut'
 		}) */
+
+		window.addEventListener('blur', e => {
+			this.forceRender = true;
+			this.clock.pause();
+		});
+
+		window.addEventListener('focus', e => {
+			this.clock.resume();
+		});
+
+		window.addEventListener('resize', e => {
+			setTimeout(()=> {
+				this.forceRender = true;
+			}, 200);
+		})
 	}
 	
 
@@ -273,6 +289,8 @@ export class App implements NomadRouteListener {
   }
 
 	update() {
+		if(this.clock.paused && !this.forceRender) return;
+
 		this.clock.tick();
 		const t = this.clock.currentTime;
 
@@ -315,5 +333,7 @@ export class App implements NomadRouteListener {
 
 		GLOBALS.timeCtrls.update();
 		this.currentPage?.update();
+
+		this.forceRender = false;
 	}
 }

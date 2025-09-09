@@ -406,11 +406,11 @@ export default {
         },
         "not_found_local": {
             "en": "\"{{query}}\" not found in your local catalog. Try searching our cloud database.",
-            "es": "\"{{solicitud}}\" no encontrada en tu catálogo local. Intenta buscando en nuestra base de datos de la nube"
+            "es": "\"{{query}}\" no encontrada en tu catálogo local. Intenta buscando en nuestra base de datos de la nube"
         },
         "not_found": {
             "en": "\"{{query}}\" not found.",
-            "es": "\"{{solicitud}}\" no encontrada"
+            "es": "\"{{query}}\" no encontrada"
         },
         "recommended_searches": {
             "en": "Recommended searches",
@@ -510,7 +510,7 @@ export default {
                     "en": "Planets & Dwarf Planets",
                     "es": "Planetas y planetas enanos",
                 },
-                descripción: {
+                description: {
                     "en": "The eight planets orbit the Sun in mostly circular paths and are either primarily rocky or primarily gaseous. Inner planets (like Earth and Mars) are solid and small, while outer planets (like Jupiter and Neptune) are large and gaseous or icy.",
                     "es": "Los ocho planetas orbitan alrededor del Sol en trayectorias principalmente circulares y son en su mayoría rocosos o gaseosos. Los planetas interiores (como la Tierra y Marte) son sólidos y pequeños, mientras que los planetas exteriores (como Júpiter y Neptuno) son grandes y gaseosos o helados"
                 },

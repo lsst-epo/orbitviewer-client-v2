@@ -96,7 +96,7 @@ class LoadManagerClass {
             // console.log(entry);
         })
 
-        console.log(CategoryNames[GLOBALS.lang])
+        // console.log(CategoryNames[GLOBALS.lang])
     }
 
     private loadCraft(id:string, onLoaded:Function) {
