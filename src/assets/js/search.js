@@ -11,9 +11,9 @@ self.addEventListener('message', async event => {
   }
 
   // create unique sample
-  for(const arr of src) {
+  /* for(const arr of src) {
     put_items(arr);
-  }
+  } */
 
   const searchInArray = (prompt, arr, found) => {
       for (let i = 0, len = arr.length; i < len; i++) {
@@ -25,7 +25,10 @@ self.addEventListener('message', async event => {
       }
   }
   
-  searchInArray(q, sample, items);
+  // searchInArray(q, sample, items);
+  for(const arr of src) {
+    searchInArray(q, arr, items);
+  }
 
 	// Send the image data to the UI thread!
 	self.postMessage({
