@@ -49,7 +49,8 @@ class Search extends Layer {
 
         SearchEngine.searchCallback = items => {
             if(this.notSearching) return;
-            console.log(items);
+            this.sInput.disabled = false;
+            // console.log(items);
             if(!items.length) {
                 this.showNotFound(this.sInput.value);
                 return;
@@ -58,8 +59,6 @@ class Search extends Layer {
             for(let i=0; i<Math.min(100, items.length); i++) {
                 this.addItemToList(items[i]);
             }
-
-            this.sInput.disabled = false;
         }
     }
 
@@ -79,16 +78,18 @@ class Search extends Layer {
             this.sInput.disabled = false;
             this.sInput.focus();
             this.sInput.oninput = () => {
+                clearTimeout(this.tid);
                 // console.log(this.sInput.value);
                 if(!this.sInput.value.length) {
+                    this.hideNotFound();
                     this.showRecommended();
                     this.notSearching = true;
                     return;
                 };
                 this.hideRecommended();
-                clearTimeout(this.tid);
                 this.tid = setTimeout(() => {
                     this.sInput.disabled = true;
+                    this.notSearching = false;
                     // this.query(this.sInput.value);
                     SearchEngine.search(this.sInput.value, true);
                 }, 500);
