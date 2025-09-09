@@ -98,9 +98,14 @@ export default function (eleventyConfig) {
 	eleventyConfig.addPassthroughCopy({"src/assets": "assets"});
 	eleventyConfig.addPassthroughCopy("bundle");
 
-	/* eleventyConfig.addFilter("cssmin", function(code) {
-		return new CleanCSS({}).minify(code).styles;
-	}); */
+	eleventyConfig.addNunjucksFilter("toFixed", function(src) {
+		return parseFloat(src).toFixed(2);
+	});
+
+	eleventyConfig.addNunjucksFilter("toMiles", function(src) {
+		const dm = parseFloat(src) / 1.609;
+		return dm.toFixed(2);
+	});
 
 	return {
 		dir: {

@@ -95,6 +95,8 @@ class LoadManagerClass {
             // console.log(`--color-${CSSCategoryMap[parseInt(entry.objectTypeCode)]}`, entry.mainColor);
             // console.log(entry);
         })
+
+        console.log(CategoryNames[GLOBALS.lang])
     }
 
     private loadCraft(id:string, onLoaded:Function) {

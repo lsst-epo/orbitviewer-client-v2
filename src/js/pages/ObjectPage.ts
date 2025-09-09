@@ -285,7 +285,7 @@ export class ObjectPage extends DefaultPage {
         const fS = getDistanceFromSunNow(data);
         const sliderFarSun = this.dom.querySelector('#sliderFarSun') as HTMLElement;
         this.mapSliderWithValue(sliderFarSun, catID, 'a', fS);
-        this.dom.querySelector('p[aria-describedby="graph-from-the-sun"]').textContent = `${fS.toFixed(2)}au`;
+        this.dom.querySelector('p[aria-describedby="graph-sliderFarSun"]').textContent = `${fS.toFixed(2)}au`;
 
         // How far from Earth?
         /* const dEn = getDistanceFromEarthNow(data);

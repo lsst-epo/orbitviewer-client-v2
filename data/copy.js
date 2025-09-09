@@ -232,7 +232,7 @@ export default {
         },
         "comparison": {
             "en": "This object compared to other %category%",
-            "es": "Este objeto comparado con otra %categoría%"
+            "es": "Este objeto comparado con otra %category%"
         },
         "orbital_elements": {
             "title": {
@@ -297,7 +297,37 @@ export default {
                 "en": "From the Earth",
                 "es": "Desde la Tierra"
             }
-        }
+        },
+        "sun_graph": {
+            "title": {
+                "en": "Average distance from the Sun",
+                "es": "Average distance from the Sun"
+            },
+            "detail": {
+                "en": "Semi-major axis (a)",
+                "es": "Semi-major axis (a)"
+            }
+        },
+        "deviation_graph": {
+            "title": {
+                "en": "Deviation from a circular orbit",
+                "es": "Deviation from a circular orbit"
+            },
+            "detail": {
+                "en": "Eccentricity (e)",
+                "es": "Eccentricity (e)"
+            }
+        },
+        "angle_graph": {
+            "title": {
+                "en": "Angle of orbit",
+                "es": "Angle of orbit"
+            },
+            "detail": {
+                "en": "Inclination (i)",
+                "es": "Inclination (i)"
+            }
+        },
     },
     "onboarding": {
         "title": {
