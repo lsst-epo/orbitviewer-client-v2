@@ -26,15 +26,15 @@
                         </div>
                     </div>
                     
-                    {{ Banner(copy.search.not_found.en, 'alert', 'error') }}
+                    {{ Banner(copy.search.not_found[lang], 'alert', 'error') }}
                     
                     <div class="search_results">
                         <div class="listitem-group" role="group">
                             <h3 class="listitem-label">{{ copy.search.recommended_searches[lang] }}</h3>
                             <ul class="listitem-list">
-                                {% for item in objects %}
+                                {% for item in objects[lang].data %}
                                     {% if item.category.title != '' %}
-                                    <li class="listitem-item" role="menuitem">
+                                    <li item-id="{{item.id}}" item-category-slug="{{item.category.slug}}" class="listitem-item" role="menuitem">
                                         <a href="/{{lang}}/solar-items/{{item.slug}}/" class="listitem-link">
                                             <span class="heading">
                                                 <span class="name">{{ item.title }}</span>

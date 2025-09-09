@@ -15,7 +15,8 @@ class Search extends Layer {
     sInput:HTMLInputElement;
     recommendH:HTMLElement;
     list:HTMLElement;
-    recommended:NodeListOf<HTMLUListElement>;
+    recommended:HTMLUListElement[] = [];
+    recommendedAll:NodeListOf<HTMLUListElement>;
     alert:HTMLElement;
     errorMessage:string;
 
@@ -37,7 +38,7 @@ class Search extends Layer {
 
         this.recommendH = dom.querySelector('h3.listitem-label');
         this.list = dom.querySelector('ul.listitem-list');
-        this.recommended = this.list.querySelectorAll('li.listitem-item');
+        this.recommendedAll = this.list.querySelectorAll('li.listitem-item');
 
         this.alert = dom.querySelector('.banner');
         this.errorMessage = this.alert.textContent;
@@ -59,6 +60,9 @@ class Search extends Layer {
     }
 
     open(): Promise<void> {
+        this.hideNotFound();
+        this.updateRecommended();
+        this.showRecommended();
         return super.open().then(r => {
             this.sInput.focus();
             this.sInput.oninput = () => {
@@ -92,6 +96,26 @@ class Search extends Layer {
             this.sInput.value = "";
             this.showRecommended();
         })
+    }
+
+    updateRecommended() {
+        const sample = LoadManager.data.sample;
+        const len = sample.length;
+        this.recommended = [];
+        this.recommendedAll.forEach(el => {
+            const id = el.getAttribute('item-id');
+            const cat = el.getAttribute('item-category-slug');
+            let found = cat === 'planets-moons';
+            for(let i=0;i<len;i++) {
+                const sel:OrbitDataElementsV2 = sample[i];
+                if(sel.mpcdesignation === id || sel.fulldesignation === id) {
+                    found = true;
+                    break;
+                }
+            }
+
+            if(found) this.recommended.push(el);
+        });
     }
 
     showRecommended() {
