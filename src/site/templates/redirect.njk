@@ -26,6 +26,8 @@
 		}
 
         function redirect() {
+            const saved = localStorage.getItem('rubin-language');
+            if(saved) return saved;
             for(const l of languages) {
                 if(l === shortLang) {
                     return l;

@@ -89,7 +89,11 @@
                             <div class="nav_dropdown_level-body">
                                 <ul class="listitem-list">
                                     <li class="listitem-item" role="menuitem">
-                                        <a href="/en/" class="listitem-link active">
+                                        {% if lang == 'en' %}
+                                        <a href="javascript:changeLang('en')" fil-nomad-ignore class="listitem-link active">
+                                        {% else %}
+                                        <a href="javascript:changeLang('en')" fil-nomad-ignore class="listitem-link">
+                                        {% endif %}
                                             <span class="heading">
                                                 <span class="label">{{ copy.core.languages.english.full }}</span>
                                             </span>
@@ -98,7 +102,11 @@
                                     </li>
 
                                     <li class="listitem-item" role="menuitem">
-                                        <a href="/es/" class="listitem-link">
+                                        {% if lang == 'es' %}
+                                        <a href="javascript:changeLang('es')" fil-nomad-ignore class="listitem-link active">
+                                        {% else %}
+                                        <a href="javascript:changeLang('es')" fil-nomad-ignore class="listitem-link">
+                                        {% endif %}
                                             <span class="heading">
                                                 <span class="label">{{ copy.core.languages.spanish.full }}</span>
                                             </span>
