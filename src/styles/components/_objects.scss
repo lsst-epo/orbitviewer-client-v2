@@ -175,6 +175,7 @@
                         &.trans_neptunian_objects { --color: color-mix(in srgb, var(--color-trans_neptunian) 30%, transparent);}
                         &.interstellar_objects { --color: color-mix(in srgb, var(--color-interstellar) 30%, transparent);}
                         &.trojans { --color: color-mix(in srgb, var(--color-trojans) 30%, transparent);}
+                        &.jupiter-trojans { --color: color-mix(in srgb, var(--color-trojans) 30%, transparent);}
 
                         .name {
                             flex: auto;
