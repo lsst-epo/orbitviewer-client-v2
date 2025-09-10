@@ -463,11 +463,13 @@ export class OrbitViewer extends ThreeLayer {
 
       this.particles.update(d, this.camera);
 
+			if(this.isCapturing) return;
+
 			this.solarItemsUI.update();
 
 			if(!this.earth) return;
 
-			if(this.earth.distanceToCamara < 100) {
+			if(this.earth.distanceToCamara < 200) {
 				GLOBALS.clouds.needsUpdate = true;
 			}
     }
