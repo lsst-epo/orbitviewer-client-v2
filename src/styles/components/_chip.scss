@@ -41,7 +41,7 @@
             centaurs: centaurs,
             trans-neptunian-objects: trans_neptunian,
             interstellar-objects: interstellar,
-            trojans: trojans
+            jupiter-trojans: trojans
         ) {
             &.#{$type} {
             --bg: color-mix(in srgb, var(--color-#{$color}) 20%, transparent);
