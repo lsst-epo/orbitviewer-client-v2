@@ -50,6 +50,7 @@ class Onboarding extends Layer {
         const whenReady = () => {
             this.orbitviewer.showUI();
             GLOBALS.viewer.goToOrbitViewerMode(true);
+            // GLOBALS.viewer.controls.centerView(2, "expo.inOut");
         }
 
         this.updateRecommendedTier();

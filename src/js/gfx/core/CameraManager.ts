@@ -191,6 +191,10 @@ export class CameraManager {
     }
   }
 
+  landingMode() {
+    this.lockedCam.position.set(0, 1500, 4000);
+  }
+
   centerView(duration:number=1, ease:string="cubic.out") {
     if(this.isTarget) {
       this.cameraTarget.zoomLevel = DEFAULT_TARGET_ZOOM;
@@ -207,7 +211,7 @@ export class CameraManager {
       duration,
       ease,
       onComplete: () => {
-        
+        // this.controls.enabled = true;
       }
     });
 
@@ -248,7 +252,10 @@ export class CameraManager {
   }
 
   releaseCameraTarget() {
+    this.controls.autoRotate = false;
+    
     if (!this.isTarget) {
+      this.centerView(2, "cubic.inOut");
       this.controls.enableZoom = true;
       return;
     }
@@ -261,7 +268,6 @@ export class CameraManager {
     // offset.copy(origin);
 
     this.cameraTarget.target = null;
-    this.controls.autoRotate = false;
     this.controls.minPolarAngle = 0;
     this.controls.maxPolarAngle = Math.PI;
     
@@ -361,7 +367,7 @@ export class CameraManager {
 
       tmp.copy(this.isTarget ? dummy.position : origin);
       // d += tmp.distanceTo(this.controls.target)/3;
-      this.controls.enabled = tmp.distanceTo(this.controls.target) < 1 && !this.isPinching;
+      this.controls.enabled = tmp.distanceTo(this.controls.target) < .5 && !this.isPinching;
 
       this.controls.update();
 

@@ -178,12 +178,15 @@ export class OrbitViewer extends ThreeLayer {
 
 		goToLandingMode() {
 			this.fadeIn();
-			this.controls.followTarget(this.sun, false);
+			// this.controls.followTarget(this.sun, false);
+			// this.controls.controls.autoRotateSpeed = .35;
+			// this.controls.controls.autoRotate = true;
+			this.controls.landingMode();
 			
 			// dummy.lookAt(this.earth.position);
 			// dummy.updateMatrix();
-			dummy.rotation.set(-3.0288209992191786, -1.018007295096466, -3.045504707405481);
-			this.controls.setRotation(dummy.rotation);
+			// dummy.rotation.set(-3.0288209992191786, -1.018007295096466, -3.045504707405481);
+			// this.controls.setRotation(dummy.rotation);
 			this.particles.highlighted = true;
 
 			gsap.to(CLOCK_SETTINGS, {
@@ -193,10 +196,11 @@ export class OrbitViewer extends ThreeLayer {
 				ease: 'expo.inOut'
 			});
 
-			this.solarItemsUI.hide();
+			this.solarItemsUI.show();
 		}
 
 		goToOrbitViewerMode(goLive:boolean=false) {
+			this.solarItemsUI.landingMode = false;
 			this.fadeIn();
 			this.controls.releaseCameraTarget();
 			this.particles.highlighted = true;

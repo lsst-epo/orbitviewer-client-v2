@@ -13,6 +13,8 @@ export class SolarItemUI {
 
   elements:SolarDOMElement[] = [];
 
+  landingMode:boolean = true;
+
   constructor() {
     const tdom = document.querySelector('.pointer-templates');
     this.templates = tdom.querySelectorAll('a.canvas_pointer');
@@ -64,6 +66,9 @@ export class SolarItemUI {
     if(!this.visible) return;
     for(let i=0,len=this.elements.length; i<len; i++) {
       this.elements[i].update();
+      if(this.landingMode) {
+        this.elements[i].dom.style.opacity = `.4`;
+      } 
     }
   }
 }
