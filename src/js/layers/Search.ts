@@ -129,11 +129,20 @@ class Search extends Layer {
         this.recommendedAll.forEach(el => {
             const id = el.getAttribute('item-id');
             const cat = el.getAttribute('item-category-slug');
-            let found = cat === 'planets-moons';
+            let found = false;
+            if(cat === 'planets-moons') {
+                const sels = GLOBALS.viewer.solarElements;
+                for(const sel of sels) {
+                    if(sel.slug === id) {
+                        found = sel.enabled;
+                        break;
+                    }
+                }
+            };
             for(let i=0;i<len;i++) {
                 const sel:OrbitDataElementsV2 = sample[i];
                 if(sel.mpcdesignation === id || sel.fulldesignation === id) {
-                    found = true;
+                    found = !GLOBALS.viewer.particles.filtered[i];
                     break;
                 }
             }
@@ -215,7 +224,7 @@ class Search extends Layer {
     }
 
     addItemToList(item:OrbitElements|OrbitDataElementsV2) {
-        const node = this.recommended[0].cloneNode(true) as HTMLElement;
+        const node = this.recommendedAll[0].cloneNode(true) as HTMLElement;
         node.setAttribute('priority', '2');
         node.querySelector("span.object_type").className = "chip object_type";
         if(item.id) {
