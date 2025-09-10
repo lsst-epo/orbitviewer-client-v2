@@ -469,7 +469,7 @@ export class OrbitViewer extends ThreeLayer {
 
 			if(!this.earth) return;
 
-			if(this.earth.distanceToCamara < 200) {
+			if(this.earth.distanceToCamara < 400) {
 				GLOBALS.clouds.needsUpdate = true;
 			}
     }
