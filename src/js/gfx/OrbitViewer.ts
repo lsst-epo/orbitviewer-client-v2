@@ -72,9 +72,12 @@ export class OrbitViewer extends ThreeLayer {
 		height: 0
 	}
 
+	captureRT:WebGLRenderTarget;
+	// capturePreviewRT:WebGLRenderTarget;
+
     constructor(_gl:ThreeDOMLayer) {
       super(_gl);
-	  this.dom = _gl.dom;
+	  	this.dom = _gl.dom;
       const w = this.gl.rect.width;
       const h = this.gl.rect.height;
       this.camera = new PerspectiveCamera(35, w/h, .01, DEFAULT_CAM_LIMITS.maxDistance + 5000000);
@@ -88,6 +91,16 @@ export class OrbitViewer extends ThreeLayer {
 			// console.log(this.controls.minDistance, this.controls.maxDistance)
 			// this.controls.autoRotate = true;
 			// this.controls.autoRotateSpeed = .25;
+
+			this.captureRT = new WebGLRenderTarget(1920, 1080, {
+				samples: 4,
+				//@ts-ignore
+				colorSpace: this.gl.renderer.outputColorSpace
+			});
+
+			/* this.capturePreviewRT = new WebGLRenderTarget(960, 540, {
+				samples: 2
+			}); */
 
 			window['cam'] = this.camera;
 
@@ -460,33 +473,46 @@ export class OrbitViewer extends ThreeLayer {
     }
 
 		capture(format:string, callback:Function) {
-			this.beforeCapturingSize.width = this.gl.rect.width;
-			this.beforeCapturingSize.height = this.gl.rect.height;
+			// this.beforeCapturingSize.width = this.gl.rect.width;
+			// this.beforeCapturingSize.height = this.gl.rect.height;
 			this.captureCallback = callback;
 			this.controls.isCapturing = true;
 			this.controls.update();
-			this.gl.renderer.domElement.classList.add('hidden');
-			GLOBALS.loader.show();
+			// this.gl.renderer.domElement.classList.add('hidden');
+			// GLOBALS.loader.show();
 			if(format === 'horizontal') {
-				this.setSize(1920, 1080);
+				this.captureRT.setSize(1920, 1080);
 			} else if(format === 'vertical') {
-				this.setSize(1080, 1920);
+				this.captureRT.setSize(1080, 1920);
 			} else {
-				this.setSize(1080, 1080);
+				this.captureRT.setSize(1080, 1080);
 			}
+			this.camera.aspect = this.captureRT.width / this.captureRT.height;
+			this.camera.updateProjectionMatrix();
 			this.isCapturing = true;
+			this.vfx.setTier(QUALITY_TIERS.ultra);
+			this.vfx.setCustomSize(this.captureRT.width, this.captureRT.height);
 		}
 
 		render(): void {
 			if(this.isCapturing) {
-				if(this.useVFX) this.vfx.render(this.scene, this.camera);
-				else super.render();
-				this.captureCallback(this.gl.renderer.domElement);
+				if(this.useVFX) {
+					this.vfx.render(this.scene, this.camera, this.captureRT);
+				}
+				else {
+					this.params.target = this.captureRT;
+					super.render();
+					this.params.target = null;
+				}
+				this.captureCallback(this.captureRT);
 				setTimeout(() => {
-					this.setSize(this.beforeCapturingSize.width, this.beforeCapturingSize.height);
+					// this.setSize(this.beforeCapturingSize.width, this.beforeCapturingSize.height);
 					this.isCapturing = false;
-					this.gl.renderer.domElement.classList.remove('hidden');
+					this.camera.aspect = this.gl.rect.width / this.gl.rect.height;
+					this.camera.updateProjectionMatrix();
+					// this.gl.renderer.domElement.classList.remove('hidden');
 					this.controls.isCapturing = false;
+					this.vfx.setTier(QUALITY_TIERS[VISUAL_SETTINGS.current]);
 					GLOBALS.loader.hide();
 				}, 1);
 				return;

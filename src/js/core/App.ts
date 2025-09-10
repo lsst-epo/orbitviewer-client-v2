@@ -125,6 +125,8 @@ export class App implements NomadRouteListener {
 		if(this.currentPage.template !== "orbitviewerpage") {
 			this.viewer.adjustQualitySettings(isMobile() ? 'low' : 'medium');
 		}
+		const template = this.currentPage.template;
+		this.share.screenCapture = (template === 'object') || (template === 'featured-object')
 	}
 
 	onRouteChangeStart(href: string): void {
@@ -135,7 +137,8 @@ export class App implements NomadRouteListener {
 		this.currentPage = route.page as DefaultPage;
 		GLOBALS.firstPage = false;
 		GLOBALS.currentPage = this.currentPage;
-		this.share.screenCapture = this.currentPage.template === 'orbitviewerpage'
+		const template = this.currentPage.template
+		this.share.screenCapture = (template === 'orbitviewerpage') || (template === 'object') || (template === 'featured-object')
 	}
 
 	start() {

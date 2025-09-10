@@ -143,6 +143,15 @@ export class RubinRenderer {
     rs.observe(rnd.domElement);
   }
 
+  setCustomSize(width:number, height:number) {
+    this.sceneRT.setSize(width, height);
+    this.glowRT.setSize(width, height);
+    this.glowBlur.setSize(width, height);
+    this.sunRT.setSize(width, height);
+    this.sunBlur.setSize(width, height);
+    this.compRT.setSize(width, height);
+  }
+
   resizeTargets() {
     const rnd = this.rnd;
 
@@ -225,7 +234,7 @@ export class RubinRenderer {
     });
   }
 
-  render(scene:Scene, camera:Camera) {
+  render(scene:Scene, camera:Camera, target:WebGLRenderTarget=null) {
     // 1. Render scene
     this.prepareForSceneRender(scene);
 
@@ -275,8 +284,9 @@ export class RubinRenderer {
     // release renderer
     this.rnd.setRenderTarget(null);
 
-    // 6. Render to screen
+    // 6. Render to screen or target
     SCREEN_MAT.map = this.compRT.texture;
-    RTUtils.renderToViewport(this.rnd, SCREEN_MAT);
+    if(target === null) RTUtils.renderToViewport(this.rnd, SCREEN_MAT);
+    else RTUtils.renderToRT(target, this.rnd, SCREEN_MAT);
   }
 }

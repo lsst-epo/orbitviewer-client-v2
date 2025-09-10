@@ -5,6 +5,7 @@ import { copyToClipboard } from "@fils/utils";
 import { ShareAPI } from "../core/ShareAPI";
 import { generateShareableURL } from "../core/Utils";
 import { GLOBALS } from "../core/Globals";
+import { WebGLRenderTarget } from "three";
 
 const logos = {
 	vertical: new Image(),
@@ -51,6 +52,8 @@ class Share extends Layer {
     ctx:CanvasRenderingContext2D;
     layout:string;
     openTab:number = 0;
+
+    // previewCanvas:HTMLCanvasElement;
 
     constructor(dom) {
         super(dom, {
@@ -190,8 +193,32 @@ class Share extends Layer {
         const siz = sizes[this.layout];
         this.canvas.width = siz.width;
         this.canvas.height = siz.height;
-        GLOBALS.viewer.capture(this.layout, can => {
-            this.ctx.drawImage(can, 0, 0, this.canvas.width, this.canvas.height);
+        GLOBALS.viewer.capture(this.layout, (rt:WebGLRenderTarget) => {
+            // Read pixels from render target
+            const width = rt.width;
+            const height = rt.height;
+            const pixels = new Uint8Array(width * height * 4);
+            GLOBALS.viewer.gl.renderer.readRenderTargetPixels(
+                rt, 
+                0, 0, width, height, 
+                pixels
+            );
+            const imageData = this.ctx.createImageData(width, height);
+
+            // WebGL pixels are upside down, so flip them
+            for (let y = 0; y < height; y++) {
+                for (let x = 0; x < width; x++) {
+                    const srcIdx = ((height - y - 1) * width + x) * 4;
+                    const dstIdx = (y * width + x) * 4;
+
+                    imageData.data[dstIdx] = pixels[srcIdx];         // R
+                    imageData.data[dstIdx + 1] = pixels[srcIdx + 1]; // G  
+                    imageData.data[dstIdx + 2] = pixels[srcIdx + 2]; // B
+                    imageData.data[dstIdx + 3] = pixels[srcIdx + 3]; // A
+                }
+            }
+            this.ctx.putImageData(imageData, 0, 0);
+            // this.ctx.drawImage(can, 0, 0, this.canvas.width, this.canvas.height);
             this.ctx.drawImage(logos[this.layout], 0, 0, this.canvas.width, this.canvas.height);
         })
     }
