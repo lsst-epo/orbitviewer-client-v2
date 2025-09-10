@@ -101,5 +101,5 @@ export const SearchEngine = new SEngine();
 SearchWorker.addEventListener('message', (e) => {
     // console.log(e.data.imageURL)
     if(!SearchEngine.searchCallback) return;
-    SearchEngine.searchCallback(e.data.results);
+    SearchEngine.searchCallback(e.data);
 });

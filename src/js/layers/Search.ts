@@ -47,8 +47,12 @@ class Search extends Layer {
 
         this.start();
 
-        SearchEngine.searchCallback = items => {
+        SearchEngine.searchCallback = data => {
             if(this.notSearching) return;
+            const query = data.query;
+            console.log(query, this.sInput.value.toLowerCase())
+            if(query !== this.sInput.value.toLowerCase()) return;
+            const items = data.results;
             this.sInput.disabled = false;
             // console.log(items);
             if(!items.length) {
@@ -88,7 +92,7 @@ class Search extends Layer {
                 };
                 this.hideRecommended();
                 this.tid = setTimeout(() => {
-                    this.sInput.disabled = true;
+                    // this.sInput.disabled = true;
                     this.notSearching = false;
                     // this.query(this.sInput.value);
                     SearchEngine.search(this.sInput.value, true);
