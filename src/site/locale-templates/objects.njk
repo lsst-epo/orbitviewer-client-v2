@@ -44,6 +44,7 @@ eleventyComputed:
                             <img src="/assets/images/sample/Planets_and_Moons.png" alt="">
                         </div> #}
                         <div class="objects_card-body">
+                            <div class="scroll">
                             {# <h3 class="name">{{ type.name[lang] }}</h3> #}
                             <p class="description">{{ type.description[lang] }}</p>
                             {# <div class="stats">
@@ -56,6 +57,7 @@ eleventyComputed:
                                     <dd class="stats-label">{{ copy.objects.detected[lang] }}</dd>
                                 </dl>
                             </div> #}
+                            </div>
                         </div>
                         <div class="objects_card-foot">
                             <span class="label" data-index="0">{{ copy.objects.hidden[lang] }}</span>
