@@ -26,7 +26,8 @@
     &[aria-step="1"] [data-step="1"],
     &[aria-step="2"] [data-step="2"],
     &[aria-step="3"] [data-step="3"],
-    &[aria-step="4"] [data-step="4"] {
+    &[aria-step="4"] [data-step="4"],
+    &[aria-step="5"] [data-step="5"] {
         display: block;
     }
 
@@ -92,6 +93,20 @@
         .wizard-bg,
         .wizard-focus {  
             border-radius: calc(var(--wizard-height) * 0.5);
+        }
+    }
+
+    &[aria-step="5"] {
+        .wizard_tooltip {
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 101px;
+            @include media(medium) {
+                left: 143px;
+                top: 110px;
+                bottom: auto;
+                transform: none;
+            }
         }
     }
 

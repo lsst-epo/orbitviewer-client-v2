@@ -441,6 +441,10 @@ export default {
         "search": {
             "en": "Search",
             "es": "Buscar"
+        },
+        "guides": {
+            "en": "Guides",
+            "es": "@todo"
         }
     },
     "wizard": {
@@ -470,6 +474,10 @@ export default {
             "share_menu": {
                 "en": "Share your current view with a link or a screenshot of your current view. Open the hamburger  menu for Orbitviewer info.",
                 "es": "Comparte tu vista actual con un enlace o una captura de pantalla de tu vista actual. Abre el menú de tres líneas (arriba a la derecha) para obtener información sobre Orbitviewer"
+            },
+            "guides": {
+                "en": "@todo",
+                "es": "@todo"
             }
         },
         "button_group": {

@@ -29,7 +29,7 @@ class Wizard extends Layer {
 
     inTransition: boolean = false; // Prevent multiple transitions
 
-    maxSteps: number = 4; // Total number of steps in the wizard
+    maxSteps: number = 5; // Total number of steps in the wizard
 
     #step: number = 1; // Current step, starts at 1
     get step() { return this.#step }

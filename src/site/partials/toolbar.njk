@@ -1,23 +1,33 @@
-<div class="toolbar" aria-hidden="true" data-wizard-step="1">
+<div class="toolbar" aria-hidden="true">
     <div class="toolbar-head" aria-hidden="true"></div>
     <div class="toolbar-body">
         <ul class="toolbar-list">
-            <li class="toolbar-item">
-                <a href="/{{lang}}/objects/" class="toolbar-link">
-                    {{ icon('orbit') }}
-                    <span>{{ copy.toolbar.objects[lang] }}</span>
-                </a>
+            <li class="toolbar-item" data-wizard-step="1">
+                <ul class="toolbar-list">
+                    <li class="toolbar-item">
+                        <a href="/{{lang}}/objects/" class="toolbar-link">
+                            {{ icon('orbit') }}
+                            <span>{{ copy.toolbar.objects[lang] }}</span>
+                        </a>
+                    </li>
+                    <li class="toolbar-item">
+                        <button type="button" class="toolbar-link" data-open="filters">
+                            {{ icon('filters') }}
+                            <span>{{ copy.toolbar.filters[lang] }}</span>
+                        </button>
+                    </li>
+                    <li class="toolbar-item">
+                        <button type="button" class="toolbar-link" data-open="search">
+                            {{ icon('search') }}
+                            <span>{{ copy.toolbar.search[lang] }}</span>
+                        </button>
+                    </li>
+                </ul>
             </li>
-            <li class="toolbar-item">
-                <button type="button" class="toolbar-link" data-open="filters">
-                    {{ icon('filters') }}
-                    <span>{{ copy.toolbar.filters[lang] }}</span>
-                </button>
-            </li>
-            <li class="toolbar-item">
-                <button type="button" class="toolbar-link" data-open="search">
-                    {{ icon('search') }}
-                    <span>{{ copy.toolbar.search[lang] }}</span>
+            <li class="toolbar-item" data-wizard-step="5">
+                <button type="button" class="toolbar-link">
+                    {{ icon('guides') }}
+                    <span>{{ copy.toolbar.guides[lang] }}</span>
                 </button>
             </li>
         </ul>
