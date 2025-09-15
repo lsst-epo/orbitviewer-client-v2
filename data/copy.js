@@ -672,5 +672,15 @@ export default {
             "en": "Credits",
             "es": "Credits"
         }
+    },
+    "e404": {
+        "subtitle" : {
+            "en": "Page Not Found",
+            "es": "Página no encontrada"
+        },
+        "action": {
+            "en": "Back Home",
+            "es": "Volver al inicio"
+        }
     }
 }

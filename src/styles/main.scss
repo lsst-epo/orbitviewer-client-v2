@@ -43,6 +43,7 @@
 @use './templates/object_detail';
 @use './templates/about';
 @use './templates/how_to_use';
+@use './templates/e404';
 
 @use '../../node_modules/flatpickr/dist/flatpickr.css';
 @use './libraries/calendar';

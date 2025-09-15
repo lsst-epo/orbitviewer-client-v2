@@ -1,0 +1,24 @@
+---
+layout: base
+pageTemplate: 404
+permalink: "/{{lang}}/404/"
+eleventyComputed:
+  title: "{{ settings[lang].title }} - {{ about[lang].title }}"
+  description: "{{ about[lang].headerBody.plainText }}"
+  card: "{{ staticData.og.basePath }}{{ staticData.og.default }}"
+  locale: "{{ staticData.locale[lang] }}"
+---
+
+{% from '../../../components/button.njk' import Button %}
+
+<div class="e404-page">
+    <div class="e404-content">
+        <div class="e404-body">
+            <h1 class="title">Error 404</h1>
+            <h2 class="subtitle" lang="{{ staticData.locale[lang] }}">{{ copy.e404.subtitle[lang] }}</h2>
+        </div>
+        <div class="e404-foot">
+            {{ Button(copy.e404.action[lang], 'button primary medium') }}
+        </div>
+    </div>
+</div>
