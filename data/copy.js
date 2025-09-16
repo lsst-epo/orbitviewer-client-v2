@@ -476,8 +476,8 @@ export default {
                 "es": "Comparte tu vista actual con un enlace o una captura de pantalla de tu vista actual. Abre el menú de tres líneas (arriba a la derecha) para obtener información sobre Orbitviewer"
             },
             "guides": {
-                "en": "@todo",
-                "es": "@todo"
+                "en": "Explore our collection of guided tours that highlight different objects of interest in the Solar System.",
+                "es": "Explora nuestra colección de recorridos guiados que destacan distintos objetos de interés en el Sistema Solar."
             }
         },
         "button_group": {
