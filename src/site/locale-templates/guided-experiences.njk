@@ -1,0 +1,157 @@
+---
+layout: base
+pageTemplate: guided_experiences
+permalink: "/{{lang}}/guided-experiences/"
+eleventyComputed:
+  title: "{{ settings.title }}"
+  description: "{{ settings.description }}"
+  card: "{{ staticData.og.basePath }}{{ staticData.og.default }}"
+  locale: "{{ staticData.locale[lang] }}"
+---
+
+{% from '../../../partials/icons.njk' import icon %}
+{% from '../../../components/button.njk' import Button %}
+{% from '../../../components/buttonicon.njk' import ButtonIcon %}
+{% from '../../../components/togglegroup.njk' import ToggleGroup %}
+
+<section class="layer" aria-hidden="false">
+    <header class="layer-head">
+        {{ ButtonIcon('button_icon secondary medium button_close', 'close') }}
+    </header>
+    <div class="layer-body">
+        <div class="layer-heading guides-heading">
+            <div class="actions">
+                <a href="/{{lang}}/" class="button secondary medium button_back">
+                    {{ icon('chevron-left') }}
+                    <span>{{ copy.core.back[lang] }}</span>
+                </a>
+            </div>
+            <div class="heading">
+                <h2 class="title">{{ copy.guides.index.title[lang] }}</h2>
+                <h3 class="subtitle">{{ copy.guides.index.subtitle[lang] }}</h3>
+
+                <div class="guides_filters">
+                    <div class="select">
+                        <select name="" id="">
+                            <option value="" selected>{{ copy.guides.index.filter.newer[lang] }}</option>
+                            <option value="">{{ copy.guides.index.filter.older[lang] }}</option>
+                            <option value="">{{ copy.guides.index.filter.less_duration[lang] }}</option>
+                            <option value="">{{ copy.guides.index.filter.more_duration[lang] }}</option>
+                            <option value="">{{ copy.guides.index.filter.less_complex[lang] }}</option>
+                            <option value="">{{ copy.guides.index.filter.more_complex[lang] }}</option>
+                        </select>
+                        <div class="icon_wrap">
+                            {{ icon('chevron-down') }}
+                        </div>
+                    </div>
+                    <div class="input">
+                        <input type="search" placeholder="{{ copy.guides.index.search[lang] }}">
+                        <div class="icon_wrap">
+                            {{ icon('search') }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layer-content guides-content">
+            <div class="guides-grid">
+                {% set guides = [
+                    {
+                        img: "/assets/images/sample/Planets_and_Moons.png",
+                        recommended: true,
+                        difficulty: "Easy",
+                        duration: "10 Min",
+                        title: "Rubin's Cosmic Treasure Chest",
+                        link: ""
+                    },
+                    {
+                        img: "/assets/images/sample/Planets_and_Moons.png",
+                        recommended: true,
+                        difficulty: "Easy",
+                        duration: "10 Min",
+                        title: "Rubin's Cosmic Treasure Chest",
+                        link: ""
+                    },
+                    {
+                        img: "/assets/images/sample/Planets_and_Moons.png",
+                        recommended: true,
+                        difficulty: "Easy",
+                        duration: "10 Min",
+                        title: "Rubin's Cosmic Treasure Chest",
+                        link: ""
+                    },
+                    {
+                        img: "/assets/images/sample/Planets_and_Moons.png",
+                        recommended: true,
+                        difficulty: "Easy",
+                        duration: "10 Min",
+                        title: "Rubin's Cosmic Treasure Chest",
+                        link: ""
+                    },
+                    {
+                        img: "/assets/images/sample/Planets_and_Moons.png",
+                        recommended: true,
+                        difficulty: "Easy",
+                        duration: "10 Min",
+                        title: "Rubin's Cosmic Treasure Chest",
+                        link: ""
+                    },
+                    {
+                        img: "/assets/images/sample/Planets_and_Moons.png",
+                        recommended: true,
+                        difficulty: "Easy",
+                        duration: "10 Min",
+                        title: "Rubin's Cosmic Treasure Chest",
+                        link: ""
+                    },
+                    {
+                        img: "/assets/images/sample/Planets_and_Moons.png",
+                        recommended: true,
+                        difficulty: "Easy",
+                        duration: "10 Min",
+                        title: "Rubin's Cosmic Treasure Chest",
+                        link: ""
+                    },
+                    {
+                        img: "/assets/images/sample/Planets_and_Moons.png",
+                        recommended: true,
+                        difficulty: "Easy",
+                        duration: "10 Min",
+                        title: "Rubin's Cosmic Treasure Chest",
+                        link: ""
+                    },
+                    {
+                        img: "/assets/images/sample/Planets_and_Moons.png",
+                        recommended: true,
+                        difficulty: "Easy",
+                        duration: "10 Min",
+                        title: "Rubin's Cosmic Treasure Chest",
+                        link: ""
+                    }
+                ] %}
+
+                {% for guide in guides %}
+                    <a href="{{ guide.link }}" class="guide_card"  data-recommended="{{ guide.recommended }}">
+                        <div class="guide_card-hero">
+                            <img src="{{ guide.img }}" alt="">
+                            {% if guide.recommended %}
+                                <div class="ribbon">Recommended</div>
+                            {% endif %}
+                        </div>
+                        <div class="guide_card-text">
+                            <div class="guide_card-meta">
+                                <span class="chip primary">
+                                    <span class="chip-text">{{ guide.difficulty }}</span>
+                                </span>
+                                <span class="chip default">
+                                    <span class="chip-text">{{ guide.duration }}</span>
+                                </span>
+                            </div>
+                            <h2 class="title">{{ guide.title }}</h2>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>

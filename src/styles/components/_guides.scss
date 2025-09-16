@@ -1,0 +1,105 @@
+// guides.scss
+
+@use '../base/mixins' as *;
+@use '../base/typography' as *;
+
+.guides {
+    &-heading {
+        .guides_filters {
+            display: flex;
+            gap: 8px;
+
+            > * {
+                flex: 50%;
+                border-radius: var(--corner-medium);
+
+                @include media(medium) {
+                    flex: 0 0 auto;
+                }
+            } 
+        }
+    }
+    
+    &-content {
+        @include media(medium) {
+            display: grid;
+            grid-template-rows: auto; 
+            grid-template-columns: calc(var(--toolbar-width) + var(--site-margin-small)) 1fr;
+        }
+    }
+    
+    &-grid {
+        grid-column: 2/-1;
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        gap: 16px;
+        padding: 2px var(--site-margin-large) var(--site-margin-large);
+
+        @include media(small) {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        @include media(large) {
+            grid-template-columns: repeat(3, 1fr);
+            padding-left: unset;
+        }
+
+        @include media(xxlarge) {
+            grid-template-columns: repeat(4, 1fr);
+        }
+    }
+}
+
+.guide_card {
+    display: block;
+    @include frozen_glass;
+    @include gradient_border;
+    border-radius: var(--corner-large);
+    transition: all .3s var(--easing-default);
+    
+    &:hover {
+        box-shadow: 0 0 0 2px var(--color-turquoise-700);
+        
+        [class*=hero] img {
+            transform: scale(1.1);
+        }
+    }
+
+    &-hero {
+        position: relative;
+        aspect-ratio: 16/9;
+        border-radius: var(--corner-large) var(--corner-large) 0 0;
+        overflow: hidden;
+
+        img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all .6s var(--easing-default);
+        }
+    }
+
+    &-text {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding: 16px 16px 24px;
+
+        .title {
+            @include font(subtitle-small-regular);
+
+            @include media(large) {
+                @include font(subtitle-large-regular);
+            }
+            
+            color: var(--color-text);
+        }
+    }
+
+        &-meta {
+            display: flex;
+            gap: 8px;
+        }
+}

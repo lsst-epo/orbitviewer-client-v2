@@ -29,6 +29,7 @@ import { isMobile } from "@fils/utils";
 import { SolarTimeManager } from "./solar/SolarTime";
 import { getMeanAnomaly } from "./solar/SolarSystem";
 import { downloadJSON } from "./Utils";
+import { GuidedExperiencesPage } from "../pages/GuidedExperiencesPage";
 
 export const solarClock = new SolarClock(new Clock());
 
@@ -111,6 +112,7 @@ export class App implements NomadRouteListener {
 		}, (id, template, dom) => {
 			if (template === 'orbitviewerpage') return new OrbitViewerPage(id, template, dom)
 			if (template === 'objects') return new ObjectsFiltersPage(id, template, dom)
+			if (template === 'guided_experiences') return new GuidedExperiencesPage(id, template, dom)
 			else if ((template === 'object') || (template === 'featured-object')) return new ObjectPage(id, template, dom)
 			else if (template === 'about') return new ScrollingPage(id, template, dom)
 			else if (template === 'how_to_use') return new ScrollingPage(id, template, dom)

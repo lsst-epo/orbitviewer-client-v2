@@ -631,6 +631,48 @@ export default {
             "es": "Mostrar"
         }
     },
+    "guides": {
+        "index": {
+            "title": {
+                "en": "Guided Experiences",
+                "es": "@todo"
+            },
+            "subtitle": {
+                "en": "Begin with specially designed journeys that introduce you to remarkable celestial phenomena and Rubin's groundbreaking discoveries.",
+                "es": "@todo"
+            },
+            "filter": {
+                "newer": {
+                    "en": "Newer first",
+                    "es": "@todo"
+                },
+                "older": {
+                    "en": "Older first",
+                    "es": "@todo"
+                },
+                "less_duration": {
+                    "en": "Less duration first",
+                    "es": "@todo"
+                },
+                "more_duration": {
+                    "en": "More duration first",
+                    "es": "@todo"
+                },
+                "less_complex": {
+                    "en": "Less complexity first",
+                    "es": "@todo",
+                },
+                "more_complex": {
+                    "en": "More complexity first",
+                    "es": "@todo",
+                }
+            },
+            "search": {
+                "en": "Search",
+                "es": "@todo"
+            }
+        }
+    },
     "modal": {
         "title": {
             "en": "Things looking a bit slow?",

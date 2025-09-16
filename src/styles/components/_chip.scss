@@ -10,17 +10,30 @@
     &[aria-hidden=true] {
         display: none;
     }
+
+    &.default,
+    &.primary {
+        .chip-text {
+            padding: 2px 8px;
+            border-radius: 26px;
+            @include font(caption-regular-caps);
+            text-transform: uppercase;
+        }
+    }
     
     &.default {
         .chip-text {
             @include frozen_glass;
             @include gradient_border;
             padding: 2px 8px;
-            border-radius: 26px;
-            @include font(caption-regular-caps);
             color: var(--color-text);
-            text-transform: uppercase;
-            cursor: pointer;
+        }
+    }
+
+    &.primary {
+        .chip-text {
+            background: var(--color-turquoise-800);
+            color: var(--color-turquoise-300);
         }
     }
 
