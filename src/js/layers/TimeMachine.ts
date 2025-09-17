@@ -70,12 +70,33 @@ class TimeMachine extends Layer implements SliderListener {
 
 		updateLabel() {
 			const speedTooltip = this.dom.querySelector('.rangeslider_input-thumb .value');
-			this.collapsedLabel.textContent = `${CLOCK_SETTINGS.speed} hrs/s`
-			
+			this.collapsedLabel.textContent = this.formatSpeedLabel(CLOCK_SETTINGS.speed);
+
 			if(CLOCK_SETTINGS.speed === 0){
 				speedTooltip.setAttribute('hidden', '');
 			} else {
 				speedTooltip.removeAttribute('hidden');
+			}
+		}
+
+		formatSpeedLabel(hoursPerSecond: number): string {
+			if (hoursPerSecond === 0) return '0 HR/s';
+
+			const absSpeed = Math.abs(hoursPerSecond);
+			const sign = hoursPerSecond < 0 ? '-' : '';
+
+			const daysPerSecond = absSpeed / 24;
+			const weeksPerSecond = daysPerSecond / 7;
+			const monthsPerSecond = daysPerSecond / 30;
+
+			if (monthsPerSecond >= 1) {
+				return `${sign}${monthsPerSecond.toFixed(1)} MTH/s`;
+			} else if (weeksPerSecond >= 1) {
+				return `${sign}${weeksPerSecond.toFixed(1)} WEK/s`;
+			} else if (daysPerSecond >= 1) {
+				return `${sign}${daysPerSecond.toFixed(1)} DAY/s`;
+			} else {
+				return `${sign}${absSpeed.toFixed(1)} HR/s`;
 			}
 		}
 
@@ -197,6 +218,11 @@ class TimeMachine extends Layer implements SliderListener {
 			CLOCK_SETTINGS.speed = normalizedValue;
 			GLOBALS.solarClock.resume();
 			this.updateLabel();
+
+			const sliderTooltip = this.dom.querySelector('.rangeslider_input-thumb .value span');
+			if (sliderTooltip) {
+				sliderTooltip.textContent = this.formatSpeedLabel(CLOCK_SETTINGS.speed);
+			}
 
 			let animationDuration;
 			if (CLOCK_SETTINGS.speed === 0) {
