@@ -74,6 +74,67 @@
                     }
                 }
 
+                .sliding_hints {
+                    position: absolute;
+
+                    .icon {
+                        position: absolute;
+                        top: 50%;
+                        width: 20px;
+                        height: 20px;
+                        fill: var(--color-turquoise-200);
+                        filter: drop-shadow(0 0 2px rgba(var(--color-black-rgb), 1));
+
+                        &.left {
+                            left: -24px;
+                            transform: translate(0, -50%);
+                            opacity: 0;
+                            animation: hintLeft 1s ease-out infinite;
+
+                            @keyframes hintLeft {
+                                0% {
+                                    transform: translate(0, -50%);
+                                    opacity: 0;
+                                }
+                                60% {
+                                    transform: translate(-8px, -50%);
+                                    opacity: 1;
+                                }
+                                100% {
+                                    transform: translate(-8px, -50%);
+                                    opacity: 0;
+                                }
+                            }
+                        } 
+
+                        &.right {
+                            right: -24px;
+                            transform: translate(0, -50%);
+                            opacity: 0;
+                            animation: hintRight 1s ease-out infinite;
+
+                            @keyframes hintRight {
+                                0% {
+                                    transform: translate(0, -50%);
+                                    opacity: 0;
+                                }
+                                60% {
+                                    transform: translate(8px, -50%);
+                                    opacity: 1;
+                                }
+                                100% {
+                                    transform: translate(8px, -50%);
+                                    opacity: 0;
+                                }
+                            }
+                        }
+                    } 
+
+                    &[hidden] {
+                        display: none;
+                    }
+                }
+
                 &:hover,
                 &:focus {
                     &:after {

@@ -1,5 +1,7 @@
 // buttonicon.scss
 
+@use '../base/mixins' as *;
+
 .button_icon {
     display: inline-flex;
     align-items: center;
@@ -40,6 +42,9 @@
         --bg: var(--color-grey-700);
         --border: var(--color-grey-700);
         --text: var(--color-button-text);
+
+        @include frozen_glass;
+        @include gradient_border;
 
         position: relative;
 

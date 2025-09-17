@@ -8,7 +8,7 @@
     
     position: fixed;
     right: var(--site-margin-large);
-    bottom: calc(var(--toolbar-height) + var(--site-margin-large) + var(--timemachine-gap));
+    bottom: calc(var(--toolbar-height) + var(--site-margin-large) + var(--timemachine-gap)*2);
     left: var(--site-margin-large);
     z-index: var(--z-scene_controls);
     display: grid;
