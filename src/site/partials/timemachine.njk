@@ -8,6 +8,11 @@
             <button type="button" class="button_icon ghost xsmall button_play button_play-pause">
                 <span class="icon_wrap-resume">{{ icon('play') }}</span>
                 <span class="icon_wrap-pause">{{ icon('pause') }}</span>
+                <div class="circle">
+                    <svg class="fill" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10"/>
+                    </svg>
+                </div>
             </button>
             <div class="timemachine_heading-date">
                 <input type="text" id="myDateInput" aria-label="{{ copy.timemachine.aria[lang] }}">
@@ -29,6 +34,6 @@
         </div>
     </div>
     <div class="timemachine-body" id="timemachine_body">
-        {{ RangeSlider('slider-timemachine', [50], [0, 100]) }}
+        {{ RangeSlider('slider-timemachine', [50], [0, 100], false) }}
     </div>
 </div>

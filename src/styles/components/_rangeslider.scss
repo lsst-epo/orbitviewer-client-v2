@@ -16,7 +16,7 @@
     }
     
     &_input {
-        --track-height: 6px;
+        --track-height: 4px;
         
         position: relative;
         height: var(--slider-height);
@@ -26,7 +26,8 @@
             inset: 50% 0 auto 0;
             margin-top: calc(-1*var(--track-height)/2);
             height: var(--track-height);
-            background: var(--color-grey-600);
+            // background: var(--color-grey-600);
+            background: linear-gradient(-90deg, var(--color-turquoise-300) 0%, var(--color-turquoise-700) 50%, var(--color-turquoise-300) 100%);
             border-radius: var(--track-height);
         }
 
@@ -51,9 +52,9 @@
 
                 &:after {
                     content: '';
-                    width: 24px;
-                    height: 24px;
-                    border-radius: 24px;
+                    width: 20px;
+                    height: 20px;
+                    border-radius: 20px;
                     background: var(--color-turquoise-600);
                     border: solid 3px var(--color-turquoise-200);
                     transition: box-shadow .3s ease, background .3s ease;
@@ -62,7 +63,7 @@
                 .value {
                     position: absolute;
                     min-width: 100%;
-                    transform: translateY(-32px);
+                    transform: translateY(-28px);
                     user-select: none;
                 }
 

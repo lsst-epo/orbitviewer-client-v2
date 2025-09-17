@@ -12,6 +12,10 @@
     z-index: var(--z-onboarding);
     background: var(--color-backdrop);
     backdrop-filter: blur(var(--backdrop-blur));
+
+    &[aria-hidden=true] {
+        display: none;
+    }
     
     &-slide {
         position: absolute;

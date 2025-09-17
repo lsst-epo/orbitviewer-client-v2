@@ -56,11 +56,13 @@ export class SimpleSlider {
     const minL = this.dom.querySelector('.min');
     const maxL = this.dom.querySelector('.max');
 
-    minL.textContent = `${min}`;
-    maxL.textContent = `${max}`;
+    if (minL && maxL) {
+      minL.textContent = `${min}`;
+      maxL.textContent = `${max}`;
 
-    this._min = min;
-    this._max = max;
+      this._min = min;
+      this._max = max;
+    }
 
     this.updateSlider();
   }

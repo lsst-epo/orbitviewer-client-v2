@@ -101,7 +101,7 @@ class TimeMachine extends Layer implements SliderListener {
 			disableMobile: true,
 			position: "above",
 			enableTime: true,
-			dateFormat: "M j, Y H:i:S",
+			dateFormat: "M j, Y H:i",
 			defaultDate: new Date(),
 			locale: {
 				weekdays: {
@@ -197,6 +197,15 @@ class TimeMachine extends Layer implements SliderListener {
 			CLOCK_SETTINGS.speed = normalizedValue;
 			GLOBALS.solarClock.resume();
 			this.updateLabel();
+
+			let animationDuration;
+			if (CLOCK_SETTINGS.speed === 0) {
+				animationDuration = 1;
+			} else {
+				const absSpeed = Math.abs(CLOCK_SETTINGS.speed);
+				animationDuration = Math.max(0.3, 1 / absSpeed);
+			}
+			this.dom.style.setProperty('--speed', `${animationDuration}s`);
 		}
 
 		update() {
