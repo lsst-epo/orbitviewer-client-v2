@@ -27,24 +27,24 @@ class Onboarding extends Layer {
         // this.start();
     }
 
-    updateRecommendedTier() {
-        const lis = this.dom.querySelectorAll('li');
-        // console.log(lis);
-        let recommendedIndex = getRecommendedPerformanceIndex();
+    // updateRecommendedTier() {
+    //     const lis = this.dom.querySelectorAll('li');
+    //     // console.log(lis);
+    //     let recommendedIndex = getRecommendedPerformanceIndex();
 
-        for(let i=0;i<4;i++) {
-            const li = lis[i];
-            const ribbon = li.querySelector('span.ribbon');
-            if(i === recommendedIndex) {
-                li.classList.add('recommended');
-                ribbon.setAttribute('aria-hidden', 'false');
-            }
-            else {
-                li.classList.remove('recommended');
-                ribbon.setAttribute('aria-hidden', 'true');
-            }
-        }
-    }
+    //     for(let i=0;i<4;i++) {
+    //         const li = lis[i];
+    //         const ribbon = li.querySelector('span.ribbon');
+    //         if(i === recommendedIndex) {
+    //             li.classList.add('recommended');
+    //             ribbon.setAttribute('aria-hidden', 'false');
+    //         }
+    //         else {
+    //             li.classList.remove('recommended');
+    //             ribbon.setAttribute('aria-hidden', 'true');
+    //         }
+    //     }
+    // }
 
     start() {
         const whenReady = () => {
@@ -53,7 +53,7 @@ class Onboarding extends Layer {
             // GLOBALS.viewer.controls.centerView(2, "expo.inOut");
         }
 
-        this.updateRecommendedTier();
+        // this.updateRecommendedTier();
         
         this.startButtons.forEach((el: Element) => {
             el.addEventListener('click', (event) => {
@@ -86,16 +86,25 @@ class Onboarding extends Layer {
     }
 
     open(): Promise<void> {
-        const container = this.dom.querySelector('.exploration');
+        const container = this.dom.querySelector('.onboarding-body');
         const title = this.dom.querySelector('.onboarding-title');
-        const items = this.dom.querySelectorAll('.exploration-item');
-        const info = this.dom.querySelector('.onboarding-info');
+        const subtitle = this.dom.querySelector('.onboarding-subtitle');
+        const items = this.dom.querySelectorAll('.onboarding-item');
+        const foot = this.dom.querySelector('.onboarding-foot');
         gsap.to(title, {
             y: 0,
             opacity: 1,
             duration: 1.2,
             ease: 'cubic.inOut',
         })
+        if (subtitle) {
+            gsap.to(subtitle, {
+            y: 0,
+            opacity: 1,
+            duration: 1.2,
+            ease: 'cubic.inOut',
+            });
+        }
         gsap.to(items, {
             opacity: 1,
             y: 0,
@@ -104,7 +113,7 @@ class Onboarding extends Layer {
             stagger: .1,
             delay: .1
         })
-        gsap.to(info, {
+        gsap.to(foot, {
             y: 0,
             opacity: 1,
             duration: 1.2,

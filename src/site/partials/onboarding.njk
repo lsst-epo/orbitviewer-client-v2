@@ -1,28 +1,87 @@
 {% from '../components/button.njk' import Button %}
+{% from '../components/guide_card.njk' import GuideCard %}
 
-<section class="onboarding" aria-hidden="true" role="main" aria-labelledby="onboarding-heading">
-    <h2 class="onboarding-title" id="onboarding-heading">{{ copy.onboarding.title[lang] }}</h2>
-    <div class="exploration">
-        <ul class="exploration-list" role="radiogroup" aria-labelledby="onboarding-heading" aria-required="true">
-            {% for key, mode in copy.exploration %}
-            {% set ids = ['low', 'medium', 'high', 'ultra'] %}
-            <li class="exploration-item" role="radio" aria-checked="false" tabindex="0" >
-                <div class="exploration_card">
-                    <div class="exploration_card-body">
-                        <span class="ribbon" aria-hidden="true">{{ copy.onboarding.recommended[lang] }}</span>
-                        <h3 class="name">{{ mode.name[lang] }}</h3>
-                        <h4 class="title">{{ mode.title[lang] }}</h4>
-                        <p class="description">{{ mode.description[lang] }}</p>
-                        <p class="count">{{ mode.objects }} {{ copy.core.objects[lang] }}</p>
-                    </div>
-                    <div class="exploration_card-foot">
-                        {# {{ Button('Launch', 'button secondary medium') }} #}
-                        <a data-id="{{ids[loop.index0]}}" href="{{utils.void}}" class="button secondary medium button_launch"><span>{{ copy.onboarding.action[lang] }}</span></a>
-                    </div>
+<div class="onboarding" aria-hidden="true">
+    <section class="onboarding-slide" aria-hidden="false" role="main" aria-labelledby="onboarding-heading">
+        <div class="onboarding-content">
+            <div class="onboarding-heading">
+                <h2 class="onboarding-title" id="onboarding-heading">{{ copy.onboarding.exploration.title[lang] }}</h2>
+            </div>
+            <div class="onboarding-body">
+                <ul class="onboarding-list" role="radiogroup" aria-labelledby="onboarding-heading" aria-required="true">
+                    {% for key, mode in copy.exploration %}
+                    {% set ids = ['low', 'medium', 'high', 'ultra'] %}
+                    <li class="onboarding-item" role="radio" aria-checked="false" tabindex="0" >
+                        <div class="exploration_card">
+                            <div class="exploration_card-body">
+                                <span class="ribbon" aria-hidden="true">{{ copy.core.recommended[lang] }}</span>
+                                <h3 class="name">{{ mode.name[lang] }}</h3>
+                                <h4 class="title">{{ mode.title[lang] }}</h4>
+                                <p class="description">{{ mode.description[lang] }}</p>
+                                <p class="count">{{ mode.objects }} {{ copy.core.objects[lang] }}</p>
+                            </div>
+                            <div class="exploration_card-foot">
+                                <a data-id="{{ids[loop.index0]}}" href="{{utils.void}}" class="button secondary medium button_launch"><span>{{ copy.onboarding.exploration.action[lang] }}</span></a>
+                            </div>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="onboarding-foot">
+                <p class="copy">{{ copy.onboarding.exploration.info[lang] }}</p>
+            </div>
+        </div>
+    </section>
+
+    {# <section class="onboarding-slide" aria-hidden="false" role="main" aria-labelledby="onboarding-heading">
+        <div class="onboarding-content">
+            <div class="onboarding-heading">
+                <h2 class="onboarding-title" id="onboarding-heading">{{ copy.onboarding.expedition.title[lang] }}</h2>
+                <h3 class="onboarding-subtitle" >{{ copy.onboarding.expedition.subtitle[lang] }}</h3>
+            </div>
+            <div class="onboarding-body">
+                <ul class="onboarding-list" aria-labelledby="onboarding-heading">
+                    {% set guides = [
+                        {
+                            img: "/assets/images/sample/Planets_and_Moons.png",
+                            recommended: true,
+                            difficulty: "Easy",
+                            duration: "10 Min",
+                            title: "Rubin's Cosmic Treasure Chest",
+                            link: ""
+                        },
+                        {
+                            img: "/assets/images/sample/Planets_and_Moons.png",
+                            recommended: true,
+                            difficulty: "Easy",
+                            duration: "10 Min",
+                            title: "Rubin's Cosmic Treasure Chest",
+                            link: ""
+                        },
+                        {
+                            img: "/assets/images/sample/Planets_and_Moons.png",
+                            recommended: true,
+                            difficulty: "Easy",
+                            duration: "10 Min",
+                            title: "Rubin's Cosmic Treasure Chest",
+                            link: ""
+                        }
+                    ] %}
+
+                    {% for guide in guides %}
+                    <li class="onboarding-item">
+                        {{ GuideCard(guide) }}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="onboarding-foot">
+                <div class="actions">
+                    <a href="" class="button secondary medium">See all guides</a>
+                    <a href="" class="button primary medium">Skip to viewer</a>
                 </div>
-            </li>
-            {% endfor %}
-        </ul>
-    </div>
-    <p class="onboarding-info">{{ copy.onboarding.info[lang] }}</p>
-</section>
+            </div>
+        </div>
+    </section> #}
+</div>

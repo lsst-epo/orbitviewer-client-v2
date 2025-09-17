@@ -22,6 +22,10 @@ export default {
             "en": "Orbit viewer",
             "es": "Orbit viewer"
         },
+        "recommended": {
+            "en": "recommended",
+            "es": "recomendado"
+        },
         "loading": {
             "en": "Loading... this may take a moment",
             "es": "Cargando... esto puede tomar tiempo"
@@ -330,21 +334,29 @@ export default {
         },
     },
     "onboarding": {
-        "title": {
-            "en": "Choose your Exploration Mode",
-            "es": "Selecciona tu Modo de Exploración"
+        "exploration": {
+            "title": {
+                "en": "Choose your Exploration Mode",
+                "es": "Selecciona tu Modo de Exploración"
+            },
+            "action": {
+                "en": "Launch",
+                "es": "Iniciar"
+            },
+            "info": {
+                "en": "You can adjust your exploration mode later in the settings menu",
+                "es": "Puedes volver a ajustar tu modo de exploración en el menú de ajustes"
+            }
         },
-        "recommended": {
-            "en": "recommended",
-            "es": "recomendado"
-        },
-        "action": {
-            "en": "Launch",
-            "es": "Iniciar"
-        },
-        "info": {
-            "en": "You can adjust your exploration mode later in the settings menu",
-            "es": "Puedes volver a ajustar tu modo de exploración en el menú de ajustes"
+        "expedition": {
+            "title": {
+                "en": "Choose Your First Expedition",
+                "es": "@todo"
+            },
+            "subtitle": {
+                "en": "Begin with specially designed journeys that introduce you to remarkable celestial phenomena and Rubin's groundbreaking discoveries.",
+                "es": "@todo"
+            }
         }
     },
     "filters": {

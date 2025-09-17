@@ -88,13 +88,12 @@
         padding: 16px 16px 24px;
 
         .title {
+            color: var(--color-text);
             @include font(subtitle-small-regular);
 
             @include media(large) {
                 @include font(subtitle-large-regular);
             }
-            
-            color: var(--color-text);
         }
     }
 

@@ -13,6 +13,7 @@ eleventyComputed:
 {% from '../../../components/button.njk' import Button %}
 {% from '../../../components/buttonicon.njk' import ButtonIcon %}
 {% from '../../../components/togglegroup.njk' import ToggleGroup %}
+{% from '../../../components/guide_card.njk' import GuideCard %}
 
 <section class="layer" aria-hidden="false">
     <header class="layer-head">
@@ -131,25 +132,7 @@ eleventyComputed:
                 ] %}
 
                 {% for guide in guides %}
-                    <a href="{{ guide.link }}" class="guide_card"  data-recommended="{{ guide.recommended }}">
-                        <div class="guide_card-hero">
-                            <img src="{{ guide.img }}" alt="">
-                            {% if guide.recommended %}
-                                <div class="ribbon">Recommended</div>
-                            {% endif %}
-                        </div>
-                        <div class="guide_card-text">
-                            <div class="guide_card-meta">
-                                <span class="chip primary">
-                                    <span class="chip-text">{{ guide.difficulty }}</span>
-                                </span>
-                                <span class="chip default">
-                                    <span class="chip-text">{{ guide.duration }}</span>
-                                </span>
-                            </div>
-                            <h2 class="title">{{ guide.title }}</h2>
-                        </div>
-                    </a>
+                    {{ GuideCard(guide) }}
                 {% endfor %}
             </div>
         </div>

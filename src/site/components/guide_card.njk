@@ -1,0 +1,19 @@
+{% macro GuideCard(guide = {}) %}
+<a href="{{ guide.link }}" class="guide_card"{% if guide.recommended %} data-recommended="true"{% endif %}>
+    <div class="guide_card-hero">
+        <img src="{{ guide.img }}" alt="">
+        <span class="ribbon">{{ copy.core.recommended[lang] }}</span>
+    </div>
+    <div class="guide_card-text">
+        <div class="guide_card-meta">
+            <span class="chip primary">
+                <span class="chip-text">{{ guide.difficulty }}</span>
+            </span>
+            <span class="chip default">
+                <span class="chip-text">{{ guide.duration }}</span>
+            </span>
+        </div>
+        <h2 class="title">{{ guide.title }}</h2>
+    </div>
+</a>
+{% endmacro%}

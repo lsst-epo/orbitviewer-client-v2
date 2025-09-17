@@ -1,0 +1,16 @@
+// ribbon.scss
+
+@use '../base/mixins' as *;
+@use '../base/typography' as *;
+
+.ribbon {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 2px 20px;
+    transform: rotate(45deg) translate(14px, -40px);
+    transform-origin: bottom left;
+    background: var(--color-turquoise-600);
+    @include font(overline-small);
+}

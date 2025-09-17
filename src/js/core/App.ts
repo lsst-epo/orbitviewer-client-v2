@@ -301,7 +301,7 @@ export class App implements NomadRouteListener {
 				const page = this.currentPage as OrbitViewerPage;
 				performanceTest.finished = true;
 				performanceTest.averageDT = dt * 1000;
-				page.onboarding?.updateRecommendedTier();
+				// page.onboarding?.updateRecommendedTier();
 				this.testRunning = false;
 				GLOBALS.loader.hide();
 				// this.initNomad();
