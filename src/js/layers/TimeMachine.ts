@@ -69,14 +69,14 @@ class TimeMachine extends Layer implements SliderListener {
 		}
 
 		updateLabel() {
+			const speedTooltip = this.dom.querySelector('.rangeslider_input-thumb .value');
 			this.collapsedLabel.textContent = `${CLOCK_SETTINGS.speed} hrs/s`
-			// to-do: fold css class
+			
 			if(CLOCK_SETTINGS.speed === 0){
-
+				speedTooltip.setAttribute('hidden', '');
 			} else {
-				
+				speedTooltip.removeAttribute('hidden');
 			}
-
 		}
 
 		open(): Promise<void> {

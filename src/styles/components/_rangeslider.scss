@@ -62,9 +62,16 @@
                 
                 .value {
                     position: absolute;
-                    min-width: 100%;
+                    min-width: 100%;                    
                     transform: translateY(-28px);
+                    opacity: 1;
+                    transition: all .3s ease-in;
                     user-select: none;
+
+                    &[hidden] {
+                        transform: translateY(-20px);
+                        opacity: 0;
+                    }
                 }
 
                 &:hover,
