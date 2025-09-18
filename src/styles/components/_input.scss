@@ -7,13 +7,17 @@
 .select {
     position: relative;
     color: var(--color-text);
-    border: solid 1px transparent;
+    // border: solid 1px transparent;
     @include frozen_glass;
     @include gradient_border;
 
 
     &:focus-within {
-        border-color: rgba(var(--color-white-rgb), .35);
+        background: 
+        linear-gradient(180deg, rgba(255,255,255,.20) 0%, rgba(255,255,255,.15) 100%),
+        linear-gradient(180deg, rgba(0,0,0,.8) 0%, rgba(0,0,0,.8) 100%);
+        // border-color: rgba(var(--color-white-rgb), .35);
+        outline: solid 1px rgba(var(--color-white-rgb), .35);
     }
     
     input[type=search],

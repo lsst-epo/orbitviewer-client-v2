@@ -35,7 +35,7 @@
 
         @include media(medium) {
             display: none;
-        }
+        } 
     }
 
     &-body {
@@ -82,6 +82,10 @@
                     .input {
                         flex: 0 0 auto;
                         width: 100%;
+                        
+                        @include media(medium) {
+                            border-radius: var(--corner-large) var(--corner-large) 0 0;
+                        }
 
                         input:disabled {
                             opacity: .5;

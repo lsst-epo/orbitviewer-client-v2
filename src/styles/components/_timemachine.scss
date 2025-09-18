@@ -81,9 +81,9 @@
                         width: var(--size);
                         height: var(--size);
                         fill: transparent;
-                        stroke: var(--color-turquoise-400);
+                        stroke: var(--color-turquoise-500);
                         stroke-dasharray: 80;
-                        stroke-dashoffset: 70;
+                        stroke-dashoffset: 74;
                         stroke-linecap: round;
                         transform: rotate(0);
                         animation: fillRotate var(--speed, 1s) linear infinite;
@@ -163,6 +163,19 @@
     
     &-body {
         display: none;
+
+        .rangeslider {
+            .track {
+                clip-path: polygon(
+                    0% 0%,
+                    50% 30%,
+                    100% 0%,
+                    100% 100%,
+                    50% 70%,
+                    0% 100%
+                );
+            }
+        }
     }
 
     &--open {
