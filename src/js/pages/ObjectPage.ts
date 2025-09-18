@@ -302,7 +302,7 @@ export class ObjectPage extends DefaultPage {
     }
 
     fillWithContent(cnt, data) {
-        // console.log(cnt);
+        console.log(cnt.title);
         const h1 = this.dom.querySelector('h1#object-name');
         h1.textContent = cnt.title;
 

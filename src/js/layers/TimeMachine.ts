@@ -56,7 +56,6 @@ class TimeMachine extends Layer implements SliderListener {
 		// this.timemachineSlider.setValues([0]);
       
 			this.start();
-		this.isInitialized = true;
     }
 
 		updatePlayPause() {
