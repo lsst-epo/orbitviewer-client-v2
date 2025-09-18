@@ -21,6 +21,7 @@ export class ObjectPage extends DefaultPage {
     isSolarItem:boolean;
 
     _onKeydown;
+    scrollHandler: () => void;
     
     constructor(id: string, template: string, dom: HTMLElement) {
         super(id, template, dom);
@@ -135,6 +136,8 @@ export class ObjectPage extends DefaultPage {
         this._onKeydown = this.onKeyDown.bind(this);
         window.addEventListener('keydown', this._onKeydown);
 
+        this.setupStickyNavigation();
+
         super.create();
     }
     
@@ -146,6 +149,29 @@ export class ObjectPage extends DefaultPage {
         if(e.key === 'Escape') {
             GLOBALS.nomad.goToPath(`/${GLOBALS.lang}`);
         }
+    }
+
+    setupStickyNavigation(): void {
+        const { isMobile } = GLOBALS;
+        if (!isMobile()) return;
+
+        const objectCard = this.dom.querySelector('.object_card') as HTMLElement;
+        const navigation = document.querySelector('.navigation') as HTMLElement;
+
+        if (!objectCard || !navigation) return;
+
+        this.scrollHandler = () => {
+            const rect = objectCard.getBoundingClientRect();
+            const isAtTop = rect.top <= navigation.offsetHeight;
+            
+            if (isAtTop) {
+                navigation.classList.add('sticky');
+            } else {
+                navigation.classList.remove('sticky');
+            }
+        };
+        
+        window.addEventListener('scroll', this.scrollHandler);
     }
 
     transitionIn(resolve: any): Promise<void> {
