@@ -409,7 +409,7 @@ export default {
     },
     "search": {
         "title": {
-            "en": "Serch",
+            "en": "Search",
             "es": "Buscar"
         },
         "search_cloud": {
