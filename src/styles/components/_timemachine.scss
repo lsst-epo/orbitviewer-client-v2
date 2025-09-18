@@ -21,16 +21,18 @@
     }
 
     &:not(.collapsed) {
-        min-height: var(--timemachine-height);
+        // min-height: var(--timemachine-height);
 
-        .timemachine-toggle .button span {
-            display: none;
-        }
+        // .timemachine-toggle .button span {
+        //     display: none;
+        // }
 
         .timemachine-body {
-            display: block;
-            padding: 8px 16px;
-            border-top: solid 1px var(--color-border);
+            .content {
+                display: block;
+                padding: 8px 16px;
+                border-top: solid 1px var(--color-border);
+            }
         }
     }
 
@@ -162,24 +164,22 @@
             border-left: solid 1px var(--color-border);
 
             .button span {
+                width: 0;
                 @include font(caption-regular-caps);
+                overflow: hidden;
                 white-space: nowrap;
             } 
 
         }
     
     &-body {
-        display: none;
+        // display: none;
 
         .rangeslider {
             .track {
                 clip-path: polygon(
-                    0% 0%,
-                    50% 30%,
-                    100% 0%,
-                    100% 100%,
-                    50% 70%,
-                    0% 100%
+                    0% 0%, 50% 30%, 100% 0%,
+                    100% 100%, 50% 70%, 0% 100%
                 );
             }
         }

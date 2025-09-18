@@ -1,4 +1,5 @@
 import flatpickr from "flatpickr";
+import gsap from "gsap";
 import RangeSlider from "../components/RangeSlider";
 import Layer from "./Layer";
 import { CLOCK_SETTINGS, GLOBALS } from "../core/Globals";
@@ -210,13 +211,57 @@ class TimeMachine extends Layer implements SliderListener {
 
     toggle() {
         const isExpanded = this.toggleButton.getAttribute('aria-expanded');
-        if (isExpanded === "true") {
+		const timeMachineBody = this.dom.querySelector('.timemachine-body') as HTMLElement;
+		const timeMachineTooltip = this.dom.querySelector('.rangeslider_input-thumb .value') as HTMLElement;
+		const timeMachineToggle = this.dom.querySelector('.timemachine-toggle .button span') as HTMLElement;
+        
+		if (isExpanded === "true") {
             this.toggleButton.setAttribute('aria-expanded', "false");
+			
+			gsap.timeline()
+				.to(timeMachineTooltip, {
+					y: '-50%',
+					opacity: 0,
+					duration: 0.3,
+					ease: "power2.inOut"
+				})
+				.set(timeMachineBody, { overflow: 'hidden' })
+				.to(timeMachineBody, {
+					height: 0,
+					duration: 0.5,
+					ease: "power2.inOut"
+				})
+				.to(timeMachineToggle, {
+					width: 'auto',
+					duration: 0.3,
+					ease: "power2.inOut"
+				});
         } else {
             this.toggleButton.setAttribute('aria-expanded', "true");
+			gsap.timeline()
+				.to(timeMachineBody, {
+					height: 'auto',
+					duration: 0.5,
+					ease: "power2.inOut"
+				})
+				.set(timeMachineBody, { overflow: 'visible' })
+				.to(timeMachineTooltip, {
+					y: '-100%',
+					opacity: 0,
+					duration: 0.3,
+					ease: "power2.inOut",
+					onComplete: () => {
+						gsap.set(timeMachineTooltip, { clearProps: "all" });
+					}
+				})
+				.to(timeMachineToggle, {
+					width: 0,
+					duration: 0.3,
+					ease: "power2.inOut"
+				});
         }
 
-        this.dom.classList.toggle('collapsed');
+        // this.dom.classList.toggle('collapsed');
     }
 
 		onChange(normalizedValue: number): void {
