@@ -35,10 +35,7 @@ class TimeMachine extends Layer implements SliderListener {
 			this.liveCheckBox.onclick = () => {
 				if(this.liveCheckBox.disabled) return;
 				this.liveCheckBox.disabled = true;
-				this.liveCheckBox.checked = true;
-				this.timemachineSlider.value = 0.5;
-				GLOBALS.solarClock.goLive();
-				this.updatePlayPause();
+				this.updateLiveState();
 			}
 
 			this.playPause = dom.querySelector('button.button_icon');
@@ -57,6 +54,13 @@ class TimeMachine extends Layer implements SliderListener {
       
 			this.start();
     }
+
+		updateLiveState() {
+			this.liveCheckBox.checked = true;
+			this.timemachineSlider.value = 0.5;
+			GLOBALS.solarClock.goLive();
+			this.updatePlayPause();
+		}
 
 		updatePlayPause() {
 			if(GLOBALS.solarClock.playing) {
@@ -116,7 +120,10 @@ class TimeMachine extends Layer implements SliderListener {
 			return super.close();
 		}
 
-    start() {		
+    start() {
+      // Store reference to TimeMachine instance for use in callbacks
+      const timeMachineInstance = this;
+
       // Flatpickr Datepicker
       this.flat = flatpickr("#myDateInput", {
 			disableMobile: true,
@@ -170,8 +177,8 @@ class TimeMachine extends Layer implements SliderListener {
 					});
 
 					nowBtn?.addEventListener('click', () => {
-						const now = new Date();
-						instance.setDate(now, true);
+						timeMachineInstance.updateLiveState();
+						instance.close();
 					});
 
 					applyBtn?.addEventListener('click', () => {
