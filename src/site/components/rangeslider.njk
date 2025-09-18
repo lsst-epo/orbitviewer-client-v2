@@ -1,6 +1,6 @@
 {% from "icons.njk" import icon %}
 
-{% macro RangeSlider(id = "", values = [], minmax = []) %}
+{% macro RangeSlider(id = "", values = [], minmax = [], slidingHints = false) %}
 <div class="rangeslider" id="{{ id }}">
     <div class="rangeslider_input">
         <div class="track">
@@ -20,10 +20,12 @@
             <div class="value chip default">
                 <span class="chip-text">{{ values[0] }}</span>
             </div>
+            {% if slidingHints %}
             <div class="sliding_hints">
                 {{ icon('chevron-left', 'left') }}
                 {{ icon('chevron-right', 'right') }}
             </div>
+            {% endif %}
         </div>
         {% if values.length > 1 %}
         <div class="rangeslider_input-thumb thumb_max""
