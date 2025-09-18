@@ -28,7 +28,7 @@ class OrbitViewerPage extends DefaultPage {
 	toast: Toast;
 	// mapControls: MapControls;
 	toolbar: Toolbar;
-	elements: { splash: Element; onboarding: Element; wizard: Element; toast: Element, filters: Element; search: Element; toolbar: Element; };
+	elements: { splash: Element; onboarding: Element; wizard: Element; toast: Element, filters: Element; search: Element; toolbar: Element; timeMachine: Element };
 	openLayers: Set<string>;
 
 	isLanding:boolean = true;
@@ -58,7 +58,7 @@ class OrbitViewerPage extends DefaultPage {
 			search: document.querySelector('.search'),
 			toolbar: document.querySelector('.toolbar'),
 			toast: document.querySelector('.toast'),
-			// timeMachine: document.querySelector('.timemachine'),
+			timeMachine: document.querySelector('.timemachine'),
 			// mapControls: document.querySelector('.map_controls')
 		};
 
@@ -186,14 +186,22 @@ class OrbitViewerPage extends DefaultPage {
 	update() {
 		if(this.isLanding) return;
 
-		// TOAST
+		// MAX DATE TOAST
 		if (this.toast && GLOBALS.solarClock) {
 			const { isInEdge } = GLOBALS.solarClock;
 			const isVisible = this.toast.isVisible();
-			if (isVisible && !isInEdge) this.toast.close();
-			else if (!isVisible && isInEdge) this.toast.open();
+			
+			if (isVisible && !isInEdge) {
+				this.toast.close();
+				this.elements.timeMachine.querySelector('#myDateInput').classList.remove('error');
+				GLOBALS.timeCtrls.updatePlayPause();
+			} else if (!isVisible && isInEdge) {
+				this.toast.open();
+				this.elements.timeMachine.querySelector('#myDateInput').classList.add('error');
+				GLOBALS.solarClock.pause();
+				GLOBALS.timeCtrls.updatePlayPause();
+			}
 		}
-		// END TOAST
 
 		// PERFORMANCE TEST
 		if(GLOBALS.performanceTestDone) return;

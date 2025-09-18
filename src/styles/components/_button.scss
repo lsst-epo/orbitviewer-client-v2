@@ -4,7 +4,7 @@
 
 .button {
     --height: 40px;
-    --padding: 8px;
+    --padding: 12px;
     --icon: 16px;
     
     display: inline-flex;
@@ -25,7 +25,6 @@
         height: var(--icon);
         fill: currentColor;
     }
-
 
     &.primary {
         background: var(--color-turquoise-600);

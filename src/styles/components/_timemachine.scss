@@ -46,6 +46,7 @@
             flex-wrap: nowrap;
             align-items: center;
             padding: 0 8px;
+            gap: 4px;
 
             .button_play {
                 position: relative;
@@ -140,8 +141,14 @@
 
                 input {
                     width: 100%;
-                    padding: 4px 8px;
+                    max-width: 220px;
+                    padding: 6px;
                     border-radius: var(--corner-medium);
+
+                    &.error {
+                        background: var(--color-red-darker);
+                        color: var(--color-red-medium);
+                    } 
 
                     &:hover {
                         background: var(--color-backdrop);

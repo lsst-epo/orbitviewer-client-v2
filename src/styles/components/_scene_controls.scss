@@ -38,10 +38,12 @@
         grid-column: 1/-1;
         align-self: flex-end;
         pointer-events: initial;
+        width: 100%;
 
         @include media(medium) {
             grid-row: 2/-1;
             grid-column: 1/-1;
+            max-width: 440px;
         }
     }
 

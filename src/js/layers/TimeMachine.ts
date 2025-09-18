@@ -8,51 +8,49 @@ class TimeMachine extends Layer implements SliderListener {
     slider: HTMLElement;
   	toggleButton: HTMLElement;
   	timemachineSlider: SimpleSlider;
-
-		liveCheckBox:HTMLInputElement;
-		playPause:HTMLButtonElement;
-		collapsedLabel:HTMLSpanElement;
-
-		flat;
+	liveCheckBox:HTMLInputElement;
+	playPause:HTMLButtonElement;
+	collapsedLabel:HTMLSpanElement;
+	flat;
     
     constructor(public dom:HTMLElement) {
-      super(dom, {
-          openClass: 'timemachine--open',
-          closeClass: 'timemachine--close',
-          animationDuration: 500
-      });
+		super(dom, {
+			openClass: 'timemachine--open',
+			closeClass: 'timemachine--close',
+			animationDuration: 500
+		});
 
-			this.dom = dom;
-			this.slider = dom.querySelector('#slider-timemachine') as HTMLElement;
-    	this.toggleButton = dom.querySelector('#timemachine-toggle') as HTMLElement;
+		this.dom = dom;
+		this.slider = dom.querySelector('#slider-timemachine') as HTMLElement;
+		this.toggleButton = dom.querySelector('#timemachine-toggle') as HTMLElement;
 
-			this.timemachineSlider = new SimpleSlider(this.slider, .5);
-			this.timemachineSlider.units = "hrs/s"
-			this.timemachineSlider.setMinMax(-CLOCK_SETTINGS.maxSpeed, CLOCK_SETTINGS.maxSpeed);
-			this.timemachineSlider.addListener(this);
+		this.timemachineSlider = new SimpleSlider(this.slider, .5);
+		this.timemachineSlider.units = "hrs/s"
+		this.timemachineSlider.setMinMax(-CLOCK_SETTINGS.maxSpeed, CLOCK_SETTINGS.maxSpeed);
+		this.timemachineSlider.addListener(this);
 
-			this.liveCheckBox = dom.querySelector('input#live');
-			this.liveCheckBox.onclick = () => {
-				if(this.liveCheckBox.disabled) return;
-				this.liveCheckBox.disabled = true;
-				this.updateLiveState();
-			}
+		this.liveCheckBox = dom.querySelector('input#live');
+		this.liveCheckBox.onclick = () => {
+		if(this.liveCheckBox.disabled) return;
+			this.liveCheckBox.disabled = true;
+			this.updateLiveState();
+		}
 
-			this.playPause = dom.querySelector('button.button_icon');
-			this.playPause.onclick = () => {
-				if(GLOBALS.solarClock.playing) GLOBALS.solarClock.pause();
-				else GLOBALS.solarClock.resume();
-				this.updatePlayPause();
-			}
+		this.playPause = dom.querySelector('button.button_icon');
+		this.playPause.onclick = () => {
+			if(GLOBALS.solarClock.playing) GLOBALS.solarClock.pause();
+			else GLOBALS.solarClock.resume();
+			this.updatePlayPause();
+		}
 
-			this.collapsedLabel = dom.querySelector('button#timemachine-toggle').querySelector('span');
+		this.collapsedLabel = dom.querySelector('button#timemachine-toggle').querySelector('span');
 
 		// this.timemachineSlider.setRange(-1000, 1000);
 		// this.timemachineSlider.setValues([0, 0]);
 
 		// this.timemachineSlider.setValues([0]);
       
-			this.start();
+		this.start();
     }
 
 		updateLiveState() {
@@ -129,7 +127,7 @@ class TimeMachine extends Layer implements SliderListener {
 			disableMobile: true,
 			position: "above",
 			enableTime: true,
-			dateFormat: "M j, Y H:i",
+			dateFormat: "M j, Y H:i:S",
 			defaultDate: new Date(),
 			locale: {
 				weekdays: {
