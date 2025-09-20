@@ -9,7 +9,7 @@ eleventyComputed:
   locale: "{{ staticData.locale[lang] }}"
 ---
 
-{% set content = about[lang] %}
+{% set content = pages[lang].about %}
 
 <div class="about-page">
   <section class="about-section about_heading intersect_no-active">

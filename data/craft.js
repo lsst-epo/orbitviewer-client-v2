@@ -246,6 +246,129 @@ export async function getHowToUse(lang) {
 
 }
 
+function getAboutQuery() {
+  return `... on about_Entry {
+    id
+    title
+    eyebrowText
+    headerTitle
+    headerBody {
+      html
+      rawHtml
+      markdown
+      plainText
+    }
+    introBody {
+      html
+    }
+    introImage {
+      url @transform(width: 1480, format: "webp")
+    }
+    responsiveBody {
+      html
+      rawHtml
+      markdown
+      plainText
+    }
+    lowSettingLabel
+    lowSettingCount
+    lowSettingImages {
+      url @transform(width: 1220, format: "webp")
+    }
+    mediumSettingLabel
+    mediumSettingCount
+    mediumSettingImages {
+      url @transform(width: 1220, format: "webp")
+    }
+    highSettingLabel
+    highSettingCount
+    highSettingImages {
+      url @transform(width: 1220, format: "webp")
+    }
+    ultraSettingLabel
+    ultraSettingCount
+    ultraSettingImages {
+      url @transform(width: 1220, format: "webp")
+    }
+    observatoryBody {
+      html
+      rawHtml
+      markdown
+      plainText
+    }
+    observatoryImage {
+      urlLarge: url @transform(width: 1920, format: "webp")
+      urlMedium: url @transform(mode: "crop", width: 1440, height: 855, format: "webp")
+      urlSmall: url @transform(mode: "crop", width: 768, height: 456, format: "webp")
+    }
+    footerBody {
+      html
+      rawHtml
+      markdown
+      plainText
+    }
+    footerImage {
+      urlLarge: url @transform(width: 1920, format: "webp")
+      urlMedium: url @transform(mode: "crop", width: 1440, height: 490, format: "webp")
+      urlSmall: url @transform(mode: "crop", width: 768, height: 262, format: "webp")
+    }
+    creditsText {
+      html
+      rawHtml
+      markdown
+      plainText
+    }
+  }`
+}
+
+function getHowToQuery() {
+  return `... on howToUse_Entry {
+    id
+    title
+    eyebrowText
+    headerText
+    howToUseSection {
+      ... on howToUseSection_section_BlockType{
+        sectionTitle
+        sectionBody {
+          html
+          rawHtml
+          markdown
+          plainText
+        } 
+        sectionImage {
+          url @transform(width: 1200, format: "webp")
+        }
+      }
+    }
+  }`;
+}
+
+function getLandingQuery() {
+  return `... on landing_Entry {
+    id
+    logoImage {
+      url
+    }
+    eyebrowText
+    headlineText
+    buttonLabel
+    discoveryLabel
+  }`
+}
+
+export async function getPages(lang) {
+  const query = `query PagesQuery {
+    pagesEntries(siteId: "${lang}") {
+      ${getAboutQuery()}
+      ${getHowToQuery()}
+      ${getLandingQuery()}
+    }
+  }`
+
+  return await getQuery(query, true);
+}
+
 export async function getJSONDataFiles() {
   const query = `query getDataFileEntries{
   mpcDataFilesEntries {

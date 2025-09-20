@@ -9,7 +9,7 @@ eleventyComputed:
   locale: "{{ staticData.locale[lang] }}"
 ---
 
-{% set content = howto[lang] %}
+{% set content = pages[lang].how_to_use %}
 
 <div class="how_to-page">
   <section class="how_to_heading intersect_no-active">
