@@ -27,7 +27,7 @@ class TimeMachine extends Layer implements SliderListener {
 
 		this.timemachineSlider = new SimpleSlider(this.slider, .5);
 		this.timemachineSlider.units = "hrs/s"
-		this.timemachineSlider.setMinMax(-CLOCK_SETTINGS.maxSpeed, CLOCK_SETTINGS.maxSpeed);
+		this.timemachineSlider.setMinMax(-CLOCK_SETTINGS.maxSpeed, CLOCK_SETTINGS.maxSpeed, true);
 		this.timemachineSlider.addListener(this);
 
 		this.liveCheckBox = dom.querySelector('input#live');
@@ -264,10 +264,15 @@ class TimeMachine extends Layer implements SliderListener {
         // this.dom.classList.toggle('collapsed');
     }
 
-		onChange(normalizedValue: number): void {
+		onChange(normalizedValue: number, isDrag?:boolean): void {
 			CLOCK_SETTINGS.speed = normalizedValue;
 			GLOBALS.solarClock.resume();
 			this.updateLabel();
+
+			if(isDrag) {
+				const hints = this.dom.querySelector('.sliding_hints');
+				hints?.remove();
+			}
 
 			const sliderTooltip = this.dom.querySelector('.rangeslider_input-thumb .value span');
 			if (sliderTooltip) {
