@@ -21,6 +21,7 @@ import { CategoryCounters, CategoryTypeMap, resetSolarCategoryCounters, updateTo
 import { Solar3DElement } from "./solar/Solar3DElement";
 import { SimQuality } from "./solar/GPUSim";
 import { OBJECT_PATH_ALPHA } from "./solar/EllipticalPath";
+import { Random } from "@fils/math";
 
 export interface FollowTarget {
 	target: Solar3DElement;
@@ -394,6 +395,22 @@ export class OrbitViewer extends ThreeLayer {
 			}
 		}
 	} */
+
+	followRandomPlanet() {
+		const ids = ['mercury','venus','earth','mars','jupiter','saturn','uranus','neptune'];
+		let planet = null;
+		while(planet === null) {
+			const i = Random.randi(0, ids.length);
+			planet = this.getSolarElementBySlug(ids[i]);
+		}
+		this.fadeIn();
+		this.followSolarElement(planet);
+
+		GLOBALS.timeCtrls.close();
+		GLOBALS.mapCtrls.close();
+
+		console.log(planet);
+	}
 
 	followSolarElement(sel:SolarElement, followOrbit:boolean=false) {
 		if(sel === null) return console.warn('Null Solar Item selected!');

@@ -5,6 +5,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { Solar3DElement } from "../solar/Solar3DElement";
 import { SolarElement } from "../solar/SolarElement";
 import { OBJECT_PATH_ALPHA } from "../solar/EllipticalPath";
+import { GLOBALS } from "../../core/Globals";
 
 export interface FollowTarget {
   target: Solar3DElement;
@@ -378,7 +379,7 @@ export class CameraManager {
 
       //3. add offset
       let off = origin;
-      if(this.isTarget) {
+      if(this.isTarget && !GLOBALS.forceCenterPlanet) {
         off = t.orbit ? t.target.offsetOrbit : t.target.offsetObject;
 
         // adaptive screen-space offset

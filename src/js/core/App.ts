@@ -30,6 +30,7 @@ import { SolarTimeManager } from "./solar/SolarTime";
 import { getMeanAnomaly } from "./solar/SolarSystem";
 import { downloadJSON } from "./Utils";
 import { GuidedExperiencesPage } from "../pages/GuidedExperiencesPage";
+import { _404Page } from "../pages/404Page";
 
 export const solarClock = new SolarClock(new Clock());
 
@@ -116,6 +117,7 @@ export class App implements NomadRouteListener {
 			else if ((template === 'object') || (template === 'featured-object')) return new ObjectPage(id, template, dom)
 			else if (template === 'about') return new ScrollingPage(id, template, dom)
 			else if (template === 'how_to_use') return new ScrollingPage(id, template, dom)
+		else if (template === '404') return new _404Page(id, template, dom)
 			return new DefaultPage(id, template, dom)
 		})
 
@@ -129,6 +131,8 @@ export class App implements NomadRouteListener {
 		}
 		const template = this.currentPage.template;
 		this.share.screenCapture = (template === 'object') || (template === 'featured-object')
+
+		GLOBALS.forceCenterPlanet = template === '404';
 	}
 
 	onRouteChangeStart(href: string): void {
@@ -141,6 +145,7 @@ export class App implements NomadRouteListener {
 		GLOBALS.currentPage = this.currentPage;
 		const template = this.currentPage.template
 		this.share.screenCapture = (template === 'orbitviewerpage') || (template === 'object') || (template === 'featured-object')
+		GLOBALS.forceCenterPlanet = template === '404';
 	}
 
 	start() {
