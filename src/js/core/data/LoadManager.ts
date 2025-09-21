@@ -96,6 +96,14 @@ class LoadManagerClass {
             // console.log(entry);
         })
 
+        // create sun entry
+        const sunCat = {
+            title: "Sun",
+            mainColor: "#FDDA78",
+            threeColor: new Color(0xFDDA78),
+        }
+        CategoryNames[GLOBALS.lang]['sun'] = sunCat;
+
         // console.log(CategoryNames[GLOBALS.lang])
     }
 

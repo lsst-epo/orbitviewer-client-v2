@@ -357,7 +357,7 @@ export class CameraManager {
         maxD = dist.max;
 
         // const target = t.target;
-        dummy.position.copy(t.orbit ? t2.orbitPath.ellipse.position : t2.position);
+        dummy.position.copy(t.orbit && t2.orbitPath ? t2.orbitPath.ellipse.position : t2.position);
         this.controls.target.lerp(dummy.position, easing);
 
         const D = MathUtils.lerp(minD, maxD, 1-t.zoomLevel);

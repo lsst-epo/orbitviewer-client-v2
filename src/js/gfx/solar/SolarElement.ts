@@ -88,6 +88,7 @@ export class SolarElement extends Solar3DElement {
         this.name = id;
         this.slug = slugify(id);
         this.category = _data.category;
+        // console.log(id, this.category)
 
         let scl = .001;
 
@@ -100,7 +101,8 @@ export class SolarElement extends Solar3DElement {
         lineGeo.setAttribute('position', new BufferAttribute(pos, 3));
         this.sunLine = new Line(lineGeo, L_DUMMY);
 
-        this.orbitPath = new EllipticalPath(_data);
+        // console.log(id, _data);
+        if(id !== 'sol') this.orbitPath = new EllipticalPath(_data);
 
 
         // this.mesh = new Mesh(PLANET_GEO, this.initMaterial(opts));
@@ -168,6 +170,7 @@ export class SolarElement extends Solar3DElement {
 
     updateCameraView() {
         // const viewport = GLOBALS.getViewport();
+        if(this.data.id === 'sol') return;
         const scl = this.scale.x;
         // console.log(viewport, GLOBALS.isMobile());
 
@@ -225,6 +228,8 @@ export class SolarElement extends Solar3DElement {
     // }
 
     update(d:number) {
+        this.updateDistanceToCamera();
+        if(this.data.id === 'sol') return;
         calculateOrbitByType(this.data, d, OrbitType.Elliptical, this.position);
         // if(this.type === 'test') console.log(`${this.position.x}, ${this.position.y}, ${this.position.z}`)
 
@@ -241,13 +246,12 @@ export class SolarElement extends Solar3DElement {
         this.orbitPath.update(d, this.position, this.scale.x);
         this.orbitPath.ellipse.visible = this.enabled;
 
-        this.updateDistanceToCamera();
-
         // this.orbitPath.ellipse.visible = this.visible;
     }
     
     focus() {
         if(!this._active) return;
+        if(this.data.id === 'sol') return;
         this.orbitPath.ellipse.visible = true;
         gsap.to(this.orbitPath.material, {
             opacity: 1,
@@ -260,6 +264,7 @@ export class SolarElement extends Solar3DElement {
     blur(op?:number) {
         if(!this._active) return;
         let opacity = this.mode === 0 ? DEFAULT_PATH_ALPHA : OBJECT_PATH_ALPHA;
+        if(this.data.id === 'sol') return;
         if(op !== undefined) opacity = op;
         this.orbitPath.ellipse.visible = true;
         gsap.to(this.orbitPath.material, {

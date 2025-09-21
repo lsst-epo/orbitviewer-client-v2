@@ -283,15 +283,30 @@ export class OrbitViewer extends ThreeLayer {
 				const len = sample.length;
 
 				for(const el of solarItems) {
+					// console.log(el.elementCategory);
 					if(el.elementID.toLowerCase() === 'sol') {
 						// console.log('Add Sun');
 						//to-do: add sun
-					}
-				}
-
-				for(const el of solarItems) {
-					// console.log(el.elementCategory);
-					if(el.elementID.toLowerCase() === 'sol') {
+						const data:OrbitElements = {
+							id: "sol",
+							fulldesignation: "Sol",
+							//@ts-ignore
+							category: 'sun',
+							N:0,
+							a:0,
+							e:0,
+							i:0,
+							w:0,
+							M:0,
+							n:0,
+							q:0,
+							epoch:0,
+							type:0,
+							rubin_discovery: false
+						}
+						const element = new SolarElement(el.elementID.toLowerCase(), data);
+						this.addElementToScene(element, el.title);
+						this.sun.solarElement = element;
 						continue;
 					}
 					for(let i=0;i<len;i++) {
@@ -358,6 +373,7 @@ export class OrbitViewer extends ThreeLayer {
 		this.solarElements.push(element);
 		this.solarItemsUI.addItem(element, title);
 		this.scene.add(element);
+		if(!element.orbitPath) return;
 		this.scene.add(element.orbitPath.ellipse);
 	}
 	
@@ -440,8 +456,10 @@ export class OrbitViewer extends ThreeLayer {
 	}
 
 	followSun() {
-		this.controls.followTarget(this.sun);
-		this.solarItemsUI.hide();
+		this.controls.followTarget(this.sun, false);
+		this.fadeIn();
+		this.solarItemsUI.show(this.sun.solarElement);
+		// this.solarItemsUI.hide();
 	}
 
     setTarget(target:WebGLRenderTarget)  {
@@ -454,6 +472,7 @@ export class OrbitViewer extends ThreeLayer {
 				sel.updateCameraView();
 			}
 			this.particles.setSize(width, height);
+			this.sun.updateCameraView();
     }
 
     setData(data:OrbitElements[]) {

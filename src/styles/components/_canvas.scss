@@ -93,6 +93,7 @@
     &.trans_neptunian_objects { --color: var(--color-trans_neptunian);}
     &.interstellar_objects { --color: var(--color-interstellar);}
     &.trojans { --color: var(--color-trojans);}
+    &.sun_star { --color: var(--color-sun);}
     
     &-label {
         position: absolute;

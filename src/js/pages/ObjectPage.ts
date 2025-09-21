@@ -124,11 +124,12 @@ export class ObjectPage extends DefaultPage {
             }
             else {
                 GLOBALS.objectToggle.hide();
-                GLOBALS.viewer.followSolarElement(sel, true);
+                if(slug === 'sol') GLOBALS.viewer.followSun();
+                else GLOBALS.viewer.followSolarElement(sel, true);
             }
 
-            // To-Do: Fill in content!
-            const cnt = LoadManager.getSolarItemInfo(sel.name);
+            const cnt = slug === 'sol' ? LoadManager.getSolarItemInfo('Sol') : LoadManager.getSolarItemInfo(sel.name);
+            // console.log(cnt);
             this.fillWithContent(cnt, sel.data);
             // console.log(GLOBALS.objectToggle.selectedIndex);
         }
@@ -328,7 +329,7 @@ export class ObjectPage extends DefaultPage {
     }
 
     fillWithContent(cnt, data) {
-        console.log(cnt.title);
+        // console.log(cnt.title);
         const h1 = this.dom.querySelector('h1#object-name');
         h1.textContent = cnt.title;
 
@@ -342,6 +343,14 @@ export class ObjectPage extends DefaultPage {
         description.innerHTML = cnt.text;
 
         this.revealCategoryChip(catID);
+        if(cnt.elementID.toLowerCase() === 'sol') {
+            const units = this.dom.querySelector('.object_card-content').querySelectorAll('.object_card-unit');
+            for(let i=1; i<units.length;i++) {
+                units[i].remove();
+            }
+            return;
+        }
+
         this.fillData(data, catID, cnt.elementDiameter);
     }
 

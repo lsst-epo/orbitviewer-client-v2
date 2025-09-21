@@ -29,7 +29,8 @@ export const CategoryTypeMap:Record<SolarCategory, number> = {
 	comets: 5,
 	"interstellar-objects": 6,
 	"planets-moons": 7,
-	"jupiter-trojans": 8
+	"jupiter-trojans": 8,
+	sun: 9
 }
 
 export const TypeCategoryMap:Record<number,SolarCategory> = {
@@ -40,7 +41,8 @@ export const TypeCategoryMap:Record<number,SolarCategory> = {
 	5: "comets",
 	6: "interstellar-objects",
 	7: "planets-moons",
-	8: "jupiter-trojans"
+	8: "jupiter-trojans",
+	9: "sun"
 }
 
 export const CSSCategoryMap:Record<number, string> = {
