@@ -107,6 +107,14 @@ export class App implements NomadRouteListener {
 
 		console.log('%cSite by Fil Studio', "color:white;font-family:system-ui;font-size:1rem;font-weight:bold");
 	}
+
+	setTabContext(template:string) {
+		const hide = template !== 'object' && template !== 'featured-object' && template !== 'orbitviewerpage';
+
+		(document.querySelector('.solar-items') as HTMLElement).inert = hide;
+		(document.querySelector('.flatpickr-calendar') as HTMLElement).inert = hide;
+		(document.querySelector('.scene_controls') as HTMLElement).inert = hide;
+	}
 	
 	initNomad() {
 		const nomad = new Nomad({
@@ -134,6 +142,8 @@ export class App implements NomadRouteListener {
 		this.share.screenCapture = (template === 'object') || (template === 'featured-object')
 
 		GLOBALS.forceCenterPlanet = template === '404';
+
+		this.setTabContext(template);
 	}
 
 	onRouteChangeStart(href: string): void {
@@ -147,6 +157,7 @@ export class App implements NomadRouteListener {
 		const template = this.currentPage.template
 		this.share.screenCapture = (template === 'orbitviewerpage') || (template === 'object') || (template === 'featured-object')
 		GLOBALS.forceCenterPlanet = template === '404';
+		this.setTabContext(template);
 	}
 
 	start() {

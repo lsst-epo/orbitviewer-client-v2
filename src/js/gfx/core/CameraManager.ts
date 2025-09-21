@@ -1,11 +1,14 @@
 import { MathUtils } from "@fils/math";
 import gsap from "gsap";
-import { Euler, Object3D, PerspectiveCamera, Raycaster, Vector3 } from "three";
+import { Euler, Frustum, Matrix4, Object3D, PerspectiveCamera, Raycaster, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { Solar3DElement } from "../solar/Solar3DElement";
 import { SolarElement } from "../solar/SolarElement";
 import { OBJECT_PATH_ALPHA } from "../solar/EllipticalPath";
 import { GLOBALS } from "../../core/Globals";
+
+export const frustum = new Frustum();
+export const cameraMatrix = new Matrix4();
 
 export interface FollowTarget {
   target: Solar3DElement;
@@ -421,6 +424,11 @@ export class CameraManager {
     this.camera.position.copy(this.lockedCam.position);
     this.camera.quaternion.copy(this.lockedCam.quaternion);
 
-    // this.updateSC();
+    //4. update fustrum
+    cameraMatrix.multiplyMatrices(
+      this.camera.projectionMatrix, 
+      this.camera.matrixWorldInverse
+    );
+    frustum.setFromProjectionMatrix(cameraMatrix);
   }
 }

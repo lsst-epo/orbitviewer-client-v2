@@ -1,4 +1,4 @@
-import { BufferAttribute, BufferGeometry, ColorRepresentation, Line, LineBasicMaterial, Object3D, Vector3 } from "three";
+import { BufferAttribute, BufferGeometry, ColorRepresentation, Line, LineBasicMaterial, Object3D, Sphere, Vector3 } from "three";
 // import { isPortrait } from "../../production/utils/Helpers";
 // import { initMaterial } from "../gfx/ShaderLib";
 // import { EllipticalPath } from "./EllipticalPath";
@@ -41,6 +41,7 @@ export enum Mode {
 
 export class SolarElement extends Solar3DElement {
     container:Object3D = new Object3D();
+    boundingSphere:Sphere = new Sphere();
     // mesh:Mesh;
     data:OrbitElements;
     orbitPath:EllipticalPath;
