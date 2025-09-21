@@ -27,24 +27,24 @@ class Onboarding extends Layer {
         // this.start();
     }
 
-    // updateRecommendedTier() {
-    //     const lis = this.dom.querySelectorAll('li');
-    //     // console.log(lis);
-    //     let recommendedIndex = getRecommendedPerformanceIndex();
+    updateRecommendedTier() {
+        const lis = this.dom.querySelectorAll('li');
+        // console.log(lis);
+        let recommendedIndex = getRecommendedPerformanceIndex();
 
-    //     for(let i=0;i<4;i++) {
-    //         const li = lis[i];
-    //         const ribbon = li.querySelector('span.ribbon');
-    //         if(i === recommendedIndex) {
-    //             li.classList.add('recommended');
-    //             ribbon.setAttribute('aria-hidden', 'false');
-    //         }
-    //         else {
-    //             li.classList.remove('recommended');
-    //             ribbon.setAttribute('aria-hidden', 'true');
-    //         }
-    //     }
-    // }
+        for(let i=0;i<4;i++) {
+            const li = lis[i];
+            const ribbon = li.querySelector('span.ribbon');
+            if(i === recommendedIndex) {
+                li.classList.add('recommended');
+                ribbon.setAttribute('aria-hidden', 'false');
+            }
+            else {
+                li.classList.remove('recommended');
+                ribbon.setAttribute('aria-hidden', 'true');
+            }
+        }
+    }
 
     start() {
         const whenReady = () => {

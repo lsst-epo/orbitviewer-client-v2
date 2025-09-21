@@ -3,7 +3,7 @@ import { CanvasDOMLayer, ThreeDOMLayer } from "@fils/gl-dom";
 import { Clock } from "three";
 import { OrbitViewer } from "../gfx/OrbitViewer";
 import { initShaders } from "../gfx/Shaders";
-import { CLOCK_SETTINGS, GLOBALS, IS_DEV_MODE } from "./Globals";
+import { CLOCK_SETTINGS, GLOBALS, IS_DEV_MODE, VISUAL_SETTINGS } from "./Globals";
 import { SolarClock } from "./solar/SolarClock";
 import { getSimData, getSimDataV2 } from "./solar/SolarData";
 
@@ -31,6 +31,7 @@ import { getMeanAnomaly } from "./solar/SolarSystem";
 import { downloadJSON } from "./Utils";
 import { GuidedExperiencesPage } from "../pages/GuidedExperiencesPage";
 import { _404Page } from "../pages/404Page";
+import { SimQuality } from "../gfx/solar/GPUSim";
 
 export const solarClock = new SolarClock(new Clock());
 
@@ -127,7 +128,7 @@ export class App implements NomadRouteListener {
 		this.currentPage = nomad.route.page as DefaultPage;
 		GLOBALS.currentPage = this.currentPage;
 		if(this.currentPage.template !== "orbitviewerpage") {
-			this.viewer.adjustQualitySettings(isMobile() ? 'low' : 'medium');
+			this.viewer.adjustQualitySettings(VISUAL_SETTINGS.current as SimQuality);
 		}
 		const template = this.currentPage.template;
 		this.share.screenCapture = (template === 'object') || (template === 'featured-object')
@@ -306,7 +307,7 @@ export class App implements NomadRouteListener {
 				const page = this.currentPage as OrbitViewerPage;
 				performanceTest.finished = true;
 				performanceTest.averageDT = dt * 1000;
-				// page.onboarding?.updateRecommendedTier();
+				page.onboarding?.updateRecommendedTier();
 				this.testRunning = false;
 				GLOBALS.loader.hide();
 				// this.initNomad();

@@ -163,6 +163,10 @@ export class RubinRenderer {
     this.compRT.setSize(rnd.domElement.width, rnd.domElement.height);
   }
 
+  setTierById(id:SimQuality) {
+    this.setTier(QUALITY_TIERS[id]);
+  }
+
   setTier(tier:GFXTier) {
     this.sceneRT.samples = tier.maxSamples;
     this.glowEnabled = tier.glowEnabled;
