@@ -87,6 +87,36 @@
                             border-radius: var(--corner-large) var(--corner-large) 0 0;
                         }
 
+                        .local_search {
+                            &[aria-hidden=true] {
+                                display: none;
+                            }
+                        }
+
+                        .spinner_wrap {
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            padding: 14px;
+
+                            &[aria-hidden=true] {
+                                display: none;
+                            }
+                        }
+
+                            .spinner {
+                                position: relative;
+                                @include spinner(small);
+                            }
+
+                        .cloud_search {
+                            padding: 4px;
+
+                            &[aria-hidden=true] {
+                                display: none;
+                            }
+                        }
+
                         input:disabled {
                             opacity: .5;
                         }

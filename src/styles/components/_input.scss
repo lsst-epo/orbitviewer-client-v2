@@ -44,34 +44,27 @@
         appearance: none;
     }
 
-    .button_wrap {
+    .actions {
         position: absolute;
         right: 0;
         top: 0;
-        flex: 0 0 auto;
-        padding: 4px;
-
-        &[aria-hidden=true] {
-            display: none;
-        }
-    }
-
-    .icon_wrap {
-        position: absolute;
-        top: 0;
-        right: 0;
         display: flex;
-        padding: 12px 16px;
-        pointer-events: none;
-
-        &[aria-hidden=true] {
-            display: none;
-        }
+        align-items: center;
     }
 
-        .icon {
-            width: 24px;
-            height: 24px;
-            fill: currentColor;
+        .icon_wrap {
+            display: flex;
+            padding: 12px;
+            pointer-events: none;
+
+            &[aria-hidden=true] {
+                display: none;
+            }
         }
+
+            .icon {
+                width: 24px;
+                height: 24px;
+                fill: currentColor;
+            }
 }

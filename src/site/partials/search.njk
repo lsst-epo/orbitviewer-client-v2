@@ -4,6 +4,7 @@
 {% from '../components/rangeslider.njk' import RangeSlider %}
 {% from '../components/togglegroup.njk' import ToggleGroup %}
 {% from '../components/banner.njk' import Banner %}
+{% from '../components/spinner.njk' import Spinner %}
 
 <section class="search" aria-hidden="true">
     <header class="search-head">
@@ -18,11 +19,21 @@
                 <div class="search_card-body">
                     <div class="input" focusable="true" tabindex="0">
                         <input id="search" type="search" placeholder="Search by planet, object,.." autocomplete="off" tabindex="-1">
-                        <div class="button_wrap" aria-hidden="true">
-                            {{ Button(copy.search.search_cloud.en, 'button primary small') }}
-                        </div>
-                        <div class="icon_wrap" aria-hidden="false">
-                            {{ icon('search') }}
+                        <div class="actions">
+                            <div class="local_search" aria-hidden="false">
+                                <div class="spinner_wrap" aria-hidden="true">
+                                    {{ Spinner() }}
+                                </div>
+                                <div class="icon_wrap" aria-hidden="false">
+                                    {{ icon('search') }}
+                                </div>
+                            </div>
+                            <div class="cloud_search" aria-hidden="true">
+                                <button type="button" class="button primary small">
+                                    {{ Spinner(true) }}
+                                    <span>{{ copy.search.search_cloud[lang] }}</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
                     
