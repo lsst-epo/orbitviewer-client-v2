@@ -195,7 +195,7 @@ export class App implements NomadRouteListener {
 		// --- avoid ocasional double onloaded ----
 		let alreadyLoaded = false;
 		LoadManager.loadCore(() => {
-			console.log('loaded')
+			// console.log('loaded')
 			if(alreadyLoaded) return;
 			alreadyLoaded = true;
 			this.launch();
