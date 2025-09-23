@@ -73,13 +73,13 @@
                         opacity: 0;
                     }
 
-                    .circle {
+                    .spinner {
                         &:before {
                             border-width: 0;
                         }
                         
                         .fill {
-                            stroke-width: 0;
+                            border-width: 0;
                         }
                     }
                 }
@@ -89,13 +89,13 @@
                         opacity: 0;
                     }
 
-                    .circle {
+                    .spinner {
                         &:before {
                             border-width: 1px;
                         }
                         
                         .fill {
-                            stroke-width: 1px;
+                            border-width: 1px;
                         }
                     }
                 }

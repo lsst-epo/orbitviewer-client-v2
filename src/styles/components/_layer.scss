@@ -11,6 +11,7 @@
     flex-direction: column;
     gap: 16px;
     height: 100vh;
+    height: 100svh;
     overflow: auto;
     background: var(--color-backdrop);
     backdrop-filter: blur(var(--backdrop-blur));

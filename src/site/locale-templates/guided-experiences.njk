@@ -41,14 +41,18 @@ eleventyComputed:
                             <option value="">{{ copy.guides.index.filter.less_complex[lang] }}</option>
                             <option value="">{{ copy.guides.index.filter.more_complex[lang] }}</option>
                         </select>
-                        <div class="icon_wrap">
-                            {{ icon('chevron-down') }}
+                        <div class="select-actions">
+                            <div class="icon_wrap">
+                                {{ icon('chevron-down') }}
+                            </div>
                         </div>
                     </div>
                     <div class="input">
                         <input type="search" placeholder="{{ copy.guides.index.search[lang] }}">
-                        <div class="icon_wrap">
-                            {{ icon('search') }}
+                        <div class="input-actions">
+                            <div class="icon_wrap">
+                                {{ icon('search') }}
+                            </div>
                         </div>
                     </div>
                 </div>

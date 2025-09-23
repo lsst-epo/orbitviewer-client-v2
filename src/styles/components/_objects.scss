@@ -9,6 +9,11 @@
     &-body {
         overflow: hidden;
     }
+
+        &-content {
+            max-height: 35vh;
+            max-height: 35svh;
+        }
     
     &-list {
         @include reset_list;
@@ -139,10 +144,9 @@
                         height: 100%;
                         gap: 8px;
                         padding: 20px 16px; // padding: 16px;
-                        overflow: auto;
                         color: var(--color-text-low); // color: var(--color-text); 
                         line-height: 24px;
-                        mask: linear-gradient(to bottom, rgba(0, 0, 0, 1) 85%, rgba(0, 0, 0, 0) 100%);
+                        @include scroll-mask;
 
                         @include media(medium) {
                             padding: 20px 16px;

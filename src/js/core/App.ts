@@ -32,6 +32,7 @@ import { downloadJSON } from "./Utils";
 import { GuidedExperiencesPage } from "../pages/GuidedExperiencesPage";
 import { _404Page } from "../pages/404Page";
 import { SimQuality } from "../gfx/solar/GPUSim";
+import { GuidedExperiencePage } from "../pages/GuidedExperiencePage";
 
 export const solarClock = new SolarClock(new Clock());
 
@@ -121,12 +122,13 @@ export class App implements NomadRouteListener {
 			replace: false,
 		}, (id, template, dom) => {
 			if (template === 'orbitviewerpage') return new OrbitViewerPage(id, template, dom)
-			if (template === 'objects') return new ObjectsFiltersPage(id, template, dom)
-			if (template === 'guided_experiences') return new GuidedExperiencesPage(id, template, dom)
+			else if (template === 'objects') return new ObjectsFiltersPage(id, template, dom)
+			else if (template === 'guided_experiences') return new GuidedExperiencesPage(id, template, dom)
+			else if (template === 'guided_experience') return new GuidedExperiencePage(id, template, dom)
 			else if ((template === 'object') || (template === 'featured-object')) return new ObjectPage(id, template, dom)
 			else if (template === 'about') return new ScrollingPage(id, template, dom)
 			else if (template === 'how_to_use') return new ScrollingPage(id, template, dom)
-		else if (template === '404') return new _404Page(id, template, dom)
+			else if (template === '404') return new _404Page(id, template, dom)
 			return new DefaultPage(id, template, dom)
 		})
 

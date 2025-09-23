@@ -589,7 +589,7 @@
             .title {
                 color: var(--color-text);
                 text-align: center;
-                @include font(headline);
+                @include font(headline); 
 
                 @include media(medium) {
                     @include font(hero);

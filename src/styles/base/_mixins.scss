@@ -29,6 +29,11 @@
   }
 }
 
+@mixin scroll-mask {
+  overflow: auto;
+  mask: linear-gradient(to bottom, rgba(0, 0, 0, 1) 85%, rgba(0, 0, 0, 0) 100%);
+}
+
 @mixin scrollbar-custom {
   --thumb: rgba(var(--color-white-rgb),.5);
   --track: rgba(var(--color-black-rgb),.3);
