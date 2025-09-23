@@ -11,6 +11,29 @@
     @include frozen_glass;
     @include gradient_border;
 
+    &-wrap {
+        position: relative;
+    }
+
+        &-menu {
+            position: absolute;
+            top: calc(100% + 4px);
+            right: 0;
+            min-width: 100%;
+            z-index: 1000;
+            border-radius: var(--corner-medium);
+            @include frozen_glass;
+            @include gradient_border;
+
+            &[aria-hidden=true] {
+                display: none;
+            }
+
+            & {
+                padding: 4px;
+            }
+        }
+
 
     &:focus-within {
         background: 

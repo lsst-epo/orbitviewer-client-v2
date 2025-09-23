@@ -4,15 +4,19 @@
 @use '../base/typography' as *;
 
 .objects {
-    overflow: hidden;
+    // overflow: hidden;
 
     &-body {
-        overflow: hidden;
+        // overflow: hidden;
     }
 
         &-content {
-            max-height: 35vh;
-            max-height: 35svh;
+            // max-height: 35vh;
+            // max-height: 35svh;
+
+            // @include media(medium) {
+            //     max-height: unset;
+            // } 
         }
     
     &-list {
