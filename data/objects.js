@@ -35,8 +35,8 @@ async function getSolarItems(lang) {
     // console.log(item.textBody);
 
     item.description = item.textBody ? excerpt(item.textBody.plainText) : ""
-    // item.text = item.textBody ? item.textBody.html : "";
-    item.text = item.text || "";
+    item.text = item.textBody ? item.textBody.html : "";
+    // item.text = item.text || "";
     item.id = id;
 
     item.category = {};
@@ -76,7 +76,7 @@ async function data() {
     data: es
   }
 
-  // console.log(data.en.string);
+  // console.log(data.en);
 
   return data;
 }

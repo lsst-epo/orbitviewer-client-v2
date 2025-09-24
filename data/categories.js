@@ -2,6 +2,10 @@ import { getCategories } from './craft.js';
 
 async function getCategoriesLang(lang) {
   const src = await getCategories(lang);
+  if(!src.data) {
+    console.log(src);
+    return {}
+  }
 
   return JSON.stringify(src.data.categories);
 }
@@ -12,7 +16,7 @@ async function data() {
     es: await getCategoriesLang(2)
   };
 
-  console.log(data);
+  // console.log(data);
 
   return data;
 }

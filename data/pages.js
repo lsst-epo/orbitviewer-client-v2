@@ -25,7 +25,7 @@ async function data() {
     es: await getLangData(2),
   };
 
-  // console.log(data.en);
+  console.log(data.en);
 
   return data;
 }

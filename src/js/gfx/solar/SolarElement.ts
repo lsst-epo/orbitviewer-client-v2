@@ -161,6 +161,7 @@ export class SolarElement extends Solar3DElement {
     set enabled(value:boolean) {
         this._active = value;
         // this.parent.visible = value;
+        if(!this.orbitPath) return;
         this.orbitPath.ellipse.visible = value;
     }
 

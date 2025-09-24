@@ -16,7 +16,8 @@ async function getQuery(query = null, isDev = false) {
 
   try {
     // initiate fetch
-    const queryFetch = await fetch(`${isDev ? dev_url : url}/api`, {
+    const queryFetch = await fetch(`${dev_url}/api`, {
+      cache: 'reload',
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -49,7 +50,10 @@ export async function getSolarItemsInfo(lang) {
     ... on elements_default_Entry {
       title
       elementID
-      text
+      textBody {
+        html
+        plainText
+      }
       elementDiameter
       elementCategory {
         slug
@@ -59,7 +63,7 @@ export async function getSolarItemsInfo(lang) {
   }
 }`;
 
-  return await getQuery(query);
+  return await getQuery(query, true);
 }
 
 export async function getCategories(lang) {
@@ -70,11 +74,12 @@ export async function getCategories(lang) {
         slug
         mainColor
         objectTypeCode
+        description
       }
     }
   }`;
   
-  const content = await getQuery(query)
+  const content = await getQuery(query, true)
 
   return content;
 }
@@ -246,6 +251,7 @@ export async function getHowToUse(lang) {
 function getAboutQuery() {
   return `... on about_Entry {
     id
+    slug
     title
     eyebrowText
     headerTitle
@@ -321,6 +327,7 @@ function getAboutQuery() {
 function getHowToQuery() {
   return `... on howToUse_Entry {
     id
+    slug
     title
     eyebrowText
     headerText
@@ -344,6 +351,7 @@ function getHowToQuery() {
 function getLandingQuery() {
   return `... on landing_Entry {
     id
+    slug
     logoImage {
       url
     }
