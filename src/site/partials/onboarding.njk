@@ -42,37 +42,14 @@
             </div>
             <div class="onboarding-body">
                 <ul class="onboarding-list" aria-labelledby="onboarding-heading">
-                    {% set guides = [
-                        {
-                            img: "/assets/images/sample/Planets_and_Moons.png",
-                            recommended: true,
-                            complexity: 1,
-                            duration: 10,
-                            title: "Rubin's Cosmic Treasure Chest",
-                            link: ""
-                        },
-                        {
-                            img: "/assets/images/sample/Planets_and_Moons.png",
-                            recommended: true,
-                            complexity: 3,
-                            duration: 10,
-                            title: "Rubin's Cosmic Treasure Chest",
-                            link: ""
-                        },
-                        {
-                            img: "/assets/images/sample/Planets_and_Moons.png",
-                            recommended: true,
-                            complexity: 5,
-                            duration: 10,
-                            title: "Rubin's Cosmic Treasure Chest",
-                            link: ""
-                        }
-                    ] %}
-
-                    {% for guide in guides %}
+                    {% set nGuides = 0 %}
+                    {% for guide in guides[lang] %}
+                    {% if nGuides < 3 %}
                     <li class="onboarding-item">
                         {{ GuideCard(guide) }}
                     </li>
+                    {% endif %}
+                    {% set nGuides = nGuides + 1 %}
                     {% endfor %}
                 </ul>
             </div>

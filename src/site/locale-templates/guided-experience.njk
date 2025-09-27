@@ -1,7 +1,12 @@
 ---
 layout: base
 pageTemplate: guided-experience
-permalink: "/{{lang}}/guided-experience/"
+pagination:
+  data: "guides.%lang%"
+  alias: guide
+  size: 1
+permalink:
+  build: "/{{lang}}/guided-experiences/{{guide.slug}}/"
 eleventyComputed:
   title: "{{ settings.title }}"
   description: "{{ settings.description }}"

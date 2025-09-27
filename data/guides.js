@@ -1,6 +1,7 @@
-import { getGuidedExperiences } from './craft.js';
+import { getGuidedExperiences, slugify } from './craft.js';
 
 async function getLangData(lang) {
+  const slugs = [];
   const src = await getGuidedExperiences(lang);
   // console.log(src);
   const data = [];
@@ -8,7 +9,20 @@ async function getLangData(lang) {
     for(const entry of src.data.guidedExperiencesToursEntries) {
       // console.log(entry)
       if(entry.duration === null || !entry.complexity === null) continue;
-      data.push(entry);
+      let slug = slugify(entry.title);
+      let i = 2;
+      while(slugs.indexOf(slug) > -1) {
+        slug = `${slugify(id)}-${i++}`;
+      }
+      const guide = {
+        title: entry.title,
+        tourPicker: entry.tourPicker,
+        tourPreview: entry.tourPreview,
+        duration: entry.duration,
+        complexity: entry.complexity,
+        slug
+      }
+      data.push(guide);
     }
   }
   return data;

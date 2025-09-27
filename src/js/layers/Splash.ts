@@ -29,7 +29,7 @@ class Splash extends Layer {
 
             if (this.orbitViewer.onboarding) {
                 GLOBALS.loader.show(true);
-                const profile = null;//localStorage.getItem('rubin-data-profile');
+                const profile = localStorage.getItem('rubin-data-profile');
                 if(!profile) {
                     this.orbitViewer.appRef?.startTest();
                     this.orbitViewer.onboarding?.open();

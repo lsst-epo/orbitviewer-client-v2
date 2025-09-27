@@ -15,6 +15,7 @@ class Onboarding extends Layer {
     slides:HTMLElement[];
     step:number = 0;
     orbitButton:HTMLElement;
+    guidesButton:HTMLElement;
 
     constructor(dom, orbitviewer) {
         super(dom, {
@@ -29,6 +30,7 @@ class Onboarding extends Layer {
 
         this.slides = $$('section.onboarding-slide', dom);
         this.orbitButton = $('a.primary', this.slides[1]);
+        this.guidesButton = $('a.secondary', this.slides[1]);
     }
 
     updateRecommendedTier() {
@@ -95,6 +97,16 @@ class Onboarding extends Layer {
         this.orbitButton.onclick = () => {
             this.nextStep();
         }
+
+        this.guidesButton.onclick = () => {
+            GLOBALS.solarClock.goLive();
+        }
+
+        $$('a.guide_card', this.slides[1]).forEach(a => {
+            a.onclick = () => {
+                GLOBALS.solarClock.goLive();
+            }
+        })
     }
 
     nextStep() {
