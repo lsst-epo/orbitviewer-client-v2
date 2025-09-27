@@ -4,7 +4,7 @@ import { ObjectsScroller } from "../components/ObjectsScroller";
 
 export class GuidedExperiencePage extends DefaultPage {
     dom: HTMLElement;
-    scroller: ObjectsScroller;
+    // scroller: ObjectsScroller;
     
     constructor(id: string, template: string, dom: HTMLElement) {
         super(id, template, dom);
@@ -19,6 +19,6 @@ export class GuidedExperiencePage extends DefaultPage {
 
     dispose() {
         super.dispose();
-        this.scroller.destroy();
+        // this.scroller.destroy();
     }
 }

@@ -356,6 +356,14 @@ export default {
             "subtitle": {
                 "en": "Begin with specially designed journeys that introduce you to remarkable celestial phenomena and Rubin's groundbreaking discoveries.",
                 "es": "@todo"
+            },
+            "see_all": {
+                "en": "See all guides",
+                "es": "@todo"
+            },
+            "skip": {
+                "en": "Skip to viewer",
+                "es": "@todo"
             }
         }
     },

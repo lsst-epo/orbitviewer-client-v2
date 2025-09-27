@@ -347,10 +347,10 @@
   resolved "https://registry.yarnpkg.com/@fils/utils/-/utils-0.0.20.tgz#d793e7e0fba314fbf9f6a90c20f0308b0674171f"
   integrity sha512-H0lGl9r53R0svS+Aighy2VGqkVKGkcB9Qza3U7S9OevbFZLsGifMkCAHuo8teZNc/kY/qcsOO/y5MzYaKk1rHg==
 
-"@fils/utils@^0.1.1":
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/@fils/utils/-/utils-0.1.1.tgz#d56ec6756a7a613f6ffe7e9fbb8e04ced51da81a"
-  integrity sha512-RmtCtCY5wM4q7wWClKbmMqIPUzplQQYy4KQOo2YZYdHA9j09n8i7OhwVyghzH5PbbhK8AB/ng8OngaJQU8l2KA==
+"@fils/utils@^0.1.2":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@fils/utils/-/utils-0.1.2.tgz#03dad3f7a4a0799484a94358147c0212f5ef516e"
+  integrity sha512-0Wgea8zddfxmSgXhfHL53ibBPYqk1uq0/+R0wgU0J+jB/+ei2COTzdUnUQysOCdN8IyHjdPS2BYOMAGJ1Oy85Q==
 
 "@fils/vfx@^0.2.3":
   version "0.2.3"

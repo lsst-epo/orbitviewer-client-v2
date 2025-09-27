@@ -34,7 +34,7 @@
         </div>
     </section>
 
-    {# <section class="onboarding-slide" aria-hidden="false" role="main" aria-labelledby="onboarding-heading">
+    <section class="onboarding-slide" aria-hidden="true" role="main" aria-labelledby="onboarding-heading">
         <div class="onboarding-content">
             <div class="onboarding-heading">
                 <h2 class="onboarding-title" id="onboarding-heading">{{ copy.onboarding.expedition.title[lang] }}</h2>
@@ -78,10 +78,10 @@
             </div>
             <div class="onboarding-foot">
                 <div class="actions">
-                    <a href="" class="button secondary medium">See all guides</a>
-                    <a href="" class="button primary medium">Skip to viewer</a>
+                    <a href="/{{lang}}/guided-experiences/" class="button secondary medium">{{copy.onboarding.expedition.see_all[lang]}}</a>
+                    <a href="javascript:void(0);" class="button primary medium">{{copy.onboarding.expedition.skip[lang]}}</a>
                 </div>
             </div>
         </div>
-    </section> #}
+    </section>
 </div>
