@@ -674,6 +674,20 @@ export default {
             "search": {
                 "en": "Search",
                 "es": "@todo"
+            },
+        },
+        "difficulty": {
+            "easy": {
+                "en": "Easy",
+                "es": "@todo"
+            },
+            "medium": {
+                "en": "Medium",
+                "es": "@todo"
+            },
+            "hard": {
+                "en": "Hard",
+                "es": "@todo"
             }
         }
     },
@@ -712,11 +726,11 @@ export default {
     "about": {
         "observatory_title": {
             "en": "NSF-DOE Rubin Observatory",
-            "es": "NSF-DOE Rubin Observatory"
+            "es": "@todo"
         },
         "credits": {
             "en": "Credits",
-            "es": "Credits"
+            "es": "@todo"
         }
     },
     "e404": {

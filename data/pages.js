@@ -1,4 +1,4 @@
-import { getAbout, getPages } from './craft.js';
+import { getPages } from './craft.js';
 
 async function getLangData(lang) {
   const src = await getPages(lang);

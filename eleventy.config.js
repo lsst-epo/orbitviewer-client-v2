@@ -107,6 +107,12 @@ export default function (eleventyConfig) {
 		return dm.toFixed(2);
 	});
 
+	eleventyConfig.addNunjucksFilter("difficulty", function(src, copies, lang) {
+		if(src === 1) return copies.easy[lang];
+		if(src < 4) return copies.medium[lang];
+		return copies.hard[lang];
+	});
+
 	return {
 		dir: {
 			input: 'src/site/pages',

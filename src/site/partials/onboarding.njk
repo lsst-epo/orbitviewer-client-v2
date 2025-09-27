@@ -1,5 +1,5 @@
 {% from '../components/button.njk' import Button %}
-{% from '../components/guide_card.njk' import GuideCard %}
+{% from '../components/guide_card.njk' import GuideCard with context %}
 
 <div class="onboarding" aria-hidden="true">
     <section class="onboarding-slide" aria-hidden="false" role="main" aria-labelledby="onboarding-heading">
@@ -46,24 +46,24 @@
                         {
                             img: "/assets/images/sample/Planets_and_Moons.png",
                             recommended: true,
-                            difficulty: "Easy",
-                            duration: "10 Min",
+                            complexity: 1,
+                            duration: 10,
                             title: "Rubin's Cosmic Treasure Chest",
                             link: ""
                         },
                         {
                             img: "/assets/images/sample/Planets_and_Moons.png",
                             recommended: true,
-                            difficulty: "Easy",
-                            duration: "10 Min",
+                            complexity: 3,
+                            duration: 10,
                             title: "Rubin's Cosmic Treasure Chest",
                             link: ""
                         },
                         {
                             img: "/assets/images/sample/Planets_and_Moons.png",
                             recommended: true,
-                            difficulty: "Easy",
-                            duration: "10 Min",
+                            complexity: 5,
+                            duration: 10,
                             title: "Rubin's Cosmic Treasure Chest",
                             link: ""
                         }

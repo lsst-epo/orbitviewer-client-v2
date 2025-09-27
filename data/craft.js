@@ -1,11 +1,10 @@
 import { configDotenv } from "dotenv";
 
-const url = 'https://orbitviewer-api-dot-skyviewer.uw.r.appspot.com';
-const dev_url = 'https://api-dev.orbitviewer.dev';
+const url = 'https://api-dev.orbitviewer.dev';
 
 configDotenv();
 
-async function getQuery(query = null, isDev = false) {
+async function getQuery(query = null) {
 
   if(query === null){
     throw new Error();
@@ -16,7 +15,7 @@ async function getQuery(query = null, isDev = false) {
 
   try {
     // initiate fetch
-    const queryFetch = await fetch(`${dev_url}/api`, {
+    const queryFetch = await fetch(`${url}/api`, {
       cache: 'reload',
       method: "POST",
       headers: {
@@ -63,7 +62,7 @@ export async function getSolarItemsInfo(lang) {
   }
 }`;
 
-  return await getQuery(query, true);
+  return await getQuery(query);
 }
 
 export async function getCategories(lang) {
@@ -79,7 +78,7 @@ export async function getCategories(lang) {
     }
   }`;
   
-  const content = await getQuery(query, true)
+  const content = await getQuery(query)
 
   return content;
 }
@@ -214,7 +213,7 @@ export async function getAbout(lang) {
     }
   }`;
 
-  return await getQuery(query, true);
+  return await getQuery(query);
 
 }
 
@@ -244,7 +243,7 @@ export async function getHowToUse(lang) {
     }
   }`;
 
-  return await getQuery(query, true);
+  return await getQuery(query);
 
 }
 
@@ -371,7 +370,7 @@ export async function getPages(lang) {
     }
   }`
 
-  return await getQuery(query, true);
+  return await getQuery(query);
 }
 
 export async function getJSONDataFiles() {
@@ -385,6 +384,27 @@ export async function getJSONDataFiles() {
   }
   }`
 
-  return await getQuery(query, true);
+  return await getQuery(query);
 
+}
+
+export async function getGuidedExperiences(lang) {
+  const query = `query GuidedExperiences {
+    guidedExperiencesToursEntries(siteId: "${lang}") {
+      ... on default_Entry {
+        title
+        tourPicker {
+          title
+        }
+        tourPreview {
+          title
+          url @transform(width: 600, format: "webp")
+        }
+        duration
+        complexity
+      }
+    }
+} `
+
+  return await getQuery(query);
 }
