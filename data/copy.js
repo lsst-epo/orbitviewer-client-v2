@@ -201,22 +201,6 @@ export default {
                 "en": "NSF-DOE Vera C. Rubin Observatory logo",
                 "es": "logo del Observatorio Vera C. Rubin de NSF-DOE"
             }
-        },
-        "title": {
-            "en": "NSF–DOE Vera C. Rubin Observatory’s<br/>3D Orbitviewer",
-            "es": "<br/>Orbitviewer 3D del Observatorio Vera C. Rubin de NSF-DOE"
-        },
-        "subtitle": {
-            "en": "Mapping the Solar System Like Never Before",
-            "es": "Explora el Sistema Solar como nunca antes"
-        },
-        "action": {
-            "en": "Start exploring",
-            "es": "Comienza a explorar"
-        },
-        "discoveries": {
-            "en": "Rubin disociareis (so far)",
-            "es": "Descubrimientos de Rubin (hasta ahora)"
         }
     },
     "object": {

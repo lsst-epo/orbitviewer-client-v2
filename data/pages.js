@@ -6,12 +6,12 @@ async function getLangData(lang) {
   const data = {};
   if(src.data) {
     for(const entry of src.data.pagesEntries) {
-      if(parseInt(entry.id) === 2305) {
+      if(entry.slug === 'about') {
         data.about = entry;
       }
-      else if(parseInt(entry.id) === 2307) {
+      else if(entry.slug === 'how-to-use') {
         data.how_to_use = entry;
-      } else if(parseInt(entry.id) === 2325) {
+      } else if(entry.slug === 'landing') {
         data.landing = entry;
       }
     }
@@ -25,7 +25,7 @@ async function data() {
     es: await getLangData(2),
   };
 
-  console.log(data.en);
+  // console.log(data.en.landing);
 
   return data;
 }

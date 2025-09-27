@@ -1,22 +1,24 @@
 {% from '../components/button.njk' import Button %}
 
+{% set content = pages[lang].landing %}
+
 <section class="splash" aria-hidden="false">
     <div class="splash-body">
         <div class="splash-triad">
-            <img src="/assets/images/rubin-nsf-doe-triad.png" alt="{{ copy.splash.logo.alt[lang] }}">
+            <img src="{{content.logoImage[0].url}}" alt="{{ copy.splash.logo.alt[lang] }}">
         </div>
 
         <div class="splash-heading">
-            <h1 class="title">{{ copy.splash.title[lang] | safe }}</h1>
-            <h2 class="subtitle">{{ copy.splash.subtitle[lang] }}</h2>
+            <h1 class="title">{{ content.headlineText | safe }}</h1>
+            <h2 class="subtitle">{{ content.eyebrowText }}</h2>
         </div>
 
         <div class="splash-action">
-            <a href="{{utils.void}}" class="button primary medium button_start"><span>{{ copy.splash.action[lang] }}</span></a>
+            <a href="{{utils.void}}" class="button primary medium button_start"><span>{{ content.buttonLabel }}</span></a>
         </div>
 
         <div class="splash-count" role="status" aria-live="polite">
-            <p class="label">{{ copy.splash.discoveries[lang] }}</p>
+            <p class="label">{{ content.discoveryLabel }}</p>
             <p class="value" aria-label="745,259 discoveries">745,259</p>
         </div>
     </div>
