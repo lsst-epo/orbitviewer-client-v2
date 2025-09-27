@@ -689,6 +689,22 @@ export default {
                 "en": "Hard",
                 "es": "@todo"
             }
+        },
+        "entry": {
+            "navigation": {
+                "guides": {
+                    "en": "Guides",
+                    "es": "@todo"
+                },
+                "next": {
+                    "en": "Next",
+                    "es": "@todo"
+                },
+                "previous": {
+                    "en": "Previous",
+                    "es": "@todo"
+                }
+            }
         }
     },
     "modal": {

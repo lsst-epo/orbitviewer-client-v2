@@ -20,8 +20,20 @@ async function getLangData(lang) {
         tourPreview: entry.tourPreview,
         duration: entry.duration,
         complexity: entry.complexity,
-        slug
+        slug,
+        slides: []
       }
+
+      for(const slide of entry.flexible) {
+        // console.log(slide);
+        if(!slide.slideTitle && !slide.subTitle && !slide.slideContent && !slide.slideText) continue;
+        guide.slides.push(slide);
+      }
+
+      if(guide.slides.length === 0) continue;
+
+      // if(lang === 1) console.log(guide);
+
       data.push(guide);
     }
   }
@@ -34,7 +46,7 @@ async function data() {
     es: await getLangData(2),
   };
 
-  console.log(data.en);
+  // console.log(data.en);
 
   return data;
 }

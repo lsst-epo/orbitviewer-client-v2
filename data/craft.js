@@ -402,6 +402,34 @@ export async function getGuidedExperiences(lang) {
         }
         duration
         complexity
+        flexible {
+          ... on introSlide_Entry {
+            thumbnail
+            slideContent
+            subTitle
+            slideTitle
+          }
+          ... on defaultSlide_Entry {
+            slideContent
+            subTitle
+            slideTitle
+          }
+          ... on funFactSlide_Entry {
+            slideContent
+          }
+          ... on shareSlide_Entry {
+            slideTitle
+            slideText
+            Link1
+            link1Text
+            link2
+            link2Text
+            link3
+            link3Text
+            link4
+            link4Text
+          }
+        }
       }
     }
 } `
