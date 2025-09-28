@@ -4,7 +4,7 @@
 
 {% set slide = guide.slides[0] %}
 
-<section class="object_detail" role="main" aria-labelledby="guide_step-title" aria-hidden="false">
+<section class="object_detail" role="main" aria-labelledby="guide_step-title" aria-hidden="false" data-slides="{{guide.slides | stringify}}">
     <div class="object_detail-frame" aria-hidden="false"></div>
     <div class="object_detail-content"> {# style='transform: translateY(100%);' #}
         <div class="guide_step">
@@ -14,7 +14,7 @@
                     <div class="steps" aria-label="Step 1 of 12" role="status">
                         <span aria-current="step">1</span> / <span>{{guide.slides.length}}</span>
                     </div>
-                    <div class="progress" aria-hidden="true"><div class="current" style="width: 30%"></div></div>
+                    <div class="progress" aria-hidden="true"><div class="current" style="width: 0%"></div></div>
                 </header>
                 <div class="guide_step-body">
                     <div class="guide_step-hero">
@@ -37,11 +37,11 @@
                     </a>
 
                     <div class="nav">
-                        <a href="javascript:void(0);" class="button small ghost">
+                        <a href="javascript:void(0);" class="button small ghost" guide-previous data-enabled="true">
                             {{ icon('chevron-left')}}
                             <span>{{copy.guides.entry.navigation.previous[lang]}}</span>
                         </a>
-                        <a href="javascript:void(0);" class="button small primary">                        
+                        <a href="javascript:void(0);" class="button small primary" guide-next data-enabled="true">
                             <span>{{copy.guides.entry.navigation.next[lang]}}</span>
                             {{ icon('chevron-right')}}
                         </a>

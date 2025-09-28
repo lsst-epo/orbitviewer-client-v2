@@ -8,7 +8,7 @@ async function getLangData(lang) {
   if(src.data) {
     for(const entry of src.data.guidedExperiencesToursEntries) {
       // console.log(entry)
-      if(entry.duration === null || !entry.complexity === null) continue;
+      if(entry.duration === null || !entry.complexity === null || !entry.title) continue;
       let slug = slugify(entry.title);
       let i = 2;
       while(slugs.indexOf(slug) > -1) {

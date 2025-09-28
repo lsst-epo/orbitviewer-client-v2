@@ -232,6 +232,28 @@ export class OrbitViewer extends ThreeLayer {
 			}
 		}
 
+		goToGuidedExperienceMode(goLive:boolean=true) {
+			this.solarItemsUI.landingMode = false;
+			this.fadeIn();
+			this.controls.releaseCameraTarget();
+			this.particles.highlighted = true;
+			gsap.killTweensOf(CLOCK_SETTINGS);
+			if(goLive) GLOBALS.solarClock.goLive();
+
+			this.solarItemsUI.show(null);
+
+			GLOBALS.share.screenCapture = true;
+
+			for(const el of this.solarElements) {
+				el.selected = false;
+				el.mode = Mode.ORBIT;
+				el.domRef.dom.style.opacity = `1`;
+			}
+
+			GLOBALS.timeCtrls.close();
+			GLOBALS.mapCtrls.close();
+		}
+
 		centerView() {
 			this.controls.centerView();
 		}

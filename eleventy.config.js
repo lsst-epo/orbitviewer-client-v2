@@ -113,6 +113,11 @@ export default function (eleventyConfig) {
 		return copies.hard[lang];
 	});
 
+	eleventyConfig.addNunjucksFilter("stringify", function(src, copies, lang) {
+		if(!src) return "";
+		return JSON.stringify(src);
+	});
+
 	return {
 		dir: {
 			input: 'src/site/pages',
