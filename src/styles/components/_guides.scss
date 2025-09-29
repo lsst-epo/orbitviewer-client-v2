@@ -32,6 +32,8 @@
         grid-column: 2/-1;
         display: grid;
         grid-template-columns: repeat(1, 1fr);
+        grid-template-rows: min-content; // Cards will size to their natural height
+        align-content: start; // Grid rows start at top instead of stretching
         gap: 16px;
         padding: 2px var(--site-margin-large) var(--site-margin-large);
 
