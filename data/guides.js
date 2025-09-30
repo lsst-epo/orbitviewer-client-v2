@@ -15,6 +15,7 @@ async function getLangData(lang) {
         slug = `${slugify(id)}-${i++}`;
       }
       const guide = {
+        featured: entry.featuredTour,
         title: entry.title,
         tourPicker: entry.tourPicker,
         tourPreview: entry.tourPreview,
@@ -28,6 +29,7 @@ async function getLangData(lang) {
         // console.log(slide);
         if(!slide.slideTitle && !slide.subTitle && !slide.slideContent && !slide.slideText) continue;
         guide.slides.push(slide);
+        // console.log(slide.closeUp)
       }
 
       if(guide.slides.length === 0) continue;

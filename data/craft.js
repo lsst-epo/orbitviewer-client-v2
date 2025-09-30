@@ -391,7 +391,8 @@ export async function getJSONDataFiles() {
 export async function getGuidedExperiences(lang) {
   const query = `query GuidedExperiences {
     guidedExperiencesToursEntries(siteId: "${lang}") {
-      ... on default_Entry {
+      ... on tour_Entry {
+        featuredTour
         title
         tourPicker {
           title
@@ -413,6 +414,11 @@ export async function getGuidedExperiences(lang) {
             slideContent
             subTitle
             slideTitle
+            closeUp {
+              ... on elements_default_Entry {
+                elementID
+              }
+            }
           }
           ... on funFactSlide_Entry {
             slideContent

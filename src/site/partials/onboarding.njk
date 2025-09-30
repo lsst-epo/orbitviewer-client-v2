@@ -44,7 +44,7 @@
                 <ul class="onboarding-list" aria-labelledby="onboarding-heading">
                     {% set nGuides = 0 %}
                     {% for guide in guides[lang] %}
-                    {% if nGuides < 3 %}
+                    {% if nGuides < 3 and guide.featured %}
                     <li class="onboarding-item">
                         {{ GuideCard(guide) }}
                     </li>

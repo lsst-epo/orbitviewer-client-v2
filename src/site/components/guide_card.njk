@@ -1,10 +1,10 @@
 {% macro GuideCard(guide = {}) %}
-<a href="/{{lang}}/guided-experiences/{{ guide.slug }}" class="guide_card"{% if guide.recommended %} data-recommended="true"{% endif %}>
+<a href="/{{lang}}/guided-experiences/{{ guide.slug }}" class="guide_card"{% if guide.featured %} data-recommended="true"{% endif %}>
     <div class="guide_card-hero">
         {% if guide.tourPreview.length and guide.tourPreview[0].url %}
         <img src="{{ guide.tourPreview[0].url }}" alt="{{ guide.tourPreview[0].title }}">
         {% endif %}
-        {% if guide.recommended %}
+        {% if guide.featured %}
         <span class="ribbon">{{ copy.core.recommended[lang] }}</span>
         {% endif %}
     </div>

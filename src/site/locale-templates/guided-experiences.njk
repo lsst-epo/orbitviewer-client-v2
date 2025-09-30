@@ -92,11 +92,11 @@ eleventyComputed:
         </div>
         <div class="layer-content guides-content">
             <div class="guides-grid">
-                {% for i in range(0, 10) %}
+                {# {% for i in range(0, 10) %} #}
                 {% for guide in guides[lang] %}
                     {{ GuideCard(guide) }}
                 {% endfor %}
-                {% endfor %}
+                {# {% endfor %} #}
             </div>
         </div>
     </div>
