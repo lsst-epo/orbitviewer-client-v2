@@ -394,6 +394,7 @@ export async function getGuidedExperiences(lang) {
       ... on tour_Entry {
         featuredTour
         title
+        postDate
         tourPicker {
           title
         }

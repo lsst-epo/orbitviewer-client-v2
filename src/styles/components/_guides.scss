@@ -58,6 +58,11 @@
     @include gradient_border;
     border-radius: var(--corner-large);
     transition: all .3s var(--easing-default);
+    order: var(--order, 0);
+
+    &[aria-hidden=true] {
+        display: none;
+    }
     
     &:hover {
         box-shadow: 0 0 0 2px var(--color-turquoise-700);

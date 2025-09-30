@@ -15,7 +15,7 @@ eleventyComputed:
 {% from '../../../components/togglegroup.njk' import ToggleGroup %}
 {% from '../../../components/guide_card.njk' import GuideCard with context %}
 
-<section class="layer" aria-hidden="false">
+<section class="layer" aria-hidden="false" data-guides="{{guides[lang] | stringify}}">
     <header class="layer-head">
         {{ ButtonIcon('button_icon secondary medium button_close', 'close') }}
     </header>
@@ -33,13 +33,13 @@ eleventyComputed:
 
                 <div class="guides_filters">
                     <div class="select">
-                        <select name="" id="">
-                            <option value="" selected>{{ copy.guides.index.filter.newer[lang] }}</option>
-                            <option value="">{{ copy.guides.index.filter.older[lang] }}</option>
-                            <option value="">{{ copy.guides.index.filter.less_duration[lang] }}</option>
-                            <option value="">{{ copy.guides.index.filter.more_duration[lang] }}</option>
-                            <option value="">{{ copy.guides.index.filter.less_complex[lang] }}</option>
-                            <option value="">{{ copy.guides.index.filter.more_complex[lang] }}</option>
+                        <select name="sorting" id="sorting">
+                            <option value="date-desc" selected>{{ copy.guides.index.filter.newer[lang] }}</option>
+                            <option value="date-asc">{{ copy.guides.index.filter.older[lang] }}</option>
+                            <option value="duration-asc">{{ copy.guides.index.filter.less_duration[lang] }}</option>
+                            <option value="duration-desc">{{ copy.guides.index.filter.more_duration[lang] }}</option>
+                            <option value="complexity-asc">{{ copy.guides.index.filter.less_complex[lang] }}</option>
+                            <option value="complexity-desc">{{ copy.guides.index.filter.more_complex[lang] }}</option>
                         </select>
                         <div class="select-actions">
                             <div class="icon_wrap">
@@ -49,7 +49,7 @@ eleventyComputed:
                     </div>
                     <div class="input-wrap">
                         <div class="input">
-                            <input type="search" placeholder="{{ copy.guides.index.search[lang] }}">
+                            <input id="search" type="search" placeholder="{{ copy.guides.index.search[lang] }}">
                             <div class="input-actions">
                                 <div class="icon_wrap">
                                     {{ icon('search') }}
