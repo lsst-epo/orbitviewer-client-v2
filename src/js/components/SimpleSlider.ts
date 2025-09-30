@@ -37,6 +37,13 @@ export class SimpleSlider {
     this.track = dom.querySelector('.track');
 
     this.domV = dom.querySelector('.value').querySelector('span');
+
+    const rs = new ResizeObserver(entries => {
+      this.trackRect = this.track.getBoundingClientRect();
+      this.updateSlider();
+    });
+
+    rs.observe(this.track);
     
     this.update();
 

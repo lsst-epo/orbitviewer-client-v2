@@ -83,7 +83,7 @@ class TimeMachine extends Layer implements SliderListener {
 		}
 
 		formatSpeedLabel(hoursPerSecond: number): string {
-			if (hoursPerSecond === 0) return '0 HR/s';
+			if (hoursPerSecond === 0) return '';
 
 			const absSpeed = Math.abs(hoursPerSecond);
 			const sign = hoursPerSecond < 0 ? '-' : '';
@@ -268,6 +268,7 @@ class TimeMachine extends Layer implements SliderListener {
 			CLOCK_SETTINGS.speed = normalizedValue;
 			GLOBALS.solarClock.resume();
 			this.updateLabel();
+			this.updatePlayPause();
 
 			if(isDrag) {
 				const hints = this.dom.querySelector('.sliding_hints');
