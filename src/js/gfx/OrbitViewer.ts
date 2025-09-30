@@ -7,7 +7,7 @@ import gsap from "gsap";
 import { CLOCK_SETTINGS, GLOBALS, VISUAL_SETTINGS } from "../core/Globals";
 import { PlanetId } from "../core/solar/Planet";
 import { JD2MJD } from "../core/solar/SolarTime";
-import { getOrbitType, mapOrbitElements, mapOrbitElementsV2, OrbitDataElements, OrbitDataElementsV2 } from "../core/solar/SolarUtils";
+import { getOrbitType, mapOrbitElements, mapOrbitElementsV2, OrbitDataElements, OrbitDataElementsV2, UserFilters } from "../core/solar/SolarUtils";
 import { GFXTier, QUALITY_TIERS, RubinRenderer } from "./core/RubinRenderer";
 import { Planet } from "./solar/Planet";
 import { Mode, SolarElement } from "./solar/SolarElement";
@@ -17,7 +17,7 @@ import { Sun } from "./solar/Sun";
 import { LoadManager } from "../core/data/LoadManager";
 import { SolarItemUI } from "../layers/SolarItemsUI";
 import { CameraManager, camOcluders, DEFAULT_CAM_LIMITS } from "./core/CameraManager";
-import { CategoryCounters, CategoryTypeMap, resetSolarCategoryCounters, updateTotals } from "../core/data/Categories";
+import { CategoryCounters, CategoryFilters, CategoryTypeMap, resetSolarCategoryCounters, updateTotals } from "../core/data/Categories";
 import { Solar3DElement } from "./solar/Solar3DElement";
 import { SimQuality } from "./solar/GPUSim";
 import { OBJECT_PATH_ALPHA } from "./solar/EllipticalPath";
@@ -233,6 +233,7 @@ export class OrbitViewer extends ThreeLayer {
 		}
 
 		goToGuidedExperienceMode(elements:string[], goLive:boolean=true) {
+			this.resetFilters();
 			this.solarItemsUI.landingMode = false;
 			this.fadeIn();
 			this.controls.releaseCameraTarget();
@@ -588,5 +589,18 @@ export class OrbitViewer extends ThreeLayer {
 			if(this.paused) return;
 			if(this.useVFX) this.vfx.render(this.scene, this.camera);
 			else super.render();
+		}
+
+		resetFilters() {
+			UserFilters.distanceRange.min = CategoryFilters.a.totals.min;
+			UserFilters.distanceRange.max = CategoryFilters.a.totals.max;
+			UserFilters.discoveredBy = 0;
+			UserFilters.dateRange.min = 1900;
+			UserFilters.dateRange.max = 2100;
+			for(const key in UserFilters.categories) {
+				UserFilters.categories[key] = true;
+			}
+
+			this.filtersUpdated();
 		}
 }

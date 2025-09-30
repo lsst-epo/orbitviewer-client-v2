@@ -85,7 +85,7 @@ export async function getA() {
 
 export async function getClassificationRanges() {
 
-	const url = `${HASURA_URL}/classification_ranges_v2`;	
+	const url = `${HASURA_URL}/classification_ranges`;	
 
 	// console.log('Loading Classification Ranges...');
 

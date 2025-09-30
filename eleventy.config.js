@@ -108,8 +108,8 @@ export default function (eleventyConfig) {
 	});
 
 	eleventyConfig.addNunjucksFilter("difficulty", function(src, copies, lang) {
-		if(src === 1) return copies.easy[lang];
-		if(src < 4) return copies.medium[lang];
+		if(src < 3) return copies.easy[lang];
+		if(src < 5) return copies.medium[lang];
 		return copies.hard[lang];
 	});
 
