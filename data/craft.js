@@ -53,6 +53,9 @@ export async function getSolarItemsInfo(lang) {
         html
         plainText
       }
+      elementPreview {
+        url @transform(width: 800, format: "webp")
+      }
       elementDiameter
       elementCategory {
         slug

@@ -48,6 +48,8 @@ async function getSolarItems(lang) {
     }
     
     data.push(item);
+
+    // if(item.elementPreview.length) console.log(item.elementPreview);
   }
 
   return data;

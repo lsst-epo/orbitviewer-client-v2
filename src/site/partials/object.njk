@@ -19,9 +19,15 @@
                         <dt class="title">{{ copy.object.designation[lang] }}</dt>
                         <dd class="value"></dd>
                     </dl>
+                    {% if object.elementPreview.length > 0 %}
+                    <div class="object_card-hero" aria-hidden="false">
+                        <img src="{{object.elementPreview[0].url}}" alt="{{ copy.object.hero.alt[lang] }} {{object.title}}">
+                    </div>
+                    {% else %}
                     <div class="object_card-hero" aria-hidden="true">
                         <img src="" alt="{{ copy.object.hero.alt[lang] }} 2014 UZ224">
                     </div>
+                    {% endif %}
                     <div class="object_card-category">
                         <span class="chip object_type planets_moons" aria-hidden="true">
                             {{ icon('planets_moons', 'chip-icon') }}

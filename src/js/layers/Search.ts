@@ -1,3 +1,4 @@
+import { $ } from "@fils/utils";
 import { CategoryNames, TypeCategoryMap } from "../core/data/Categories";
 import { LoadManager } from "../core/data/LoadManager";
 import { SearchEngine } from "../core/data/SearchEngine";
@@ -23,6 +24,9 @@ class Search extends Layer {
     protected tid;
 
     notSearching:boolean = false;
+
+    localSearch:HTMLElement;
+    cloudSearch:HTMLElement;
     
     constructor(dom) {
         super(dom, {
@@ -44,6 +48,15 @@ class Search extends Layer {
 
         this.alert = dom.querySelector('.banner');
         this.errorMessage = this.alert.textContent;
+
+        this.localSearch = $('.local_search', dom);
+        this.cloudSearch = $('.cloud_search', dom);
+
+        const btn = $('button', this.cloudSearch) as HTMLButtonElement;
+        btn.onclick = () => {
+            btn.disabled = true;
+            
+        }
 
         this.start();
 
@@ -165,10 +178,14 @@ class Search extends Layer {
     showNotFound(query:string) {
         this.alert.textContent = this.errorMessage.replace('{{query}}', query);
         this.alert.setAttribute('aria-hidden', 'false');
+        this.localSearch.setAttribute('aria-hidden', 'true');
+        this.cloudSearch.setAttribute('aria-hidden', 'false');
     }
 
     hideNotFound() {
         this.alert.setAttribute('aria-hidden', 'true');
+        this.localSearch.setAttribute('aria-hidden', 'false');
+        this.cloudSearch.setAttribute('aria-hidden', 'true');
     }
 
     start() {
