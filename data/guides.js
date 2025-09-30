@@ -26,7 +26,7 @@ async function getLangData(lang) {
   if(src.data) {
     for(const entry of src.data.guidedExperiencesToursEntries) {
       // console.log(entry)
-      for(let i=0;i<10; i++) {
+      // for(let i=0;i<10; i++) {
       if(entry.duration === null || !entry.complexity === null || !entry.title) continue;
       let slug = slugify(entry.title);
       let i = 2;
@@ -35,13 +35,17 @@ async function getLangData(lang) {
       }
       slugs.push(slug);
       const guide = {
-        featured: Math.random() < .5,//entry.featuredTour,
+        // featured: Math.random() < .5,//entry.featuredTour,
+        featured: entry.featuredTour,
         title: entry.title,
-        date: generateRandomDateString(),//entry.postDate,
+        // date: generateRandomDateString(),//entry.postDate,
+        date: entry.postDate,
         tourPicker: entry.tourPicker,
         tourPreview: entry.tourPreview,
-        duration: Math.round(2 + 10 * Math.random()),//entry.duration,
-        complexity: Math.round(1 + 4 * Math.random()),//entry.complexity,
+        // duration: Math.round(2 + 10 * Math.random()),//entry.duration,
+        // complexity: Math.round(1 + 4 * Math.random()),//entry.complexity,
+        duration: entry.duration,
+        complexity: entry.complexity,
         slug,
         slides: []
       }
@@ -58,7 +62,7 @@ async function getLangData(lang) {
       // if(lang === 1) console.log(guide);
 
       data.push(guide);
-      }
+      // }
     }
   }
   return data;

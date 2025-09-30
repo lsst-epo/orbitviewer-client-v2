@@ -16,6 +16,8 @@ export class GuidedExperiencePage extends DefaultPage {
     prevBtn:HTMLElement;
 
     solarElements:string[] = [];
+
+    hero:HTMLElement;
     
     constructor(id: string, template: string, dom: HTMLElement) {
         super(id, template, dom);
@@ -29,6 +31,8 @@ export class GuidedExperiencePage extends DefaultPage {
 
         this.progressBar = $('.current', this.dom);
         this.current = $('[aria-current="step"]', this.dom);
+
+        this.hero = $('.guide_step-hero', this.dom)
 
         for(const slide of this.slides) {
             if(slide.closeUp) {
@@ -86,6 +90,8 @@ export class GuidedExperiencePage extends DefaultPage {
         // console.log(slide);
         const eyebrow = $('h3.eyebrow', this.dom);
         const text = $('.guide_step-text', this.dom);
+
+        this.hero.setAttribute('aria-hidden', `${this.currentSlide > 0}`);
 
         eyebrow.textContent = slide.subTitle || "";
         let txt = ``;
