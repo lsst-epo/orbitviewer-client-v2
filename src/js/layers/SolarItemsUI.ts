@@ -54,6 +54,13 @@ export class SolarItemUI {
     }
   }
 
+  filter(ids:string[]) {
+    for(const el of this.elements) {
+      // console.log(ids.indexOf(el.ref.slug) > -1);
+      el.enabled = ids.indexOf(el.ref.slug) > -1;
+    }
+  }
+
   hide() {
     this.dom.setAttribute('aria-hidden', 'true');
     clearTimeout(tid);

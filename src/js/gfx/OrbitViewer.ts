@@ -232,7 +232,7 @@ export class OrbitViewer extends ThreeLayer {
 			}
 		}
 
-		goToGuidedExperienceMode(goLive:boolean=true) {
+		goToGuidedExperienceMode(elements:string[], goLive:boolean=true) {
 			this.solarItemsUI.landingMode = false;
 			this.fadeIn();
 			this.controls.releaseCameraTarget();
@@ -252,6 +252,8 @@ export class OrbitViewer extends ThreeLayer {
 
 			GLOBALS.timeCtrls.close();
 			GLOBALS.mapCtrls.close();
+
+			this.solarItemsUI.filter(elements);
 		}
 
 		centerView() {
@@ -470,6 +472,12 @@ export class OrbitViewer extends ThreeLayer {
 		if(sel === this.earth) GLOBALS.clouds.forceRender = true;
 		if(followOrbit) sel.focus();
 		else sel.blur(OBJECT_PATH_ALPHA);
+	}
+
+	followSolarElementById(id:string) {
+		for(const el of this.solarElements) {
+			if(el.slug === id) return this.followSolarElement(el, !el.isPlanet);
+		}
 	}
 
 	releaseCameraTarget() {

@@ -14,6 +14,8 @@ export class GuidedExperiencePage extends DefaultPage {
 
     nextBtn:HTMLElement;
     prevBtn:HTMLElement;
+
+    solarElements:string[] = [];
     
     constructor(id: string, template: string, dom: HTMLElement) {
         super(id, template, dom);
@@ -28,7 +30,13 @@ export class GuidedExperiencePage extends DefaultPage {
         this.progressBar = $('.current', this.dom);
         this.current = $('[aria-current="step"]', this.dom);
 
-        GLOBALS.viewer.goToGuidedExperienceMode();
+        for(const slide of this.slides) {
+            if(slide.closeUp) {
+                this.solarElements.push(slide.closeUp[0].elementID);
+            }
+        }
+
+        GLOBALS.viewer.goToGuidedExperienceMode(this.solarElements);
 
         // console.log($('.nav'));
 
@@ -50,6 +58,7 @@ export class GuidedExperiencePage extends DefaultPage {
         this.prevBtn = prev;
 
         this.updateButtons();
+        this.updateSlideContent();
     }
 
     updateButtons() {
@@ -85,6 +94,13 @@ export class GuidedExperiencePage extends DefaultPage {
         text.innerHTML = txt;
 
         this.progressBar.style.width = `${100 * (this.currentSlide/(this.slides.length-1))}%`;
+
+        if(slide.closeUp) {
+            const id = slide.closeUp[0].elementID;
+            GLOBALS.viewer.followSolarElementById(id);
+        } else {
+            GLOBALS.viewer.goToGuidedExperienceMode(this.solarElements);
+        }
     }
 
     update() {
