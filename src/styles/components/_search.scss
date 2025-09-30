@@ -107,6 +107,10 @@
                             .spinner {
                                 position: relative;
                                 @include spinner(small);
+                                
+                                &[aria-hidden=true] {
+                                    display: none;
+                                }
                             }
 
                         .cloud_search {
@@ -114,7 +118,7 @@
 
                             &[aria-hidden=true] {
                                 display: none;
-                            }
+                            } 
                         }
 
                         input:disabled {
