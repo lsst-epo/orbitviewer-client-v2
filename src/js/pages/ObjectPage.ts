@@ -19,6 +19,7 @@ export class ObjectPage extends DefaultPage {
     section:HTMLElement;
 
     isSolarItem:boolean;
+    solarElement:SolarElement;
 
     _onKeydown;
     scrollHandler: () => void;
@@ -99,6 +100,10 @@ export class ObjectPage extends DefaultPage {
                 if(item.mpcdesignation === slug) {
                     // console.log('FOUND ITT!')
                     data = item;
+                    // console.log(data);
+                    this.solarElement = new SolarElement(data.mpcdesignation, data);
+                    // GLOBALS.viewer.addElementToScene(this.solarElement, data.fulldesignation);
+                    // GLOBALS.viewer.followSolarElement(this.solarElement);
                     break;
                 }
             }

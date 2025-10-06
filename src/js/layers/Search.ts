@@ -7,6 +7,7 @@ import { OrbitElements, SolarCategory } from "../core/solar/SolarSystem";
 import { mapOrbitElementsV2, OrbitDataElementsV2 } from "../core/solar/SolarUtils";
 import { SolarElement } from "../gfx/solar/SolarElement";
 import Layer from "./Layer";
+import { searchCloud } from "../core/data/QueryManager";
 
 const USE_WORKER = true;
 
@@ -29,6 +30,8 @@ class Search extends Layer {
     localSearch:HTMLElement;
     cloudSearch:HTMLElement;
     spinner:HTMLElement;
+
+    #cloudSearching:boolean = false;
     
     constructor(dom) {
         super(dom, {
@@ -61,6 +64,16 @@ class Search extends Layer {
             btn.disabled = true;
             this.spinner.setAttribute('aria-hidden', 'false');
             this.alert.setAttribute('aria-hidden', 'true');
+            this.#cloudSearching = true;
+
+            const query = this.sInput.value;
+
+            searchCloud(query).then(res=> {
+                if(!this.#cloudSearching) return;
+                this.updateCloudResults(res, query);
+            }).catch(error => {
+                this.updateCloudResults(error, query);
+            });
         }
 
         this.start();
@@ -84,6 +97,21 @@ class Search extends Layer {
         }
     }
 
+    updateCloudResults(res, query:string) {
+        if(!this.#cloudSearching) return;
+        this.#cloudSearching = false;
+        if(res.mpc_orbits && res.mpc_orbits.length) {
+
+        } else {
+            this.alert.textContent = this.errorMessageCloud.replace('{{query}}', query);
+            this.alert.setAttribute('aria-hidden', 'false');
+            // this.cloudSearch.setAttribute('aria-hidden', 'true');
+            this.spinner.setAttribute('aria-hidden', 'true');
+            const btn = $('button', this.cloudSearch) as HTMLButtonElement;
+            btn.disabled = false;
+        }
+    }
+
     protected async query(query:string) {
         const res = SearchEngine.searchWorker(query).then(res => {
             // this.sInput.disabled = false;
@@ -102,6 +130,7 @@ class Search extends Layer {
             this.sInput.oninput = () => {
                 clearTimeout(this.tid);
                 // console.log(this.sInput.value);
+                this.hideNotFound();
                 if(!this.sInput.value.length) {
                     this.hideNotFound();
                     this.showRecommended();
@@ -137,6 +166,7 @@ class Search extends Layer {
         return super.close().then(r => {
             this.sInput.value = "";
             this.showRecommended();
+            this.#cloudSearching = false;
         })
     }
 
@@ -173,6 +203,7 @@ class Search extends Layer {
         this.recommendH.setAttribute('aria-hidden', 'false');
         this.list.replaceChildren();
         this.recommended.forEach(node => this.list.appendChild(node));
+        this.cloudSearch.setAttribute('aria-hidden', 'true');
     }
 
     hideRecommended() {

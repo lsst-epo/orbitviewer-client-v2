@@ -394,7 +394,7 @@ export class OrbitViewer extends ThreeLayer {
 		// this.hidePaths();
 	}
 
-	protected addElementToScene(element:SolarElement, title:string) {
+	addElementToScene(element:SolarElement, title:string) {
 		this.solarElements.push(element);
 		this.solarItemsUI.addItem(element, title);
 		this.scene.add(element);
