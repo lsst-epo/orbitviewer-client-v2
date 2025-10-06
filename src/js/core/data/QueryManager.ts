@@ -16,6 +16,12 @@ export async function getSolarSystemElements() {
 	return await response.json();
 }
 
+export async function searchCloud(query:string) {
+	// https://hasura-688095955960.us-central1.run.app/api/rest/mpc_orbits?limit=1&a_min=0&a_max=200&rubin_discovery=true
+	const url = `${HASURA_URL}/mpc_orbits?limit=1&a_min=0&a_max=200&rubin_discovery=true`
+
+}
+
 /* export async function getSolarSystemElementsByFilter() {
 	const url = `${HASURA_URL}/orbit-elements-by-filter/${VISUAL_SETTINGS[VISUAL_SETTINGS.current]}/${distance.search.min}/${distance.search.max}/${discover.search.min}/${discover.search.max}/${filters.asteroids}/${filters.centaurs}/${filters.comets}/${filters.interestellarObjects}/${filters.nearEarthObjects}/${filters.transNeptunianObjects}`;	
 

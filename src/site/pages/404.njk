@@ -1,15 +1,16 @@
 ---
 layout: base
 pageTemplate: 404
-permalink: "/{{lang}}/404/"
+permalink: "/404.html"
 eleventyComputed:
   title: "{{ settings[lang].title }} - {{ about[lang].title }}"
   description: "{{ about[lang].headerBody.plainText }}"
   card: "{{ staticData.og.basePath }}{{ staticData.og.default }}"
   locale: "{{ staticData.locale[lang] }}"
+  lang: "en"
 ---
 
-{% from '../../../components/button.njk' import Button %}
+{% from '../components/button.njk' import Button %}
 
 <div class="e404-page">
     <div class="e404-content">

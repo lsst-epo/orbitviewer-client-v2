@@ -119,6 +119,11 @@
                             &[aria-hidden=true] {
                                 display: none;
                             } 
+
+                            button[disabled] {
+                                pointer-events: none;
+                                opacity: .5;
+                            }
                         }
 
                         input:disabled {

@@ -20,6 +20,7 @@ class Search extends Layer {
     recommendedAll:NodeListOf<HTMLUListElement>;
     alert:HTMLElement;
     errorMessage:string;
+    errorMessageCloud:string;
 
     protected tid;
 
@@ -27,6 +28,7 @@ class Search extends Layer {
 
     localSearch:HTMLElement;
     cloudSearch:HTMLElement;
+    spinner:HTMLElement;
     
     constructor(dom) {
         super(dom, {
@@ -48,14 +50,17 @@ class Search extends Layer {
 
         this.alert = dom.querySelector('.banner');
         this.errorMessage = this.alert.textContent;
+        this.errorMessageCloud = dom.getAttribute('data-not-found');
 
         this.localSearch = $('.local_search', dom);
         this.cloudSearch = $('.cloud_search', dom);
+        this.spinner = $('.spinner', this.cloudSearch);
 
         const btn = $('button', this.cloudSearch) as HTMLButtonElement;
         btn.onclick = () => {
             btn.disabled = true;
-            
+            this.spinner.setAttribute('aria-hidden', 'false');
+            this.alert.setAttribute('aria-hidden', 'true');
         }
 
         this.start();
@@ -186,6 +191,7 @@ class Search extends Layer {
         this.alert.setAttribute('aria-hidden', 'true');
         this.localSearch.setAttribute('aria-hidden', 'false');
         this.cloudSearch.setAttribute('aria-hidden', 'true');
+        this.spinner.setAttribute('aria-hidden', 'true');
     }
 
     start() {

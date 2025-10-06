@@ -6,7 +6,7 @@
 {% from '../components/banner.njk' import Banner %}
 {% from '../components/spinner.njk' import Spinner %}
 
-<section class="search" aria-hidden="true">
+<section class="search" aria-hidden="true" data-not-found-local="{{copy.search.not_found_local[lang]}}" data-not-found="{{copy.search.not_found[lang]}}">
     <header class="search-head">
         {{ ButtonIcon('button_icon secondary medium button_close', 'close') }}
     </header>
@@ -37,7 +37,7 @@
                         </div>
                     </div>
                     
-                    {{ Banner(copy.search.not_found[lang], 'alert', 'error') }}
+                    {{ Banner(copy.search.not_found_local[lang], 'alert', 'error') }}
                     
                     <div class="search_results">
                         <div class="listitem-group" role="group">

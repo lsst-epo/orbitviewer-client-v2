@@ -446,6 +446,7 @@ export class OrbitViewer extends ThreeLayer {
 		}
 		this.fadeIn();
 		this.followSolarElement(planet);
+		this.controls.noTargetAnimation = true;
 
 		GLOBALS.timeCtrls.close();
 		GLOBALS.mapCtrls.close();

@@ -13,6 +13,7 @@ export class _404Page extends DefaultPage {
     const btn = dom.querySelector('button');
     btn.onclick = () => {
       GLOBALS.nomad.goToPath(`/${GLOBALS.lang}/`);
+      // window.location.pathname = "/";
     }
 
     this.button = btn;

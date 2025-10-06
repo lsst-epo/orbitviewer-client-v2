@@ -68,6 +68,7 @@ export class CameraManager {
   _isCapturing:boolean=false;
 
   zoom:number = 0;
+  noTargetAnimation:boolean = false;
 
   cameraTarget: FollowTarget = {
     target: null,
@@ -358,12 +359,14 @@ export class CameraManager {
 
         // const target = t.target;
         dummy.position.copy(t.orbit && t2.orbitPath ? t2.orbitPath.ellipse.position : t2.position);
-        this.controls.target.lerp(dummy.position, easing);
+        this.controls.target.lerp(dummy.position, this.noTargetAnimation ? 1 : easing);
 
         const D = MathUtils.lerp(minD, maxD, 1-t.zoomLevel);
 
-        this.controls.minDistance = MathUtils.lerp(this.controls.minDistance, D, easing);
-        this.controls.maxDistance = MathUtils.lerp(this.controls.maxDistance, D, easing);
+        this.controls.minDistance = MathUtils.lerp(this.controls.minDistance, D, this.noTargetAnimation? 1 : easing);
+        this.controls.maxDistance = MathUtils.lerp(this.controls.maxDistance, D, this.noTargetAnimation? 1 : easing);
+
+        this.noTargetAnimation = false;
       } else {
         this.controls.minDistance = MathUtils.lerp(this.controls.minDistance, DEFAULT_CAM_LIMITS.minDistance, easing);
         this.controls.maxDistance = MathUtils.lerp(this.controls.maxDistance, DEFAULT_CAM_LIMITS.maxDistance, easing);
