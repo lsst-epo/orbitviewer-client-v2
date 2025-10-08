@@ -256,15 +256,15 @@ export class ObjectPage extends DefaultPage {
                 if(c.classList.contains('uncategorized')) return c.setAttribute('aria-hidden', 'false');
             }
             else if(catID === "planets-moons") {
-                if(c.classList.contains('planets_moons')) return c.setAttribute('aria-hidden', 'false');
+                if(c.classList.contains('planets-moons')) return c.setAttribute('aria-hidden', 'false');
             } else if(catID === "interstellar-objects") {
-                if(c.classList.contains('interstellar_objects')) return c.setAttribute('aria-hidden', 'false');
+                if(c.classList.contains('interstellar-objects')) return c.setAttribute('aria-hidden', 'false');
             } else if(catID === "near-earth-objects") {
-                if(c.classList.contains('near_earth_objects')) return c.setAttribute('aria-hidden', 'false');
+                if(c.classList.contains('near-earth-objects')) return c.setAttribute('aria-hidden', 'false');
             } else if(catID === "trans-neptunian-objects") {
-                if(c.classList.contains('trans_neptunian_objects')) return c.setAttribute('aria-hidden', 'false');
+                if(c.classList.contains('trans-neptunian-objects')) return c.setAttribute('aria-hidden', 'false');
             } else if(catID === "jupiter-trojans") {
-                if(c.classList.contains('trojans')) return c.setAttribute('aria-hidden', 'false');
+                if(c.classList.contains('jupiter-trojans')) return c.setAttribute('aria-hidden', 'false');
             } else {
                 if(c.classList.contains(catID)) return c.setAttribute('aria-hidden', 'false');
             }

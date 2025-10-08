@@ -47,13 +47,13 @@ export const TypeCategoryMap:Record<number,SolarCategory> = {
 
 export const CSSCategoryMap:Record<number, string> = {
 	1: "asteroids",
-	2: "near_earth",
-	3: "trans_neptunian",
+	2: "near-earth-objects",
+	3: "trans-neptunian-objects",
 	4: "centaurs",
 	5: "comets",
-	6: "interstellar",
-	7: "planets",
-	8: "trojans"
+	6: "interstellar-objects",
+	7: "planets-moons",
+	8: "jupiter-trojans"
 }
 
 export const CategoryCounters:Record<SolarCategory, number> = {

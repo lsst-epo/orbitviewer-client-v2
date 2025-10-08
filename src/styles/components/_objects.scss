@@ -91,14 +91,18 @@
                     border-radius: var(--corner-medium) var(--corner-medium) 0 0;
                     color: var(--color-text);
 
-                    &.planets_moons { --color: color-mix(in srgb, var(--color-planets) 30%, transparent);}
-                    &.near_earth_objects { --color: color-mix(in srgb, var(--color-near_earth) 30%, transparent);}
-                    &.asteroids { --color: color-mix(in srgb, var(--color-asteroids) 30%, transparent);}
-                    &.comets { --color: color-mix(in srgb, var(--color-comets) 30%, transparent);}
-                    &.centaurs { --color: color-mix(in srgb, var(--color-centaurs) 30%, transparent);}
-                    &.trans_neptunian_objects { --color: color-mix(in srgb, var(--color-trans_neptunian) 30%, transparent);}
-                    &.interstellar_objects { --color: color-mix(in srgb, var(--color-interstellar) 30%, transparent);}
-                    &.trojans { --color: color-mix(in srgb, var(--color-trojans) 30%, transparent);}
+                    @each $type, $color in (
+                        planets-moons,
+                        near-earth-objects,
+                        asteroids,
+                        comets,
+                        centaurs,
+                        trans-neptunian-objects,
+                        interstellar-objects,
+                        jupiter-trojans
+                    ) {
+                        &.#{$type} { --color: color-mix(in srgb, var(--color-#{$type}) 30%, transparent); }
+                    }
 
                     .name {
                         flex: auto;

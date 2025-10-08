@@ -47,19 +47,19 @@
         background: var(--bg);
         color: var(--color);
 
-        @each $type, $color in (
-            planets_moons: planets,
-            near_earth_objects: near_earth,
-            asteroids: asteroids,
-            comets: comets,
-            centaurs: centaurs,
-            trans_neptunian_objects: trans_neptunian,
-            interstellar_objects: interstellar,
-            trojans: trojans
+        @each $type in (
+            planets-moons,
+            near-earth-objects,
+            asteroids,
+            comets,
+            centaurs,
+            trans-neptunian-objects,
+            interstellar-objects,
+            jupiter-trojans
         ) {
             &.#{$type} {
-            --bg: color-mix(in srgb, var(--color-#{$color}) 20%, transparent);
-            --color: var(--color-#{$color});
+            --bg: color-mix(in srgb, var(--color-#{$type}) 20%, transparent);
+            --color: var(--color-#{$type});
             }
         }
 
