@@ -20,7 +20,7 @@
         width: 384px;
         max-height: 320px;
         background: initial;
-        backdrop-filter: initial;
+        // backdrop-filter: initial;
     }
 
     &[aria-hidden=true] {
@@ -136,6 +136,10 @@
                         overflow: auto;
                         border-top: solid 1px var(--color-border);
                         @include scrollbar-custom;
+
+                        .chip {
+                            margin-block: 4px;
+                        }
                     }
                 }
         }
