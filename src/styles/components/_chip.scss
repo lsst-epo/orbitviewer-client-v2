@@ -48,14 +48,14 @@
         color: var(--color);
 
         @each $type, $color in (
-            planets-moons: planets,
-            near-earth-objects: near_earth,
+            planets_moons: planets,
+            near_earth_objects: near_earth,
             asteroids: asteroids,
             comets: comets,
             centaurs: centaurs,
-            trans-neptunian-objects: trans_neptunian,
-            interstellar-objects: interstellar,
-            jupiter-trojans: trojans
+            trans_neptunian_objects: trans_neptunian,
+            interstellar_objects: interstellar,
+            trojans: trojans
         ) {
             &.#{$type} {
             --bg: color-mix(in srgb, var(--color-#{$color}) 20%, transparent);
