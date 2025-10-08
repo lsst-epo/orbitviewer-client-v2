@@ -1,10 +1,10 @@
 import { $ } from "@fils/utils";
-import { CategoryNames, TypeCategoryMap } from "../core/data/Categories";
+import { CategoryNames, getCategory, TypeCategoryMap } from "../core/data/Categories";
 import { LoadManager } from "../core/data/LoadManager";
 import { SearchEngine } from "../core/data/SearchEngine";
 import { GLOBALS } from "../core/Globals";
 import { OrbitElements, SolarCategory } from "../core/solar/SolarSystem";
-import { mapOrbitElementsV2, OrbitDataElementsV2 } from "../core/solar/SolarUtils";
+import { mapOrbitElementsV2, OrbitDataElementsV2, UserFilters } from "../core/solar/SolarUtils";
 import { SolarElement } from "../gfx/solar/SolarElement";
 import Layer from "./Layer";
 import { searchCloud } from "../core/data/QueryManager";
@@ -91,26 +91,59 @@ class Search extends Layer {
             const items = data.results;
             this.sInput.disabled = false;
             // console.log(items);
-            if(!items.length) {
+            const fitems = [];
+            for(const item of items) {
+                const isFiltered = this.isFiltered(item);
+                if(!isFiltered) fitems.push(item);
+                if(fitems.length === 100) break;
+            }
+            if(!fitems.length) {
                 this.showNotFound(this.sInput.value);
                 return;
             }
             this.hideNotFound();
-            for(let i=0; i<Math.min(100, items.length); i++) {
-                this.addItemToList(items[i]);
+            for(let i=0; i<fitems.length; i++) {
+                this.addItemToList(fitems[i]);
             }
         }
+    }
+
+    isFiltered(item:OrbitDataElementsV2):boolean {
+        const catMap = UserFilters.categories;
+        const dMap = UserFilters.distanceRange;
+        const by = UserFilters.discoveredBy;
+
+        const cat = getCategory(item);
+        // console.log(cat, catMap[cat]);
+        if(cat !== null && !catMap[cat]) return true;
+
+        // 2. distance from sun
+        const isIn = item.a >= dMap.min && item.a <= dMap.max;
+        if(!isIn) return true;
+
+        //4. discovered by
+        if(by === 1) {
+            // rubin
+            // console.log(d.rubin_discovery);
+            if(!item.rubin_discovery) return true;
+        } else {
+            // non rubin
+            if(item.rubin_discovery) return true;
+        }
+
+        return false;
     }
 
     updateCloudResults(data, query:string) {
         if(!this.#cloudSearching) return;
         this.#cloudSearching = false;
-        if(data.mpc_orbits && data.mpc_orbits.length) {
+        if(data.mpc_orbits && data.mpc_orbits.length > 0) {
             this.cloudSearch.setAttribute('aria-hidden', 'true');
             this.localSearch.setAttribute('aria-hidden', 'false');
             this.showCloudList(data.mpc_orbits);
         } else {
             this.alert.textContent = this.errorMessageCloud.replace('{{query}}', query);
+            this.alert.setAttribute('aria-hidden', 'false');
             // this.alert.setAttribute('aria-hidden', 'false');
             // // this.cloudSearch.setAttribute('aria-hidden', 'true');
             // this.spinner.setAttribute('aria-hidden', 'true');
@@ -144,6 +177,8 @@ class Search extends Layer {
         this.showRecommended();
         this.notSearching = true;
         GLOBALS.cloudSearched = null;
+        const btn = $('button', this.cloudSearch) as HTMLButtonElement;
+        btn.disabled = false;
         return super.open().then(r => {
             this.sInput.disabled = false;
             this.sInput.focus();

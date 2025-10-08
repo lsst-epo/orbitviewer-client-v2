@@ -1,4 +1,6 @@
 import { HASURA_GRAPHQL, HASURA_URL, VISUAL_SETTINGS } from "../Globals";
+import { UserFilters } from "../solar/SolarUtils";
+import { CategoryTypeMap } from "./Categories";
 
 //@ts-ignore
 const SECRET_KEY = HASURA_SECRET_KEY;
@@ -22,10 +24,25 @@ export async function searchCloud(q:string) {
 	const url = `${HASURA_GRAPHQL}`
 	// console.log(url);
 
+	const types = [0];
+	for(const cat in UserFilters.categories) {
+		if(UserFilters.categories[cat]) types.push(CategoryTypeMap[cat]);
+	}
+
+	// console.log(types);
+	let rubin = '';
+	if(UserFilters.discoveredBy > 0) {
+		rubin = `rubin_discovery: ${UserFilters.discoveredBy === 1}`
+	}
+
 	const query = `query {
   mpc_orbits(
-    where: {packed_primary_provisional_designation: {_ilike: "%2023%"}}
-    limit: 50
+    where: {packed_primary_provisional_designation: {_ilike: "%${q}%"}}
+    limit: 100
+		object_types: ${JSON.stringify(types)}
+		${rubin}
+		a_min: ${Math.max(0, UserFilters.distanceRange.min)}
+		a_max: ${UserFilters.distanceRange.max}
   ) {
     a: a_rubin
 		mean_anomaly: mean_anomaly_rubin
@@ -43,6 +60,8 @@ export async function searchCloud(q:string) {
 		fulldesignation: unpacked_primary_provisional_designation
   }
 }`;
+
+console.log(query);
 
 /*
 arc_length_sel
