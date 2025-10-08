@@ -6,6 +6,7 @@
 .chip {
     display: inline-flex;
     align-items: center;
+    white-space: nowrap;
 
     &[aria-hidden=true] {
         display: none;
