@@ -81,9 +81,10 @@ export class SolarItemUI {
     if(!this.visible) return;
     for(let i=0,len=this.elements.length; i<len; i++) {
       this.elements[i].update();
-      if(this.landingMode) {
+      this.elements[i].dom.style.opacity = this.landingMode ? `.4` : `1`;
+      /* if(this.landingMode) {
         this.elements[i].dom.style.opacity = `.4`;
-      } 
+      }  */
     }
   }
 }
