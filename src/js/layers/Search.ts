@@ -28,6 +28,8 @@ class Search extends Layer {
     notSearching:boolean = false;
 
     localSearch:HTMLElement;
+    localSpinner:HTMLElement;
+    
     cloudSearch:HTMLElement;
     spinner:HTMLElement;
 
@@ -56,6 +58,8 @@ class Search extends Layer {
         this.errorMessageCloud = dom.getAttribute('data-not-found');
 
         this.localSearch = $('.local_search', dom);
+        this.localSpinner = $('.spinner_wrap', dom);
+        
         this.cloudSearch = $('.cloud_search', dom);
         this.spinner = $('.spinner', this.cloudSearch);
 
@@ -80,6 +84,7 @@ class Search extends Layer {
 
         SearchEngine.searchCallback = data => {
             if(this.notSearching) return;
+            this.localSpinner.setAttribute('aria-hidden', 'true');
             const query = data.query;
             // console.log(query, this.sInput.value.toLowerCase())
             if(query !== this.sInput.value.toLowerCase()) return;
@@ -145,10 +150,12 @@ class Search extends Layer {
             this.sInput.oninput = () => {
                 clearTimeout(this.tid);
                 // console.log(this.sInput.value);
+                this.localSpinner.setAttribute('aria-hidden', 'true');
                 this.hideNotFound();
                 if(!this.sInput.value.length) {
                     this.hideNotFound();
                     this.showRecommended();
+                    this.localSpinner.setAttribute('aria-hidden', 'true');
                     this.notSearching = true;
                     return;
                 };
@@ -156,6 +163,7 @@ class Search extends Layer {
                 this.tid = setTimeout(() => {
                     // this.sInput.disabled = true;
                     this.notSearching = false;
+                    this.localSpinner.setAttribute('aria-hidden', 'false');
                     // this.query(this.sInput.value);
                     SearchEngine.search(this.sInput.value, true);
                 }, 500);
