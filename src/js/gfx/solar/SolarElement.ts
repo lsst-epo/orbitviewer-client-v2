@@ -102,7 +102,9 @@ export class SolarElement extends Solar3DElement {
         this.sunLine = new Line(lineGeo, L_DUMMY);
 
         // console.log(id, _data);
-        if(id !== 'sol') this.orbitPath = new EllipticalPath(_data);
+        if(id !== 'sol') {
+            this.orbitPath = new EllipticalPath(_data);
+        }
 
 
         // this.mesh = new Mesh(PLANET_GEO, this.initMaterial(opts));

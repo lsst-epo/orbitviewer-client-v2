@@ -19,7 +19,7 @@ export class ObjectPage extends DefaultPage {
     section:HTMLElement;
 
     isSolarItem:boolean;
-    // solarElement:SolarElement;
+    solarElement:SolarElement;
 
     _onKeydown;
     scrollHandler: () => void;
@@ -101,19 +101,27 @@ export class ObjectPage extends DefaultPage {
                     // console.log('FOUND ITT!')
                     data = item;
                     // console.log(data);
-                    // this.solarElement = new SolarElement(data.mpcdesignation, data);
-                    // GLOBALS.viewer.addElementToScene(this.solarElement, data.fulldesignation);
-                    // GLOBALS.viewer.followSolarElement(this.solarElement);
+                    this.solarElement = new SolarElement(data.mpcdesignation, mapOrbitElementsV2(data));
+                    // console.log(this.solarElement);
+                    GLOBALS.viewer.addElementToScene(this.solarElement, data.fulldesignation);
+                    GLOBALS.viewer.followSolarElement(this.solarElement, true);
                     break;
                 }
             }
-            if(data === null) {
+            if(data === null && GLOBALS.cloudSearched === null) {
                 console.warn('No item found. Redirecting to home...');
                 setTimeout(() => {
                     GLOBALS.nomad.goToPath(`/${GLOBALS.lang}/`);
                 }, 500)
                 return
             } else {
+                if(data === null) {
+                    data = GLOBALS.cloudSearched;
+                    this.solarElement = new SolarElement(data.mpcdesignation, mapOrbitElementsV2(data));
+                    // console.log(this.solarElement);
+                    GLOBALS.viewer.addElementToScene(this.solarElement, data.fulldesignation);
+                    GLOBALS.viewer.followSolarElement(this.solarElement, true);
+                }
                 const oe = mapOrbitElementsV2(data);
                 this.fillWithOrbitElements(oe);
             }
@@ -220,7 +228,7 @@ export class ObjectPage extends DefaultPage {
     private mapSlider(slider:HTMLElement, data:OrbitElements, prop:string) {
         const ranges = CategoryFilters;
         const catID = data.category;
-        const rangeA = ranges[prop][catID];
+        const rangeA = catID ? ranges[prop][catID] : ranges[prop]['totals'];
         slider.style.width = `${MathUtils.smoothstep(rangeA.min, rangeA.max, data[prop])*100}%`;
 
         const tooltip = slider.querySelector('.tooltip');
@@ -236,7 +244,7 @@ export class ObjectPage extends DefaultPage {
 
     private mapPropSliderWithValue(slider:HTMLElement, catID:SolarCategory, prop:string, value:number) {
         const ranges = CategoryFilters;
-        const range = ranges[prop][catID];
+        const range = catID ? ranges[prop][catID] : ranges[prop]['totals'];
         this.mapSliderWithValue(slider, range, value);
     }
 
@@ -244,7 +252,10 @@ export class ObjectPage extends DefaultPage {
         const catHTML = this.dom.querySelector('.object_card-category');
         const chips = catHTML.querySelectorAll('span.chip');
         for(const c of chips) {
-            if(catID === "planets-moons") {
+            if(catID === null) {
+                if(c.classList.contains('uncategorized')) return c.setAttribute('aria-hidden', 'false');
+            }
+            else if(catID === "planets-moons") {
                 if(c.classList.contains('planets_moons')) return c.setAttribute('aria-hidden', 'false');
             } else if(catID === "interstellar-objects") {
                 if(c.classList.contains('interstellar_objects')) return c.setAttribute('aria-hidden', 'false');
@@ -328,7 +339,7 @@ export class ObjectPage extends DefaultPage {
         const dEn = getDistanceFromEarthNow(data);
         this.dom.querySelector('p[aria-describedby="graph-sliderFarEarth"]').textContent = `${dEn.toFixed(2)}au`;
         const sliderFarEarth = this.dom.querySelector('#sliderFarEarth') as HTMLElement;
-        const map = DistanceFromEarth[catID];
+        const map = catID ? DistanceFromEarth[catID] : DistanceFromEarth['totals'];
         this.mapSliderWithValue(sliderFarEarth, map as RangeItem, dEn);
         sliderFarEarth.style.width = `${MathUtils.smoothstep(map.min, map.max, dEn)*100}%`;
     }
@@ -380,5 +391,8 @@ export class ObjectPage extends DefaultPage {
         super.dispose();
         // GLOBALS.objectToggle.callback = null;
         window.removeEventListener('keydown', this._onKeydown);
+        if(this.solarElement) {
+            GLOBALS.viewer.removeElementFromScene(this.solarElement);
+        }
     }
 }

@@ -14,6 +14,7 @@ import ToggleGroup from "../components/ToggleGroup";
 import Navigation from "../layers/Navigation";
 import { DefaultPage } from "../pages/DefaultPage";
 import Share from "../layers/Share";
+import { OrbitDataElementsV2 } from "./solar/SolarUtils";
 
 /**
  * DEV_MODE is injected by esbuild
@@ -106,6 +107,7 @@ export interface Globals {
 	share:Share;
 	performanceTestDone:boolean;
 	forceCenterPlanet:boolean;
+	cloudSearched:OrbitDataElementsV2;
 }
 
 export const GLOBALS:Globals = {
@@ -127,6 +129,7 @@ export const GLOBALS:Globals = {
 	share: null,
 	performanceTestDone: false,
 	forceCenterPlanet: false,
+	cloudSearched: null,
 	getViewport: () => {
 		return getComputedStyle(document.documentElement).getPropertyValue('--viewport');
 	},

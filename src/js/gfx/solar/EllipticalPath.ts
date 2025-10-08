@@ -11,6 +11,7 @@ import { PathMaterial, PathMaterialParameters } from "./PathMaterial";
 import { Planet } from "./Planet";
 import { LineMaterialParameters } from "three/examples/jsm/lines/LineMaterial";
 import { getCraftCategory } from "../../core/data/Categories";
+import { UNCOLOR } from "./SolarParticles";
 
 const MIN_DISTANCE = {
     min: .1,
@@ -103,7 +104,7 @@ export class EllipticalPath {
             const cat = getCraftCategory(el.category);
 
             const matOptions:LineMaterialParameters = {
-                color: new Color(cat.mainColor),
+                color: cat ? new Color(cat.mainColor) : UNCOLOR,
                 linewidth: 1,
                 // dashed: true,
                 gapSize: 200,

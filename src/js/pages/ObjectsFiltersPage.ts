@@ -135,7 +135,8 @@ export class ObjectsFiltersPage extends DefaultPage {
             } else if(k === "jupiter-trojans") {
                 this.dom.querySelector('li#cat-trojans').remove();    
             } else {
-                this.dom.querySelector(`li#cat-${k}`).remove();
+                const obj = this.dom.querySelector(`li#cat-${k}`);
+                obj?.remove();
             }
         }
 

@@ -25,10 +25,13 @@ export class SolarItemUI {
 
   addItem(el:SolarElement, title:string) {
     const category = el.category;
-    const id = CategoryTypeMap[category];
-    // console.log(category, id);
+    let id = CategoryTypeMap[category];
 
     // console.log(title, el.name);
+
+    if(category === null || id === null) {
+      id = 0;
+    }
 
     for(const template of this.templates) {
       if(parseInt(template.getAttribute('data-id')) === id) {
@@ -43,6 +46,11 @@ export class SolarItemUI {
         return;
       }
     }
+  }
+
+  removeItem(el:SolarElement) {
+    this.elements.splice(this.elements.indexOf(el.domRef), 1);
+    el.domRef.dom.remove();
   }
 
   show(sel:SolarElement=null) {

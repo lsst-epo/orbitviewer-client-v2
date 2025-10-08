@@ -106,7 +106,7 @@ export function getCraftCategory(category:SolarCategory) {
 	return null;
 }
 
-export const getCategory = (item: OrbitDataElements|OrbitDataElementsV2):SolarCategory => {
+export const getCategory = (item: OrbitDataElements|OrbitDataElementsV2):SolarCategory|null => {
 	const avail_categories:Array<SolarCategory> = [];
 	const type = item.object_type;
 
@@ -126,7 +126,7 @@ export const getCategory = (item: OrbitDataElements|OrbitDataElementsV2):SolarCa
 		if(p < k) k = p;
 	}
 
-	if(!avail_categories.length) return categoriesSort[0];
+	if(!avail_categories.length) return null;
 
 	return categoriesSort[k];
 }

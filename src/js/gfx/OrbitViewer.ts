@@ -228,6 +228,7 @@ export class OrbitViewer extends ThreeLayer {
 			for(const el of this.solarElements) {
 				el.selected = false;
 				el.mode = Mode.ORBIT;
+				if(!el.domRef) return;
 				el.domRef.dom.style.opacity = `1`;
 			}
 		}
@@ -396,10 +397,19 @@ export class OrbitViewer extends ThreeLayer {
 
 	addElementToScene(element:SolarElement, title:string) {
 		this.solarElements.push(element);
-		this.solarItemsUI.addItem(element, title);
 		this.scene.add(element);
-		if(!element.orbitPath) return;
+		if(!element.orbitPath || !element.orbitPath.pts.length) return;
+		// console.log('YESS', element.orbitPath.pts.length)
+		this.solarItemsUI.addItem(element, title);
 		this.scene.add(element.orbitPath.ellipse);
+	}
+
+	removeElementFromScene(element:SolarElement) {
+		this.solarElements.splice(this.solarElements.indexOf(element), 1);
+		this.scene.remove(element);
+		this.solarItemsUI.removeItem(element);
+		if(!element.orbitPath || !element.orbitPath.pts.length) return;
+		this.scene.remove(element.orbitPath.ellipse);
 	}
 	
 

@@ -758,5 +758,11 @@ export default {
             "en": "Back Home",
             "es": "Volver al inicio"
         }
+    },
+    "categories": {
+        "uncategorized": {
+            "en": "Uncategorized",
+            "es": "@todo"
+        }
     }
 }
