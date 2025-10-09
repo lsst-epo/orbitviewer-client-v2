@@ -262,6 +262,7 @@ export function calculatePropRange(prop:string) {
 		for(const d of data) {
 			const mel = mapOrbitElementsV2(d);
 			const cid = mel.category;
+			// if(mel[prop] < 0) console.log(mel);
 			map[cid].min = Math.min(map[cid].min, mel[prop]);
 			map[cid].max = Math.max(map[cid].max, mel[prop]);
 		}

@@ -171,7 +171,7 @@ class LoadManagerClass {
 
         getClassificationRanges().then(json => {
             this.mgr.hasuraData.classification_ranges = json.classification_ranges_v2;
-            console.log(json);
+            // console.log(json);
             onL();
         });
 
