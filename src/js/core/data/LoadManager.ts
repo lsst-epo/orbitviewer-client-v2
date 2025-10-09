@@ -59,7 +59,7 @@ class LoadManagerClass {
     }
 
     private get hasuraDataAvailable() {
-        return true;//this.mgr.hasuraData.classification_ranges;
+        return this.mgr.hasuraData.classification_ranges;
     }
 
     private get coreCraftDataAvailable() {
@@ -170,8 +170,8 @@ class LoadManagerClass {
         this.loadSample(VISUAL_SETTINGS.current, onL);
 
         getClassificationRanges().then(json => {
-            this.mgr.hasuraData.classification_ranges = json.classification_ranges_v2;
-            // console.log(json);
+            this.mgr.hasuraData.classification_ranges = json.classification_ranges;
+            console.log(json);
             onL();
         });
 
