@@ -7,21 +7,30 @@
     <div class="object_detail-content" style='transform: translateY(100%);'>
         <div class="object_card">
             <header class="object_card-head">
-                <a href="/{{lang}}/">{{ Button(copy.core.back[lang], 'button ghost medium', 'chevron-left') }}</a>
+                <a href="/{{lang}}/" class="button ghost small">
+                    {{ icon('chevron-left') }}
+                    <span>{{ copy.core.back[lang] }}</span>
+                </a>
             </header>
             <div class="object_card-body">
                 <div class="object_card-heading">
-                    <h1 class="object_card-name" id="object-name">2014 UZ224</h1>
+                    <h1 class="object_card-name" id="object-name">{{ object.title }}</h1>
                     <dl class="object_card-designation">
                         <dt class="title">{{ copy.object.designation[lang] }}</dt>
-                        <dd class="value">Earth-Moon Barycenter (3)</dd>
+                        <dd class="value"></dd>
                     </dl>
+                    {% if object.elementPreview.length > 0 %}
+                    <div class="object_card-hero" aria-hidden="false">
+                        <img src="{{object.elementPreview[0].url}}" alt="{{ copy.object.hero.alt[lang] }} {{object.title}}">
+                    </div>
+                    {% else %}
                     <div class="object_card-hero" aria-hidden="true">
                         <img src="" alt="{{ copy.object.hero.alt[lang] }} 2014 UZ224">
                     </div>
+                    {% endif %}
                     <div class="object_card-category">
-                        <span class="chip object_type planets_moons" aria-hidden="true">
-                            {{ icon('planets_moons', 'chip-icon') }}
+                        <span class="chip object_type planets-moons" aria-hidden="true">
+                            {{ icon('planets-moons', 'chip-icon') }}
                             <span class="chip-text">{{ copy.objects.types.planets_moons.name[lang] }}</span>
                         </span>
 
@@ -30,8 +39,8 @@
                             <span class="chip-text">{{ copy.objects.types.asteroids.name[lang] }}</span>
                         </span>
 
-                        <span class="chip object_type near_earth_objects" aria-hidden="true">
-                            {{ icon('near_earth_objects', 'chip-icon') }}
+                        <span class="chip object_type near-earth-objects" aria-hidden="true">
+                            {{ icon('near-earth-objects', 'chip-icon') }}
                             <span class="chip-text">{{ copy.objects.types.near_earth_objects.name[lang] }}</span>
                         </span>
 
@@ -45,18 +54,18 @@
                             <span class="chip-text">{{ copy.objects.types.centaurs.name[lang] }}</span>
                         </span>
 
-                        <span class="chip object_type trans_neptunian_objects" aria-hidden="true">
-                            {{ icon('trans_neptunian_objects', 'chip-icon') }}
+                        <span class="chip object_type trans-neptunian-objects" aria-hidden="true">
+                            {{ icon('trans-neptunian-objects', 'chip-icon') }}
                             <span class="chip-text">{{ copy.objects.types.trans_neptunian_objects.name[lang] }}</span>
                         </span>
 
-                        <span class="chip object_type interstellar_objects" aria-hidden="true">
-                            {{ icon('interstellar_objects', 'chip-icon') }}
+                        <span class="chip object_type interstellar-objects" aria-hidden="true">
+                            {{ icon('interstellar-objects', 'chip-icon') }}
                             <span class="chip-text">{{ copy.objects.types.interstellar_objects.name[lang] }}</span>
                         </span>
 
-                        <span class="chip object_type trojans" aria-hidden="true">
-                            {{ icon('trojans', 'chip-icon') }}
+                        <span class="chip object_type jupiter-trojans" aria-hidden="true">
+                            {{ icon('jupiter-trojans', 'chip-icon') }}
                             <span class="chip-text">{{ copy.objects.types.trojans.name[lang] }}</span>
                         </span>
 
@@ -64,11 +73,16 @@
                             {{ icon('sun_star', 'chip-icon') }}
                             <span class="chip-text">{{ copy.objects.types.sun_star.name[lang] }}</span>
                         </span>
+
+                        <span class="chip object_type uncategorized" aria-hidden="true">
+                            {# {{ icon('sun_star', 'chip-icon') }} #}
+                            <span class="chip-text">{{ copy.categories.uncategorized[lang] }}</span>
+                        </span>
                         
                     </div>
 
                     <div class="object_card-description">
-                        <p>Lorem ipsum dolor sit amet consectetur. A mattis sed etiam semper a. Ipsum nisi eget et in aliquet feugiat commodo a. Vitae consequat ultricies sed at nibh viverra quam massa. Posuere hendrerit eu morbi nec integer dui. Auctor at neque eget gravida duis. Vel magna gravida ipsum porttitor fames sed. Eget congue a ut nullam. Quis leo bibendum lorem id dictum. Donec aliquam pellentesque enim adipiscing.</p>
+                        {{ object.textBody.html | safe }}
                     </div>
                 </div>
 
@@ -76,16 +90,16 @@
                     <div class="object_card-unit" role="group" aria-labelledby="diameter-label">
                         <h2 class="title" id="diameter-label">{{ copy.object.diameter[lang] }}</h2>
                         <h4 class="value" role="text" aria-describedby="diameter-label">
-                            <span class="primary">12742.00km</span>
-                            <span class="secondary">7917.51 mi</span>
+                            <span class="primary">{{ object.elementDiameter | toFixed }}km</span>
+                            <span class="secondary">{{ object.elementDiameter | toMiles }}mi</span>
                         </h4>
                     </div>
                     
                     <div class="object_card-unit">
-                        <h2 class="title" id="cat-comparison">This object compared to other %category%</h2>
-                        {{ ObjectCardGraph('sliderA', 'Average distance from the Sun', 'Semi-major axis (a)', 20, 100, ['sun', 'stars']) }}
-                        {{ ObjectCardGraph('sliderE', 'Deviation from a circular orbit', 'Eccentricity (e)', 50, 100, ['eccentricity-low', 'eccentricity-high']) }}
-                        {{ ObjectCardGraph('sliderI', 'Angle of orbit', 'Inclination (i)', 10, 100, ['inclination-low', 'inclination-high']) }}
+                        <h2 class="title" id="cat-comparison">{{ copy.object.comparison[lang] }}</h2>
+                        {{ ObjectCardGraph('sliderA', copy.object.sun_graph.title[lang], copy.object.sun_graph.detail[lang], 20, 100, ['sun', 'stars']) }}
+                        {{ ObjectCardGraph('sliderE', copy.object.deviation_graph.title[lang], copy.object.deviation_graph.detail[lang], 50, 100, ['eccentricity-low', 'eccentricity-high']) }}
+                        {{ ObjectCardGraph('sliderI', copy.object.angle_graph.title[lang], copy.object.angle_graph.detail[lang], 10, 100, ['inclination-low', 'inclination-high']) }}
                     </div>
 
                     <div class="object_card-unit">
@@ -94,7 +108,7 @@
                             <li class="orbital_elements-item">
                                 <dl class="orbital_elements-data" role="group">
                                     <dt class="orbital_elements-label" aria-label="{{ copy.object.orbital_elements.periapsis.aria[lang] }}">ω</dt>
-                                    <dd class="orbital_elements-value">322.63</dd>
+                                    <dd class="orbital_elements-value"></dd>
                                 </dl>
                                 <button type="button" class="button_icon xsmall ghost" data-tooltip="{{ copy.object.orbital_elements.periapsis.tooltip[lang] }}">
                                     {{ icon('info') }}
@@ -103,7 +117,7 @@
                             <li class="orbital_elements-item">
                                 <dl class="orbital_elements-data" role="group">
                                     <dt class="orbital_elements-label" aria-label="{{ copy.object.orbital_elements.longitude.aria[lang] }}">Ω</dt>
-                                    <dd class="orbital_elements-value">322.63</dd>
+                                    <dd class="orbital_elements-value"></dd>
                                 </dl>
                                 <button type="button" class="button_icon xsmall ghost" data-tooltip="{{ copy.object.orbital_elements.longitude.tooltip[lang] }}">
                                     {{ icon('info') }}
@@ -112,7 +126,7 @@
                             <li class="orbital_elements-item">
                                 <dl class="orbital_elements-data" role="group">
                                     <dt class="orbital_elements-label" aria-label="{{ copy.object.orbital_elements.anomaly.aria[lang] }}">v</dt>
-                                    <dd class="orbital_elements-value">322.63</dd>
+                                    <dd class="orbital_elements-value"></dd>
                                 </dl>
                                 <button type="button" class="button_icon xsmall ghost" data-tooltip="{{ copy.object.orbital_elements.anomaly.tooltip[lang] }}">
                                     {{ icon('info') }}
@@ -124,15 +138,15 @@
                     <div class="object_card-unit">
                         <h2 class="title">{{ copy.object.closest_sun.title[lang] }}</h2>
                         <h4 class="value" id="closest-to-sun">
-                            <time class="primary" datetime="2026-01-03" aria-label="January 3rd, 2026">January 03, 2026</time>
-                            <span class="secondary"><span id="days">245</span> {{ copy.object.closest_sun.days_left[lang] }}</span>
+                            <time class="primary" datetime="2026-01-03" aria-label="January 3rd, 2026"></time>
+                            <span class="secondary"><span id="days"></span> {{ copy.object.closest_sun.days_left[lang] }}</span>
                         </h4>
                     </div>
 
                     <div class="object_card-unit">
                         <h2 class="title">{{ copy.object.how_far.title[lang] }}</h2>
                         {{ ObjectCardGraph('sliderFarSun', copy.object.how_far.from_sun[lang], '1.00au', 70, 100, ['sun']) }}
-                        {# {{ ObjectCardGraph('sliderFarEarth', copy.object.how_far.from_earth[lang], '1.00au', 100, 100, ['earth']) }} #}
+                        {{ ObjectCardGraph('sliderFarEarth', copy.object.how_far.from_earth[lang], '1.00au', 100, 100, ['earth']) }}
                     </div>
                 </div>
             </div>

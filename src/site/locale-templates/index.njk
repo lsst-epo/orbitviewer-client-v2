@@ -3,8 +3,8 @@ layout: base
 pageTemplate: orbitviewerpage
 permalink: "/{{lang}}/"
 eleventyComputed:
-  title: "{{ settings.title }}"
-  description: "{{ settings.description }}"
+  title: "{{ settings[lang].title }}"
+  description: "{{ settings[lang].description }}"
   card: "{{ staticData.og.basePath }}{{ staticData.og.default }}"
   locale: "{{ staticData.locale[lang] }}"
 ---
@@ -19,7 +19,7 @@ eleventyComputed:
 
 {% include 'wizard.njk' %}
 
-{{ Modal(copy.modal.title[lang], copy.modal.description[lang]) }}
+{{ Modal(copy, lang) }}
 {{ Toast(copy.toast.max_date.message[lang], '', copy.toast.max_date.aria[lang], true) }}
 
 {% include 'toolbar.njk' %}

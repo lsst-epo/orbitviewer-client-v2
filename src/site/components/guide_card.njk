@@ -1,0 +1,23 @@
+{% macro GuideCard(guide = {}) %}
+<a href="/{{lang}}/guided-experiences/{{ guide.slug }}" class="guide_card"{% if guide.featured %} data-recommended="true"{% endif %}>
+    <div class="guide_card-hero">
+        {% if guide.tourPreview.length and guide.tourPreview[0].url %}
+        <img src="{{ guide.tourPreview[0].url }}" alt="{{ guide.tourPreview[0].title }}">
+        {% endif %}
+        {% if guide.featured %}
+        <span class="ribbon">{{ copy.core.recommended[lang] }}</span>
+        {% endif %}
+    </div>
+    <div class="guide_card-text">
+        <div class="guide_card-meta">
+            <span class="chip primary">
+                <span class="chip-text">{{ guide.complexity | difficulty(copy.guides.difficulty, lang) }}</span>
+            </span>
+            <span class="chip default">
+                <span class="chip-text">{{ guide.duration }} Min</span>
+            </span>
+        </div>
+        <h2 class="title">{{ guide.title }}</h2>
+    </div>
+</a>
+{% endmacro%}

@@ -23,7 +23,7 @@
                             <li class="listitem-group" role="group">
                                 <h3 class="listitem-label">{{ copy.navigation.settings[lang] }}</h3>
                                 <ul class="listitem-list">
-                                    {# <li class="listitem-item" role="menuitem" aria-describedby="language-value">
+                                    <li class="listitem-item" role="menuitem" aria-describedby="language-value">
                                         <button type="button" id="menuitem-languages" class="listitem-link">
                                             <span class="heading">
                                                 {{ icon('language') }}
@@ -31,7 +31,7 @@
                                             </span>
                                             <span class="value" id="language-value">{{ copy.core.languages.english.full }}</span>
                                         </button>
-                                    </li> #}
+                                    </li>
                                     <li class="listitem-item" role="menuitem" aria-describedby="detail-value">
                                         <button type="button" id="menuitem-exploration" class="listitem-link">
                                             <span class="heading">
@@ -81,7 +81,7 @@
                         </ul>
                     </div>
                     <div class="nav_dropdown_level nav_dropdown_level-2">
-                        {# <div class="nav_dropdown_level-group" data-menu="language" aria-hidden="true">
+                        <div class="nav_dropdown_level-group" data-menu="language" aria-hidden="true">
                             <div class="nav_dropdown_level-head">
                                 {{ ButtonIcon('button_icon medium ghost button_back', 'arrow-left') }}
                                 <h4 class="title">{{ copy.core.languages.label[lang] }}</h4>
@@ -89,7 +89,11 @@
                             <div class="nav_dropdown_level-body">
                                 <ul class="listitem-list">
                                     <li class="listitem-item" role="menuitem">
-                                        <a href="/en/" class="listitem-link active">
+                                        {% if lang == 'en' %}
+                                        <a href="javascript:changeLang('en')" fil-nomad-ignore class="listitem-link active">
+                                        {% else %}
+                                        <a href="javascript:changeLang('en')" fil-nomad-ignore class="listitem-link">
+                                        {% endif %}
                                             <span class="heading">
                                                 <span class="label">{{ copy.core.languages.english.full }}</span>
                                             </span>
@@ -98,7 +102,11 @@
                                     </li>
 
                                     <li class="listitem-item" role="menuitem">
-                                        <a href="/es/" class="listitem-link">
+                                        {% if lang == 'es' %}
+                                        <a href="javascript:changeLang('es')" fil-nomad-ignore class="listitem-link active">
+                                        {% else %}
+                                        <a href="javascript:changeLang('es')" fil-nomad-ignore class="listitem-link">
+                                        {% endif %}
                                             <span class="heading">
                                                 <span class="label">{{ copy.core.languages.spanish.full }}</span>
                                             </span>
@@ -107,7 +115,7 @@
                                     </li>
                                 </ul>
                             </div>
-                        </div> #}
+                        </div>
 
                         <div class="nav_dropdown_level-group" data-menu="exploration" aria-hidden="false">
                             <div class="nav_dropdown_level-head">

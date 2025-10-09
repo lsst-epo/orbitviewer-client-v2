@@ -3,7 +3,7 @@ in vec2 vUv;
 uniform vec3 color1;
 uniform vec3 color2;
 
-uniform float time;
+uniform highp float time;
 
 #include <fresnel_pars_frag>
 
@@ -39,15 +39,16 @@ void main() {
   vec3 p = toPolar(vUv);
 
   // p += .09 * curlNoise4D_simple(vec4(p, time * .01));
-  p += .09 * fbm(vec4(p, time * .01), 3);
+  float time2 = mod( time, 100000.00 );
+  p += .09 * fbm(vec4(p, time2 * .01), 3);
 
   // big noise
   // float N = snoise(vec4(p, time * .024));
-  float N = fbm(vec4(p, time * .014), 1);
+  float N = fbm(vec4(p, time2 * .014), 1);
   N = smoothstep(-.0, 1., N);
 
   // small noise
-  float N2 = fbm(vec4(p * 3.7 * vec3(8.0, 4.0, 4.0 + N * .1), time * .02), 3);
+  float N2 = fbm(vec4(p * 3.7 * vec3(8.0, 4.0, 4.0 + N * .1), time2 * .02), 3);
   N2 = smoothstep(-.35, 1., N2);
 
   float N3 = N2 + N;

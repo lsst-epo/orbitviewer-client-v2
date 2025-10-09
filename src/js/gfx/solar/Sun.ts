@@ -12,6 +12,7 @@ import { Solar3DElement } from "./Solar3DElement";
 import { SunMagneticField } from "./SunMagneticField";
 import { debugCan } from "../../core/App";
 import { uiColliders } from "../OrbitViewer";
+import { SolarElement } from "./SolarElement";
 
 const GEO = new SphereGeometry(1, 64, 32);
 const R = SUN_RADIUS * KM2AU * PLANET_SCALE;
@@ -80,6 +81,8 @@ export class Sun extends Solar3DElement {
 
     mf:SunMagneticField;
 
+    solarElement:SolarElement;
+
     constructor() {
         super();
 
@@ -139,6 +142,18 @@ export class Sun extends Solar3DElement {
         const scl = value ? SUN_SCALE.max : SUN_SCALE.min;
         gsap.to(this.scale, {x: scl, y: scl, z: scl, ease: 'power2.inOut', duration: 3}); */
         this.selected = value;
+    }
+
+    updateCameraView() {
+        // const viewport = GLOBALS.getViewport();
+        const scl = this.scale.x;
+        // console.log(viewport, GLOBALS.isMobile());
+
+        if(GLOBALS.isMobile()) {
+            this.offsetObject.set(0, -scl*1.5, 0);
+        } else {
+            this.offsetObject.set(-scl, 0, 0);
+        }
     }
 
     update() {

@@ -29,7 +29,8 @@ export const CategoryTypeMap:Record<SolarCategory, number> = {
 	comets: 5,
 	"interstellar-objects": 6,
 	"planets-moons": 7,
-	"jupiter-trojans": 8
+	"jupiter-trojans": 8,
+	sun: 9
 }
 
 export const TypeCategoryMap:Record<number,SolarCategory> = {
@@ -40,18 +41,19 @@ export const TypeCategoryMap:Record<number,SolarCategory> = {
 	5: "comets",
 	6: "interstellar-objects",
 	7: "planets-moons",
-	8: "jupiter-trojans"
+	8: "jupiter-trojans",
+	9: "sun"
 }
 
 export const CSSCategoryMap:Record<number, string> = {
 	1: "asteroids",
-	2: "near_earth",
-	3: "trans_neptunian",
+	2: "near-earth-objects",
+	3: "trans-neptunian-objects",
 	4: "centaurs",
 	5: "comets",
-	6: "interstellar",
-	7: "planets",
-	8: "trojans"
+	6: "interstellar-objects",
+	7: "planets-moons",
+	8: "jupiter-trojans"
 }
 
 export const CategoryCounters:Record<SolarCategory, number> = {
@@ -77,7 +79,8 @@ export const CategoryNamesEN:Record<SolarCategory, string> = {
 }
 
 export const CategoryNames = {
-	en: CategoryNamesEN
+	en: CategoryNamesEN,
+	es: CategoryNamesEN
 }
 
 export function resetSolarCategoryCounters() {
@@ -103,7 +106,7 @@ export function getCraftCategory(category:SolarCategory) {
 	return null;
 }
 
-export const getCategory = (item: OrbitDataElements|OrbitDataElementsV2):SolarCategory => {
+export const getCategory = (item: OrbitDataElements|OrbitDataElementsV2):SolarCategory|null => {
 	const avail_categories:Array<SolarCategory> = [];
 	const type = item.object_type;
 
@@ -123,7 +126,7 @@ export const getCategory = (item: OrbitDataElements|OrbitDataElementsV2):SolarCa
 		if(p < k) k = p;
 	}
 
-	if(!avail_categories.length) return categoriesSort[0];
+	if(!avail_categories.length) return null;
 
 	return categoriesSort[k];
 }
@@ -259,6 +262,7 @@ export function calculatePropRange(prop:string) {
 		for(const d of data) {
 			const mel = mapOrbitElementsV2(d);
 			const cid = mel.category;
+			if(mel[prop] < 0) console.log(mel);
 			map[cid].min = Math.min(map[cid].min, mel[prop]);
 			map[cid].max = Math.max(map[cid].max, mel[prop]);
 		}

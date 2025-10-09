@@ -1,35 +1,36 @@
 {% from '../components/button.njk' import Button %}
 
+{% set content = pages[lang].landing %}
+
 <section class="splash" aria-hidden="false">
     <div class="splash-body">
         <div class="splash-triad">
-            <img src="/assets/images/rubin-nsf-doe-triad.png" alt="{{ copy.splash.logo.alt[lang] }}">
+            <img src="{{content.logoImage[0].url}}" alt="{{ copy.splash.logo.alt[lang] }}">
         </div>
 
         <div class="splash-heading">
-            <h1 class="title">{{ copy.splash.title[lang] | safe }}</h1>
-            <h2 class="subtitle">{{ copy.splash.subtitle[lang] }}</h2>
+            <h1 class="title">{{ content.headlineText | safe }}</h1>
+            <h2 class="subtitle">{{ content.eyebrowText }}</h2>
         </div>
 
         <div class="splash-action">
-            {# {{ Button('Start exploring', 'button primary medium') }} #}
-            <a href="{{utils.void}}" class="button primary medium button_start"><span>{{ copy.splash.action[lang] }}</span></a>
+            <a href="{{utils.void}}" class="button primary medium button_start"><span>{{ content.buttonLabel }}</span></a>
         </div>
 
         <div class="splash-count" role="status" aria-live="polite">
-            <p class="label">{{ copy.splash.discoveries[lang] }}</p>
+            <p class="label">{{ content.discoveryLabel }}</p>
             <p class="value" aria-label="745,259 discoveries">745,259</p>
         </div>
     </div>
 
-    {# <div class="splash_foot" role="contentinfo" aria-label="Language selection">
+    <div class="splash_foot" role="contentinfo" aria-label="Language selection">
         <ul class="splash_foot-list" role="list">
             <li class="splash_foot-item">
-                <a href="/en/" fil-nomad-ignore hreflang="{{ copy.core.languages.english.shorthand }}" aria-current="page">{{ copy.core.languages.english.full }}</a>
+                <a href="javascript:changeLang('en');" fil-nomad-ignore hreflang="{{ copy.core.languages.english.shorthand }}" aria-current="page">{{ copy.core.languages.english.full }}</a>
             </li>
             <li class="splash_foot-item">
-                <a href="/es/" fil-nomad-ignore hreflang="{{ copy.core.languages.spanish.shorthand }}">{{ copy.core.languages.spanish.full }}</a>
+                <a href="javascript:changeLang('es');" fil-nomad-ignore hreflang="{{ copy.core.languages.spanish.shorthand }}">{{ copy.core.languages.spanish.full }}</a>
             </li>
         </ul>
-    </div> #}
+    </div>
 </section>

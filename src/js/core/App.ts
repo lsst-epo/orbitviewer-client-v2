@@ -3,7 +3,7 @@ import { CanvasDOMLayer, ThreeDOMLayer } from "@fils/gl-dom";
 import { Clock } from "three";
 import { OrbitViewer } from "../gfx/OrbitViewer";
 import { initShaders } from "../gfx/Shaders";
-import { CLOCK_SETTINGS, GLOBALS, IS_DEV_MODE } from "./Globals";
+import { CLOCK_SETTINGS, GLOBALS, IS_DEV_MODE, VISUAL_SETTINGS } from "./Globals";
 import { SolarClock } from "./solar/SolarClock";
 import { getSimData, getSimDataV2 } from "./solar/SolarData";
 
@@ -29,6 +29,10 @@ import { isMobile } from "@fils/utils";
 import { SolarTimeManager } from "./solar/SolarTime";
 import { getMeanAnomaly } from "./solar/SolarSystem";
 import { downloadJSON } from "./Utils";
+import { GuidedExperiencesPage } from "../pages/GuidedExperiencesPage";
+import { _404Page } from "../pages/404Page";
+import { SimQuality } from "../gfx/solar/GPUSim";
+import { GuidedExperiencePage } from "../pages/GuidedExperiencePage";
 
 export const solarClock = new SolarClock(new Clock());
 
@@ -56,6 +60,7 @@ export class App implements NomadRouteListener {
 	currentPage: DefaultPage;
 	navigation: Navigation;
 	share: Share;
+	forceRender:boolean = false;
 	// orbitViewerPage: OrbitViewerPage;
 
 	constructor() {
@@ -96,11 +101,20 @@ export class App implements NomadRouteListener {
 
 		const shareDom = document.querySelector('.share');
 		this.share = shareDom ? new Share(shareDom) : null;
+		GLOBALS.share = this.share;
 
 		// this.profiler = new PerformanceProfiler(this.viewer);
 		this.start();
 
 		console.log('%cSite by Fil Studio', "color:white;font-family:system-ui;font-size:1rem;font-weight:bold");
+	}
+
+	setTabContext(template:string) {
+		const hide = template !== 'object' && template !== 'featured-object' && template !== 'orbitviewerpage';
+
+		(document.querySelector('.solar-items') as HTMLElement).inert = hide;
+		(document.querySelector('.flatpickr-calendar') as HTMLElement).inert = hide;
+		(document.querySelector('.scene_controls') as HTMLElement).inert = hide;
 	}
 	
 	initNomad() {
@@ -108,10 +122,13 @@ export class App implements NomadRouteListener {
 			replace: false,
 		}, (id, template, dom) => {
 			if (template === 'orbitviewerpage') return new OrbitViewerPage(id, template, dom)
-			if (template === 'objects') return new ObjectsFiltersPage(id, template, dom)
+			else if (template === 'objects') return new ObjectsFiltersPage(id, template, dom)
+			else if (template === 'guided_experiences') return new GuidedExperiencesPage(id, template, dom)
+			else if (template === 'guided_experience') return new GuidedExperiencePage(id, template, dom)
 			else if ((template === 'object') || (template === 'featured-object')) return new ObjectPage(id, template, dom)
 			else if (template === 'about') return new ScrollingPage(id, template, dom)
 			else if (template === 'how_to_use') return new ScrollingPage(id, template, dom)
+			else if (template === '404') return new _404Page(id, template, dom)
 			return new DefaultPage(id, template, dom)
 		})
 
@@ -121,8 +138,14 @@ export class App implements NomadRouteListener {
 		this.currentPage = nomad.route.page as DefaultPage;
 		GLOBALS.currentPage = this.currentPage;
 		if(this.currentPage.template !== "orbitviewerpage") {
-			this.viewer.adjustQualitySettings(isMobile() ? 'low' : 'medium');
+			this.viewer.adjustQualitySettings(VISUAL_SETTINGS.current as SimQuality);
 		}
+		const template = this.currentPage.template;
+		this.share.screenCapture = (template === 'object') || (template === 'featured-object')
+
+		GLOBALS.forceCenterPlanet = template === '404';
+
+		this.setTabContext(template);
 	}
 
 	onRouteChangeStart(href: string): void {
@@ -133,6 +156,10 @@ export class App implements NomadRouteListener {
 		this.currentPage = route.page as DefaultPage;
 		GLOBALS.firstPage = false;
 		GLOBALS.currentPage = this.currentPage;
+		const template = this.currentPage.template
+		this.share.screenCapture = (template === 'orbitviewerpage') || (template === 'object') || (template === 'featured-object')
+		GLOBALS.forceCenterPlanet = template === '404';
+		this.setTabContext(template);
 	}
 
 	start() {
@@ -167,7 +194,12 @@ export class App implements NomadRouteListener {
 
 		// this.addGUI();
 		const t = Date.now();
+		// --- avoid ocasional double onloaded ----
+		let alreadyLoaded = false;
 		LoadManager.loadCore(() => {
+			// console.log('loaded')
+			if(alreadyLoaded) return;
+			alreadyLoaded = true;
 			this.launch();
 		})
 	}
@@ -177,6 +209,13 @@ export class App implements NomadRouteListener {
 		this.viewer.setData(data);
 		this.viewer.createPlanets(LoadManager.data.planets);
 		this.viewer.createDwarfPlanets(LoadManager.data.dwarf_planets);
+
+		//@ts-ignore
+		window.changeLang = (lang) => {
+			// console.log(lang);
+			localStorage.setItem('rubin-language', lang);
+			location.href = `${location.origin}/${lang}/`;
+		}
 
 		// console.log(UserFilters.categories);
 
@@ -201,48 +240,18 @@ export class App implements NomadRouteListener {
 		UserFilters.distanceRange.min = CategoryFilters.a.totals.min;
 		UserFilters.distanceRange.max = CategoryFilters.a.totals.max;
 
-		// --- DEBUG ------------------------------------------------
-
-		/* const sample = LoadManager.data.sample;
-		const date = new Date("May 7, 2025");
-		const _d = SolarTimeManager.getMJDonDate(date);
-		
-		const rubin = {
-			calcDate: date.toLocaleString('en-US'),
-			items: []
-		};
-
-		for(const d of sample) {
-			if(d.rubin_discovery) {
-				const el = mapOrbitElementsV2(d);
-				// console.log(el);
-				const item = {
-					original: d,
-					internal: el,
-					mean_anomaly_at_date: getMeanAnomaly(el, _d)
-				}
-
-				rubin.items.push(item);
-			}
-		}
-
-		console.log(rubin)
-
-		downloadJSON(rubin, 'rubin-objects.json'); */
-
-		// ----------------------------------------------------------
-
 		// console.log(CategoryFilters);
 
 		GLOBALS.loader.hide();
 		GLOBALS.viewer.enter();
 		this.initNomad();
+		GLOBALS.navigation.enter();
 		if(this.currentPage.template === 'orbitviewerpage') {
 			const page = this.currentPage as OrbitViewerPage;
 			page.appRef = this;
-		} else {
+		} /* else {
 			GLOBALS.navigation.enter();
-		}
+		} */
 
 		// this.viewer.goToLandingMode();
 		/* this.viewer.fadeIn();
@@ -252,6 +261,21 @@ export class App implements NomadRouteListener {
 			duration: 5,
 			ease: 'expo.inOut'
 		}) */
+
+		window.addEventListener('blur', e => {
+			this.forceRender = true;
+			this.clock.pause();
+		});
+
+		window.addEventListener('focus', e => {
+			this.clock.resume();
+		});
+
+		window.addEventListener('resize', e => {
+			setTimeout(()=> {
+				this.forceRender = true;
+			}, 200);
+		})
 	}
 	
 
@@ -265,6 +289,8 @@ export class App implements NomadRouteListener {
   }
 
 	update() {
+		if(this.clock.paused && !this.forceRender) return;
+
 		this.clock.tick();
 		const t = this.clock.currentTime;
 
@@ -307,5 +333,7 @@ export class App implements NomadRouteListener {
 
 		GLOBALS.timeCtrls.update();
 		this.currentPage?.update();
+
+		this.forceRender = false;
 	}
 }

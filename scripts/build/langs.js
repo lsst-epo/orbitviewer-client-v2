@@ -23,7 +23,15 @@ for (const lang of staticData.languages) {
 
     for (const file of files) {
         console.log(`[fil] Copying ${file}...`);
-        fs.copyFileSync(src + file, `${dst}${lang}/${file}`);
+
+        // Read the template file
+        const templateContent = fs.readFileSync(src + file, 'utf8');
+
+        // Replace %lang% with the actual language code
+        const processedContent = templateContent.replace(/%lang%/g, lang);
+
+        // Write the processed content to destination
+        fs.writeFileSync(`${dst}${lang}/${file}`, processedContent);
     }
 
     console.log(`[fil] Generating JSON for [${lang}]...`);

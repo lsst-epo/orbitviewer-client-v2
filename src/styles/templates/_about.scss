@@ -181,14 +181,14 @@
     }
 
     &_device {
-        gap: 24px 8px;
+        gap: 40px 8px;
         
         @include media(small) {
             grid-template-columns: repeat(12, 1fr);
         }
 
         @include media(medium) {
-            gap: 0 24px;
+            gap: 24px;
         }
 
         @include media(large) {
@@ -199,7 +199,10 @@
             text-align: center;
             display: flex;
             flex-direction: column;
-            gap: 40px;            
+
+            @include media(medium) {
+                gap: 40px;
+            }
 
             .device {
                 position: relative;
@@ -586,7 +589,7 @@
             .title {
                 color: var(--color-text);
                 text-align: center;
-                @include font(headline);
+                @include font(headline); 
 
                 @include media(medium) {
                     @include font(hero);

@@ -77,6 +77,7 @@ class Navigation extends Layer {
     })
     this.fullscreenButton.onclick = () => {
       GLOBALS.toggleFullscreen();
+      this.close();
     };
   }
 

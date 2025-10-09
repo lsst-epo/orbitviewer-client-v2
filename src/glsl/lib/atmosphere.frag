@@ -26,7 +26,7 @@ void main() {
   if(falloff < .001) discard;
 
   float alpha = falloff * 0.1 * (1.0-fresnelTerm);
-  color.a *= alpha;
+  color.a *= alpha * .5;
   if(color.a < .001) discard;
 
   vec4 col = color;

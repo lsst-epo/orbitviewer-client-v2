@@ -7,7 +7,7 @@ import gsap from "gsap";
 import { CLOCK_SETTINGS, GLOBALS, VISUAL_SETTINGS } from "../core/Globals";
 import { PlanetId } from "../core/solar/Planet";
 import { JD2MJD } from "../core/solar/SolarTime";
-import { getOrbitType, mapOrbitElements, mapOrbitElementsV2, OrbitDataElements, OrbitDataElementsV2 } from "../core/solar/SolarUtils";
+import { getOrbitType, mapOrbitElements, mapOrbitElementsV2, OrbitDataElements, OrbitDataElementsV2, UserFilters } from "../core/solar/SolarUtils";
 import { GFXTier, QUALITY_TIERS, RubinRenderer } from "./core/RubinRenderer";
 import { Planet } from "./solar/Planet";
 import { Mode, SolarElement } from "./solar/SolarElement";
@@ -17,10 +17,11 @@ import { Sun } from "./solar/Sun";
 import { LoadManager } from "../core/data/LoadManager";
 import { SolarItemUI } from "../layers/SolarItemsUI";
 import { CameraManager, camOcluders, DEFAULT_CAM_LIMITS } from "./core/CameraManager";
-import { CategoryCounters, CategoryTypeMap, resetSolarCategoryCounters, updateTotals } from "../core/data/Categories";
+import { CategoryCounters, CategoryFilters, CategoryTypeMap, resetSolarCategoryCounters, updateTotals } from "../core/data/Categories";
 import { Solar3DElement } from "./solar/Solar3DElement";
 import { SimQuality } from "./solar/GPUSim";
 import { OBJECT_PATH_ALPHA } from "./solar/EllipticalPath";
+import { Random } from "@fils/math";
 
 export interface FollowTarget {
 	target: Solar3DElement;
@@ -72,9 +73,12 @@ export class OrbitViewer extends ThreeLayer {
 		height: 0
 	}
 
+	captureRT:WebGLRenderTarget;
+	// capturePreviewRT:WebGLRenderTarget;
+
     constructor(_gl:ThreeDOMLayer) {
       super(_gl);
-	  this.dom = _gl.dom;
+	  	this.dom = _gl.dom;
       const w = this.gl.rect.width;
       const h = this.gl.rect.height;
       this.camera = new PerspectiveCamera(35, w/h, .01, DEFAULT_CAM_LIMITS.maxDistance + 5000000);
@@ -88,6 +92,16 @@ export class OrbitViewer extends ThreeLayer {
 			// console.log(this.controls.minDistance, this.controls.maxDistance)
 			// this.controls.autoRotate = true;
 			// this.controls.autoRotateSpeed = .25;
+
+			this.captureRT = new WebGLRenderTarget(1920, 1080, {
+				samples: 4,
+				//@ts-ignore
+				colorSpace: this.gl.renderer.outputColorSpace
+			});
+
+			/* this.capturePreviewRT = new WebGLRenderTarget(960, 540, {
+				samples: 2
+			}); */
 
 			window['cam'] = this.camera;
 
@@ -178,12 +192,15 @@ export class OrbitViewer extends ThreeLayer {
 
 		goToLandingMode() {
 			this.fadeIn();
-			this.controls.followTarget(this.sun, false);
+			// this.controls.followTarget(this.sun, false);
+			// this.controls.controls.autoRotateSpeed = .35;
+			// this.controls.controls.autoRotate = true;
+			this.controls.landingMode();
 			
 			// dummy.lookAt(this.earth.position);
 			// dummy.updateMatrix();
-			dummy.rotation.set(-3.0288209992191786, -1.018007295096466, -3.045504707405481);
-			this.controls.setRotation(dummy.rotation);
+			// dummy.rotation.set(-3.0288209992191786, -1.018007295096466, -3.045504707405481);
+			// this.controls.setRotation(dummy.rotation);
 			this.particles.highlighted = true;
 
 			gsap.to(CLOCK_SETTINGS, {
@@ -193,10 +210,11 @@ export class OrbitViewer extends ThreeLayer {
 				ease: 'expo.inOut'
 			});
 
-			this.solarItemsUI.hide();
+			this.solarItemsUI.show();
 		}
 
 		goToOrbitViewerMode(goLive:boolean=false) {
+			this.solarItemsUI.landingMode = false;
 			this.fadeIn();
 			this.controls.releaseCameraTarget();
 			this.particles.highlighted = true;
@@ -205,11 +223,39 @@ export class OrbitViewer extends ThreeLayer {
 
 			this.solarItemsUI.show(null);
 
+			GLOBALS.share.screenCapture = true;
+
+			for(const el of this.solarElements) {
+				el.selected = false;
+				el.mode = Mode.ORBIT;
+				if(!el.domRef) return;
+				el.domRef.dom.style.opacity = `1`;
+			}
+		}
+
+		goToGuidedExperienceMode(elements:string[], goLive:boolean=true) {
+			this.resetFilters();
+			this.solarItemsUI.landingMode = false;
+			this.fadeIn();
+			this.controls.releaseCameraTarget();
+			this.particles.highlighted = true;
+			gsap.killTweensOf(CLOCK_SETTINGS);
+			if(goLive) GLOBALS.solarClock.goLive();
+
+			this.solarItemsUI.show(null);
+
+			GLOBALS.share.screenCapture = true;
+
 			for(const el of this.solarElements) {
 				el.selected = false;
 				el.mode = Mode.ORBIT;
 				el.domRef.dom.style.opacity = `1`;
 			}
+
+			GLOBALS.timeCtrls.close();
+			GLOBALS.mapCtrls.close();
+
+			this.solarItemsUI.filter(elements);
 		}
 
 		centerView() {
@@ -263,15 +309,30 @@ export class OrbitViewer extends ThreeLayer {
 				const len = sample.length;
 
 				for(const el of solarItems) {
+					// console.log(el.elementCategory);
 					if(el.elementID.toLowerCase() === 'sol') {
 						// console.log('Add Sun');
 						//to-do: add sun
-					}
-				}
-
-				for(const el of solarItems) {
-					// console.log(el.elementCategory);
-					if(el.elementID.toLowerCase() === 'sol') {
+						const data:OrbitElements = {
+							id: "sol",
+							fulldesignation: "Sol",
+							//@ts-ignore
+							category: 'sun',
+							N:0,
+							a:0,
+							e:0,
+							i:0,
+							w:0,
+							M:0,
+							n:0,
+							q:0,
+							epoch:0,
+							type:0,
+							rubin_discovery: false
+						}
+						const element = new SolarElement(el.elementID.toLowerCase(), data);
+						this.addElementToScene(element, el.title);
+						this.sun.solarElement = element;
 						continue;
 					}
 					for(let i=0;i<len;i++) {
@@ -334,11 +395,21 @@ export class OrbitViewer extends ThreeLayer {
 		// this.hidePaths();
 	}
 
-	protected addElementToScene(element:SolarElement, title:string) {
+	addElementToScene(element:SolarElement, title:string) {
 		this.solarElements.push(element);
-		this.solarItemsUI.addItem(element, title);
 		this.scene.add(element);
+		if(!element.orbitPath || !element.orbitPath.pts.length) return;
+		// console.log('YESS', element.orbitPath.pts.length)
+		this.solarItemsUI.addItem(element, title);
 		this.scene.add(element.orbitPath.ellipse);
+	}
+
+	removeElementFromScene(element:SolarElement) {
+		this.solarElements.splice(this.solarElements.indexOf(element), 1);
+		this.scene.remove(element);
+		this.solarItemsUI.removeItem(element);
+		if(!element.orbitPath || !element.orbitPath.pts.length) return;
+		this.scene.remove(element.orbitPath.ellipse);
 	}
 	
 
@@ -376,6 +447,23 @@ export class OrbitViewer extends ThreeLayer {
 		}
 	} */
 
+	followRandomPlanet() {
+		const ids = ['mercury','venus','earth','mars','jupiter','saturn','uranus','neptune'];
+		let planet = null;
+		while(planet === null) {
+			const i = Random.randi(0, ids.length);
+			planet = this.getSolarElementBySlug(ids[i]);
+		}
+		this.fadeIn();
+		this.followSolarElement(planet);
+		this.controls.noTargetAnimation = true;
+
+		GLOBALS.timeCtrls.close();
+		GLOBALS.mapCtrls.close();
+
+		console.log(planet);
+	}
+
 	followSolarElement(sel:SolarElement, followOrbit:boolean=false) {
 		if(sel === null) return console.warn('Null Solar Item selected!');
 		// console.log('Follow Solar Item with orbit set to', followOrbit);
@@ -398,14 +486,22 @@ export class OrbitViewer extends ThreeLayer {
 		else sel.blur(OBJECT_PATH_ALPHA);
 	}
 
+	followSolarElementById(id:string) {
+		for(const el of this.solarElements) {
+			if(el.slug === id) return this.followSolarElement(el, !el.isPlanet);
+		}
+	}
+
 	releaseCameraTarget() {
 		this.controls.releaseCameraTarget();
 		this.solarItemsUI.show();
 	}
 
 	followSun() {
-		this.controls.followTarget(this.sun);
-		this.solarItemsUI.hide();
+		this.controls.followTarget(this.sun, false);
+		this.fadeIn();
+		this.solarItemsUI.show(this.sun.solarElement);
+		// this.solarItemsUI.hide();
 	}
 
     setTarget(target:WebGLRenderTarget)  {
@@ -418,6 +514,7 @@ export class OrbitViewer extends ThreeLayer {
 				sel.updateCameraView();
 			}
 			this.particles.setSize(width, height);
+			this.sun.updateCameraView();
     }
 
     setData(data:OrbitElements[]) {
@@ -444,43 +541,58 @@ export class OrbitViewer extends ThreeLayer {
 
       this.particles.update(d, this.camera);
 
+			if(this.isCapturing) return;
+
 			this.solarItemsUI.update();
 
 			if(!this.earth) return;
 
-			if(this.earth.distanceToCamara < 100) {
+			if(this.earth.distanceToCamara < 400) {
 				GLOBALS.clouds.needsUpdate = true;
 			}
     }
 
 		capture(format:string, callback:Function) {
-			this.beforeCapturingSize.width = this.gl.rect.width;
-			this.beforeCapturingSize.height = this.gl.rect.height;
+			// this.beforeCapturingSize.width = this.gl.rect.width;
+			// this.beforeCapturingSize.height = this.gl.rect.height;
 			this.captureCallback = callback;
 			this.controls.isCapturing = true;
 			this.controls.update();
-			this.gl.renderer.domElement.classList.add('hidden');
-			GLOBALS.loader.show();
+			// this.gl.renderer.domElement.classList.add('hidden');
+			// GLOBALS.loader.show();
 			if(format === 'horizontal') {
-				this.setSize(1920, 1080);
+				this.captureRT.setSize(1920, 1080);
 			} else if(format === 'vertical') {
-				this.setSize(1080, 1920);
+				this.captureRT.setSize(1080, 1920);
 			} else {
-				this.setSize(1080, 1080);
+				this.captureRT.setSize(1080, 1080);
 			}
+			this.camera.aspect = this.captureRT.width / this.captureRT.height;
+			this.camera.updateProjectionMatrix();
 			this.isCapturing = true;
+			this.vfx.setTier(QUALITY_TIERS.ultra);
+			this.vfx.setCustomSize(this.captureRT.width, this.captureRT.height);
 		}
 
 		render(): void {
 			if(this.isCapturing) {
-				if(this.useVFX) this.vfx.render(this.scene, this.camera);
-				else super.render();
-				this.captureCallback(this.gl.renderer.domElement);
+				if(this.useVFX) {
+					this.vfx.render(this.scene, this.camera, this.captureRT);
+				}
+				else {
+					this.params.target = this.captureRT;
+					super.render();
+					this.params.target = null;
+				}
+				this.captureCallback(this.captureRT);
 				setTimeout(() => {
-					this.setSize(this.beforeCapturingSize.width, this.beforeCapturingSize.height);
+					// this.setSize(this.beforeCapturingSize.width, this.beforeCapturingSize.height);
 					this.isCapturing = false;
-					this.gl.renderer.domElement.classList.remove('hidden');
+					this.camera.aspect = this.gl.rect.width / this.gl.rect.height;
+					this.camera.updateProjectionMatrix();
+					// this.gl.renderer.domElement.classList.remove('hidden');
 					this.controls.isCapturing = false;
+					this.vfx.setTier(QUALITY_TIERS[VISUAL_SETTINGS.current]);
 					GLOBALS.loader.hide();
 				}, 1);
 				return;
@@ -488,5 +600,18 @@ export class OrbitViewer extends ThreeLayer {
 			if(this.paused) return;
 			if(this.useVFX) this.vfx.render(this.scene, this.camera);
 			else super.render();
+		}
+
+		resetFilters() {
+			UserFilters.distanceRange.min = CategoryFilters.a.totals.min;
+			UserFilters.distanceRange.max = CategoryFilters.a.totals.max;
+			UserFilters.discoveredBy = 0;
+			UserFilters.dateRange.min = 1900;
+			UserFilters.dateRange.max = 2100;
+			for(const key in UserFilters.categories) {
+				UserFilters.categories[key] = true;
+			}
+
+			this.filtersUpdated();
 		}
 }
