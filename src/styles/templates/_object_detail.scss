@@ -11,8 +11,19 @@
             bottom: calc(30svh + 12px);
 
             @include media(medium) {
-                left: 40vw;
+                left: calc(40vw + 16px);
                 bottom: var(--site-margin-large);
+            }
+
+            .timemachine {
+                @include media(medium) {
+                    grid-column: 1/2;
+                    max-width: 420px;
+                }
+                
+                @include media(large) {
+                    grid-column: 1/-1;
+                }
             }
         }
     }
@@ -82,7 +93,7 @@
     @include media(medium) {
         --object-top-margin: calc(var(--site-margin-large) + 56px);
         position: absolute;
-        inset: var(--object-top-margin) auto var(--site-margin-small) var(--site-margin-small);
+        inset: var(--object-top-margin) auto var(--site-margin-large) var(--site-margin-small);
         width: calc(100% - var(--site-margin-small));
         max-width: 620px;
         min-height: initial;
