@@ -32,17 +32,16 @@ export async function searchCloud(q:string) {
 	// console.log(types);
 	let rubin = '';
 	if(UserFilters.discoveredBy > 0) {
-		rubin = `rubin_discovery: ${UserFilters.discoveredBy === 1}`
+		rubin = `rubin_discovery: {_eq: ${UserFilters.discoveredBy === 1}}`
 	}
 
 	const query = `query {
   mpc_orbits(
-    where: {packed_primary_provisional_designation: {_ilike: "%${q}%"}}
-    limit: 100
-		object_types: ${JSON.stringify(types)}
-		${rubin}
-		a_min: ${Math.max(0, UserFilters.distanceRange.min)}
-		a_max: ${UserFilters.distanceRange.max}
+    where: {packed_primary_provisional_designation: {_ilike: "%${q}%"},
+		object_type_int: {_in: ${JSON.stringify(types)}},
+		a_rubin: {_gt: ${Math.max(0, UserFilters.distanceRange.min)}, _lt: ${UserFilters.distanceRange.max}}
+		${rubin}}
+		limit: 100
   ) {
     a: a_rubin
 		mean_anomaly: mean_anomaly_rubin
@@ -61,7 +60,7 @@ export async function searchCloud(q:string) {
   }
 }`;
 
-console.log(query);
+// console.log(query);
 
 /*
 arc_length_sel
