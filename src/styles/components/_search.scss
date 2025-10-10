@@ -20,7 +20,7 @@
         width: 384px;
         max-height: 320px;
         background: initial;
-        backdrop-filter: initial;
+        // backdrop-filter: initial;
     }
 
     &[aria-hidden=true] {
@@ -35,7 +35,7 @@
 
         @include media(medium) {
             display: none;
-        }
+        } 
     }
 
     &-body {
@@ -82,6 +82,53 @@
                     .input {
                         flex: 0 0 auto;
                         width: 100%;
+                        
+                        @include media(medium) {
+                            border-radius: var(--corner-large) var(--corner-large) 0 0;
+                        }
+
+                        .local_search {
+                            &[aria-hidden=true] {
+                                display: none;
+                            }
+                        }
+
+                        .spinner_wrap {
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            padding: 14px;
+
+                            &[aria-hidden=true] {
+                                display: none;
+                            }
+                        }
+
+                            .spinner {
+                                position: relative;
+                                @include spinner(small);
+                                
+                                &[aria-hidden=true] {
+                                    display: none;
+                                }
+                            }
+
+                        .cloud_search {
+                            padding: 4px;
+
+                            &[aria-hidden=true] {
+                                display: none;
+                            } 
+
+                            button[disabled] {
+                                pointer-events: none;
+                                opacity: .5;
+                            }
+                        }
+
+                        input:disabled {
+                            opacity: .5;
+                        }
                     }
 
                     .search_results {
@@ -89,6 +136,10 @@
                         overflow: auto;
                         border-top: solid 1px var(--color-border);
                         @include scrollbar-custom;
+
+                        .chip {
+                            margin-block: 4px;
+                        }
                     }
                 }
         }

@@ -1,0 +1,88 @@
+// e404.scss
+
+@use '../base/mixins' as *;
+@use '../base/typography' as *;
+
+.e404 {
+    &-page {
+        position: relative;
+        min-height: 100vh;
+        min-height: 100svh;
+        z-index: var(--z-e404);
+        // background: var(--color-bg);
+        background: rgba(0, 0, 0, .15);
+    }
+
+        &-content {
+            position: absolute;
+            inset: 0;
+            margin: var(--site-margin-large);
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-template-rows: 1fr auto;
+
+            @include media(large) {
+                top: 50%;
+                transform: translateY(-50%);
+                bottom: auto;
+                grid-template-rows: auto auto;
+                gap: 48px;
+            } 
+        }   
+        
+            &-body {
+                grid-column: 1/-1;
+                grid-row: 1/-1;
+                align-self: center;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 12px;
+                text-align: center;
+
+                @include media(large) {
+                    grid-row: 1/2;
+                    gap: 16px;
+                }
+                
+                .title {
+                    font-size: 20px;
+                    line-height: 24px;
+                    text-transform: uppercase;
+                    letter-spacing: .2em;
+                    color: var(--color-text-low);
+                    opacity: 0;
+                }
+
+                .subtitle {
+                    font-weight: 900;
+                    line-height: 1em;
+                    text-transform: uppercase;
+                    color: var(--color-text);
+                    opacity: 0;
+
+                    &[lang=es] {
+                        font-size: clamp(28px, 8vw, 128px);
+                    }
+
+                    &[lang=en] {
+                        font-size: clamp(40px, 8vw, 128px);
+                    }
+                }
+            }
+
+            &-foot {
+                padding-bottom: 88px;
+                grid-column: 1/-1;
+                grid-row: 2/-1;
+                justify-self: center;
+
+                @include media(large) {
+                    padding-bottom: unset;
+                }
+
+                button {
+                    opacity: 0;
+                }
+            }
+}

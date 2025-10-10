@@ -1,4 +1,6 @@
-{% macro RangeSlider(id = "", values = [], minmax = []) %}
+{% from "icons.njk" import icon %}
+
+{% macro RangeSlider(id = "", values = [], minmax = [], slidingHints = false) %}
 <div class="rangeslider" id="{{ id }}">
     <div class="rangeslider_input">
         <div class="track">
@@ -9,21 +11,35 @@
         <div class="rangeslider_input-thumb thumb_min"
                 role="slider" 
                 tabindex="0"
-                {# aria-valuemin="{{ minmax[0] }}" 
-                aria-valuemax="{{ minmax[1] }}"  #}
+                {#
+                aria-valuemin="{{ minmax[0] }}" 
+                aria-valuemax="{{ minmax[1] }}"
+                #}
                 aria-valuenow="{{ values[0] }}"
                 aria-label="Time range selector">
-            <div class="value chip default"><span class="chip-text">{{ values[0] }}</span></div>
+            <div class="value chip default">
+                <span class="chip-text">{{ values[0] }}</span>
+            </div>
+            {% if slidingHints %}
+            <div class="sliding_hints">
+                {{ icon('chevron-left', 'left') }}
+                {{ icon('chevron-right', 'right') }}
+            </div>
+            {% endif %}
         </div>
         {% if values.length > 1 %}
         <div class="rangeslider_input-thumb thumb_max""
                 role="slider" 
                 tabindex="0"
-                {# aria-valuemin="{{ minmax[0] }}" 
-                aria-valuemax="{{ minmax[1] }}"  #}
+                {#
+                aria-valuemin="{{ minmax[0] }}" 
+                aria-valuemax="{{ minmax[1] }}"
+                #}
                 aria-valuenow="{{ values[1] }}"
                 aria-label="Time range selector">
-            <div class="value chip default"><span class="chip-text">{{ values[1] }}</span></div>
+            <div class="value chip default">
+                <span class="chip-text">{{ values[1] }}</span>
+            </div>
         </div>
         {% endif %}
     </div>

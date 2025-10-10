@@ -6,9 +6,20 @@
 .chip {
     display: inline-flex;
     align-items: center;
+    white-space: nowrap;
 
     &[aria-hidden=true] {
         display: none;
+    }
+
+    &.default,
+    &.primary {
+        .chip-text {
+            padding: 2px 8px;
+            border-radius: 26px;
+            @include font(caption-regular-caps);
+            text-transform: uppercase;
+        }
     }
     
     &.default {
@@ -16,11 +27,14 @@
             @include frozen_glass;
             @include gradient_border;
             padding: 2px 8px;
-            border-radius: 26px;
-            @include font(caption-regular-caps);
             color: var(--color-text);
-            text-transform: uppercase;
-            cursor: pointer;
+        }
+    }
+
+    &.primary {
+        .chip-text {
+            background: var(--color-turquoise-800);
+            color: var(--color-turquoise-300);
         }
     }
 
@@ -33,19 +47,19 @@
         background: var(--bg);
         color: var(--color);
 
-        @each $type, $color in (
-            planets_moons: planets,
-            near_earth_objects: near_earth,
-            asteroids: asteroids,
-            comets: comets,
-            centaurs: centaurs,
-            trans_neptunian_objects: trans_neptunian,
-            interstellar_objects: interstellar,
-            trojans: trojans
+        @each $type in (
+            planets-moons,
+            near-earth-objects,
+            asteroids,
+            comets,
+            centaurs,
+            trans-neptunian-objects,
+            interstellar-objects,
+            jupiter-trojans
         ) {
             &.#{$type} {
-            --bg: rgba(var(--color-#{$color}-rgb), .2);
-            --color: var(--color-#{$color});
+            --bg: color-mix(in srgb, var(--color-#{$type}) 20%, transparent);
+            --color: var(--color-#{$type});
             }
         }
 

@@ -1,7 +1,7 @@
 import { MathUtils } from "@fils/math";
 
 export interface SliderListener {
-  onChange(normalizedValue:number):void;
+  onChange(normalizedValue:number, isDrag?:boolean):void;
 }
 
 export class SimpleSlider {
@@ -37,6 +37,13 @@ export class SimpleSlider {
     this.track = dom.querySelector('.track');
 
     this.domV = dom.querySelector('.value').querySelector('span');
+
+    const rs = new ResizeObserver(entries => {
+      this.trackRect = this.track.getBoundingClientRect();
+      this.updateSlider();
+    });
+
+    rs.observe(this.track);
     
     this.update();
 
@@ -52,15 +59,22 @@ export class SimpleSlider {
     this.listeners.splice(this.listeners.indexOf(lis), 1);
   }
 
-  setMinMax(min:number, max:number) {
-    const minL = this.dom.querySelector('.min');
-    const maxL = this.dom.querySelector('.max');
+  setMinMax(min:number, max:number, hideLabels:boolean=false) {
+    const minL = this.dom.querySelector('.min') as HTMLElement;
+    const maxL = this.dom.querySelector('.max') as HTMLElement;
 
-    minL.textContent = `${min}`;
-    maxL.textContent = `${max}`;
+    if (minL && maxL) {
+      minL.textContent = `${min}`;
+      maxL.textContent = `${max}`;
 
-    this._min = min;
-    this._max = max;
+      this._min = min;
+      this._max = max;
+    }
+
+    if(hideLabels) {
+      minL.style.display = 'none';
+      maxL.style.display = 'none';
+    }
 
     this.updateSlider();
   }
@@ -160,7 +174,7 @@ export class SimpleSlider {
 
     this._value = MathUtils.smoothstep(0, w, nx);
     // console.log(this._value);
-    this.updateSlider();
+    this.updateSlider(true);
   }
 
   protected stopDrag() {
@@ -181,14 +195,14 @@ export class SimpleSlider {
     this.updateSlider();
   }
 
-  protected updateSlider() {
+  protected updateSlider(isDrag:boolean=false) {
     this.thumb.style.transform = `translateX(${this._value*this.trackRect.width}px)`;
     // this.thumb.setAttribute('aria-valuenow', this._value.toString());
     const nV = Math.round(MathUtils.lerp(this._min, this._max, this._value));
     this.domV.textContent = `${nV} ${this.units}`;
 
     for(const lis of this.listeners) {
-      lis.onChange(nV);
+      lis.onChange(nV, isDrag);
     }
   }
 

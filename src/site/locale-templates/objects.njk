@@ -14,12 +14,12 @@ eleventyComputed:
 {% from '../../../components/buttonicon.njk' import ButtonIcon %}
 {% from '../../../components/togglegroup.njk' import ToggleGroup %}
 
-<section class="objects" aria-hidden="false" style="opacity: 0;">
-    <header class="objects-head">
+<section class="layer objects" aria-hidden="false" style="opacity: 0;">
+    <header class="layer-head">
         {{ ButtonIcon('button_icon secondary medium button_close', 'close') }}
     </header>
-    <div class="objects-body">
-        <div class="objects-heading">
+    <div class="layer-body objects-body">
+        <div class="layer-heading">
             <div class="actions">
                 <a href="/{{lang}}/" class="button secondary medium button_back">
                     {{ icon('chevron-left') }}
@@ -31,7 +31,7 @@ eleventyComputed:
                 <h3 class="subtitle">{{ copy.objects.subtitle[lang] }}</h3>
             </div>
         </div>
-        <div class="objects-mask">
+        <div class="layer-content objects-content">
             <ul class="objects-list">
                 {% for key, type in copy.objects.types %}
                 <li class="objects-item" aria-hidden="false" id="cat-{{key}}">
@@ -44,6 +44,7 @@ eleventyComputed:
                             <img src="/assets/images/sample/Planets_and_Moons.png" alt="">
                         </div> #}
                         <div class="objects_card-body">
+                            <div class="scroll">
                             {# <h3 class="name">{{ type.name[lang] }}</h3> #}
                             <p class="description">{{ type.description[lang] }}</p>
                             {# <div class="stats">
@@ -56,6 +57,7 @@ eleventyComputed:
                                     <dd class="stats-label">{{ copy.objects.detected[lang] }}</dd>
                                 </dl>
                             </div> #}
+                            </div>
                         </div>
                         <div class="objects_card-foot">
                             <span class="label" data-index="0">{{ copy.objects.hidden[lang] }}</span>

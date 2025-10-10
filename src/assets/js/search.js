@@ -1,5 +1,5 @@
 self.addEventListener('message', async event => {
-	const sample = event.data.items;
+	const src = event.data.items;
 	const q = event.data.query;
 
   const items = [];
@@ -14,10 +14,14 @@ self.addEventListener('message', async event => {
       }
   }
   
-  searchInArray(q, sample, items);
+  // searchInArray(q, sample, items);
+  for(const arr of src) {
+    searchInArray(q, arr, items);
+  }
 
 	// Send the image data to the UI thread!
 	self.postMessage({
-		results: items
+		results: items,
+    query: q
 	})
 })

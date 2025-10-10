@@ -8,6 +8,11 @@ import postcss from 'postcss';
 import CleanCSS from 'clean-css';
 
 import fs from 'fs';
+import { configDotenv } from 'dotenv';
+
+configDotenv();
+
+const key = `${process.env.HASURA_SECRET_KEY}`;
 
 export function buildJS (isProduction=false) {
     return new Promise((resolve, reject) => {
@@ -18,6 +23,7 @@ export function buildJS (isProduction=false) {
 			sourcemap: false,
 			define: { 
 				DEV_MODE: !isProduction ? "true" : "false",
+				HASURA_SECRET_KEY: `"${key}"`
 			},
 			loader: { '.glsl': 'text', '.vert': 'text', '.frag': 'text' },
 			outfile: 'bundle/main.js',

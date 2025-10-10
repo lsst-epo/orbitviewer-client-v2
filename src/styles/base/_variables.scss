@@ -48,21 +48,13 @@
     --color-button-bg-hover: var(--color-turquoise-800);
 
     --color-asteroids: #B1F2EF;
-    --color-asteroids-rgb: 177,242,239;
-    --color-near_earth: #986AE1;
-    --color-near_earth-rgb: 152,106,225;
+    --color-near-earth-objects: #986AE1;
     --color-centaurs: #FF6EB4;
-    --color-centaurs-rgb: 255,110,180;
     --color-comets: #50C878;
-    --color-comets-rgb: 80,200,120;
-    --color-planets: #458DD3;
-    --color-planets-rgb: 69,141,211;
-    --color-trans_neptunian: #009494;
-    --color-trans_neptunian-rgb: 0,148,148;
-    --color-interstellar: #718E3E;
-    --color-interstellar-rgb: 113,142,62;
-    --color-trojans: #E05858;
-    --color-trojans-rgb: 224,88,88;
+    --color-planets-moons: #458DD3;
+    --color-trans-neptunian-objects: #009494;
+    --color-interstellar-objects: #718E3E;
+    --color-jupiter-trojans: #E05858;
     --color-sun: #FDDA78;
 
     // Layers
@@ -73,6 +65,7 @@
     --z-share: 15;
     --z-wizard: 14;
     --z-logo: 13;
+    --z-e404: 12;
     --z-filters: 12;
     --z-search: 11;
     --z-menu: 10;

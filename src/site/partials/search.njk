@@ -4,8 +4,9 @@
 {% from '../components/rangeslider.njk' import RangeSlider %}
 {% from '../components/togglegroup.njk' import ToggleGroup %}
 {% from '../components/banner.njk' import Banner %}
+{% from '../components/spinner.njk' import Spinner %}
 
-<section class="search" aria-hidden="true">
+<section class="search" aria-hidden="true" data-not-found-local="{{copy.search.not_found_local[lang]}}" data-not-found="{{copy.search.not_found[lang]}}">
     <header class="search-head">
         {{ ButtonIcon('button_icon secondary medium button_close', 'close') }}
     </header>
@@ -17,30 +18,40 @@
                 </div>
                 <div class="search_card-body">
                     <div class="input" focusable="true" tabindex="0">
-                        <input id="search" type="search" placeholder="Search by planet, object,.." tabindex="-1">
-                        <div class="button_wrap" aria-hidden="true">
-                            {{ Button(copy.search.search_cloud.en, 'button primary small') }}
-                        </div>
-                        <div class="icon_wrap" aria-hidden="false">
-                            {{ icon('search') }}
+                        <input id="search" type="search" placeholder="Search by planet, object,.." autocomplete="off" tabindex="-1">
+                        <div class="input-actions">
+                            <div class="local_search" aria-hidden="false">
+                                <div class="spinner_wrap" aria-hidden="true">
+                                    {{ Spinner() }}
+                                </div>
+                                <div class="icon_wrap" aria-hidden="false">
+                                    {{ icon('search') }}
+                                </div>
+                            </div>
+                            <div class="cloud_search" aria-hidden="true">
+                                <button type="button" class="button primary small">
+                                    {{ Spinner(true) }}
+                                    <span>{{ copy.search.search_cloud[lang] }}</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
                     
-                    {{ Banner(copy.search.not_found.en, 'alert', 'error') }}
+                    {{ Banner(copy.search.not_found_local[lang], 'alert', 'error') }}
                     
                     <div class="search_results">
                         <div class="listitem-group" role="group">
                             <h3 class="listitem-label">{{ copy.search.recommended_searches[lang] }}</h3>
                             <ul class="listitem-list">
-                                {% for item in objects %}
+                                {% for item in objects[lang].data %}
                                     {% if item.category.title != '' %}
-                                    <li class="listitem-item" role="menuitem">
+                                    <li item-id="{{item.id}}" item-category-slug="{{item.category.slug}}" class="listitem-item" role="menuitem">
                                         <a href="/{{lang}}/solar-items/{{item.slug}}/" class="listitem-link">
                                             <span class="heading">
                                                 <span class="name">{{ item.title }}</span>
                                             </span>
                                             {% if item.category %}
-                                                <span class="value">{{ item.category.title }}</span>
+                                                <span class="chip object_type {{ item.category.slug }}">{{ item.category.title }}</span>
                                             {% endif %}
                                         </a>
                                     </li>

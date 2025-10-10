@@ -26,16 +26,19 @@
 		}
 
         function redirect() {
-            /*for(const l of languages) {
+            const saved = localStorage.getItem('rubin-language');
+            if(saved) return saved;
+            for(const l of languages) {
                 if(l === shortLang) {
                     return l;
                 }
-            }*/
+            }
 
             return defaultLanguage
         }
 
         const rL = redirect();
+        {# window.alert(rL); #}
         window.location += `${rL}/`;
         // window.location.replace('./' + shortLang );
 

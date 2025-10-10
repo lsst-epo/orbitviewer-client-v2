@@ -1,0 +1,53 @@
+{% from "./icons.njk" import icon %}
+{% from '../components/button.njk' import Button %}
+{% from '../components/object_card_graph.njk' import ObjectCardGraph %}
+
+{% set slide = guide.slides[0] %}
+
+<section class="object_detail" role="main" aria-labelledby="guide_step-title" aria-hidden="false" data-slides="{{guide.slides | stringify}}">
+    <div class="object_detail-frame" aria-hidden="false"></div>
+    <div class="object_detail-content"> {# style='transform: translateY(100%);' #}
+        <div class="guide_step">
+            <div class="guide_step-card">
+                <header class="guide_step-head">
+                    <h3 class="title" id="guide_step-title">{{guide.title}}</h3>
+                    <div class="steps" aria-label="Step 1 of 12" role="status">
+                        <span aria-current="step">1</span> / <span>{{guide.slides.length}}</span>
+                    </div>
+                    <div class="progress" aria-hidden="true"><div class="current" style="width: 0%"></div></div>
+                </header>
+                <div class="guide_step-body">
+                    <div class="guide_step-hero">
+                        {% if slide.thumbnail and guide.tourPreview.length and guide.tourPreview[0].url %}
+                        <img src="{{ guide.tourPreview[0].url }}" alt="{{ guide.tourPreview[0].title }}">
+                        {% endif %}
+                    </div>
+                    <div class="guide_step-content">
+                        <h3 class="eyebrow">{{slide.subTitle}}</h3>
+                        <div class="guide_step-text">
+                            <h2>{{slide.slideTitle}}</h2>
+                            <p>{{slide.slideContent}}</p>
+                        </div>
+                    </div>
+                </div>
+                <footer class="guide_step-foot">
+                    <a href="/{{lang}}/guided-experiences/" class="button small ghost">
+                        {{ icon('chevron-left')}}
+                        <span>{{copy.guides.entry.navigation.guides[lang]}}</span>
+                    </a>
+
+                    <div class="nav">
+                        <a href="javascript:void(0);" class="button small ghost" guide-previous data-enabled="true">
+                            {{ icon('chevron-left')}}
+                            <span>{{copy.guides.entry.navigation.previous[lang]}}</span>
+                        </a>
+                        <a href="javascript:void(0);" class="button small primary" guide-next data-enabled="true">
+                            <span>{{copy.guides.entry.navigation.next[lang]}}</span>
+                            {{ icon('chevron-right')}}
+                        </a>
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </div>
+</section>

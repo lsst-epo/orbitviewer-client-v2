@@ -1,6 +1,7 @@
 {% from '../partials/icons.njk' import icon %}
 {% from '../components/rangeslider.njk' import RangeSlider %}
 {% from '../components/button.njk' import Button %}
+{% from '../components/spinner.njk' import Spinner %}
 
 <div class="timemachine" role="region" aria-hidden="true" data-wizard-step="2">
     <div class="timemachine-head">
@@ -8,6 +9,7 @@
             <button type="button" class="button_icon ghost xsmall button_play button_play-pause">
                 <span class="icon_wrap-resume">{{ icon('play') }}</span>
                 <span class="icon_wrap-pause">{{ icon('pause') }}</span>
+                {{ Spinner() }}
             </button>
             <div class="timemachine_heading-date">
                 <input type="text" id="myDateInput" aria-label="{{ copy.timemachine.aria[lang] }}">
@@ -29,6 +31,8 @@
         </div>
     </div>
     <div class="timemachine-body" id="timemachine_body">
-        {{ RangeSlider('slider-timemachine', [50], [0, 100]) }}
+        <div class="content">
+            {{ RangeSlider('slider-timemachine', [50], [0, 100], true) }}
+        </div>
     </div>
 </div>
