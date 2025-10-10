@@ -30,7 +30,7 @@
 		"flatpickr": "^4.6.13",
 		"gsap": "^3.13.0",
 		"http-server": "^14.1.1",
-		"three": "^0.174.1"
+		"three": "^0.174.0"
 	},
 	"devDependencies": {
 		"@11ty/eleventy": "^3.1.2",
