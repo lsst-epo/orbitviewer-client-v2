@@ -1,6 +1,6 @@
 export default {
 	// Get global "isProduction"
-	isProduction: process.env.ELEVENTY_ENV === 'production',
+	isProduction: process.env.ENVIRONMENT === 'production',
 	baseURL: "",
   	title: "Orbitviewer",
 	description: "Vera Rubin's interactive explorer.",

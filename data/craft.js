@@ -1,6 +1,6 @@
 import { configDotenv } from "dotenv";
 
-const url = 'https://api-dev.orbitviewer.dev';
+const url = process.env.API_URL;
 
 configDotenv();
 
@@ -15,7 +15,7 @@ async function getQuery(query = null) {
 
   try {
     // initiate fetch
-    const queryFetch = await fetch(`${url}/api`, {
+    const queryFetch = await fetch(`${url}`, {
       cache: 'reload',
       method: "POST",
       headers: {

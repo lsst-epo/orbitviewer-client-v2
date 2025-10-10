@@ -1,7 +1,7 @@
 import syntaxHighlight from "@11ty/eleventy-plugin-syntaxhighlight";
 import chokidar from 'chokidar';
 import { buildCSS, buildJS } from './scripts/build/esbuild.mjs';
-const isProduction = process.env.ELEVENTY_ENV === 'production';
+const isProduction = process.env.ENVIRONMENT === 'production';
 
 import staticData from './data/staticData.js';
 

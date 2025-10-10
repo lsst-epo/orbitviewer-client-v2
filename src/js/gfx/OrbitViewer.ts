@@ -249,6 +249,7 @@ export class OrbitViewer extends ThreeLayer {
 			for(const el of this.solarElements) {
 				el.selected = false;
 				el.mode = Mode.ORBIT;
+				if(!el.domRef) continue;
 				el.domRef.dom.style.opacity = `1`;
 			}
 
