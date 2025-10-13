@@ -1,8 +1,12 @@
 import { configDotenv } from "dotenv";
 
-const url = process.env.API_URL;
+try {
+  configDotenv();
+} catch (err) {
+  console.warning("No .env file found, continuing with machine-specific environment variables.")
+}
 
-configDotenv();
+const url = process.env.API_URL;
 
 async function getQuery(query = null) {
 
