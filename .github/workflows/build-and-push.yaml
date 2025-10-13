@@ -107,7 +107,7 @@ jobs:
           fi
 
           # The secret value must be a single-line JSON string.
-          SECRET_JSON=$(gcloud secrets versions access latest --secret=$SECRET_NAME --project=${{ steps.deploy-info.outputs.project }})
+          SECRET_JSON=$(gcloud secrets versions access latest --secret=$SECRET_NAME
 
           # check secrets are being read
           echo "$SECRET_JSON" | jq 'keys | length'
