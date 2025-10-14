@@ -97,11 +97,11 @@ jobs:
         id: deploy-secrets
         run: |
           if ${{ steps.deploy-info.outputs.environment_name == 'prod' }}; then
-            SECRET_NAME=secrets.PROD_SECRET_NAME
+            SECRET_NAME=${{ secrets.PROD_SECRET_NAME }}
           elif ${{ steps.deploy-info.outputs.environment_name == 'int' }}; then
-            SECRET_NAME=secrets.INT_SECRET_NAME
+            SECRET_NAME=${{ secrets.INT_SECRET_NAME }}
           else
-            SECRET_NAME=secrets.DEV_SECRET_NAME
+            SECRET_NAME=${{ secrets.DEV_SECRET_NAME }}
           fi
 
           # The secret value must be a single-line JSON string.
