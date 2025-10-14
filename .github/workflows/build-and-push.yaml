@@ -96,8 +96,6 @@ jobs:
       - name: Fetch and Set Environment Variables from Secret Manager
         id: deploy-secrets
         run: |
-          environment_name
-
           if ${{ steps.deploy-info.outputs.environment_name == 'prod' }}; then
             SECRET_NAME=secrets.PROD_SECRET_NAME
           elif ${{ steps.deploy-info.outputs.environment_name == 'int' }}; then
