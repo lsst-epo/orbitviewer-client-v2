@@ -117,13 +117,13 @@ jobs:
         uses: docker/build-push-action@v6.18.0
         with:
           context: .
-          push: false
+          push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          cache-to: |
-            type=gha
-          cache-from: |
-            type=gha
+          # cache-to: |
+          #   type=gha
+          # cache-from: |
+          #   type=gha
       -
         name: Install and setup crane
         uses: imjasonh/setup-crane@v0.4
