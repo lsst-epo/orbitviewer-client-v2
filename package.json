@@ -11,7 +11,7 @@
 		"glsl": "node scripts/build/glsl",
 		"langs": "node scripts/build/langs.js",
 		"dev": "yarn langs && yarn glsl && eleventy --serve --watch",
-		"build": "yarn langs && yarn glsl && node scripts/build/build.js && cross-env DEBUG=Eleventy* eleventy",
+		"build": "yarn langs && yarn glsl && node scripts/build/build.js && cross-env DEBUG=Eleventy* ENVIRONMENT=production eleventy",
 		"stage": "yarn build && push rubin --force",
 		"mirror": "git push rubin dev:feature/fil-dev && git push rubin main:feature/fil-main",
 		"start": "http-server ./public"
