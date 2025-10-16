@@ -5,7 +5,9 @@ COPY . /app
 
 RUN yarn && yarn build
 
-FROM builder AS runner
+FROM  node:22-alpine AS runner
+
+WORKDIR /app
 
 COPY --from=builder --exclude=.env /app .
 
