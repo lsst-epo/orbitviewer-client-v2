@@ -1,9 +1,15 @@
-FROM node:22-alpine
+FROM node:22-alpine AS builder
 
 WORKDIR /app
 COPY . /app
 
 RUN yarn && yarn build
+
+FROM  node:22-alpine AS runner
+
+WORKDIR /app
+
+COPY --from=builder --exclude=.env /app .
 
 EXPOSE 8080
 

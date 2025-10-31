@@ -54,11 +54,20 @@
         }
 
         &-body {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+
+            .tab_list {
+                a[aria-hidden=true] {
+                    display: none;
+                }
+            }
+            
             [role=tabpanel] {
                 display: flex;
                 flex-direction: column;
                 gap: 16px;
-                padding-top: 16px;
 
                 &[aria-hidden=true] {
                     display: none;

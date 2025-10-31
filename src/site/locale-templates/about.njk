@@ -3,11 +3,13 @@ layout: base
 pageTemplate: about
 permalink: "/{{lang}}/about/"
 eleventyComputed:
-  title: "{{ staticData.title }}"
-  description: "{{ staticData.description }}"
+  title: "{{ settings[lang].title }} - {{ about[lang].title }}"
+  description: "{{ about[lang].headerBody.plainText }}"
   card: "{{ staticData.og.basePath }}{{ staticData.og.default }}"
-  locale: "{{ staticData.locale[staticData.defaultLanguage] }}"
+  locale: "{{ staticData.locale[lang] }}"
 ---
+
+{% set content = pages[lang].about %}
 
 <div class="about-page">
   <section class="about-section about_heading intersect_no-active">
@@ -17,12 +19,11 @@ eleventyComputed:
     <div class="about_heading-body">
       <div class="content">
         <div class="heading">
-          <h1 class="title">About Orbitviewer</h1>
-          <h2 class="subtitle">Welcome to NSF–DOE Rubin Observatory’s Orbitviewer</h2>
+          <h1 class="title">{{ content.eyebrowText }}</h1>
+          <h2 class="subtitle">{{ content.headerTitle }}</h2>
         </div>
         <div class="description">
-          <p>This interactive visualization of the Solar System lets you explore the dynamic structure of our cosmic backyard in three dimensions, and over time.</p>
-          <p>Zoom in, shift perspectives, and watch planets, asteroids, and other small bodies trace their orbits around the Sun from the year 1900 to 2100 — which offers a real-time sense of their motion.</p>
+          {{ content.headerBody.html | safe }}
         </div>
       </div>
     </div>
@@ -31,11 +32,11 @@ eleventyComputed:
   <section class="about-section about_viewer">
     <div class="about_viewer-hero">
       <div class="img_wrap">
-        <img src="/assets/images/about/about-viewer.webp" alt="">
+        <img src="{{ content.introImage[0].url }}" alt="">
       </div>
     </div>
     <div class="about_viewer-text">
-      <p>Orbitviewer — powered by real data from the Minor Planet Center — is designed to showcase the incredible number of Solar System objects revealed by Rubin Observatory. In just one year of operations, Rubin will reveal more objects in our Solar System than humans have discovered in the past 150 years. As Rubin’s decade-long Legacy Survey of Space and Time (LSST) gets underway, Orbitviewer will help you explore and contextualize the millions of discoveries from Rubin.</p>
+      {{ content.introBody.html | safe }}
     </div>
   </section>
 
@@ -43,40 +44,40 @@ eleventyComputed:
     <div class="about_device-hero">
       <div class="device">
         <div class="mask ratio-21-9">
-          <p class="count" data-label="{value} objects">50,000 objects</p>
+          <p class="count" data-label="{value} objects">{{ content.ultraSettingCount }}</p>
           <div class="img_wrap">
-            <img src="/assets/images/about/about-viewer-ultra.webp" class="img-ratio-21-9" alt="">
-            <img src="/assets/images/about/about-viewer-large.webp" class="img-ratio-16-9" alt="">
-            <img src="/assets/images/about/about-viewer-medium.webp" class="img-ratio-9-16" alt="">
-            <img src="/assets/images/about/about-viewer-small.webp" class="img-ratio-2-3" alt="">
+            <img src="{{ content.ultraSettingImages[0].url }}" class="img-ratio-21-9" alt="">
+            <img src="{{ content.highSettingImages[0].url }}" class="img-ratio-16-9" alt="">
+            <img src="{{ content.mediumSettingImages[0].url }}" class="img-ratio-9-16" alt="">
+            <img src="{{ content.lowSettingImages[0].url }}" class="img-ratio-2-3" alt="">
           </div>
         </div>
       </div>
       <nav class="tab_list">
-        <button role="tab" data-ratio="21-9" data-objects="{{ copy.exploration.ultra.objects }}" aria-selected="true">Gaming Pcs</button>
-        <button role="tab" data-ratio="16-9" data-objects="{{ copy.exploration.high.objects }}">High-end laptops</button>
-        <button role="tab" data-ratio="9-16" data-objects="{{ copy.exploration.medium.objects }}">High-end mobiles</button>
-        <button role="tab" data-ratio="2-3" data-objects="{{ copy.exploration.low.objects }}">Mobiles</button>
+        <button role="tab" data-ratio="21-9" data-objects="{{ copy.exploration.ultra.objects }}" aria-selected="true">{{ content.ultraSettingLabel }}</button>
+        <button role="tab" data-ratio="16-9" data-objects="{{ copy.exploration.high.objects }}">{{ content.highSettingLabel }}</button>
+        <button role="tab" data-ratio="9-16" data-objects="{{ copy.exploration.medium.objects }}">{{ content.mediumSettingLabel }}</button>
+        <button role="tab" data-ratio="2-3" data-objects="{{ copy.exploration.low.objects }}">{{ content.lowSettingLabel }}</button>
       </nav>
     </div>
     <div class="about_device-text">
-      <p>Orbitviewer adapts to your device — it has a mobile-friendly design and it’s customizable so you can set the number of objects you explore. No downloads required! You can choose between four different exploration modes, from a streamlined set of 16,000 objects optimized for mobile devices to a high-performance set of 1 million objects for powerful desktop machines.</p>
+      {{ content.responsiveBody.html | safe }}
     </div>
   </section>
 
   <section class="about_observatory with-inner-sections">
       <div class="about_observatory-head">
         <div class="invite">
-          <p>We invite you to dive in and explore as Rubin Observatory reveals millions of new objects in our Solar System — revolutionizing what we know about our cosmic neighborhood, from what’s in it to how we got here.</p>
-          <p>Want to experience more Rubin data? Visit our interactive all-sky image viewer, <a href="https://skyviewer.app" fil-nomad-ignore>Skyviewer</a>.</p>
+          {{ content.observatoryBody.html | safe }}
         </div>
-        <h2 class="title">NSF-DOE Rubin Observatory</h2>
+        <h2 class="title">{{ copy.about.observatory_title[lang] }}</h2>
         <div class="bg">
           <div class="img_wrap">
               <picture>
-                <source srcset="/assets/images/about/about-observatory-large.webp" media="(min-width: 1024px)">
-                <source srcset="/assets/images/about/about-observatory-medium.webp" media="(min-width: 768px)">
-                <img src="/assets/images/about/about-observatory-small.webp" alt="">
+                {% set oImage = content.observatoryImage[0] %}
+                <source srcset="{{ oImage.urlLarge }}" media="(min-width: 1024px)">
+                <source srcset="{{ oImage.urlMedium }}" media="(min-width: 768px)">
+                <img src="{{ oImage.urlSmall }}" alt="">
               </picture>
           </div>
         </div>
@@ -84,8 +85,7 @@ eleventyComputed:
       <div class="about_observatory-body">
         <div class="content">
           <div class="text">
-            <p>This data visualization is a product of NSF–DOE Vera C. Rubin Observatory. This groundbreaking new observatory, located on Cerro Pachón in Chile, will revolutionize the way we explore the cosmos. Using an 8.4-meter telescope and the largest camera ever built, Rubin will repeatedly scan the sky for 10 years and create the greatest cosmic movie ever made. To learn more about the observatory and its science, visit <a href="https://rubinobservatory.org/" fil-nomad-ignore>rubinobservatory.org</a>. </p>
-            <p>NSF–DOE Vera C. Rubin Observatory is jointly funded by the U.S. National Science Foundation and the U.S. Department of Energy’s Office of Science. Rubin Observatory is a joint Program of NSF NOIRLab and DOE’s SLAC National Accelerator Laboratory.</p>
+            {{ content.footerBody.html | safe }}
           </div>
           <div class="logos">
             <img src="/assets/images/rubin-nsf-doe-row.webp" alt="">
@@ -96,12 +96,13 @@ eleventyComputed:
 
   <section class="about-section about_credits">
     <div class="about_credits-content">
-      <h2 class="title">Credits</h2>
+      <h2 class="title">{{ copy.about.credits[lang] }}</h2>
       <div class="credits">
-        <p>Orbitviewer is a product of the NSF–DOE Vera C. Rubin Observatory Education and Public Outreach team. Orbitviewer showcases data made possible by the work of over a thousand people who designed, built, and now operate Rubin Observatory—bringing the wonders of the cosmos to you.</p>
-        <p><a href="https://fil.studio/" fil-nomad-ignore>Fil Studio</a> is a digital studio based in Barcelona, Spain, specialized in crafting tailored interactive experiences. As digital tailors, they merge design and development to shape unique and meaningful projects. The project was led by Edu Prats as director and developer, with Jordi Colomer as UX/UI designer and front-end developer, Christian MacMillan for Front-End dev support, and Yolanda Moliner managing the studio and overseeing coordination.</p>
+        {# <p>Orbitviewer is a product of the NSF–DOE Vera C. Rubin Observatory Education and Public Outreach team. Orbitviewer showcases data made possible by the work of over a thousand people who designed, built, and now operate Rubin Observatory—bringing the wonders of the cosmos to you.</p>
+        <p><a href="https://fil.studio/" fil-nomad-ignore>Fil Studio</a> is a digital studio based in Barcelona, Spain, specialized in crafting tailored interactive experiences. As digital tailors, they merge design and development to shape unique and meaningful projects. The project was led by Edu Prats as director and developer, with Jordi Colomer as UX/UI designer and front-end developer, Christian MacMillan for Front-End dev support, and Yolanda Moliner managing the studio and overseeing coordination.</p> #}
+        {{ content.creditsText.html | safe }}
       </div>
-      <p class="mpc">The data used for this visualization comes from the <a href="https://minorplanetcenter.net/" fil-nomad-ignore>Minor Planet Center</a> (MPC). The MPC is the single worldwide location for receipt and distribution of positional measurements of minor planets, comets and outer irregular natural satellites of the major planets. The MPC is responsible for the identification, designation and orbit computation for all of these objects. The MPC operates at the Smithsonian Astrophysical Observatory, under the auspices of Division F of the International Astronomical Union (IAU).</p>
+      {# <p class="mpc">The data used for this visualization comes from the <a href="https://minorplanetcenter.net/" fil-nomad-ignore>Minor Planet Center</a> (MPC). The MPC is the single worldwide location for receipt and distribution of positional measurements of minor planets, comets and outer irregular natural satellites of the major planets. The MPC is responsible for the identification, designation and orbit computation for all of these objects. The MPC operates at the Smithsonian Astrophysical Observatory, under the auspices of Division F of the International Astronomical Union (IAU).</p> #}
     </div>
   </section>
 </div>

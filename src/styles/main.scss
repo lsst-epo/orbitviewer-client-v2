@@ -21,6 +21,7 @@
 @use './components/loader';
 @use './components/rangeslider';
 @use './components/modal';
+@use './components/ribbon';
 @use './components/share';
 @use './components/layout';
 @use './components/body';
@@ -32,7 +33,9 @@
 @use './components/wizard';
 @use './components/map_controls';
 @use './components/filters';
+@use './components/layer';
 @use './components/objects';
+@use './components/guides';
 @use './components/search';
 @use './components/tooltipdialog';
 @use './components/scrolling-page';
@@ -41,8 +44,10 @@
 @use './templates/onboarding';
 @use './templates/splash';
 @use './templates/object_detail';
+@use './templates/guide';
 @use './templates/about';
 @use './templates/how_to_use';
+@use './templates/e404';
 
 @use '../../node_modules/flatpickr/dist/flatpickr.css';
 @use './libraries/calendar';

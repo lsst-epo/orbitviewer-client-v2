@@ -11,7 +11,7 @@
 		"glsl": "node scripts/build/glsl",
 		"langs": "node scripts/build/langs.js",
 		"dev": "yarn langs && yarn glsl && eleventy --serve --watch",
-		"build": "yarn langs && yarn glsl && node scripts/build/build.js && cross-env ELEVENTY_ENV=production eleventy",
+		"build": "yarn langs && yarn glsl && node scripts/build/build.js && cross-env DEBUG=Eleventy* ENVIRONMENT=production eleventy",
 		"stage": "yarn build && push rubin --force",
 		"mirror": "git push rubin dev:feature/fil-dev && git push rubin main:feature/fil-main",
 		"start": "http-server ./public"
@@ -20,12 +20,12 @@
 		"@fils/ani": "^0.0.6",
 		"@fils/gen": "^0.2.2",
 		"@fils/gfx": "^0.1.6",
-		"@fils/gl-dom": "^0.0.9",
+		"@fils/gl-dom": "^0.1.1",
 		"@fils/math": "^0.1.0",
-		"@fils/nomad": "^0.4.2",
+		"@fils/nomad": "^0.4.5",
 		"@fils/ui": "^0.1.4",
 		"@fils/ui-icons": "^0.0.17",
-		"@fils/utils": "^0.1.1",
+		"@fils/utils": "^0.1.2",
 		"@fils/vfx": "^0.2.3",
 		"flatpickr": "^4.6.13",
 		"gsap": "^3.13.0",
@@ -33,16 +33,17 @@
 		"three": "^0.174.0"
 	},
 	"devDependencies": {
-		"@11ty/eleventy": "^3.0.0",
-		"@11ty/eleventy-plugin-syntaxhighlight": "^5.0.0",
+		"@11ty/eleventy": "^3.1.2",
+		"@11ty/eleventy-plugin-syntaxhighlight": "^5.0.2",
 		"autoprefixer": "^10.4.21",
 		"chokidar": "^4.0.3",
 		"clean-css": "^5.3.3",
-		"cross-env": "^7.0.3",
-		"esbuild": "^0.25.1",
+		"cross-env": "^10.0.0",
+		"dotenv": "^17.2.1",
+		"esbuild": "^0.25.9",
 		"esbuild-plugin-alias": "^0.2.1",
-		"postcss": "^8.5.4",
+		"postcss": "^8.5.6",
 		"postcss-pxtorem": "^6.1.0",
-		"sass": "^1.86.0"
+		"sass": "^1.90.0"
 	}
 }

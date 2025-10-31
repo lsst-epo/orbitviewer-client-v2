@@ -13,6 +13,8 @@ export class SolarItemUI {
 
   elements:SolarDOMElement[] = [];
 
+  landingMode:boolean = true;
+
   constructor() {
     const tdom = document.querySelector('.pointer-templates');
     this.templates = tdom.querySelectorAll('a.canvas_pointer');
@@ -23,10 +25,13 @@ export class SolarItemUI {
 
   addItem(el:SolarElement, title:string) {
     const category = el.category;
-    const id = CategoryTypeMap[category];
-    // console.log(category, id);
+    let id = CategoryTypeMap[category];
 
     // console.log(title, el.name);
+
+    if(category === null || id === null) {
+      id = 0;
+    }
 
     for(const template of this.templates) {
       if(parseInt(template.getAttribute('data-id')) === id) {
@@ -43,12 +48,24 @@ export class SolarItemUI {
     }
   }
 
+  removeItem(el:SolarElement) {
+    this.elements.splice(this.elements.indexOf(el.domRef), 1);
+    el.domRef.dom.remove();
+  }
+
   show(sel:SolarElement=null) {
     this.dom.setAttribute('aria-hidden', 'false');
     clearTimeout(tid);
     this.visible = true;
     for(const el of this.elements) {
       el.enabled = el.ref !== sel;
+    }
+  }
+
+  filter(ids:string[]) {
+    for(const el of this.elements) {
+      // console.log(ids.indexOf(el.ref.slug) > -1);
+      el.enabled = ids.indexOf(el.ref.slug) > -1;
     }
   }
 
@@ -64,6 +81,10 @@ export class SolarItemUI {
     if(!this.visible) return;
     for(let i=0,len=this.elements.length; i<len; i++) {
       this.elements[i].update();
+      this.elements[i].dom.style.opacity = this.landingMode ? `.4` : `1`;
+      /* if(this.landingMode) {
+        this.elements[i].dom.style.opacity = `.4`;
+      }  */
     }
   }
 }

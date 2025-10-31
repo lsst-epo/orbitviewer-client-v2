@@ -68,8 +68,6 @@ jobs:
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{major}}
             type=sha
-          # build-args: |
-          #   RUN_BUILD=false
       -
         name: Parse deploy tag
         id: deploy-tag
@@ -82,15 +80,31 @@ jobs:
           echo full_tag=$full_tag >> "$GITHUB_OUTPUT"
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3.6.0
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3.11.1
+
       - name: Login to GCP
         uses: "google-github-actions/auth@v2.1.11"
         with:
           credentials_json: ${{ steps.deploy-info.outputs.credentials_json }}
+
       - name: "Set up Cloud SDK"
         uses: "google-github-actions/setup-gcloud@v2.1.5"
       - run: gcloud --quiet auth configure-docker
+
+      - name: Fetch and Set Environment Variables from Secret Manager
+        id: deploy-secrets
+        run: |
+          # The secret value must be a single-line JSON string.
+          SECRET_JSON=$(gcloud secrets versions access latest --secret="orbitviewer-client")
+
+          # check secrets are being read
+          echo "$SECRET_JSON" | jq 'keys | length'
+
+          # Write secrets and format to .env file which will be mounted into docker build step
+          echo "$SECRET_JSON " | jq -r 'to_entries[] | "\(.key)=\(.value)"' > .env
+
       - name: Build and push
         uses: docker/build-push-action@v6.18.0
         with:
@@ -103,7 +117,7 @@ jobs:
           cache-from: |
             type=gha
           build-args: |
-            RUN_BUILD=false
+            RUN_BUILD=true
       -
         name: Install and setup crane
         uses: imjasonh/setup-crane@v0.4

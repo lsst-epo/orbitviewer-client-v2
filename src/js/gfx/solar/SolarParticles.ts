@@ -26,6 +26,8 @@ import { LoadManager } from "../../core/data/LoadManager";
 const DEFAULT_OPACITY = 1;
 const OBJECT_MODE_OPACITY = .1;
 
+export const UNCOLOR = new Color(0x999999);
+
 const MAT = new ShaderMaterial({
     vertexShader,
     fragmentShader,
@@ -217,7 +219,7 @@ export class SolarParticles {
             // console.log(el.category);
             CategoryCounters[el.category]++;
             const categoryData = getCraftCategory(el.category);
-            const color:Color = categoryData.threeColor;
+            const color:Color = categoryData ? categoryData.threeColor : UNCOLOR;
             this.mesh.setColorAt(i, color);
             // console.log(el.category);
             // const col = CategoryColorMap[el.category];

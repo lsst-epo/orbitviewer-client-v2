@@ -1,15 +1,14 @@
 export default {
 	// Get global "isProduction"
-	isProduction: process.env.ELEVENTY_ENV === 'production',
+	isProduction: process.env.ENVIRONMENT === 'production',
 	baseURL: "",
   	title: "Orbitviewer",
 	description: "Vera Rubin's interactive explorer.",
-	languages: ["en"],//["en", "es"],
+	languages: ["en", "es"],
 	defaultLanguage: "en",
-	rootDomain: process.env.ROOT_DOMAIN ?? "https://orbitviewer.app/",
-	stagingDomain: process.env.STAGING_DOMAIN ?? "https://d251spak4lbyvj.cloudfront.net/",
+	rootDomain: process.env.ROOT_DOMAIN,
 	og: {
-		basePath: 'assets/images/og/',
+		basePath: '/assets/images/og/',
 		default: 'default.webp'
 	},
 	locale: {

@@ -10,6 +10,7 @@ import { MathUtils } from "@fils/math";
 import { OrbitElements, SolarCategory } from "../core/solar/SolarSystem";
 import TooltipDialog from "../components/TooltipDialog";
 import { OBJECT_FRAME } from "../gfx/core/CameraManager";
+import { RangeItem } from "@fils/ui";
 
 export class ObjectPage extends DefaultPage {
     infoButtons: NodeListOf<Element>;
@@ -18,6 +19,10 @@ export class ObjectPage extends DefaultPage {
     section:HTMLElement;
 
     isSolarItem:boolean;
+    solarElement:SolarElement;
+
+    _onKeydown;
+    scrollHandler: () => void;
     
     constructor(id: string, template: string, dom: HTMLElement) {
         super(id, template, dom);
@@ -95,16 +100,28 @@ export class ObjectPage extends DefaultPage {
                 if(item.mpcdesignation === slug) {
                     // console.log('FOUND ITT!')
                     data = item;
+                    // console.log(data);
+                    this.solarElement = new SolarElement(data.mpcdesignation, mapOrbitElementsV2(data));
+                    // console.log(this.solarElement);
+                    GLOBALS.viewer.addElementToScene(this.solarElement, data.fulldesignation);
+                    GLOBALS.viewer.followSolarElement(this.solarElement, true);
                     break;
                 }
             }
-            if(data === null) {
+            if(data === null && GLOBALS.cloudSearched === null) {
                 console.warn('No item found. Redirecting to home...');
                 setTimeout(() => {
                     GLOBALS.nomad.goToPath(`/${GLOBALS.lang}/`);
                 }, 500)
                 return
             } else {
+                if(data === null) {
+                    data = GLOBALS.cloudSearched;
+                    this.solarElement = new SolarElement(data.mpcdesignation, mapOrbitElementsV2(data));
+                    // console.log(this.solarElement);
+                    GLOBALS.viewer.addElementToScene(this.solarElement, data.fulldesignation);
+                    GLOBALS.viewer.followSolarElement(this.solarElement, true);
+                }
                 const oe = mapOrbitElementsV2(data);
                 this.fillWithOrbitElements(oe);
             }
@@ -120,20 +137,55 @@ export class ObjectPage extends DefaultPage {
             }
             else {
                 GLOBALS.objectToggle.hide();
-                GLOBALS.viewer.followSolarElement(sel, true);
+                if(slug === 'sol') GLOBALS.viewer.followSun();
+                else GLOBALS.viewer.followSolarElement(sel, true);
             }
 
-            // To-Do: Fill in content!
-            const cnt = LoadManager.getSolarItemInfo(sel.name);
+            const cnt = slug === 'sol' ? LoadManager.getSolarItemInfo('Sol') : LoadManager.getSolarItemInfo(sel.name);
+            // console.log(cnt);
             this.fillWithContent(cnt, sel.data);
             // console.log(GLOBALS.objectToggle.selectedIndex);
         }
+
+        this._onKeydown = this.onKeyDown.bind(this);
+        window.addEventListener('keydown', this._onKeydown);
+
+        this.setupStickyNavigation();
 
         super.create();
     }
     
     onResize(): void {
         OBJECT_FRAME.rect = OBJECT_FRAME.element.getBoundingClientRect();
+    }
+
+    onKeyDown(e:KeyboardEvent) {
+        if(e.key === 'Escape') {
+            GLOBALS.nomad.goToPath(`/${GLOBALS.lang}`);
+        }
+    }
+
+    setupStickyNavigation(): void {
+        const { isMobile } = GLOBALS;
+        if (!isMobile()) return;
+
+        const objectCard = this.dom.querySelector('.object_card') as HTMLElement;
+        const navigation = document.querySelector('.navigation') as HTMLElement;
+
+        if (!objectCard || !navigation) return;
+
+        this.scrollHandler = () => {
+            const rect = objectCard.getBoundingClientRect();
+            const isAtTop = rect.top <= navigation.offsetHeight;
+            
+            if (isAtTop) {
+                navigation.classList.add('sticky');
+            } else {
+                navigation.classList.remove('sticky');
+            }
+        };
+        
+        window.addEventListener('scroll', this.scrollHandler);
     }
 
     transitionIn(resolve: any): Promise<void> {
@@ -176,36 +228,43 @@ export class ObjectPage extends DefaultPage {
     private mapSlider(slider:HTMLElement, data:OrbitElements, prop:string) {
         const ranges = CategoryFilters;
         const catID = data.category;
-        const rangeA = ranges[prop][catID];
+        const rangeA = catID ? ranges[prop][catID] : ranges[prop]['totals'];
         slider.style.width = `${MathUtils.smoothstep(rangeA.min, rangeA.max, data[prop])*100}%`;
 
         const tooltip = slider.querySelector('.tooltip');
         tooltip.textContent = `${data[prop].toFixed(3)}`
     }
 
-    private mapSliderWithValue(slider:HTMLElement, catID:SolarCategory, prop:string, value:number) {
-        const ranges = CategoryFilters;
-        const rangeA = ranges[prop][catID];
-        slider.style.width = `${MathUtils.smoothstep(rangeA.min, rangeA.max, value)*100}%`;
+    private mapSliderWithValue(slider:HTMLElement, range:RangeItem, value:number) {
+        slider.style.width = `${MathUtils.smoothstep(range.min, range.max, value)*100}%`;
 
         const tooltip = slider.querySelector('.tooltip');
         tooltip.textContent = `${value.toFixed(3)}`
+    }
+
+    private mapPropSliderWithValue(slider:HTMLElement, catID:SolarCategory, prop:string, value:number) {
+        const ranges = CategoryFilters;
+        const range = catID ? ranges[prop][catID] : ranges[prop]['totals'];
+        this.mapSliderWithValue(slider, range, value);
     }
 
     private revealCategoryChip(catID:SolarCategory) {
         const catHTML = this.dom.querySelector('.object_card-category');
         const chips = catHTML.querySelectorAll('span.chip');
         for(const c of chips) {
-            if(catID === "planets-moons") {
-                if(c.classList.contains('planets_moons')) return c.setAttribute('aria-hidden', 'false');
+            if(catID === null) {
+                if(c.classList.contains('uncategorized')) return c.setAttribute('aria-hidden', 'false');
+            }
+            else if(catID === "planets-moons") {
+                if(c.classList.contains('planets-moons')) return c.setAttribute('aria-hidden', 'false');
             } else if(catID === "interstellar-objects") {
-                if(c.classList.contains('interstellar_objects')) return c.setAttribute('aria-hidden', 'false');
+                if(c.classList.contains('interstellar-objects')) return c.setAttribute('aria-hidden', 'false');
             } else if(catID === "near-earth-objects") {
-                if(c.classList.contains('near_earth_objects')) return c.setAttribute('aria-hidden', 'false');
+                if(c.classList.contains('near-earth-objects')) return c.setAttribute('aria-hidden', 'false');
             } else if(catID === "trans-neptunian-objects") {
-                if(c.classList.contains('trans_neptunian_objects')) return c.setAttribute('aria-hidden', 'false');
+                if(c.classList.contains('trans-neptunian-objects')) return c.setAttribute('aria-hidden', 'false');
             } else if(catID === "jupiter-trojans") {
-                if(c.classList.contains('trojans')) return c.setAttribute('aria-hidden', 'false');
+                if(c.classList.contains('jupiter-trojans')) return c.setAttribute('aria-hidden', 'false');
             } else {
                 if(c.classList.contains(catID)) return c.setAttribute('aria-hidden', 'false');
             }
@@ -226,7 +285,7 @@ export class ObjectPage extends DefaultPage {
         // Set Contents
 
         const text = this.dom.querySelector('.object_card-description');
-        text.innerHTML = "";
+        // text.innerHTML = "";
 
         const d = diameter;
         const dm = d / 1.609;
@@ -273,19 +332,20 @@ export class ObjectPage extends DefaultPage {
         // How far from the sun?
         const fS = getDistanceFromSunNow(data);
         const sliderFarSun = this.dom.querySelector('#sliderFarSun') as HTMLElement;
-        this.mapSliderWithValue(sliderFarSun, catID, 'a', fS);
-        this.dom.querySelector('p[aria-describedby="graph-from-the-sun"]').textContent = `${fS.toFixed(2)}au`;
+        this.mapPropSliderWithValue(sliderFarSun, catID, 'a', fS);
+        this.dom.querySelector('p[aria-describedby="graph-sliderFarSun"]').textContent = `${fS.toFixed(2)}au`;
 
         // How far from Earth?
-        /* const dEn = getDistanceFromEarthNow(data);
-        this.dom.querySelector('p[aria-describedby="graph-from-the-earth"]').textContent = `${dEn.toFixed(2)}au`;
+        const dEn = getDistanceFromEarthNow(data);
+        this.dom.querySelector('p[aria-describedby="graph-sliderFarEarth"]').textContent = `${dEn.toFixed(2)}au`;
         const sliderFarEarth = this.dom.querySelector('#sliderFarEarth') as HTMLElement;
-        const map = DistanceFromEarth[catID];
-        sliderFarEarth.style.width = `${MathUtils.smoothstep(map.min, map.max, dEn)*100}%`; */
+        const map = catID ? DistanceFromEarth[catID] : DistanceFromEarth['totals'];
+        this.mapSliderWithValue(sliderFarEarth, map as RangeItem, dEn);
+        sliderFarEarth.style.width = `${MathUtils.smoothstep(map.min, map.max, dEn)*100}%`;
     }
 
     fillWithContent(cnt, data) {
-        // console.log(cnt);
+        // console.log(cnt.title);
         const h1 = this.dom.querySelector('h1#object-name');
         h1.textContent = cnt.title;
 
@@ -295,7 +355,18 @@ export class ObjectPage extends DefaultPage {
         const catID = data.category;
         // console.log(catID);
 
+        const description = this.dom.querySelector('.object_card-description');
+        description.innerHTML = cnt.text;
+
         this.revealCategoryChip(catID);
+        if(cnt.elementID.toLowerCase() === 'sol') {
+            const units = this.dom.querySelector('.object_card-content').querySelectorAll('.object_card-unit');
+            for(let i=1; i<units.length;i++) {
+                units[i].remove();
+            }
+            return;
+        }
+
         this.fillData(data, catID, cnt.elementDiameter);
     }
 
@@ -319,5 +390,9 @@ export class ObjectPage extends DefaultPage {
         // console.log('DISPOSE');
         super.dispose();
         // GLOBALS.objectToggle.callback = null;
+        window.removeEventListener('keydown', this._onKeydown);
+        if(this.solarElement) {
+            GLOBALS.viewer.removeElementFromScene(this.solarElement);
+        }
     }
 }

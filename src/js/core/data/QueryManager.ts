@@ -1,6 +1,10 @@
-import { HASURA_URL, VISUAL_SETTINGS } from "../Globals";
+import { HASURA_GRAPHQL, HASURA_URL, VISUAL_SETTINGS } from "../Globals";
+import { UserFilters } from "../solar/SolarUtils";
+import { CategoryTypeMap } from "./Categories";
 
-const SECRET_KEY = '_qfq_tMbyR4brJ@KHCzuJRU7';
+//@ts-ignore
+const SECRET_KEY = HASURA_SECRET_KEY;
+// console.log(SECRET_KEY);
 
 // Filters fetch
 export async function getSolarSystemElements() {
@@ -12,6 +16,122 @@ export async function getSolarSystemElements() {
 		}
 	})
 	return await response.json();
+}
+
+export async function searchCloud(q:string) {
+	// https://hasura-688095955960.us-central1.run.app/api/rest/mpc_orbits?limit=1&a_min=0&a_max=200&rubin_discovery=true
+	// const url = `${HASURA_URL}/mpc_orbits?limit=10`
+	const url = `${HASURA_GRAPHQL}`
+	// console.log(url);
+
+	const types = [0];
+	for(const cat in UserFilters.categories) {
+		if(UserFilters.categories[cat]) types.push(CategoryTypeMap[cat]);
+	}
+
+	// console.log(types);
+	let rubin = '';
+	if(UserFilters.discoveredBy > 0) {
+		rubin = `rubin_discovery: {_eq: ${UserFilters.discoveredBy === 1}}`
+	}
+
+	const query = `query {
+  mpc_orbits(
+    where: {packed_primary_provisional_designation: {_ilike: "%${q}%"},
+		object_type_int: {_in: ${JSON.stringify(types)}},
+		a_rubin: {_gt: ${Math.max(0, UserFilters.distanceRange.min)}, _lt: ${UserFilters.distanceRange.max}}
+		${rubin}}
+		limit: 100
+  ) {
+    a: a_rubin
+		mean_anomaly: mean_anomaly_rubin
+		mean_motion: mean_anomaly_rubin
+		node
+		i
+		e
+		q
+		rubin_discovery
+		object_type
+		epoch_mjd
+		peri_time
+		argperi
+		mpcdesignation: packed_primary_provisional_designation
+		fulldesignation: unpacked_primary_provisional_designation
+  }
+}`;
+
+// console.log(query);
+
+/*
+arc_length_sel
+arc_length_total
+argperi
+argperi_unc
+created_at
+dt
+dt_unc
+e
+e_unc
+earth_moid
+epoch_mjd
+fitting_datetime
+g
+h
+i
+i_unc
+id
+mean_anomaly
+mean_anomaly_rubin
+mean_anomaly_unc
+mean_motion
+mean_motion_rubin
+mean_motion_unc
+mpc_orb_jsonb
+nobs_total
+nobs_total_sel
+node
+node_unc
+nopp
+normalized_rms
+not_normalized_rms
+object_type
+object_type_int
+orbit_type_int
+packed_primary_provisional_designation
+peri_time
+peri_time_unc
+period
+period_unc
+q
+q_unc
+rubin_discovery
+srp
+srp_unc
+u_param
+unpacked_primary_provisional_designation
+updated_at
+viz_priority
+yarkovsky
+yarkovsky_unc
+*/
+
+const response = await fetch(url, {
+	headers: {
+		'X-Hasura-Admin-Secret': SECRET_KEY,
+		"Content-Type": "application/json",
+    Accept: "application/json"
+	},
+	method: 'POST',
+	body: JSON.stringify({
+			query,
+	}),
+})
+
+let res = await response.json();
+// console.log(res);
+
+return res;
+
 }
 
 /* export async function getSolarSystemElementsByFilter() {
@@ -83,7 +203,7 @@ export async function getA() {
 
 export async function getClassificationRanges() {
 
-	const url = `${HASURA_URL}/classification_ranges_v2`;	
+	const url = `${HASURA_URL}/classification_ranges`;	
 
 	// console.log('Loading Classification Ranges...');
 

@@ -1,10 +1,8 @@
 import { Color } from "three";
-import { USE_V2 } from "../App";
 import { GLOBALS, VISUAL_SETTINGS } from "../Globals";
 import { getSolarStaticData } from "../Utils";
 import { CategoryNames, CSSCategoryMap, TypeCategoryMap } from "./Categories";
-import { getCategories, getSolarItemsInfo } from "./CraftManager";
-import { getA, getClassificationRanges } from "./QueryManager";
+import { getClassificationRanges } from "./QueryManager";
 
 const staticURL = "/assets/data/";
 const baseURL = "/assets/data/";
@@ -61,7 +59,7 @@ class LoadManagerClass {
     }
 
     private get hasuraDataAvailable() {
-        return true;//this.mgr.hasuraData.classification_ranges;
+        return this.mgr.hasuraData.classification_ranges;
     }
 
     private get coreCraftDataAvailable() {
@@ -87,7 +85,7 @@ class LoadManagerClass {
 
     private createCategoryColorMap(cnt) {
         const root = document.documentElement;
-        cnt.data.categories.forEach(entry => {
+        cnt.forEach(entry => {
             entry.threeColor = new Color(entry.mainColor);
             root.style.setProperty(`--color-${CSSCategoryMap[parseInt(entry.objectTypeCode)]}`, entry.mainColor);
             // Also replace text
@@ -97,6 +95,16 @@ class LoadManagerClass {
             // console.log(`--color-${CSSCategoryMap[parseInt(entry.objectTypeCode)]}`, entry.mainColor);
             // console.log(entry);
         })
+
+        // create sun entry
+        const sunCat = {
+            title: "Sun",
+            mainColor: "#FDDA78",
+            threeColor: new Color(0xFDDA78),
+        }
+        CategoryNames[GLOBALS.lang]['sun'] = sunCat;
+
+        // console.log(CategoryNames[GLOBALS.lang])
     }
 
     private loadCraft(id:string, onLoaded:Function) {
@@ -112,9 +120,9 @@ class LoadManagerClass {
             // console.log(cnt.data);
             if(id === 'categories') {
                 this.createCategoryColorMap(cnt);
-                this.mgr.craftData[id] = cnt.data.categories;
+                this.mgr.craftData[id] = cnt;
             } else {
-               this.mgr.craftData[id] = cnt.data.entries; 
+               this.mgr.craftData[id] = cnt; 
             }
             //@ts-ignore
             // this.mgr.craftData[id] = cnt.data;
@@ -124,22 +132,18 @@ class LoadManagerClass {
             onLoaded();
         }
 
+        const dEl = document.documentElement;
+
         if(id === 'categories') {
-            getCategories().then(cnt => {
-                onL(cnt);
-            }).catch(e => {
-                console.warn('Error');
-                console.log(e);
-                // this.loadCraft(id, onLoaded);
-            });
+            const data = JSON.parse(dEl.getAttribute('data-solar-categories'));
+            // console.log(data);
+            onL(data);
+            dEl.removeAttribute('data-solar-categories')
         } else if(id === 'solar_items') {
-            getSolarItemsInfo().then(cnt => {
-                onL(cnt);
-            }).catch(e => {
-                console.warn('Error');
-                console.log(e);
-                // this.loadCraft(id, onLoaded);
-            });
+            const data = JSON.parse(dEl.getAttribute('data-solar-items'));
+            // console.log(data);
+            onL(data);
+            dEl.removeAttribute('data-solar-items')
         }
     }
 
@@ -158,11 +162,16 @@ class LoadManagerClass {
         this.loadCraft('categories', onL);
         this.loadCraft('solar_items', onL);
 
+        const profile = localStorage.getItem('rubin-data-profile');
+        if(profile) {
+            console.log('Setting saved Exploration Mode to', profile);
+            VISUAL_SETTINGS.current = profile;
+        }
         this.loadSample(VISUAL_SETTINGS.current, onL);
 
         getClassificationRanges().then(json => {
-            this.mgr.hasuraData.classification_ranges = json.classification_ranges_v2;
-            // console.log(this.mgr.hasuraData.classification_ranges);
+            this.mgr.hasuraData.classification_ranges = json.classification_ranges;
+            console.log(json);
             onL();
         });
 
@@ -175,37 +184,11 @@ class LoadManagerClass {
     }
 
     loadSample(profile:string, onLoaded:Function) {
-        getSolarStaticData(profile, USE_V2).then((json) => {
+        getSolarStaticData(profile).then((json) => {
             this.sampleLoaded = true;
             this.mgr.data.rubinCount = json.rubin_discoveries_count;
             this.mgr.data.sample = json.mpc_orbits;
             onLoaded(json.mpc_orbits);
-            // console.log(json);
-            /* const arr = [];
-            for(const d of this.mgr.data.sample) {
-                if(d.rubin_discovery) arr.push(d);
-            }
-            const jsonString = JSON.stringify(arr, null, 2);
-            // Create a Blob with the JSON data
-            const blob = new Blob([jsonString], { type: 'application/json' });
-
-            // Create a temporary URL for the blob
-            const url = URL.createObjectURL(blob);
-
-            // Create a temporary anchor element for download
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = "rubin_objects.json";
-
-            // Append to body, click, and remove
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-
-            // Clean up the URL object
-            URL.revokeObjectURL(url); */
-
-			// downloadJSON(json, `data-${VISUAL_SETTINGS.current}.json`, true);
 		});
     }
 

@@ -14,6 +14,7 @@ import Toast from "../layers/Toast";
 import { parseURL } from "../core/Utils";
 import { isMobile } from "@fils/utils";
 import { App } from "../core/App";
+import { PerformanceWarning } from "../components/PerformanceModal";
 
 const SKIP_ONBOARDING = false;
 
@@ -27,12 +28,20 @@ class OrbitViewerPage extends DefaultPage {
 	toast: Toast;
 	// mapControls: MapControls;
 	toolbar: Toolbar;
-	elements: { splash: Element; onboarding: Element; wizard: Element; toast: Element, filters: Element; search: Element; toolbar: Element; };
+	elements: { splash: Element; onboarding: Element; wizard: Element; toast: Element, filters: Element; search: Element; toolbar: Element; timeMachine: Element };
 	openLayers: Set<string>;
 
 	isLanding:boolean = true;
 
 	appRef:App = null;
+
+	performanceWarning:PerformanceWarning;
+
+	perfTest = {
+		running: false,
+		done: false,
+		dt: []
+	}
     
   constructor(id: string, template: string, dom: HTMLElement) {
     super(id, template, dom)
@@ -49,9 +58,17 @@ class OrbitViewerPage extends DefaultPage {
 			search: document.querySelector('.search'),
 			toolbar: document.querySelector('.toolbar'),
 			toast: document.querySelector('.toast'),
-			// timeMachine: document.querySelector('.timemachine'),
+			timeMachine: document.querySelector('.timemachine'),
 			// mapControls: document.querySelector('.map_controls')
 		};
+
+		this.performanceWarning = new PerformanceWarning(this.dom.querySelector('.modal'), (done:boolean) => {
+			if(done) {
+				this.perfTest.done = true;
+				GLOBALS.performanceTestDone = true;
+			}
+		});
+		// this.performanceWarning.show();
 
 		this.splash = this.elements.splash ? new Splash(this.elements.splash, this) : null;
 		this.onboarding = this.elements.onboarding ? new Onboarding(this.elements.onboarding, this) : null;		
@@ -96,6 +113,8 @@ class OrbitViewerPage extends DefaultPage {
 			this.isLanding = false;
 		}
 
+		// console.log('create', this.isLanding);
+
 		GLOBALS.objectToggle.hide();
 
 		super.create();
@@ -136,6 +155,7 @@ class OrbitViewerPage extends DefaultPage {
 	}
 
 	showUI() {
+		this.isLanding = false;
 		GLOBALS.mapCtrls.open();
 		GLOBALS.timeCtrls.open();
 		GLOBALS.navigation.enter();
@@ -164,14 +184,47 @@ class OrbitViewerPage extends DefaultPage {
 	}
 
 	update() {
-		// TOAST
+		if(this.isLanding) return;
+
+		// MAX DATE TOAST
 		if (this.toast && GLOBALS.solarClock) {
 			const { isInEdge } = GLOBALS.solarClock;
 			const isVisible = this.toast.isVisible();
-			if (isVisible && !isInEdge) this.toast.close();
-			else if (!isVisible && isInEdge) this.toast.open();
+			
+			if (isVisible && !isInEdge) {
+				this.toast.close();
+				this.elements.timeMachine.querySelector('#myDateInput').classList.remove('error');
+				GLOBALS.timeCtrls.updatePlayPause();
+			} else if (!isVisible && isInEdge) {
+				this.toast.open();
+				this.elements.timeMachine.querySelector('#myDateInput').classList.add('error');
+				GLOBALS.solarClock.pause();
+				GLOBALS.timeCtrls.updatePlayPause();
+			}
 		}
-		// END TOAST
+
+		// PERFORMANCE TEST
+		if(GLOBALS.performanceTestDone) return;
+		if(this.performanceWarning.visible) return;
+		const pt = this.perfTest;
+		if(!pt.running && !pt.done) {
+			pt.running = true;
+		}
+		if(!pt.running) return;
+		const dt = GLOBALS.clock.currentDelta;
+		pt.dt.push(dt);
+		if(pt.dt.length >= 600) {
+			let d = 0;
+			for(let i=0; i<pt.dt.length; i++) {
+				d += pt.dt[i] / pt.dt.length;
+			}
+			if( d > 1 / 25) {
+				// OUCH!
+				this.performanceWarning.show();
+			}
+
+			pt.dt.splice(0, pt.dt.length);
+		}
 	}
 
 	toggleLayer(targetLayer: string) {

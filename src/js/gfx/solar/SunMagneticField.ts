@@ -10,7 +10,7 @@ import { GLOBALS } from "../../core/Globals";
 const N_LINES = 128;
 const N_SEGMENTS = 4;
 
-const I_GEO = new SphereGeometry(.001, 8, 8);
+const I_GEO = new SphereGeometry(.00000000001, 8, 8);
 
 function ptToV3(point:pt):Vector3 {
   return new Vector3(point.x, point.y, point.z);

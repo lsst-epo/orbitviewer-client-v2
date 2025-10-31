@@ -13,6 +13,8 @@ import { Loader } from "../layers/Loader";
 import ToggleGroup from "../components/ToggleGroup";
 import Navigation from "../layers/Navigation";
 import { DefaultPage } from "../pages/DefaultPage";
+import Share from "../layers/Share";
+import { OrbitDataElementsV2 } from "./solar/SolarUtils";
 
 /**
  * DEV_MODE is injected by esbuild
@@ -102,6 +104,10 @@ export interface Globals {
 	navigation:Navigation;
 	urlParams:Function;
 	currentPage: DefaultPage;
+	share:Share;
+	performanceTestDone:boolean;
+	forceCenterPlanet:boolean;
+	cloudSearched:OrbitDataElementsV2;
 }
 
 export const GLOBALS:Globals = {
@@ -120,6 +126,10 @@ export const GLOBALS:Globals = {
 	loader: null,
 	navigation: null,
 	currentPage: null,
+	share: null,
+	performanceTestDone: false,
+	forceCenterPlanet: false,
+	cloudSearched: null,
 	getViewport: () => {
 		return getComputedStyle(document.documentElement).getPropertyValue('--viewport');
 	},

@@ -1,10 +1,14 @@
 import { MathUtils } from "@fils/math";
 import gsap from "gsap";
-import { Euler, Object3D, PerspectiveCamera, Raycaster, Vector3 } from "three";
+import { Euler, Frustum, Matrix4, Object3D, PerspectiveCamera, Raycaster, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { Solar3DElement } from "../solar/Solar3DElement";
 import { SolarElement } from "../solar/SolarElement";
 import { OBJECT_PATH_ALPHA } from "../solar/EllipticalPath";
+import { GLOBALS } from "../../core/Globals";
+
+export const frustum = new Frustum();
+export const cameraMatrix = new Matrix4();
 
 export interface FollowTarget {
   target: Solar3DElement;
@@ -64,6 +68,7 @@ export class CameraManager {
   _isCapturing:boolean=false;
 
   zoom:number = 0;
+  noTargetAnimation:boolean = false;
 
   cameraTarget: FollowTarget = {
     target: null,
@@ -191,6 +196,10 @@ export class CameraManager {
     }
   }
 
+  landingMode() {
+    this.lockedCam.position.set(0, 1500, 4000);
+  }
+
   centerView(duration:number=1, ease:string="cubic.out") {
     if(this.isTarget) {
       this.cameraTarget.zoomLevel = DEFAULT_TARGET_ZOOM;
@@ -207,7 +216,7 @@ export class CameraManager {
       duration,
       ease,
       onComplete: () => {
-        
+        // this.controls.enabled = true;
       }
     });
 
@@ -248,7 +257,10 @@ export class CameraManager {
   }
 
   releaseCameraTarget() {
+    this.controls.autoRotate = false;
+    
     if (!this.isTarget) {
+      this.centerView(2, "cubic.inOut");
       this.controls.enableZoom = true;
       return;
     }
@@ -261,7 +273,6 @@ export class CameraManager {
     // offset.copy(origin);
 
     this.cameraTarget.target = null;
-    this.controls.autoRotate = false;
     this.controls.minPolarAngle = 0;
     this.controls.maxPolarAngle = Math.PI;
     
@@ -347,13 +358,15 @@ export class CameraManager {
         maxD = dist.max;
 
         // const target = t.target;
-        dummy.position.copy(t.orbit ? t2.orbitPath.ellipse.position : t2.position);
-        this.controls.target.lerp(dummy.position, easing);
+        dummy.position.copy(t.orbit && t2.orbitPath ? t2.orbitPath.ellipse.position : t2.position);
+        this.controls.target.lerp(dummy.position, this.noTargetAnimation ? 1 : easing);
 
         const D = MathUtils.lerp(minD, maxD, 1-t.zoomLevel);
 
-        this.controls.minDistance = MathUtils.lerp(this.controls.minDistance, D, easing);
-        this.controls.maxDistance = MathUtils.lerp(this.controls.maxDistance, D, easing);
+        this.controls.minDistance = MathUtils.lerp(this.controls.minDistance, D, this.noTargetAnimation? 1 : easing);
+        this.controls.maxDistance = MathUtils.lerp(this.controls.maxDistance, D, this.noTargetAnimation? 1 : easing);
+
+        this.noTargetAnimation = false;
       } else {
         this.controls.minDistance = MathUtils.lerp(this.controls.minDistance, DEFAULT_CAM_LIMITS.minDistance, easing);
         this.controls.maxDistance = MathUtils.lerp(this.controls.maxDistance, DEFAULT_CAM_LIMITS.maxDistance, easing);
@@ -361,7 +374,7 @@ export class CameraManager {
 
       tmp.copy(this.isTarget ? dummy.position : origin);
       // d += tmp.distanceTo(this.controls.target)/3;
-      this.controls.enabled = tmp.distanceTo(this.controls.target) < 1 && !this.isPinching;
+      this.controls.enabled = tmp.distanceTo(this.controls.target) < .5 && !this.isPinching;
 
       this.controls.update();
 
@@ -372,7 +385,7 @@ export class CameraManager {
 
       //3. add offset
       let off = origin;
-      if(this.isTarget) {
+      if(this.isTarget && !GLOBALS.forceCenterPlanet) {
         off = t.orbit ? t.target.offsetOrbit : t.target.offsetObject;
 
         // adaptive screen-space offset
@@ -414,6 +427,11 @@ export class CameraManager {
     this.camera.position.copy(this.lockedCam.position);
     this.camera.quaternion.copy(this.lockedCam.quaternion);
 
-    // this.updateSC();
+    //4. update fustrum
+    cameraMatrix.multiplyMatrices(
+      this.camera.projectionMatrix, 
+      this.camera.matrixWorldInverse
+    );
+    frustum.setFromProjectionMatrix(cameraMatrix);
   }
 }

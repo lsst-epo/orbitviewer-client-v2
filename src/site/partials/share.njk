@@ -1,3 +1,4 @@
+{% from "../components/banner.njk" import Banner %}
 {% from "../components/button.njk" import Button %}
 {% from "../components/buttonicon.njk" import ButtonIcon %}
 {% from "../components/togglegroup.njk" import ToggleGroup %}
@@ -7,12 +8,12 @@
         <div class="share_dialog-head">
             <h2 class="title" id="share-title">{{ copy.share.title[lang] }}</h2>
         </div>
-        <div class="share_dialog-body">
+        <div class="share_dialog-body">            
             <nav class="tab_list" aria-label="{{ copy.share.tabs.aria[lang] }}">
                 <a href="#link" role="tab" aria-selected="true">
                     <span>{{ copy.share.tabs.link[lang] }}</span>
                 </a>
-                <a href="#screen_capture" role="tab" aria-selected="false">
+                <a href="#screen_capture" role="tab" aria-selected="false" aria-hidden="true">
                     <span>{{ copy.share.tabs.screen_capture[lang] }}</span>
                 </a>
             </nav>
@@ -52,8 +53,9 @@
             </div>
 
             <div id="screen_capture" role="tabpanel" aria-hidden="false">
+                {{ Banner(copy.share.capture_banner[lang], 'informative', 'screenshot', 'false') }}
+                
                 <div class="screen_capture-hero horizontal">
-                    {# <img src="/assets/images/sample/screen_capture.png" alt="image"> #}
                     <canvas id="shareCanvas"></canvas>
                 </div>
                 <div class="screen_capture-options">

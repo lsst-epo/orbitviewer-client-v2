@@ -1,10 +1,11 @@
 import { MathUtils } from "@fils/math";
 import { Vector3 } from "three";
+import { debugCan } from "../../core/App";
 import { GLOBALS } from "../../core/Globals";
-import { SolarElement } from "./SolarElement";
 import { FAR, uiColliders } from "../OrbitViewer";
 import { rectsIntersect } from "./Solar3DElement";
-import { debugCan } from "../../core/App";
+import { SolarElement } from "./SolarElement";
+import { frustum } from "../core/CameraManager";
 
 const tmp:Vector3 = new Vector3();
 
@@ -58,7 +59,9 @@ export class SolarDOMElement {
   update() {
     if(!this.ref.enabled || this.ref.isBehindCamera()) return this.hidden = true;
     GLOBALS.viewer.controls.getNormalizedScreenCoords(this.ref, tmp);
+    
     if(tmp.z < 0) return this.hidden = true;
+    if(!frustum.intersectsObject(this.ref)) return this.hidden = true;
     this.hidden = false;
     const x = tmp.x * window.innerWidth;
     const y = tmp.y * window.innerHeight;

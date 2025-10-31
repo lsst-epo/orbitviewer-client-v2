@@ -1,5 +1,12 @@
-const PROD_TOKEN = "Ma3vUfBJiY3XXmjerRcBQo5PpE3A0jxU";
-const url = 'https://api.orbitviewer.app';
+import { configDotenv } from "dotenv";
+
+try {
+  configDotenv();
+} catch (err) {
+  console.warning("No .env file found, continuing with machine-specific environment variables.")
+}
+
+const url = process.env.API_URL;
 
 async function getQuery(query = null) {
 
@@ -12,12 +19,12 @@ async function getQuery(query = null) {
 
   try {
     // initiate fetch
-    const queryFetch = await fetch(`${url}/api`, {
+    const queryFetch = await fetch(`${url}`, {
+      cache: 'reload',
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Accept: "application/json",
-        Authorization: `Bearer ${PROD_TOKEN}`,
+        Accept: "application/json"
       },
       body: JSON.stringify({
         query,
@@ -32,7 +39,7 @@ async function getQuery(query = null) {
   }
   
   return content;
-} 
+}
 
 /**
  * 
@@ -41,12 +48,18 @@ async function getQuery(query = null) {
  */
 
 export async function getSolarItemsInfo(lang) {
-  const query = `{
+  const query = `query {
   entries(section: "elements", siteId: "${lang}") {
     ... on elements_default_Entry {
       title
       elementID
-      text
+      textBody {
+        html
+        plainText
+      }
+      elementPreview {
+        url @transform(width: 800, format: "webp")
+      }
       elementDiameter
       elementCategory {
         slug
@@ -60,13 +73,14 @@ export async function getSolarItemsInfo(lang) {
 }
 
 export async function getCategories(lang) {
-  const query = `{
+  const query = `query {
     categories(group: "objectTypes", siteId: "${lang}") {
       ... on objectTypes_Category {
         title
         slug
         mainColor
         objectTypeCode
+        description
       }
     }
   }`;
@@ -126,4 +140,313 @@ export function excerpt(text) {
   }
 
   return plainText;
+}
+
+export async function getAbout(lang) {
+  const query = `query AboutQuery {
+    aboutEntries(siteId: "${lang}") {
+      ... on about_Entry {
+        id
+        title
+        eyebrowText
+        headerTitle
+        headerBody {
+          html
+          rawHtml
+          markdown
+          plainText
+        }
+        introBody {
+          html
+        }
+        introImage {
+          url @transform(width: 1480, format: "webp")
+        }
+        responsiveBody {
+          html
+          rawHtml
+          markdown
+          plainText
+        }
+        lowSettingLabel
+        lowSettingCount
+        lowSettingImages {
+          url @transform(width: 1220, format: "webp")
+        }
+        mediumSettingLabel
+        mediumSettingCount
+        mediumSettingImages {
+          url @transform(width: 1220, format: "webp")
+        }
+        highSettingLabel
+        highSettingCount
+        highSettingImages {
+          url @transform(width: 1220, format: "webp")
+        }
+        ultraSettingLabel
+        ultraSettingCount
+        ultraSettingImages {
+          url @transform(width: 1220, format: "webp")
+        }
+        observatoryBody {
+          html
+          rawHtml
+          markdown
+          plainText
+        }
+        observatoryImage {
+          urlLarge: url @transform(width: 1920, format: "webp")
+          urlMedium: url @transform(mode: "crop", width: 1440, height: 855, format: "webp")
+          urlSmall: url @transform(mode: "crop", width: 768, height: 456, format: "webp")
+        }
+        footerBody {
+          html
+          rawHtml
+          markdown
+          plainText
+        }
+        footerImage {
+          urlLarge: url @transform(width: 1920, format: "webp")
+          urlMedium: url @transform(mode: "crop", width: 1440, height: 490, format: "webp")
+          urlSmall: url @transform(mode: "crop", width: 768, height: 262, format: "webp")
+        }
+        creditsText {
+          html
+          rawHtml
+          markdown
+          plainText
+        }
+      }
+    }
+  }`;
+
+  return await getQuery(query);
+
+}
+
+export async function getHowToUse(lang) {
+  const query = `query HowToUseQuery {
+    howToUseEntry(siteId: "${lang}") {
+      ... on howToUse_Entry {
+        id
+        title
+        eyebrowText
+        headerText
+        howToUseSection {
+          ... on howToUseSection_section_BlockType{
+            sectionTitle
+            sectionBody {
+              html
+              rawHtml
+              markdown
+              plainText
+            } 
+            sectionImage {
+              url @transform(width: 1200, format: "webp")
+            }
+          }
+        }
+      }
+    }
+  }`;
+
+  return await getQuery(query);
+
+}
+
+function getAboutQuery() {
+  return `... on about_Entry {
+    id
+    slug
+    title
+    eyebrowText
+    headerTitle
+    headerBody {
+      html
+      rawHtml
+      markdown
+      plainText
+    }
+    introBody {
+      html
+    }
+    introImage {
+      url @transform(width: 1480, format: "webp")
+    }
+    responsiveBody {
+      html
+      rawHtml
+      markdown
+      plainText
+    }
+    lowSettingLabel
+    lowSettingCount
+    lowSettingImages {
+      url @transform(width: 1220, format: "webp")
+    }
+    mediumSettingLabel
+    mediumSettingCount
+    mediumSettingImages {
+      url @transform(width: 1220, format: "webp")
+    }
+    highSettingLabel
+    highSettingCount
+    highSettingImages {
+      url @transform(width: 1220, format: "webp")
+    }
+    ultraSettingLabel
+    ultraSettingCount
+    ultraSettingImages {
+      url @transform(width: 1220, format: "webp")
+    }
+    observatoryBody {
+      html
+      rawHtml
+      markdown
+      plainText
+    }
+    observatoryImage {
+      urlLarge: url @transform(width: 1920, format: "webp")
+      urlMedium: url @transform(mode: "crop", width: 1440, height: 855, format: "webp")
+      urlSmall: url @transform(mode: "crop", width: 768, height: 456, format: "webp")
+    }
+    footerBody {
+      html
+      rawHtml
+      markdown
+      plainText
+    }
+    footerImage {
+      urlLarge: url @transform(width: 1920, format: "webp")
+      urlMedium: url @transform(mode: "crop", width: 1440, height: 490, format: "webp")
+      urlSmall: url @transform(mode: "crop", width: 768, height: 262, format: "webp")
+    }
+    creditsText {
+      html
+      rawHtml
+      markdown
+      plainText
+    }
+  }`
+}
+
+function getHowToQuery() {
+  return `... on howToUse_Entry {
+    id
+    slug
+    title
+    eyebrowText
+    headerText
+    howToUseSection {
+      ... on howToUseSection_section_BlockType{
+        sectionTitle
+        sectionBody {
+          html
+          rawHtml
+          markdown
+          plainText
+        } 
+        sectionImage {
+          url @transform(width: 1200, format: "webp")
+        }
+      }
+    }
+  }`;
+}
+
+function getLandingQuery() {
+  return `... on landing_Entry {
+    id
+    slug
+    logoImage {
+      url
+    }
+    eyebrowText
+    headlineText
+    buttonLabel
+    discoveryLabel
+  }`
+}
+
+export async function getPages(lang) {
+  const query = `query PagesQuery {
+    pagesEntries(siteId: "${lang}") {
+      ${getAboutQuery()}
+      ${getHowToQuery()}
+      ${getLandingQuery()}
+    }
+  }`
+
+  return await getQuery(query);
+}
+
+export async function getJSONDataFiles() {
+  const query = `query getDataFileEntries{
+  mpcDataFilesEntries {
+    ... on mpcDataFiles_Entry {
+      title
+      dataFileUrl
+      dataFileQuality
+    }
+  }
+  }`
+
+  return await getQuery(query);
+
+}
+
+export async function getGuidedExperiences(lang) {
+  const query = `query GuidedExperiences {
+    guidedExperiencesToursEntries(siteId: "${lang}") {
+      ... on tour_Entry {
+        featuredTour
+        title
+        postDate
+        tourPicker {
+          title
+        }
+        tourPreview {
+          title
+          url @transform(width: 600, format: "webp")
+        }
+        duration
+        complexity
+        flexible {
+          ... on introSlide_Entry {
+            thumbnail
+            slideContent
+            subTitle
+            slideTitle
+          }
+          ... on defaultSlide_Entry {
+            slideContent
+            subTitle
+            slideTitle
+            closeUp {
+              ... on elements_default_Entry {
+                elementID
+              }
+            }
+          }
+          ... on funFactSlide_Entry {
+            slideContent
+          }
+          ... on shareSlide_Entry {
+            slideTitle
+            slideText
+            Link1
+            link1Text
+            link2
+            link2Text
+            link3
+            link3Text
+            link4
+            link4Text
+          }
+        }
+      }
+    }
+} `
+
+  return await getQuery(query);
 }

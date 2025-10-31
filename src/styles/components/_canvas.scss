@@ -85,14 +85,19 @@
 
     // opacity: max(.2, calc(1 - var(--depth)));
 
-    &.planets_moons { --color: var(--color-planets);}
-    &.near_earth_objects { --color: var(--color-near_earth);}
-    &.asteroids { --color: var(--color-asteroids);}
-    &.comets { --color: var(--color-comets);}
-    &.centaurs { --color: var(--color-centaurs);}
-    &.trans_neptunian_objects { --color: var(--color-trans_neptunian);}
-    &.interstellar_objects { --color: var(--color-interstellar);}
-    &.trojans { --color: var(--color-trojans);}
+    @each $class, $color in (
+        planets-moons: var(--color-planets-moons),
+        near-earth-objects: var(--color-near-earth-objects),
+        asteroids: var(--color-asteroids),
+        comets: var(--color-comets),
+        centaurs: var(--color-centaurs),
+        trans-neptunian-objects: var(--color-trans-neptunian-objects),
+        interstellar-objects: var(--color-interstellar-objects),
+        jupiter-trojans: var(--color-jupiter-trojans),
+        sun_star: var(--color-sun)
+    ) {
+        &.#{$class} { --color: #{$color}; }
+    }
     
     &-label {
         position: absolute;

@@ -42,13 +42,38 @@
         overflow: auto;
     }
 
-        &-list {
+        &-nav {
             @include reset_list;
             display: flex;
 
             @include media(medium) {
                 flex-direction: column;
                 padding: 4px 0;
+            }
+
+            > .toolbar-item {
+                &:nth-child(1) {
+                    width: 75%;
+                    @include media(medium) {
+                        width: unset;
+                    }
+                }
+
+                &:nth-child(2) {
+                    width: 25%;
+                    @include media(medium) {
+                        width: unset;
+                    }
+                }
+            }
+        }
+
+        &-list {
+            @include reset_list;
+            display: flex;
+
+            @include media(medium) {
+                flex-direction: column;
             }
         }
 
@@ -81,13 +106,29 @@
                         color: var(--color-button-text-hover);
                     }
 
+                    .icon_wrap {
+                        position: relative;
+                        display: flex;
+
+                        .badge {
+                            --size: 8px;
+                            position: absolute;
+                            right: 0;
+                            top: 0;
+                            width: var(--size);
+                            height: var(--size);
+                            border-radius: calc(var(--size)/2);
+                            background: var(--color-red-medium);
+                        }
+                    }
+
                     .icon {
                         width: 24px;
                         height: 24px;
                         fill: currentColor;
                     }
 
-                    span {
+                    .label {
                         @include font(caption-regular);
                     }
                 }
