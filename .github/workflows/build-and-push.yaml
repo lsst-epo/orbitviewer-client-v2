@@ -96,16 +96,8 @@ jobs:
       - name: Fetch and Set Environment Variables from Secret Manager
         id: deploy-secrets
         run: |
-          if ${{ steps.deploy-info.outputs.environment_name == 'prod' }}; then
-            SECRET_NAME=${{ secrets.PROD_SECRET_NAME }}
-          elif ${{ steps.deploy-info.outputs.environment_name == 'int' }}; then
-            SECRET_NAME=${{ secrets.INT_SECRET_NAME }}
-          else
-            SECRET_NAME=${{ secrets.DEV_SECRET_NAME }}
-          fi
-
           # The secret value must be a single-line JSON string.
-          SECRET_JSON=$(gcloud secrets versions access latest --secret="$SECRET_NAME")
+          SECRET_JSON=$(gcloud secrets versions access latest --secret="orbitviewer-client")
 
           # check secrets are being read
           echo "$SECRET_JSON" | jq 'keys | length'
