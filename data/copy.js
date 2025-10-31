@@ -289,31 +289,31 @@ export default {
         "sun_graph": {
             "title": {
                 "en": "Average distance from the Sun",
-                "es": "Average distance from the Sun"
+                "es": "Distancia promedio desde el Sol"
             },
             "detail": {
                 "en": "Semi-major axis (a)",
-                "es": "Semi-major axis (a)"
+                "es": "Eje semimayor (a)"
             }
         },
         "deviation_graph": {
             "title": {
                 "en": "Deviation from a circular orbit",
-                "es": "Deviation from a circular orbit"
+                "es": "Desviación de una órbita circular"
             },
             "detail": {
                 "en": "Eccentricity (e)",
-                "es": "Eccentricity (e)"
+                "es": "Excentricidad (e)"
             }
         },
         "angle_graph": {
             "title": {
                 "en": "Angle of orbit",
-                "es": "Angle of orbit"
+                "es": "Ángulo de la órbita"
             },
             "detail": {
                 "en": "Inclination (i)",
-                "es": "Inclination (i)"
+                "es": "Inclinación (i)"
             }
         },
     },
@@ -334,20 +334,20 @@ export default {
         },
         "expedition": {
             "title": {
-                "en": "Choose Your First Expedition",
-                "es": "@todo"
+                "en": "Choose Your First Tour",
+                "es": "Elige tu primer tour"
             },
             "subtitle": {
-                "en": "Begin with specially designed journeys that introduce you to remarkable celestial phenomena and Rubin's groundbreaking discoveries.",
-                "es": "@todo"
+                "en": "Not sure where to start? Take a guided tour to explore objects in the Solar System and Rubin’s role in studying them.",
+                "es": "¿No sabes por dónde empezar? Haz un tour guiado para explorar objetos del Sistema Solar y el papel de Rubin en su estudio."
             },
             "see_all": {
-                "en": "See all guides",
-                "es": "@todo"
+                "en": "See all tours",
+                "es": "Ver todos los tours"
             },
             "skip": {
                 "en": "Skip to viewer",
-                "es": "@todo"
+                "es": "Ir al visor"
             }
         }
     },
@@ -447,8 +447,8 @@ export default {
             "es": "Buscar"
         },
         "guides": {
-            "en": "Guides",
-            "es": "@todo"
+            "en": "Tours",
+            "es": "Tours"
         }
     },
     "wizard": {
@@ -639,70 +639,70 @@ export default {
         "index": {
             "title": {
                 "en": "Guided Experiences",
-                "es": "@todo"
+                "es": "Experiencias guiadas"
             },
             "subtitle": {
-                "en": "Begin with specially designed journeys that introduce you to remarkable celestial phenomena and Rubin's groundbreaking discoveries.",
-                "es": "@todo"
+                "en": "Not sure where to start? Take a guided tour to explore objects in the Solar System and Rubin’s role in studying them.",
+                "es": "¿No sabes por dónde empezar? Haz un tour guiado para explorar objetos del Sistema Solar y el papel de Rubin en su estudio."
             },
             "filter": {
                 "newer": {
                     "en": "Newer first",
-                    "es": "@todo"
+                    "es": "Más recientes primero"
                 },
                 "older": {
                     "en": "Older first",
-                    "es": "@todo"
+                    "es": "Más antiguos primero"
                 },
                 "less_duration": {
-                    "en": "Less duration first",
-                    "es": "@todo"
+                    "en": "Shorter first",
+                    "es": "Más cortos primero"
                 },
                 "more_duration": {
-                    "en": "More duration first",
-                    "es": "@todo"
+                    "en": "Longer first",
+                    "es": "Más largos primero"
                 },
                 "less_complex": {
-                    "en": "Less complexity first",
-                    "es": "@todo",
+                    "en": "Less complex first",
+                    "es": "Menos complejos primero",
                 },
                 "more_complex": {
-                    "en": "More complexity first",
-                    "es": "@todo",
+                    "en": "More complex first",
+                    "es": "Más complejos primero",
                 }
             },
             "search": {
                 "en": "Search",
-                "es": "@todo"
+                "es": "Buscar"
             },
         },
         "difficulty": {
             "easy": {
                 "en": "Easy",
-                "es": "@todo"
+                "es": "Fácil"
             },
             "medium": {
                 "en": "Medium",
-                "es": "@todo"
+                "es": "Intermedio"
             },
             "hard": {
                 "en": "Hard",
-                "es": "@todo"
+                "es": "Difícil"
             }
         },
         "entry": {
             "navigation": {
                 "guides": {
-                    "en": "Guides",
-                    "es": "@todo"
+                    "en": "Tours",
+                    "es": "Tours"
                 },
                 "next": {
                     "en": "Next",
-                    "es": "@todo"
+                    "es": "Siguiente"
                 },
                 "previous": {
                     "en": "Previous",
-                    "es": "@todo"
+                    "es": "Anterior"
                 }
             }
         }
@@ -742,11 +742,11 @@ export default {
     "about": {
         "observatory_title": {
             "en": "NSF-DOE Rubin Observatory",
-            "es": "@todo"
+            "es": "Observatorio Vera C. Rubin de NSF–DOE"
         },
         "credits": {
             "en": "Credits",
-            "es": "@todo"
+            "es": "Créditos"
         }
     },
     "e404": {
@@ -757,12 +757,6 @@ export default {
         "action": {
             "en": "Back Home",
             "es": "Volver al inicio"
-        }
-    },
-    "categories": {
-        "uncategorized": {
-            "en": "Uncategorized",
-            "es": "@todo"
         }
     }
 }
