@@ -188,7 +188,7 @@ export class SolarParticles {
         const attr = this.mesh.geometry.attributes.filterValue;
         const arr = attr.array;
         for(let i=0;i<this._data.length; i++) {
-            arr[i] = this.filtered[i] ? .1 : 1;
+            arr[i] = this.filtered[i] ? 0 : 1;
         }
 
         attr.needsUpdate = true;
