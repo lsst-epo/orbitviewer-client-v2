@@ -140,3 +140,7 @@ public
 src/assets/data/ultra.json
 src/assets/data/ultra2.json
 src/site/pages/locale
+
+.node-version
+.yarn
+.yarnrc.yml
