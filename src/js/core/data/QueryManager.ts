@@ -1,9 +1,10 @@
-import { HASURA_GRAPHQL, HASURA_URL, SECRET_KEY } from "../Globals";
 import { UserFilters } from "../solar/SolarUtils";
 import { CategoryTypeMap } from "./Categories";
 
 export async function searchCloud(q:string) {
+	//@ts-ignore
 	const url = `${HASURA_GRAPHQL}`
+	
 
 	const types = [0];
 	for(const cat in UserFilters.categories) {
@@ -17,9 +18,11 @@ export async function searchCloud(q:string) {
 
 	const query = `query {
   mpc_orbits(
-    where: {packed_primary_provisional_designation: {_ilike: "%${q}%"},
+    where: { _or: [
+			{ packed_primary_provisional_designation: { _ilike: "%${q}%" } },
+			{ unpacked_primary_provisional_designation: { _ilike: "%${q}%" } }
+		]
 		object_type_int: {_in: ${JSON.stringify(types)}},
-		a_rubin: {_gt: ${Math.max(0, UserFilters.distanceRange.min)}, _lt: ${UserFilters.distanceRange.max}}
 		${rubin}}
 		limit: 100
   ) {
@@ -42,7 +45,8 @@ export async function searchCloud(q:string) {
 
 const response = await fetch(url, {
 	headers: {
-		'X-Hasura-Admin-Secret': SECRET_KEY,
+		//@ts-ignore
+		'X-Hasura-Admin-Secret': HASURA_SECRET_KEY,
 		"Content-Type": "application/json",
     Accept: "application/json"
 	},
@@ -59,11 +63,13 @@ return res;
 }
 
 async function fetchSolarElement (id: string ) {
+	//@ts-ignore
 	const url = `${HASURA_URL}/orbit-viewer/fetch/${id}`;		
 
 	const response = await fetch(url, {
 		headers: {
-			'X-Hasura-Admin-Secret': SECRET_KEY
+			//@ts-ignore
+			'X-Hasura-Admin-Secret': HASURA_SECRET_KEY
 		}
 	})
 
@@ -98,28 +104,30 @@ export async function fetchSolarElements(elements:Array<any>){
 
 // Filters fetch
 export async function getA() {
-
+	//@ts-ignore
 	const url = `${HASURA_URL}/a-v2`;	
 
 	console.log('Loading A...');
 
 	const response = await fetch(url, {
 		headers: {
-			'X-Hasura-Admin-Secret': SECRET_KEY
+			//@ts-ignore
+			'X-Hasura-Admin-Secret': HASURA_SECRET_KEY
 		}
 	})
 	return await response.json();
 }
 
 export async function getClassificationRanges() {
-
+	//@ts-ignore
 	const url = `${HASURA_URL}/classification_ranges`;	
 
 	// console.log('Loading Classification Ranges...');
 
 	const response = await fetch(url, {
 		headers: {
-			'X-Hasura-Admin-Secret': SECRET_KEY
+			//@ts-ignore
+			'X-Hasura-Admin-Secret': HASURA_SECRET_KEY
 		}
 	})
 	return await response.json();

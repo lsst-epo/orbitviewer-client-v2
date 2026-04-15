@@ -16,8 +16,6 @@ async function data() {
     es: await getCategoriesLang(2)
   };
 
-  // console.log(data);
-
   return data;
 }
 

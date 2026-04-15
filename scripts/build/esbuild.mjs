@@ -13,6 +13,8 @@ import { configDotenv } from 'dotenv';
 configDotenv();
 
 const key = `${process.env.HASURA_SECRET_KEY}`;
+const HASURA_URL = process.env.HASURA_URL;
+const HASURA_GRAPHQL = process.env.HASURA_GRAPHQL;
 
 export function buildJS (isProduction=false) {
     return new Promise((resolve, reject) => {
@@ -23,7 +25,9 @@ export function buildJS (isProduction=false) {
 			sourcemap: false,
 			define: { 
 				DEV_MODE: !isProduction ? "true" : "false",
-				HASURA_SECRET_KEY: `"${key}"`
+				HASURA_SECRET_KEY: `"${key}"`,
+				HASURA_URL: `"${HASURA_URL}"`,
+				HASURA_GRAPHQL: `"${HASURA_GRAPHQL}"`,
 			},
 			loader: { '.glsl': 'text', '.vert': 'text', '.frag': 'text' },
 			outfile: 'bundle/main.js',
