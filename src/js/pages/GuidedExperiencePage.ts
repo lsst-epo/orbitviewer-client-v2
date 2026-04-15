@@ -103,10 +103,19 @@ export class GuidedExperiencePage extends DefaultPage {
 
         if(slide.closeUp) {
             const id = slide.closeUp[0].elementID;
-            GLOBALS.viewer.followSolarElementById(id);
+            GLOBALS.viewer.followSolarElementById((this.slugify(id)));
         } else {
             GLOBALS.viewer.goToGuidedExperienceMode(this.solarElements);
         }
+    }
+
+    slugify(str:string) {
+        return str
+            .toLowerCase()
+            .replace(/[^a-z0-9-]/g, '-')
+            .replace(/-+/g, '-')
+            .replace(/^-+/, '')
+            .replace(/-+$/, '');
     }
 
     update() {
