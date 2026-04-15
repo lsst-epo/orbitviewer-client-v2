@@ -489,7 +489,9 @@ export class OrbitViewer extends ThreeLayer {
 
 	followSolarElementById(id:string) {
 		for(const el of this.solarElements) {
-			if(el.slug === id) return this.followSolarElement(el, !el.isPlanet);
+			if(el.slug === id) {
+				return this.followSolarElement(el, !el.isPlanet);
+			}
 		}
 	}
 
