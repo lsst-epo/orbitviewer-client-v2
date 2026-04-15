@@ -21,9 +21,6 @@ import { OrbitDataElementsV2 } from "./solar/SolarUtils";
  */
 //@ts-ignore
 export const IS_DEV_MODE = DEV_MODE;
-export const HASURA_URL = process.env.HASURA_URL;
-export const HASURA_GRAPHQL = process.env.HASURA_GRAPHQL;
-export const SECRET_KEY = process.env.HASURA_SECRET_KEY;
 
 export const PATHS = {
 	uploads: '/uploads',
