@@ -45,8 +45,6 @@ export async function searchCloud(q:string) {
 
 const response = await fetch(url, {
 	headers: {
-		//@ts-ignore
-		'X-Hasura-Admin-Secret': HASURA_SECRET_KEY,
 		"Content-Type": "application/json",
     Accept: "application/json"
 	},
@@ -67,10 +65,7 @@ async function fetchSolarElement (id: string ) {
 	const url = `${HASURA_URL}/orbit-viewer/fetch/${id}`;		
 
 	const response = await fetch(url, {
-		headers: {
-			//@ts-ignore
-			'X-Hasura-Admin-Secret': HASURA_SECRET_KEY
-		}
+		headers: {}
 	})
 
 	let res = await response.json();
@@ -110,10 +105,7 @@ export async function getA() {
 	console.log('Loading A...');
 
 	const response = await fetch(url, {
-		headers: {
-			//@ts-ignore
-			'X-Hasura-Admin-Secret': HASURA_SECRET_KEY
-		}
+		headers: {}
 	})
 	return await response.json();
 }
@@ -125,10 +117,7 @@ export async function getClassificationRanges() {
 	// console.log('Loading Classification Ranges...');
 
 	const response = await fetch(url, {
-		headers: {
-			//@ts-ignore
-			'X-Hasura-Admin-Secret': HASURA_SECRET_KEY
-		}
+		headers: {}
 	})
 	return await response.json();
 }
