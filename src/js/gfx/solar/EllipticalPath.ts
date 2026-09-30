@@ -1,23 +1,18 @@
 import { MathUtils } from "@fils/math";
 import { Box3, CatmullRomCurve3, Color, Group, Object3D, Vector3 } from "three";
 
-import { calculateOrbitByType, OrbitElements, OrbitType } from "../../core/solar/SolarSystem";
-import { SolarTimeManager } from "../../core/solar/SolarTime";
-
+import {
+    getCartesianCoordinates,
+    OrbitElements,
+    OrbitType
+} from "../../core/solar/SolarSystem";
 import { Line2 } from "three/examples/jsm/lines/Line2.js";
 import { LineGeometry } from "three/examples/jsm/lines/LineGeometry.js";
-import { GLOBALS } from "../../core/Globals";
 import { PathMaterial, PathMaterialParameters } from "./PathMaterial";
 import { Planet } from "./Planet";
 import { LineMaterialParameters } from "three/examples/jsm/lines/LineMaterial";
 import { getCraftCategory } from "../../core/data/Categories";
 import { UNCOLOR } from "./SolarParticles";
-
-const MIN_DISTANCE = {
-    min: .1,
-    max: 5
-};
-const MIN_POINTS = 10;
 
 export const DEFAULT_PATH_ALPHA = .05;
 export const OBJECT_PATH_ALPHA = .01;
@@ -44,57 +39,64 @@ export class EllipticalPath {
     type:OrbitType;
 
     constructor(el:OrbitElements, planet:Planet=null) {
-        // build path
-        const date = new Date();
-        const first = new Vector3();
-
         if(el.type != OrbitType.Elliptical) {
             console.warn("Object does not have an elliptical orbit", el);
         }
 
         this.type = el.type;
-
         this.orbitElements = el;
 
         if(el.type === OrbitType.Elliptical) {
 
-            let d = SolarTimeManager.getMJDonDate(date);
-            calculateOrbitByType(el, d, OrbitType.Elliptical, first);
-            this.pts.push(first);
+            /**
+             * This code determines the nodes required to draw the orbit, think of
+             * "nodes" as dots on a piece of paper and you draw a pencil through them
+             * to complete the orbit. For objects with a long orbit the `pts` array
+             * can get extremely large - 10s of thousands in length - if left unchecked.
+             * 
+             * Later on though, the `pts` array is resampled and the number is reduced
+             * to a maximum of 1001, as such it doesn't make a whole lot of sense to 
+             * let the `pts` array grow to a large size. As such, a "point count" is
+             * derived based on the value for `e` eccentricity. This keeps the `pts`
+             * length low at this stage and aligns it with the 1001 max length at the
+             * resampling level.
+             */
+            const eccentricity = Math.max(0, Math.min(1, el.e));
+            const pointCount = Math.round(250 + (1500 - 250) * eccentricity);
+      
+            /**
+             * Previously this code started determining node points at where the object
+             * is in orbit on today's date - that is irrelevant for determining the
+             * nodes, so a date check is skipped. Later on in the SolarElements:update()
+             * method the date is passed in and the position of the object is set to
+             * today's date on page load.
+             */
+            for(let index = 0; index < pointCount; index++) {
+                // Determine radians
+                const E = (index / pointCount) * Math.PI * 2;
+            
+                // Determine coordinates in the orbital plane
+                const xv = el.a * (Math.cos(E) - el.e);
+                const yv = el.a * Math.sqrt(1 - el.e * el.e) * Math.sin(E);
+            
+                // Convert orbital plane coordinates to an angle relative to the sun
+                const trueAnomaly = Math.atan2(yv, xv);
 
-            const dt = [];
-            dt.push(0);
-            let pD = d;
-
-            let curr = new Vector3();
-            calculateOrbitByType(el, ++d, OrbitType.Elliptical, curr);
-
-            const ed = MathUtils.smoothstep(.9, .95, el.e);
-            const dist = MathUtils.lerp(
-                MIN_DISTANCE.min,
-                MIN_DISTANCE.max,
-                1-ed
-            );
-            const step = MathUtils.lerp(
-                .05,
-                1,
-                1-ed
-            );
-
-            const minD = dist * el.a;
-            while(this.pts.length < MIN_POINTS || curr.distanceTo(this.pts[0]) > minD) {
-                while(curr.distanceTo(this.pts[this.pts.length-1]) < minD) {
-                    d += step;
-                    calculateOrbitByType(el, d, OrbitType.Elliptical, curr);
-                }
-
-                dt.push(d-pD);
-                this.pts.push(curr.clone());
+                // Calculate distance from the sun
+                const radius = Math.sqrt(xv * xv + yv * yv);
+            
+                // Use helper method to orient position in 3D space and add it to array
+                this.pts.push(
+                    getCartesianCoordinates(
+                        trueAnomaly,
+                        radius,
+                        el,
+                        new Vector3()
+                    )
+                );
             }
 
             const pos = [];
-            let k = 0;
-
             for(const p of this.pts) {
                 pos.push(p.x, p.y, p.z);
             }
@@ -127,11 +129,13 @@ export class EllipticalPath {
             this.material = mat;
             const curve = new CatmullRomCurve3(this.pts, true);
 
+            /**
+             * The following code resamples the `pts` to its final shape
+             * and size
+             */
             const D = curve.getPointAt(0).distanceTo(origin);
-            // console.log('~R', D);
             const Dr = MathUtils.smoothstep(330, 1500, D);
             const nPts = MathUtils.lerp(200, 500, Dr);
-
             const pts = curve.getPoints(Math.round(nPts)*2);
             const positions = [];
 
@@ -142,14 +146,9 @@ export class EllipticalPath {
 
             const geo = new LineGeometry();
             geo.setPositions(positions);
-
-            // console.log(positions);
-
             const l = new Line2(geo, mat);
             l.computeLineDistances();
-            // console.log(l);
 			this.ellipse.add(l);
-
             geo.computeBoundingBox();
             this.boundingBox = geo.boundingBox;
 
