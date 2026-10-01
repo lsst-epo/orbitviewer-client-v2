@@ -304,14 +304,32 @@ export class OrbitViewer extends ThreeLayer {
 		}
 	}
 
+	
     createSolarItems(){
         const solarItems = LoadManager.craftData.solar_items;
+				console.info("looping over: ", solarItems);
+				console.info("About to load sample data");
+				console.info(Date.now());
 				const sample = LoadManager.data.sample;
+				// console.info("logging sample.length", sample.length);
+				// console.info(Date.now());
 				const len = sample.length;
-
+				let timeTracker = 0;
 				for(const el of solarItems) {
+					let currentTime = Date.now();
+					// console.info("processing: ", el);
+
+					// console.info("time: ", currentTime);
+					if(timeTracker == 0) {
+						timeTracker = currentTime;
+					} else {
+						let timeDiff = (currentTime - timeTracker) / 1000;
+						console.info("time diff: ", timeDiff);
+						timeTracker = currentTime;
+					}
 					// console.log(el.elementCategory);
 					if(el.elementID.toLowerCase() === 'sol') {
+						// console.info("adding sol");
 						// console.log('Add Sun');
 						//to-do: add sun
 						const data:OrbitElements = {
@@ -336,14 +354,27 @@ export class OrbitViewer extends ThreeLayer {
 						this.sun.solarElement = element;
 						continue;
 					}
+					// console.info("adding something other than sol");
+					// console.info("sample[0] data:", sample[0]);
 					for(let i=0;i<len;i++) {
+						let parseTime = Date.now();
+						let debug = (sample[i].fulldesignation == "2025 MX348");
+						if (debug) {
+							console.info("debugging!");
+						}
 						const mel = el.elementCategory.length ? el.elementCategory[0].slug as SolarCategory : null;
+						if(debug) console.info("in for loop, processing: ", mel);
 						if(mel === 'planets-moons')  continue;
 						// Look for solar item in sample
+						if(debug) console.info("about to get sample[i]");
+						if(debug) console.info(Date.now());
 						const sel:OrbitDataElementsV2 = sample[i];
+						if(debug) console.info("logging sel: ", sel);
+						if(debug) console.info(Date.now());
 						// if(sel.fulldesignation.indexOf('2015') > -1) console.log(sel.mpcdesignation, el.elementID, mel);
+						
 						if(sel.mpcdesignation === el.elementID || sel.fulldesignation === el.elementID) {
-							// console.log('Found Solar Item', el.elementID);
+							if(debug) console.log('Found Solar Item', el.elementID);
 							if(sample[i].object_type[0] === 0 || !sample[i].object_type) {
 								// console.log(mel, CategoryTypeMap[mel]);
 								sample[i].object_type = [CategoryTypeMap[mel]];
@@ -357,13 +388,21 @@ export class OrbitViewer extends ThreeLayer {
 							}
 							// CategoryCounters[mel]++;
 							SolarItemsSamples.push(sample[i]);
+							if(debug) console.info("about to mapOrbitElementsv2");
+							if(debug) console.info("time elapsed: ", (Date.now() - parseTime) / 1000);
 							const data = mapOrbitElementsV2(sel);
+							if(debug) console.info("Done mapping")
+							if(debug) console.info("time elapsed: ", (Date.now() - parseTime) / 1000);
 							// if(sel.fulldesignation.indexOf('2015') > -1) console.log(sel, data.category);
 							if(!data) break;
 							// console.log(data);
 							//Add item...
 							const element = new SolarElement(el.elementID, data);
-							this.addElementToScene(element, el.title);
+							if(debug) console.info("About to add element to the scene");
+							// if(debug) console.info("time elapsed: ", (Date.now() - parseTime) / 1000);
+							this.addElementToScene(element, el.title, debug);
+							if(debug) console.info("Done adding element to scene");
+							if(debug) console.info("time elapsed: ", (Date.now() - parseTime) / 1000);
 							break;
 						}
 					}
@@ -396,13 +435,24 @@ export class OrbitViewer extends ThreeLayer {
 		// this.hidePaths();
 	}
 
-	addElementToScene(element:SolarElement, title:string) {
+	addElementToScene(element:SolarElement, title:string, debug:boolean = false) {
+		let debugTime = Date.now();
+		if (debug) console.info("in addElementToScene, about to push solarElement to array");
+		if (debug) console.info("time: ", (Date.now() - debugTime) / 1000);
 		this.solarElements.push(element);
+		if (debug) console.info("done pushing to array, about to add element to scene");
+		if (debug) console.info("time: ", (Date.now() - debugTime) / 1000);
 		this.scene.add(element);
+		if (debug) console.info("done adding element to scene, about to addItem to solarItemsUI");
+		if (debug) console.info("time: ", (Date.now() - debugTime) / 1000);
 		if(!element.orbitPath || !element.orbitPath.pts.length) return;
 		// console.log('YESS', element.orbitPath.pts.length)
 		this.solarItemsUI.addItem(element, title);
+		if (debug) console.info("done adding item, about to add element.orbitPathElipse to scene");
+		if (debug) console.info("time: ", (Date.now() - debugTime) / 1000);
 		this.scene.add(element.orbitPath.ellipse);
+		if (debug) console.info("done adding elipse to scene");
+		if (debug) console.info("time: ", (Date.now() - debugTime) / 1000);
 	}
 
 	removeElementFromScene(element:SolarElement) {
