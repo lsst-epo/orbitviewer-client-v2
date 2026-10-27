@@ -1,15 +1,11 @@
-FROM node:22-alpine AS builder
+FROM node:26.12.1-alpine AS builder
 
 WORKDIR /app
 COPY . /app
 
+RUN npm install -g corepack && corepack enable
+
 RUN yarn && yarn build
-
-FROM  node:22-alpine AS runner
-
-WORKDIR /app
-
-COPY --from=builder --exclude=.env /app .
 
 EXPOSE 8080
 
